@@ -6,6 +6,7 @@ import { SideNavBarComponent } from './components/side-nav-bar/side-nav-bar.comp
 import { CoreRoutingModule } from './core-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginComponent } from './components/login/login.component';
 
 
 
@@ -15,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
     MainLayoutComponent,
     HeaderComponent,
     SideNavBarComponent,
+    LoginComponent,
   ],
   imports: [
   MatIconModule,

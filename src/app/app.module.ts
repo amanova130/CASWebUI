@@ -16,6 +16,7 @@ import { ExamsComponent } from './pages/exams/exams.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { LinksComponent } from './pages/links/links.component';
 import { RequestsComponent } from './pages/requests/requests.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { RequestsComponent } from './pages/requests/requests.component';
     BrowserModule,
     CoreModule,
     AppRoutingModule,
+    MatTableModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
