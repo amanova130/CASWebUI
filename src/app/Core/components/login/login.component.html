@@ -1,1 +1,54 @@
-<p>login works!</p>
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <!-- The image half -->
+        <div class="col-md-6 d-none d-md-flex bg-image"></div>
+        <!-- The content half -->
+        <div class="col-md-6 bg-light">
+            <div class="login d-flex align-items-center py-5">
+                <!-- Demo content-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-10 col-xl-7 mx-auto">
+                            <form novalidate [formGroup]="loginForm">
+                                <div id="login-container">
+                              
+                                    <h2 class="primary">Login</h2>
+                              
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="User name" formControlName="userName" required>
+                                      <mat-error *ngIf="loginForm.controls['userName'].hasError('required')">
+                                        Please enter user name
+                                      </mat-error>
+                              
+                                    </mat-form-field>
+                              
+                                    <mat-form-field>
+                                      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password"
+                                        required>
+                                      <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+                                        Please enter password
+                                      </mat-error>
+                                    </mat-form-field>
+                                    <br>
+                              
+                                    <div>
+                                      <button mat-raised-button type="submit" color="primary" class="Login-btn btn-lg" (click)="onLogin()">Login</button>
+                                    </div>
+                              
+                                    <div class="footer-sec">
+                                      <br>
+                                      <br>
+                                      <hr>
+                                      <a class="primary" routerLink='forgot-pass'>Forgot Password?</a>
+                                      <br>
+                                    </div>
+                              
+                                  </div>
+                                </form>
+                        </div>
+                    </div>
+                </div><!-- End -->
+            </div>
+        </div><!-- End -->
+    </div>
+</div>

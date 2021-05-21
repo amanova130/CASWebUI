@@ -17,6 +17,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { LinksComponent } from './pages/links/links.component';
 import { RequestsComponent } from './pages/requests/requests.component';
 import { MatTableModule } from '@angular/material/table';
+import { AngularMaterialModule } from './Core/material-module/angular-material.module';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     BrowserModule,
     CoreModule,
+    AngularMaterialModule,
     AppRoutingModule,
     MatTableModule,
     BrowserAnimationsModule,
