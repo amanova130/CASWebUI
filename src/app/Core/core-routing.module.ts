@@ -12,7 +12,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/dashboard',
     pathMatch: 'full'
   },
   {

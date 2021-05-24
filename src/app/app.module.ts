@@ -18,13 +18,13 @@ import { LinksComponent } from './pages/links/links.component';
 import { RequestsComponent } from './pages/requests/requests.component';
 import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './Core/material-module/angular-material.module';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CoursesComponent,
-    TeachersComponent,
     DepartmentsComponent,
     GroupsComponent,
     HolidayComponent,
@@ -33,10 +33,12 @@ import { AngularMaterialModule } from './Core/material-module/angular-material.m
     ReportsComponent,
     LinksComponent,
     RequestsComponent,
+    TeachersComponent,
   ],
   imports: [
     BrowserModule,
     CoreModule,
+    HttpClientModule,
     AngularMaterialModule,
     AppRoutingModule,
     MatTableModule,
