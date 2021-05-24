@@ -7,33 +7,29 @@ import { switchMap } from 'rxjs/operators';
 import { TeachersService } from 'src/services/WebApi/teacher.service';
 import { Teacher } from 'src/services/models/teacher';
 import { TeacherUtils } from 'src/services/utils/teacherUtils';
+import { SelectionModel } from '@angular/cdk/collections';
 
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
-
-/** Constants used to fill up our data base. */
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
 
 @Component({
   selector: 'app-teachers',
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
-export class TeachersComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'color'];
-  dataSource: MatTableDataSource<UserData>;
+export class TeachersComponent implements OnInit {
+  displayedColumns: string[] = [
+    'select',
+    'Id' ,
+    'First_name',
+    'Last_name',
+    'Email',
+    'Phone',
+    'Gender',
+    'Birth_date',
+    'Address',
+    'Status',
+    'TeachesCourses',
+  'action'];
+  dataSource!: MatTableDataSource<Teacher>;
 
   teacherList: Teacher[] = [];
   teacherListSubscription!: Subscription;
@@ -43,26 +39,34 @@ export class TeachersComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
-  constructor(private teacherUtils: TeacherUtils, private teacherService: TeachersService) {
-    // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
-  }
+  constructor(private teacherUtils: TeacherUtils, private teacherService: TeachersService) {}
   ngOnInit(): void {
     this.teacherListSubscription = timer(0, 60000).pipe(
       switchMap(()=> this.teacherService.getAllTeachers())
     ).subscribe((list: Teacher[])=>{
       this.teacherList = list;
+      this.dataSource = new MatTableDataSource(this.teacherList);
+      this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log(this.dataSource);
       // Do something
       console.log(this.teacherList);
     });
   }
+  selection = new SelectionModel<Teacher>(true, []);
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   applyFilter(event: Event) {
@@ -75,15 +79,3 @@ export class TeachersComponent implements AfterViewInit, OnInit {
   }
 }
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
-}
