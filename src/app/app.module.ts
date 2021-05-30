@@ -19,6 +19,7 @@ import { RequestsComponent } from './pages/requests/requests.component';
 import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './Core/material-module/angular-material.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { StudentsModule } from './pages/students/students.module';
 
 
 @NgModule({
@@ -34,8 +35,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     LinksComponent,
     RequestsComponent,
     TeachersComponent,
+    
   ],
   imports: [
+    StudentsModule,
     BrowserModule,
     CoreModule,
     HttpClientModule,

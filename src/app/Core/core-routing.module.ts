@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardModule } from '../pages/dashboard/dashboard.module';
+import { GroupsComponent } from '../pages/groups/groups.component';
 import { StudentsComponent } from '../pages/students/students.component';
 import { TeachersComponent } from '../pages/teachers/teachers.component';
 import { TimeTableComponent } from '../pages/time-table/time-table.component';
@@ -23,6 +24,8 @@ const routes: Routes = [
       { path: 'students',  component: StudentsComponent },
       { path: 'teachers',  component: TeachersComponent },
       { path: 'time-table',  component: TimeTableComponent },
+      { path: 'groups',  component: GroupsComponent },
+
 
 
       // { path: 'account-settings', loadChildren: '../account-settings/account-settings.module#AccountSettingsModule' },
