@@ -6,6 +6,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AngularMaterialModule } from 'src/app/Core/material-module/angular-material.module';
+
 
 @NgModule({
   imports: [
@@ -15,6 +17,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatPaginatorModule,
     MatFormFieldModule,
     MatCheckboxModule,
+    AngularMaterialModule
+    
   ],
   declarations: [StudentsComponent]
 })
