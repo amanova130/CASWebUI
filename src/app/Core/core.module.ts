@@ -3,33 +3,41 @@ import { CommonModule } from '@angular/common';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SideNavBarComponent } from './components/side-nav-bar/side-nav-bar.component';
-import { CoreRoutingModule } from './core-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './material-module/angular-material.module';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
+import { RouterModule } from '@angular/router';
+import { AlertComponent } from './components/alert/alert.component';
+
 
 
 
 @NgModule({
   declarations: [
-    MainLayoutComponent,
     HeaderComponent,
     SideNavBarComponent,
     LoginComponent,
     ForgotPassComponent,
+    AlertComponent,
   ],
   imports: [
-  MatIconModule,
+    MatIconModule,
     FlexLayoutModule,
     CommonModule,
-    CoreRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
     AngularMaterialModule,
+    RouterModule,
   ],
-  exports: []
+  exports: [
+    HeaderComponent,
+    SideNavBarComponent,
+    LoginComponent,
+    ForgotPassComponent,
+    AlertComponent,
+  ]
 })
 export class CoreModule { }

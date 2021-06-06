@@ -24,6 +24,7 @@
     "@angular/router": "~11.2.12",
     "@angular/service-worker": "~11.2.12",
     "@auth0/angular-jwt": "^5.0.2",
+    "@ng-bootstrap/ng-bootstrap": "^9.1.1",
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.1",
     "jquery": "^3.6.0",

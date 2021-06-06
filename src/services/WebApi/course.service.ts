@@ -6,16 +6,18 @@ import {catchError, map, tap} from 'rxjs/operators';
 import { Observable, pipe, throwError } from 'rxjs';
 import { Configuration } from '../configuration';
 import { BASE_PATH } from '../variables';
+import { Course } from '../models/course';
+import { CourseUtils } from '../utils/courseUtils';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeacherService {
+export class CourseService {
   protected basePath = 'https://localhost:5001';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
-    constructor(protected http: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration, private teachersUtil: TeacherUtils) {
+    constructor(protected http: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration, private courseUtil: CourseUtils) {
         if (basePath) {
             this.basePath = basePath;
         }
@@ -41,7 +43,7 @@ export class TeacherService {
   // protected basePath = 'https://localhost:5001';
   // constructor(private teachersUtil: TeacherUtils,  private http: HttpClient) { }
 
-  getAllTeachers(){
+  getAllCourses(){
     let headers = this.defaultHeaders;
 
     // to determine the Accept header
@@ -58,11 +60,11 @@ export class TeacherService {
     // to determine the Content-Type header
     const consumes: string[] = [
     ];
-    return this.http.get<Teacher[]>(`${this.basePath}/api/Teacher`).pipe(map( (teacherList: Teacher[])=>{
-      return teacherList;
+    return this.http.get<Course[]>(`${this.basePath}/api/Course`).pipe(map( (courseList: Course[])=>{
+      return courseList;
     }),
-    tap((teacherList: Teacher[]) =>{
-      this.teachersUtil.setTeacherList(teacherList);
+    tap((courseList: Course[]) =>{
+      this.courseUtil.setCourseList(courseList);
     })
     );
   }

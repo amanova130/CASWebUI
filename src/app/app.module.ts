@@ -19,36 +19,36 @@ import { RequestsComponent } from './pages/requests/requests.component';
 import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './Core/material-module/angular-material.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { PagesModule } from './pages/pages.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StudentsModule } from './pages/students/students.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CoursesComponent,
-    DepartmentsComponent,
-    GroupsComponent,
-    HolidayComponent,
-    TimeTableComponent,
-    ExamsComponent,
-    ReportsComponent,
-    LinksComponent,
-    RequestsComponent,
-    TeachersComponent,
+    MainLayoutComponent,
   ],
   imports: [
     BrowserModule,
     CoreModule,
+    PagesModule,
     HttpClientModule,
     AngularMaterialModule,
+    FlexLayoutModule,
     AppRoutingModule,
     MatTableModule,
     BrowserAnimationsModule,
+    StudentsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
