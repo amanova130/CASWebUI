@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { ForgotPassComponent } from './Core/components/forgot-pass/forgot-pass.component';
 import { LoginComponent } from './Core/components/login/login.component';
 import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
-import { DashboardModule } from './pages/dashboard/dashboard.module';
-import { StudentsComponent } from './pages/students/students.component';
+import { DashboardModule } from './pages/Admin-pages/dashboard/dashboard.module';
+import { StudentsComponent } from './pages/Admin-pages/students/students.component';
+import { TimeTableComponent } from './pages/Admin-pages/time-table/time-table.component';
 import { TeachersComponent } from './pages/teachers/teachers.component';
-import { TimeTableComponent } from './pages/time-table/time-table.component';
+
 
 const routes: Routes = [
   {
