@@ -11,9 +11,9 @@
  */
 
 export interface Course { 
-    id?: string;
-    courseName?: string;
-    description?: string;
-    duration?: number;
-    status?: boolean;
+    Id?: string;
+    CourseName?: string;
+    Description?: string;
+    Duration?: number;
+    Status?: boolean;
 }

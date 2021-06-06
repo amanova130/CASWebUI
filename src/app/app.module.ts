@@ -6,62 +6,43 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CoreModule } from './Core/core.module';
-import { CoursesComponent } from './pages/courses/courses/courses.component';
-import { TeachersComponent } from './pages/teachers/teachers.component';
-import { DepartmentsComponent } from './pages/departments/departments.component';
-import { GroupsComponent } from './pages/groups/groups.component';
-import { HolidayComponent } from './pages/holiday/holiday.component';
-import { TimeTableComponent } from './pages/time-table/time-table.component';
-import { ExamsComponent } from './pages/exams/exams.component';
-import { ReportsComponent } from './pages/reports/reports.component';
-import { LinksComponent } from './pages/links/links.component';
-import { RequestsComponent } from './pages/requests/requests.component';
 import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './Core/material-module/angular-material.module';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { StudentsModule } from './pages/students/students.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { HttpClientModule } from '@angular/common/http';
+import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StudentsModule } from './pages/Admin-pages/students/students.module';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { FlatpickrModule } from 'angularx-flatpickr';
-import { FormsModule } from '@angular/forms';
+import { AdminPageModule } from './pages/Admin-pages/admin-page.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { CommonModule } from '@angular/common';
+import { FlatpickrModule } from 'angularx-flatpickr';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimeTableComponent,
-    CoursesComponent,
-    DepartmentsComponent,
-    GroupsComponent,
-    HolidayComponent,
-    TimeTableComponent,
-    ExamsComponent,
-    ReportsComponent,
-    LinksComponent,
-    RequestsComponent,
-    TeachersComponent,
-    
-    
+    MainLayoutComponent,
   ],
   imports: [
     StudentsModule,
     BrowserModule,
     CoreModule,
-    FormsModule,
+    AdminPageModule,
     HttpClientModule,
     CommonModule,
     AngularMaterialModule,
+    FlexLayoutModule,
     AppRoutingModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule, 
     NgbModalModule,
     BrowserAnimationsModule,
+    StudentsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

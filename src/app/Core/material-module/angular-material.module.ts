@@ -33,6 +33,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const materialModules = [
@@ -69,6 +70,7 @@ const materialModules = [
   MatDatepickerModule,
   MatTooltipModule,
   MatSlideToggleModule,
+  
 ];
 
 @NgModule({
