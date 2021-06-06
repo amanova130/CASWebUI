@@ -20,11 +20,21 @@ import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './Core/material-module/angular-material.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { StudentsModule } from './pages/students/students.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    TimeTableComponent,
     CoursesComponent,
     DepartmentsComponent,
     GroupsComponent,
@@ -36,22 +46,33 @@ import { StudentsModule } from './pages/students/students.module';
     RequestsComponent,
     TeachersComponent,
     
+    
   ],
   imports: [
     StudentsModule,
     BrowserModule,
     CoreModule,
+    FormsModule,
     HttpClientModule,
+    CommonModule,
     AngularMaterialModule,
     AppRoutingModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatInputModule, 
+    NgbModalModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
