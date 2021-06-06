@@ -17,6 +17,5 @@ export class TeacherUtils{
     {
         this.teacherList = teacherList;
         this.teacherListChanged.next(this.teacherList.slice());
-        console.log(this.teacherListChanged);
     }
 }

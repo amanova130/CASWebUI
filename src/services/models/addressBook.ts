@@ -11,8 +11,7 @@
  */
 
 export interface AddressBook { 
-    street?: string;
-    city?: string;
-    zipCode?: number;
-    status?: boolean;
+    Street: string;
+    City: string;
+    ZipCode: number;
 }

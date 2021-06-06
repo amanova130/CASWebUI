@@ -1,27 +1,28 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { Teacher } from '../models/teacher';
 import { TeacherUtils } from '../utils/teacherUtils';
 import {catchError, map, tap} from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { Observable, pipe, throwError } from 'rxjs';
 
+import { Course } from '../models/course';
+import { CourseUtils } from '../utils/courseUtils';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeacherService {
+export class CourseService {
   protected basePath = 'https://localhost:5001';
+  
+    constructor(protected http: HttpClient, private courseUtil: CourseUtils) {  }
    
-  constructor(protected http: HttpClient, private teachersUtil: TeacherUtils) {}
-
-
-  getAllTeachers(){
-
-    return this.http.get<Teacher[]>(`${this.basePath}/api/Teacher`).pipe(map( (teacherList: Teacher[])=>{
-      return teacherList;
+  getAllCourses(){
+  
+    return this.http.get<Course[]>(`${this.basePath}/api/Course`).pipe(map( (courseList: Course[])=>{
+      return courseList;
     }),
-    tap((teacherList: Teacher[]) =>{
-      this.teachersUtil.setTeacherList(teacherList);
+    tap((courseList: Course[]) =>{
+      this.courseUtil.setCourseList(courseList);
     })
     );
   }
@@ -60,6 +61,7 @@ export class TeacherService {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiTeacherUpdate.');
   }
+ 
     return this.http.put<Teacher>(`${this.basePath}/api/Teacher/${encodeURIComponent(String(id))}`, params)
     .pipe(
       catchError(this.errorHandler)
