@@ -11,10 +11,15 @@ import { AngularMaterialModule } from './Core/material-module/angular-material.m
 import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentsModule } from './pages/Admin-pages/students/students.module';
-
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { AdminPageModule } from './pages/Admin-pages/admin-page.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CommonModule } from '@angular/common';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -28,10 +33,14 @@ import { AdminPageModule } from './pages/Admin-pages/admin-page.module';
     CoreModule,
     AdminPageModule,
     HttpClientModule,
+    CommonModule,
     AngularMaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatInputModule, 
+    NgbModalModule,
     BrowserAnimationsModule,
     StudentsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -40,7 +49,11 @@ import { AdminPageModule } from './pages/Admin-pages/admin-page.module';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    NgbModule
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
