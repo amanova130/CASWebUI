@@ -11,6 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditTeacherComponent } from './components/add-edit-teacher/add-edit-teacher.component';
 import { AlertService } from 'src/services/helperServices/alert.service';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
   sort: MatSort = new MatSort;
   @ViewChild('myTable') myTable: MatTable<any>;
 
-  constructor(private teacherUtils: TeacherUtils, private teacherService: TeacherService, private modalService: NgbModal, private alertService: AlertService) {}
+  constructor(private teacherUtils: TeacherUtils, private teacherService: TeacherService, private modalService: NgbModal,public datepipe: DatePipe, private alertService: AlertService) {}
   ngOnInit(): void {
     this.getAllTeacherData();
   }
@@ -86,7 +87,9 @@ export class TeachersComponent implements OnInit, OnDestroy {
   openModal(teacher: Teacher = {Id: ""} ){
     const ref = this.modalService.open(AddEditTeacherComponent, { centered: true });
     ref.componentInstance.teacher = teacher;
+    ref.componentInstance.teacher.Birth_date=this.datepipe.transform(teacher.Birth_date,'yyyy-MM-dd');
     ref.componentInstance.teacherList = this.teacherList;
+    
   }
 
   openDelete(teacher:Teacher = {Id: ""} ){

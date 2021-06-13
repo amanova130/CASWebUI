@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h1 class="modal-title">Add Event</h1>
+  
+  <button type="button" class="close btn" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">X</span>
+  </button>
+</div>
+  <div class="modal-body">
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row my-1">
+            <div class="form-group col-6">
+                <label>Title</label>
+                <input type="text" class="form-control" id="Title" name="Title"  [(ngModel)]="newEvent.title"  
+               />
+                </div>
+            </div>
+        
+        <div class="row my-3">
+            <div class="form-group col-6">
+                <label>Color</label>
+                <input type="text" id="Color" class="form-control" name="Color" [(ngModel)]="newEvent.color"/>
+                
+            </div>
+          </div>
+
+            <div class="form-group col-6">
+                <label>Course</label>
+                <input type="text" id="Course" class="form-control" name="Course" >
+            </div>
+
+            <div class="row my-3">
+              <div class="form-group col-6">
+                <label>Start Date</label>
+                <input type="datetime-local" id="StartDate" class="form-control" name="StartDate" [(ngModel)]="newEvent.start" >
+              </div>
+              <div class="form-group col-6">
+                <label>End Date</label>
+                <input type="datetime-local" id="EndDate" class="form-control" name="EndDate" >
+
+              </div>
+            </div>
+            <div class="form-group col-6">
+              <label>Event details </label>
+              <textarea id="EventDetails" class="form-control" name="EventDetails" ></textarea>
+
+            </div>
+            <div class="form-group mb-3">
+              <button  class="btn btn-primary">
+                  Save
+              </button>
+              <a class="btn btn-link" (click)="activeModal.close('Close click')">Cancel</a>
+          </div>
+        </form> 
+        </div>

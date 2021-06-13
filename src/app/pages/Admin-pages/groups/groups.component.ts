@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { GroupsService } from 'src/services/WebApi/group.service';
+import { GroupService } from 'src/services/WebApi/group.service';
 import { GroupUtils } from 'src/services/utils/groupUtils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Group } from 'src/services/models/group';
@@ -36,7 +36,7 @@ export class GroupsComponent implements OnInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
-  constructor(private groupUtils: GroupUtils, private groupsService: GroupsService) {}
+  constructor(private groupUtils: GroupUtils, private groupsService: GroupService) {}
   ngOnInit(): void {
     this.groupListSubscription = timer(0, 60000).pipe(
       switchMap(()=> this.groupsService.getAllGroups())

@@ -14,17 +14,17 @@ import { StudExam } from './studExam';
 import { User } from './user';
 
 export interface Student { 
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    phone?: string;
-    gender?: string;
-    birthDate?: Date;
-    classNum?: string;
-    address?: Array<AddressBook>;
-    status?: boolean;
-    groupId?: string;
-    personalUser?: User;
-    grades?: Array<StudExam>;
+    Id?: string;
+    First_name?: string;
+    Last_name?: string;
+    Email?: string;
+    Phone?: string;
+    Gender?: string;
+    Birth_date?: string;
+    ClassNum?: string;
+    Address?: AddressBook;
+    Status?: boolean;
+    Group_Id?: string;
+    PersonalUser?: User;
+    Grades?: Array<StudExam>;
 }

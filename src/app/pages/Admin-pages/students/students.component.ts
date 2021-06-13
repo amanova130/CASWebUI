@@ -8,8 +8,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { Student } from 'src/services/models/student';
 import { Subscription,timer } from 'rxjs';
 import { StudentUtils } from 'src/services/utils/studentUtils';
-import { StudentsService } from 'src/services/WebApi/student.service';
+import { StudentService} from 'src/services/WebApi/student.service';
 import { switchMap } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddEditStudentComponent } from './components/add-edit-student/add-edit-student.component';
+import { DatePipe } from '@angular/common';
+import { AlertService } from 'src/services/helperServices/alert.service';
 
 
 
@@ -37,29 +41,49 @@ export class StudentsComponent implements OnInit{
   dataSource!: MatTableDataSource<Student>;
   studentList: Student[] = [];
   studentListSubscription!: Subscription;
+  removeStudent: Student;
+
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
-  constructor(private studentUtils: StudentUtils, private studentService: StudentsService) {}
+  constructor(private studentUtils: StudentUtils, private studentService: StudentService,private modalService: NgbModal,public datepipe:DatePipe,private alertService: AlertService) {}
   ngOnInit(): void {
+    this.getAllStudentData();
+    
+  }
+  selection = new SelectionModel<Student>(true, []);
+
+  getAllStudentData(){
     this.studentListSubscription = timer(0, 60000).pipe(
       switchMap(()=> this.studentService.getAllstudents())
     ).subscribe((list: Student[])=>{
       this.studentList = list;
       this.dataSource = new MatTableDataSource(this.studentList);
       this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    console.log(this.dataSource);
-      // Do something
-      console.log(this.studentList);
+      this.dataSource.sort = this.sort;
+      console.log(this.studentList)
+      console.log("Get student refreshed");
     });
+    
   }
-  selection = new SelectionModel<Student>(true, []);
 
+  openModal(student: Student = {Id: ""} ){
+    const ref = this.modalService.open(AddEditStudentComponent, { centered: true });
+    ref.componentInstance.student = student;
+    ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
+    ref.componentInstance.studentList = this.studentList; 
+  }
 
+  openDelete(student:Student = {Id: ""} ){
+    this.removeStudent={
+      Id: student.Id,
+      First_name: student.First_name,
+      Last_name: student.Last_name
+    }
+  }
 
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -86,6 +110,27 @@ export class StudentsComponent implements OnInit{
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  
+  deleteStudent(id: string){
+    if(id!==null || id!==undefined){
+      this.studentService.deleteById(id).subscribe(res => {
+        if(res)
+        {
+          this.studentList = this.studentList.filter(item => item.Id !== id);
+          this.dataSource = new MatTableDataSource(this.studentList);
+          this.alertService.success("Student deleted successfully!");
+          console.log('Student deleted successfully!');
+        }
+      
+      });
+    }
+  }
+
+
+  refresh(){
+    this.getAllStudentData();
+    console.log("Refresh done");
   }
 }
 

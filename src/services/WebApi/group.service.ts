@@ -7,7 +7,7 @@ import {map, tap} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class GroupsService {
+export class GroupService {
 
   constructor(private groupUtils: GroupUtils,  private http: HttpClient) { }
 
