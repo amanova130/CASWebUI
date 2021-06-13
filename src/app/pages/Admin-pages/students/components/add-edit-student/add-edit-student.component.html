@@ -1,6 +1,6 @@
 <div class="modal-header">
-    <h1 *ngIf="isAddMode" class="modal-title">Add Teacher</h1>
-    <h1 *ngIf="!isAddMode" class="modal-title">Edit Teacher</h1>
+    <h1 *ngIf="isAddMode" class="modal-title">Add Student</h1>
+    <h1 *ngIf="!isAddMode" class="modal-title">Edit Student</h1>
     <button type="button" class="close btn" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">X</span>
     </button>
@@ -10,7 +10,7 @@
             <div>
                 <div class="form-group" [ngClass]="{'d-none' : !isAddMode}">
                     <label>ID</label>
-                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="teacher.Id" #Id='ngModel' required
+                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="student.Id" #Id='ngModel' required
                     length="9"/>
                     <div class="alert alert-danger" *ngIf="Id.errors && (Id.dirty || form.submitted)">
                         <div *ngIf="Id.errors.required">Id is required.</div>
@@ -20,37 +20,37 @@
             <div class="row my-3">
                 <div class="form-group col-6">
                     <label>First Name</label>
-                    <input type="text" id="First_name" class="form-control" name="First_name" [(ngModel)]="teacher.First_name"  required #firstName="ngModel"/>
-                    <div class="alert alert-danger" *ngIf="firstName.errors && (firstName.dirty || form.submitted)">
-                        <div *ngIf="firstName.errors.required">First Name is required.</div>
+                    <input type="text" id="First_name" class="form-control" name="First_name" [(ngModel)]="student.First_name"  required #First_Name="ngModel"/>
+                    <div class="alert alert-danger" *ngIf="First_Name.errors && (First_Name.dirty || form.submitted)">
+                        <div *ngIf="First_Name.errors.required">First Name is required.</div>
                     </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Last Name</label>
-                    <input type="text" id="Last_name" class="form-control" name="Last_name" [(ngModel)]="teacher.Last_name" required
-                    #lastName="ngModel">
+                    <input type="text" id="Last_name" class="form-control" name="Last_name" [(ngModel)]="student.Last_name" required
+                    #Last_Name="ngModel">
                     <div class="form-control-feedback  alert alert-danger"
-                        *ngIf="lastName.errors && (lastName.dirty || form.submitted)">
-                        <p *ngIf="lastName.errors.required">Last name is required</p>
+                        *ngIf="Last_Name.errors && (Last_Name.dirty || form.submitted)">
+                        <p *ngIf="Last_Name.errors.required">Last name is required</p>
                     </div>
                 </div>
              </div>
             <div class="row mb-3">
                 <div class="form-group col-6">
                     <label>Email</label>
-                    <input type="text" id="Email" class="form-control"  name="Email" [(ngModel)]="teacher.Email" required #email="ngModel" pattern="[^ @]*@[^ @]*"/>
+                    <input type="text" id="Email" class="form-control"  name="Email" [(ngModel)]="student.Email" required #Email="ngModel" pattern="[^ @]*@[^ @]*"/>
                     <div class="form-control-feedback alert alert-danger"
-                    *ngIf="email.errors && (email.dirty || form.submitted)">
-                   <p *ngIf="email.errors.required">Email is required</p>
-                   <p *ngIf="email.errors.pattern">Email must contain at least the @ character</p>
+                    *ngIf="Email.errors && (Email.dirty || form.submitted)">
+                   <p *ngIf="Email.errors.required">Email is required</p>
+                   <p *ngIf="Email.errors.pattern">Email must contain at least the @ character</p>
                </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Phone</label>
-                    <input type="number" id="Phone" class="form-control" name="Phone" required name="Phone" [(ngModel)]="teacher.Phone" #phone="ngModel"/>
+                    <input type="number" id="Phone" class="form-control" name="Phone" required name="Phone" [(ngModel)]="student.Phone" #Phone="ngModel"/>
                 <div class="form-control-feedback  alert alert-danger"
-                *ngIf="phone.errors && (phone.dirty || form.submitted)">
-                <p *ngIf="phone.errors.required">Phone is required</p>
+                *ngIf="Phone.errors && (Phone.dirty || form.submitted)">
+                <p *ngIf="Phone.errors.required">Phone is required</p>
             </div>
         </div>
             </div>
@@ -59,16 +59,16 @@
                     <div>Gender </div>
                     <div class="row">
                         <div class="col-4">
-                            <input class="mr-3" type="radio" value="male" id="Gender" name="Gender" required [(ngModel)]="teacher.Gender"> Male
+                            <input class="mr-3" type="radio" value="male" id="Gender" name="Gender" required [(ngModel)]="student.Gender"> Male
                         </div>
                         <div class="col">
-                            <input class="pl-3" type="radio" value="female" id="Gender" name="Gender" required [(ngModel)]="teacher.Gender"> Female
+                            <input class="pl-3" type="radio" value="female" id="Gender" name="Gender" required [(ngModel)]="student.Gender"> Female
                         </div>
                     </div>
                 </div>
                 <div class="form-group col">
                     <label>Birth Date</label>
-                    <input type="date"  id="Birth_date" class="form-control" name="Birth_date" required [(ngModel)]="teacher.Birth_date" #birth="ngModel" />
+                    <input type="date"  id="Birth_date" class="form-control" name="Birth_date" required [(ngModel)]="student.Birth_date" #birth="ngModel" />
                 
                 <div class="form-control-feedback  alert alert-danger"
                 *ngIf="birth.errors && (birth.dirty || form.submitted)">
@@ -102,14 +102,34 @@
                   </div>
 
             
-              <div class="form-group mb-3">
-                <mat-form-field appearance="fill">
-                    <mat-label>Courses</mat-label>
-                    <mat-select [(ngModel)]="teacher.TeachesCourses" (valueChange)="choosenCourse($event)" name="courses" multiple>
-                      <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                <div class="row my-3">
+                    <div class="form-group col-6">
+                        <label>User Name</label>
+                        <input type="text" id="User_name" class="form-control" name="User_Name" [(ngModel)]="user.UserName" required
+                        #User_Name="ngModel">
+                        <div class="form-control-feedback  alert alert-danger"
+                            *ngIf="User_Name.errors && (User_Name.dirty || form.submitted)">
+                            <p *ngIf="User_Name.errors.required">User Name is required</p>
+                        </div>
+                    </div>
+
+                    
+                 
+                 <div class="form-group col-6">
+                
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose Group</mat-label>
+                        <mat-select [(ngModel)]="student.Group_Id" (valueChange)="choosenGroup($event)" name="group" required>
+                            <mat-option>--</mat-option>
+                            <mat-option *ngFor="let c of groupList" [value]="c.GroupNumber">{{c.GroupNumber}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="groupControl.hasError('required')">Please choose a group</mat-error>
+                        <mat-hint>You can pick up a group for a new student here</mat-hint>
+                    </mat-form-field>
+
+                </div>
             </div>
+            
             <div class="form-group mb-3">
                 <button [disabled]="loading" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

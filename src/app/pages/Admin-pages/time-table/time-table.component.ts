@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
-  OnInit
+  OnInit,
+  Input
 } from '@angular/core';
 import {
   startOfDay,
@@ -26,6 +27,12 @@ import {
 import { EventUtils } from 'src/services/utils/eventUtils';
 import { EventsService } from 'src/services/WebApi/event.service';
 import { FormBuilder } from '@angular/forms';
+import { EventModalComponent } from './components/event-modal/event-modal.component';
+import RRule from 'rrule';
+import { DatePipe } from '@angular/common';
+import { calendarFormat } from 'moment';
+import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
+
 
 
 const colors: any = {
@@ -51,12 +58,16 @@ const colors: any = {
 })
 export class TimeTableComponent  {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-
   
-
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
+  public event:CalendarEvent={
+    start: startOfDay(new Date()),
+    end:addDays(new Date(),0),
+    title: 'Custom event',
+    color: colors.yellow,
+  }
 
   viewDate: Date = new Date();
 
@@ -99,11 +110,12 @@ export class TimeTableComponent  {
     //   },
     //   draggable: true,
     // },
-    // {
-    //   start: startOfDay(new Date()),
-    //   title: 'An event with no end date',
-    //   color: colors.yellow,
-    //   actions: this.actions,
+    {
+      start: startOfDay(new Date()),
+      end:addDays(new Date(),0),
+       title: 'Custom event',
+       color: colors.yellow,
+    }
     // },
     // {
     //   start: subDays(endOfMonth(new Date()), 3),
@@ -124,21 +136,24 @@ export class TimeTableComponent  {
     //   },
     //   draggable: true,
     // },
+   
+      
   ];
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal,private eventUtils: EventUtils, private eventsService: EventsService) {
+  constructor(public datepipe: DatePipe,private modal: NgbModal,private eventUtils: EventUtils, private eventsService: EventsService,private modalService:NgbModal) {
     
   }
  
 
  
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({ date}: { date: Date;  }): void {
+   
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
+        this.events.length === 0
       ) {
         this.activeDayIsOpen = false;
       } else {
@@ -146,7 +161,15 @@ export class TimeTableComponent  {
       }
       this.viewDate = date;
     }
+
+ 
+    
+    const ref=this.modalService.open(EventModalComponent,{centered:true});
+    ref.componentInstance.date=this.datepipe.transform(date, 'yyyy-MM-ddThh:mm');
+    ref.componentInstance.eventsList=this.events;
+    ref.componentInstance.newEvent=this.event
   }
+
   
   eventTimesChanged({
     event,
@@ -175,16 +198,10 @@ export class TimeTableComponent  {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-        
+        title: this.event.title,
+        start: this.event.start,
+        end: this.event.end,
+        color: this.event.color,
       },
     ];
     // for(let event of this.events)

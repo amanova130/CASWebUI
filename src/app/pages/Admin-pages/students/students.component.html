@@ -38,14 +38,14 @@
                                <ul class="header-buttons">
                                    <li>
                                        <div class="icon-button-demo">
-                                           <button mat-mini-fab="" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                                           <button mat-mini-fab="" (click)="openModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                               <i class="material-icons">add</i>
                                             </button>
                                         </div>
                                     </li>
                                     <li class="m-l-10">
                                         <div class="icon-button-demo">
-                                            <button mat-mini-fab="" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                                            <button mat-mini-fab="" (click)="refresh()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                                 <i class="material-icons">refresh</i>
                                             </button>
                                         </div>
@@ -107,12 +107,14 @@
                           </ng-container>
                           <ng-container matColumnDef="Birth_date">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Birth Date </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Birth_date}} </td>
+                            <td mat-cell *matCellDef="let row"> {{this.datepipe.transform(row.Birth_date,'mediumDate')}} </td>
                           </ng-container>
                           <ng-container matColumnDef="Address">
                             <th  mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
                             <td  mat-cell *matCellDef="let row" > 
-                              <span *ngFor="let address of row.Address">{{address.Street}} {{address.City}} </span>
+                              <span>
+                                {{row.Address?.City}}, {{row.Address?.Street}}, {{row.Address?.ZipCode}}
+                            </span>
                                </td>
                           </ng-container>      
                           <ng-container matColumnDef="Group_Id">
@@ -128,9 +130,9 @@
                         <!-- Action Column -->
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Action </th>
-                            <td mat-cell *matCellDef="let element" class="action-link"> 
-                            <a ><i class="material-icons text-warning">edit</i></a> 
-                            <a ><i class="material-icons text-danger">delete</i> </a>  
+                            <td mat-cell *matCellDef="let row" class="action-link" (click)="$event.stopPropagation()"> 
+                            <a type="button" (click)="openModal(row)" ><i class="material-icons text-warning">edit</i></a> 
+                            <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDelete(row)"><i class="material-icons text-danger">delete</i> </a>  
                             </td>
                         </ng-container>
 
@@ -149,4 +151,31 @@
             </div>
         </div>
     </div> 
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div>
+         Do you want to delete:
+       </div>
+        Id: {{removeStudent?.Id}}
+      <div>
+        First Name: {{removeStudent?.First_name}}
+      </div>
+        Last Name: {{removeStudent?.Last_name}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" (click)="deleteStudent(removeStudent.Id)" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
 </div>

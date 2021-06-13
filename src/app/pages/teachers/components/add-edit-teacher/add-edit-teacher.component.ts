@@ -38,7 +38,8 @@ export class AddEditTeacherComponent implements OnInit {
   @Input()
     public teacher: Teacher = {
       Id: "",
-      Address: this.address
+      Address: this.address,
+      
     };
 
   @Input()
@@ -88,6 +89,8 @@ export class AddEditTeacherComponent implements OnInit {
     this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getAllCourses())).subscribe((list: Course[])=>
     {
       this.courseList = list;
+     // console.log(this.courseList);
+
     });
   }
 

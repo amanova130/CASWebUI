@@ -4,7 +4,7 @@ import { Teacher } from '../models/teacher';
 import { TeacherUtils } from '../utils/teacherUtils';
 import {catchError, map, tap} from 'rxjs/operators';
 import { throwError } from 'rxjs';
-
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +12,16 @@ import { throwError } from 'rxjs';
 export class TeacherService {
   protected basePath = 'https://localhost:5001';
    
-  constructor(protected http: HttpClient, private teachersUtil: TeacherUtils) {}
+  constructor(protected http: HttpClient, private teachersUtil: TeacherUtils,public datepipe: DatePipe) {}
 
 
   getAllTeachers(){
 
-    return this.http.get<Teacher[]>(`${this.basePath}/api/Teacher`).pipe(map( (teacherList: Teacher[])=>{
+    return this.http.get<Teacher[]>(`${this.basePath}/api/Teacher/getAllTeachers`).pipe(map( (teacherList: Teacher[])=>{
+    
       return teacherList;
     }),
+    
     tap((teacherList: Teacher[]) =>{
       this.teachersUtil.setTeacherList(teacherList);
     })

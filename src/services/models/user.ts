@@ -12,8 +12,8 @@
 
 export interface User { 
     id?: string;
-    password?: string;
-    userName?: string;
-    logIn?: Date;
-    logOff?: Date;
+    Password?: string;
+    UserName?: string;
+    LogIn?: Date;
+    LogOff?: Date;
 }

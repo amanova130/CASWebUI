@@ -12,7 +12,7 @@
 
 export interface Group { 
     id?: string;
-    groupNumber?: string;
+    GroupNumber?: string;
     numberOfStudent?: number;
     academicYear?: number;
     semester?: number;

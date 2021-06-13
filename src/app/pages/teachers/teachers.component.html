@@ -107,7 +107,7 @@
                           </ng-container>
                           <ng-container matColumnDef="Birth_date">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Birth Date </th>
-                            <td mat-cell *matCellDef="let row"> {{  row.Birth_date | date:('mm/dd/yyyy')}} </td>
+                            <td mat-cell *matCellDef="let row"> {{ this.datepipe.transform(row.Birth_date,'shortDate')}} </td>
                           </ng-container>
                           <ng-container matColumnDef="Address">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>

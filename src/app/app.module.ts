@@ -16,10 +16,11 @@ import { StudentsModule } from './pages/Admin-pages/students/students.module';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { AdminPageModule } from './pages/Admin-pages/admin-page.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { MatInputModule } from '@angular/material/input';
       useFactory: adapterFactory,
     }),
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

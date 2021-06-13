@@ -17,7 +17,7 @@ import { AngularMaterialModule } from 'src/app/Core/material-module/angular-mate
     MatPaginatorModule,
     MatFormFieldModule,
     MatCheckboxModule,
-    AngularMaterialModule
+    AngularMaterialModule,
     
   ],
   declarations: [StudentsComponent]
