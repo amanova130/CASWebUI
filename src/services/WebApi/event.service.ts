@@ -24,6 +24,7 @@ export class EventsService {
 
   setEvents(event:CalendarEvent)
   {
+    
       this.http.post<CalendarEvent>('https://localhost:5001/api/Event',event).subscribe(event=>console.log("event",event));
 
   }

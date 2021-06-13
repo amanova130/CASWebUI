@@ -12,7 +12,7 @@ export class GroupsService {
   constructor(private groupUtils: GroupUtils,  private http: HttpClient) { }
 
   getAllGroups(){
-    return this.http.get<Group[]>('https://localhost:5001/api/Group').pipe(map( (groupList: Group[])=>{
+    return this.http.get<Group[]>('https://localhost:5001/api/Group/getAllGroups').pipe(map( (groupList: Group[])=>{
       return groupList;
     }),
     tap((groupList: Group[]) =>{

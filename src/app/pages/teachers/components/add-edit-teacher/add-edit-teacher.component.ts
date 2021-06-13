@@ -110,8 +110,8 @@ export class AddEditTeacherComponent implements OnInit {
 
   private updateTeacher() {
     this.teacher.Address = this.address;
-        this.teacherService.update(this.teacher.Id, this.teacher)
-        .pipe(first()).subscribe(result => {
+        this.teacherService.update(this.teacher)
+        .pipe(first()).subscribe((result) => {
             if(result)
             {
               let x = this.teacherList.find(x => x.Id === this.teacher.Id)

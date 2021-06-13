@@ -11,7 +11,7 @@ import { AngularMaterialModule } from './Core/material-module/angular-material.m
 import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentsModule } from './pages/Admin-pages/students/students.module';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { AdminPageModule } from './pages/Admin-pages/admin-page.module';

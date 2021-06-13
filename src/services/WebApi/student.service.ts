@@ -12,7 +12,7 @@ export class StudentsService {
   constructor(private studentUtils: StudentUtils,  private http: HttpClient) { }
 
   getAllstudents(){
-    return this.http.get<Student[]>('https://localhost:5001/api/Student').pipe(map( (studentList: Student[])=>{
+    return this.http.get<Student[]>('https://localhost:5001/api/Student/getAllStudents').pipe(map( (studentList: Student[])=>{
       return studentList;
     }),
     tap((studentList: Student[]) =>{

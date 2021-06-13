@@ -15,6 +15,10 @@ import { ReportsComponent } from './reports/reports.component';
 import { RequestsComponent } from './requests/requests.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { AngularMaterialModule } from 'src/app/Core/material-module/angular-material.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -32,16 +36,21 @@ import { AngularMaterialModule } from 'src/app/Core/material-module/angular-mate
     TeachersComponent,
     AddEditTeacherComponent,
     CoursesComponent,
-
   ],
   imports: [
     MatIconModule,
     FlexLayoutModule,
     CommonModule,
     FormsModule, 
+    NgbModalModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    CoreModule
+    CoreModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   exports: [
     DepartmentsComponent,
