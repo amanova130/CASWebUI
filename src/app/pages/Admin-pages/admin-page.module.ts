@@ -18,8 +18,9 @@ import { AngularMaterialModule } from 'src/app/Core/material-module/angular-mate
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
-import { EventModalComponent } from './time-table/components/event-modal/event-modal.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditStudentComponent } from './students/components/add-edit-student/add-edit-student.component';
+import { EventModalComponent } from './time-table/components/event-modal/event-modal.component';
 
 
 
@@ -46,6 +47,7 @@ import { AddEditStudentComponent } from './students/components/add-edit-student/
     FlexLayoutModule,
     CommonModule,
     FormsModule, 
+    NgbModalModule,
     ReactiveFormsModule,
     AngularMaterialModule,
     CoreModule,

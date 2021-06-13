@@ -23,9 +23,6 @@ const routes: Routes = [
       { path: 'students',  component: StudentsComponent },
       { path: 'teachers',  component: TeachersComponent },
       { path: 'time-table',  component: TimeTableComponent },
-
-
-      // { path: 'account-settings', loadChildren: '../account-settings/account-settings.module#AccountSettingsModule' },
     ]
   },
   { path: 'login', component: LoginComponent },
