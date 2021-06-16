@@ -1,14 +1,15 @@
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <span><h2 class="page-title">All Teachers</h2></span>
+          <span><h2 class="page-title">All Faculties</h2></span>
             <!-- <ul class="breadcrumb breadcrumb-style">
                 <li class="breadcrumb-item">
                     <a routerlink="dashboard" class="link">
                         <i class="material-icons">home</i> Home
                     </a>
                 </li>
-                <li class="breadcrumb-item link-active">Teachers</li>
+                <li class="breadcrumb-item link-active">Faculties</li>
             </ul> -->
         </div>
     </div>
@@ -21,7 +22,7 @@
                             <div class="col-8 p-0">
                                 <ul class="header-buttons-left ml-0 p-0">
                                     <li class="dropdown">
-                                        <h2>Teachers</h2>
+                                        <h2>Faculties</h2>
                                     </li>
                                     <li class="dropdown m-l-20 pt-2">
                                         <label for="search-input">
@@ -79,54 +80,23 @@
                               </ng-container>
 
                           <!-- ID Column -->
-                          <ng-container matColumnDef="Id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Id}} </td>
+                          <ng-container matColumnDef="Id" >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-none"> ID </th>
+                            <td mat-cell *matCellDef="let row" class="d-none"> {{row.Id}} </td>
                           </ng-container>
-                      
-                          <!-- Progress Column -->
-                          <ng-container matColumnDef="First_name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-                            <td mat-cell *matCellDef="let row"> {{row.First_name}} </td>
+                          <ng-container matColumnDef="FacultyName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Faculty Name </th>
+                            <td mat-cell *matCellDef="let row"> {{row.FacultyName}} </td>
                           </ng-container>
-                      
-                          <!-- Name Column -->
-                          <ng-container matColumnDef="Last_name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Last_name}} </td>
+                          <ng-container matColumnDef="Description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                            <td mat-cell *matCellDef="let row"> {{row.Description}} </td>
                           </ng-container>
-                      
-                          <!-- Color Column -->
-                          <ng-container matColumnDef="Email">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Email}} </td>
-                          </ng-container>
-
-                          <ng-container matColumnDef="Phone">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Phone}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Gender">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Gender}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Birth_date">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Birth Date </th>
-                            <td mat-cell *matCellDef="let row"> {{ this.datepipe.transform(row.Birth_date,'shortDate')}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Address">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
-                            <td mat-cell *matCellDef="let row"> 
-                                <span>
-                                    {{row.Address?.City}}, {{row.Address?.Street}}, {{row.Address?.ZipCode}}
-                                </span></td>
-                          </ng-container>
-                      
-                          <ng-container matColumnDef="TeachesCourses">
+                          <ng-container matColumnDef="Courses">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Courses </th>
-                            <td mat-cell *matCellDef="let row"> {{row.TeachesCourses}} </td>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.Courses}}</td>
                           </ng-container>
-
                         <!-- Action Column -->
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Action </th>
@@ -165,22 +135,19 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Delete Teacher</h5>
+        <h5 class="modal-title" id="deleteModalLabel">Delete Faculties</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
        <div>
          Do you want to delete:
        </div>
-        Id: {{removeTeacher?.Id}}
       <div>
-        First Name: {{removeTeacher?.First_name}}
-      </div>
-        Last Name: {{removeTeacher?.Last_name}}
+        First Name: {{removeFaculty?.FacultyName}}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" (click)="deleteTeacher(removeTeacher.Id)" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+        <button type="button" (click)="deleteFaculty(removeFaculty.Id)" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
       </div>
     </div>
   </div>
@@ -191,16 +158,16 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteSelectedModal">Delete Selected Teacher profile</h5>
+        <h5 class="modal-title" id="deleteSelectedModal">Delete Selected Faculties</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
        <div>
-         Do you want delete selected Teacher profile?
+         Do you want delete selected Faculties?
        </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" (click)="deleteSelectedTeacher()" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+        <button type="button" (click)="deleteSelectedFaculties()" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
       </div>
     </div>
   </div>

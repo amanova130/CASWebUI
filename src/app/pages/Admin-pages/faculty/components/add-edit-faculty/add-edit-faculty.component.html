@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h1 *ngIf="isAddMode" class="modal-title">Add Faculty</h1>
+    <h1 *ngIf="!isAddMode" class="modal-title">Edit Faculty</h1>
+    <button type="button" class="close btn" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">X</span>
+    </button>
+</div>
+    <div class="modal-body">
+        <form #form="ngForm" (ngSubmit)="onSubmit()" >
+                <div class="form-group d-none">
+                    <label>ID</label>
+                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="faculty.Id" #Id='ngModel' />
+                </div>
+            <div class="row my-3">
+                <div class="form-group col-6">
+                    <label>Faculty Name</label>
+                    <input type="text" id="faculty_name" class="form-control" name="faculty_name" [(ngModel)]="faculty.FacultyName"  required #facultyName="ngModel"/>
+                    <div class="alert alert-danger" *ngIf="facultyName.errors && (facultyName.dirty || form.submitted)">
+                        <div *ngIf="facultyName.errors.required">faculty Name is required.</div>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label>Description</label>
+                    <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="faculty.Description" required
+                    #description="ngModel">
+                    <div class="form-control-feedback  alert alert-danger"
+                        *ngIf="description.errors && (description.dirty || form.submitted)">
+                        <p *ngIf="description.errors.required">Description is required</p>
+                    </div>
+                </div>
+             </div>
+
+              <div class="form-group mb-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Courses</mat-label>
+                    <mat-select [(ngModel)]="faculty.Courses" (valueChange)="choosenCourse($event)" name="Courses" multiple>
+                      <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div class="form-group mb-3">
+                <button [disabled]="loading" class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Save
+                </button>
+                <a class="btn btn-link" (click)="activeModal.close('Close click')">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+
+

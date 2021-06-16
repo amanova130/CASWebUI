@@ -1,12 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, Optional } from '@angular/core';
-import { Teacher } from '../models/teacher';
-import { TeacherUtils } from '../utils/teacherUtils';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Observable, pipe, throwError } from 'rxjs';
-
 import { Course } from '../models/course';
 import { CourseUtils } from '../utils/courseUtils';
+
 
 @Injectable({
   providedIn: 'root'
@@ -27,54 +25,51 @@ export class CourseService {
     );
   }
 
-//   getTeacherById(id: string){
-//     if (id === null || id === undefined) {
-//       throw new Error('Required parameter id was null or undefined when calling getTeacher.');
-//   }
-//   return this.http.get<Teacher>(`${this.basePath}/api/Teacher/${encodeURIComponent(String(id))}`).pipe(
-//     catchError(this.errorHandler)
-//   )
-//  }
+  getCourseById(id: string){
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling getCourse.');
+  }
+  return this.http.get<Course>(`${this.basePath}/api/Course/getCourseById?id=${encodeURIComponent(String(id))}`).pipe(
+    catchError(this.errorHandler)
+  )
+ }
 
-//   deleteById(id: string){
-//     if (id === null || id === undefined) {
-//       throw new Error('Required parameter id was null or undefined when calling apiTeacherIdDelete.');
-//   }
-//     return this.http.delete<Teacher>(`${this.basePath}/api/Teacher/${encodeURIComponent(String(id))}`)
-//     .pipe(
-//       catchError(this.errorHandler)
-//     )
-//   }
+  deleteById(id: string){
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiCourseIdDelete.');
+  }
+    return this.http.delete<Course>(`${this.basePath}/api/Course/deleteCourseById?id=${encodeURIComponent(String(id))}`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
 
 
-//   create(params: any){
-//     if (params.Id === null || params.Id === undefined) {
-//       throw new Error('Required parameter id was null or undefined when calling apiTeacherCreate.');
-//   }
-//     return this.http.post<Teacher>(`${this.basePath}/api/Teacher`, params)
-//     .pipe(
-//       catchError(this.errorHandler)
-//     )
-//   }
+  create(params: any){
+    return this.http.post<Course>(`${this.basePath}/api/Course/createCourse`, params)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
 
-//   update(id: string, params: any){
-//     if (id === null || id === undefined) {
-//       throw new Error('Required parameter id was null or undefined when calling apiTeacherUpdate.');
-//   }
- 
-//     return this.http.put<Teacher>(`${this.basePath}/api/Teacher/${encodeURIComponent(String(id))}`, params)
-//     .pipe(
-//       catchError(this.errorHandler)
-//     )
-//   }
+  update(params: Course){
+    if (params.Id === null || params.Id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
+  }
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.put<Course>(`${this.basePath}/api/Course/updateCourse`, params)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
 
-//   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
-//     let errorMessage = '';
-//     if(error.error instanceof ErrorEvent) {
-//       errorMessage = error.error.message;
-//     } else {
-//       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-//     }
-//     return throwError(errorMessage);
-//  }
+  errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
+    let errorMessage = '';
+    if(error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
+ }
 }

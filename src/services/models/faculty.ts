@@ -14,6 +14,6 @@ export interface Faculty {
     Id?: string;
     FacultyName?: string;
     Description?: string;
-    courses?: Array<string>;
-    status?: boolean;
+    Courses?: Array<string>;
+    Status?: boolean;
 }

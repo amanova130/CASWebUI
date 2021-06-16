@@ -17,6 +17,5 @@ export class FacultyUtils{
     {
         this.facultyList = facultyList;
         this.facultyListChanged.next(this.facultyList.slice());
-        console.log(this.facultyListChanged);
     }
 }

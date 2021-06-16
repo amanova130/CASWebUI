@@ -36,13 +36,15 @@ export class TeachersComponent implements OnInit, OnDestroy {
 
   teacherList: Teacher[] = [];
   teacherListSubscription!: Subscription;
-  removeTeacher: Teacher;
-
+  removeTeacher!: Teacher;
+  isLoading=true;
+  isSelected=false;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
-  @ViewChild('myTable') myTable: MatTable<any>;
+  @ViewChild('myTable')
+  myTable!: MatTable<any>;
 
   constructor(private teacherUtils: TeacherUtils, private teacherService: TeacherService, private modalService: NgbModal,public datepipe: DatePipe, private alertService: AlertService) {}
   ngOnInit(): void {
@@ -58,6 +60,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource(this.teacherList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.isLoading=false;
       console.log("Get teacher refreshed");
     });
   }
@@ -66,14 +69,27 @@ export class TeachersComponent implements OnInit, OnDestroy {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
+    if(numSelected !== undefined)
+      this.isSelected=true;
+    else
+      this.isSelected=false;
     return numSelected === numRows;
+    
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
+    if(this.isAllSelected())
+    {
+      this.selection.clear();
+      this.isSelected=false;
+    }
+      else
+      {
         this.dataSource.data.forEach(row => this.selection.select(row));
+        this.isSelected=true;
+      }
+        
   }
 
   applyFilter(event: Event) {
@@ -99,6 +115,13 @@ export class TeachersComponent implements OnInit, OnDestroy {
       Last_name: teacher.Last_name
     }
   }
+  deleteSelectedTeacher()
+  {
+    if(this.selection.hasValue())
+    {
+      this.selection.selected.forEach(selected=>(this.deleteTeacher(selected.Id)));
+    }
+  }
 
   deleteTeacher(id: string){
     if(id!==null || id!==undefined){
@@ -119,6 +142,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
     this.getAllTeacherData();
     console.log("Refresh done");
   }
+  
   ngOnDestroy()
   {
     this.teacherListSubscription.unsubscribe();
