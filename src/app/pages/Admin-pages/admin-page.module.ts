@@ -29,6 +29,7 @@ import { StudentsComponent } from './students/students.component';
 import { EmailComponent } from './email/email.component';
 import { FacultiesComponent } from './faculty/faculties.component';
 import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/add-edit-faculty.component';
+import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
 
 
 
@@ -51,6 +52,7 @@ import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/a
     EmailComponent,
     FacultiesComponent,
     AddEditFacultyComponent,
+    AddEditGroupComponent
 
   ],
   imports: [
@@ -88,6 +90,7 @@ import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/a
     AddEditStudentComponent,  
     FacultiesComponent,
     AddEditFacultyComponent,
+    AddEditGroupComponent
 
   ]
 })
