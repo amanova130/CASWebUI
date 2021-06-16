@@ -1,1 +1,163 @@
-<p>courses works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <span><h2 class="page-title">All Courses</h2></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="body">
+                    <div class="materialTableHeader">
+                        <div class="row">
+                            <div class="col-8 p-0">
+                                <ul class="header-buttons-left ml-0 p-0">
+                                    <li class="dropdown">
+                                        <h2>Courses</h2>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                               <ul class="header-buttons">
+                                   <li class="m-l-10">
+                                       <div class="icon-button-demo">
+                                           <button mat-mini-fab="" (click)="setCourse()" data-bs-toggle="modal" data-bs-target="#addEditModal" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                                              <i class="material-icons">add</i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <li class="m-l-10">
+                                        <div class="icon-button-demo">
+                                            <button mat-mini-fab="" color="primary" (click)="refresh()" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary" >
+                                                <i class="material-icons">refresh</i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3" *ngFor="let course of courseList">
+                            <div class="card card-course">
+                                <div class="row">
+                                    <img [src]="'assets/images/'+course.Image" alt="course img">
+                                </div>
+                                <div class="row">
+                                    <span class="text-center h3">{{course.CourseName}}</span>
+                                    <span class="text-center">Course Duration: {{course.Duration}}</span>
+                                </div>
+                                <div class="row container mt-2">
+                                    <p>
+                                        {{course.Description}}
+                                    </p>
+                                </div>
+                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a type="button" data-bs-toggle="modal" data-bs-target="#addEditModal" (click)="setCourse(course)"><i class="material-icons text-warning">edit</i></a> 
+                                    <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="setCourse(course)"><i class="material-icons text-danger">delete</i> </a>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Course</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Do you want delete:
+            </p>
+            <p class="text-danger">
+               Course Id:  {{courseData.Id}}
+            </p>
+            <p class="text-danger">
+               Course Name:  {{courseData.CourseName}}
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button"  data-bs-dismiss="modal" class="btn btn-danger" (click)="deleteCourse(courseData.Id)">Delete</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h1 *ngIf="isAddMode" class="modal-title">Add Course</h1>
+            <h1 *ngIf="!isAddMode" class="modal-title">Edit Course</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #form="ngForm">
+                <div>
+                    <div class="form-group d-none" >
+                        <label>ID</label>
+                        <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="courseData.Id" #Id='ngModel' />
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="form-group col-6">
+                        <label>Course Name</label>
+                        <input type="text" id="CourseName" class="form-control" name="CourseName" [(ngModel)]="courseData.CourseName"  required #courseName="ngModel"/>
+                        <div class="alert alert-danger" *ngIf="courseName.errors && (courseName.dirty || form.submitted)">
+                            <div *ngIf="courseName.errors.required">Course Name is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Description</label>
+                        <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="courseData.Description" required
+                        #description="ngModel">
+                        <div class="form-control-feedback  alert alert-danger"
+                            *ngIf="description.errors && (description.dirty || form.submitted)">
+                            <p *ngIf="description.errors.required">Description is required</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="row mb-3">
+                    <div class="form-group col-6">
+                        <label>Duration</label>
+                        <input type="number" id="Duration" class="form-control"  name="Duration" [(ngModel)]="courseData.Duration" required #duration="ngModel"/>
+                        <div class="form-control-feedback alert alert-danger"
+                        *ngIf="duration.errors && (duration.dirty || form.submitted)">
+                       <p *ngIf="duration.errors.required">Duration is required</p>
+                       <p *ngIf="duration.errors.pattern">Duration must contain at least the @ character</p>
+                   </div>
+                    </div>
+                    <div class="form-group col-6" [ngClass]="{'d-none': !isAddMode}">
+                        <label>Image</label>
+                        <input type="image" id="Image" class="form-control" name="Image" required name="Image" [(ngModel)]="courseData.Image" #Image="ngModel"/>
+                    <div class="form-control-feedback  alert alert-danger"
+                    *ngIf="Image.errors && (Image.dirty || form.submitted)">
+                    <p *ngIf="Image.errors.required">Image is required</p>
+                </div>
+            </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button [disabled]="isLoading" class="btn btn-primary" data-bs-dismiss="modal" (click)="onSubmit()">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+            </button>
+        </div>
+      </div>
+    </div>
+</div>

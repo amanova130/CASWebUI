@@ -56,7 +56,6 @@ export class AddEditTeacherComponent implements OnInit {
 
   ngOnInit() {
       this.getCourses();
-      console.log(this.teacher);
       this.isAddMode = !this.teacher.Id;
      if(!this.isAddMode){
        this.address={
@@ -69,7 +68,6 @@ export class AddEditTeacherComponent implements OnInit {
 
 
   onSubmit() {
-      
       this.alertService.clear();
       this.loading = true;
       if(this.form.valid)
@@ -81,8 +79,7 @@ export class AddEditTeacherComponent implements OnInit {
       else {
         this.loading = false;
       }
-
-     
+    
   }
 
   private getCourses(){

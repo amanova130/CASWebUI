@@ -34,7 +34,7 @@ export class TeacherService {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getTeacher.');
   }
-  return this.http.get<Teacher>(`${this.basePath}/api/Teacher/getTeacherById/${encodeURIComponent(String(id))}`).pipe(
+  return this.http.get<Teacher>(`${this.basePath}/api/Teacher/getTeacherById?id=${encodeURIComponent(String(id))}`).pipe(
     catchError(this.errorHandler)
   )
  }
@@ -43,7 +43,7 @@ export class TeacherService {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiTeacherIdDelete.');
   }
-    return this.http.delete<Teacher>(`${this.basePath}/api/Teacher/deleteTeacherById/${encodeURIComponent(String(id))}`)
+    return this.http.delete<Teacher>(`${this.basePath}/api/Teacher/deleteTeacherById?id=${encodeURIComponent(String(id))}`)
     .pipe(
       catchError(this.errorHandler)
     )
@@ -61,6 +61,9 @@ export class TeacherService {
   }
 
   update(teacherIn: Teacher){
+    if (teacherIn.Id === null || teacherIn.Id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
+  }
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.put<Teacher>(`${this.basePath}/api/Teacher/updateTeacher`, teacherIn)
     .pipe(

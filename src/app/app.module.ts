@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { StudentsModule } from './pages/Admin-pages/students/students.module';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { AdminPageModule } from './pages/Admin-pages/admin-page.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -29,7 +28,6 @@ import { MatInputModule } from '@angular/material/input';
     MainLayoutComponent,
   ],
   imports: [
-    StudentsModule,
     BrowserModule,
     CoreModule,
     AdminPageModule,
@@ -43,7 +41,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule, 
     NgbModalModule,
     BrowserAnimationsModule,
-    StudentsModule,
+
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

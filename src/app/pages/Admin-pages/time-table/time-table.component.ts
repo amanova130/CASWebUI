@@ -28,9 +28,9 @@ import { EventUtils } from 'src/services/utils/eventUtils';
 import { EventsService } from 'src/services/WebApi/event.service';
 import { FormBuilder } from '@angular/forms';
 import { EventModalComponent } from './components/event-modal/event-modal.component';
-import RRule from 'rrule';
+
 import { DatePipe } from '@angular/common';
-import { calendarFormat } from 'moment';
+
 import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
 
 
