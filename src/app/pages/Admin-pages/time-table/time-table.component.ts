@@ -57,7 +57,8 @@ const colors: any = {
   styleUrls: ['./time-table.component.scss']
 })
 export class TimeTableComponent  {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalContent', { static: true })
+  modalContent!: TemplateRef<any>;
   
   view: CalendarView = CalendarView.Month;
 
@@ -71,7 +72,7 @@ export class TimeTableComponent  {
 
   viewDate: Date = new Date();
 
-  modalData: {
+  modalData!: {
     action: string;
     event: CalendarEvent;
   };

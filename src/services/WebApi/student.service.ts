@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Student } from '../models/student';
 import { StudentUtils } from '../utils/studentUtils';
@@ -15,7 +15,7 @@ export class StudentService {
   constructor(private studentUtils: StudentUtils,  private http: HttpClient) { }
 
   getAllstudents(){
-    return this.http.get<Student[]>(`${this.basePath}/api/Student`).pipe(map( (studentList: Student[])=>{
+    return this.http.get<Student[]>(`${this.basePath}/api/Student/getAllStudents`).pipe(map( (studentList: Student[])=>{
       return studentList;
     }),
     tap((studentList: Student[]) =>{
@@ -37,7 +37,7 @@ export class StudentService {
   if (id === null || id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentIdDelete.');
 }
-  return this.http.delete<Student>(`${this.basePath}/api/Student/${encodeURIComponent(String(id))}`)
+  return this.http.delete<Student>(`${this.basePath}/api/Student/deleteStudentById?id=${encodeURIComponent(String(id))}`)
   .pipe(
     catchError(this.errorHandler)
   )
@@ -47,18 +47,17 @@ create(params: any){
   if (params.Id === null || params.Id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentCreate.');
 }
-  return this.http.post<Student>(`${this.basePath}/api/Student`, params)
+  return this.http.post<Student>(`${this.basePath}/api/Student/createStudent
+  `, params)
   .pipe(
     catchError(this.errorHandler)
   )
 }
 
 
-update(id: string, params: any){
-  if (id === null || id === undefined) {
-    throw new Error('Required parameter id was null or undefined when calling apiStudentUpdate.');
-}
-  return this.http.put<Student>(`${this.basePath}/api/Student/${encodeURIComponent(String(id))}`, params)
+update(studentIn:Student){
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this.http.put<Student>(`${this.basePath}/api/Student/updateStudent`, studentIn)
   .pipe(
     catchError(this.errorHandler)
   )

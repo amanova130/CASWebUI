@@ -38,7 +38,7 @@
                                <ul class="header-buttons">
                                    <li>
                                        <div class="icon-button-demo">
-                                           <button mat-mini-fab="" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                                           <button mat-mini-fab="" (click)="openModal()"  color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                               <i class="material-icons">add</i>
                                             </button>
                                         </div>
@@ -73,11 +73,6 @@
                                 </td>
                               </ng-container>
 
-                          <!-- ID Column -->
-                          <ng-container matColumnDef="Id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Id}} </td>
-                          </ng-container>
                       
                           <!-- Progress Column -->
                           <ng-container matColumnDef="GroupNumber">
@@ -105,20 +100,21 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Courses </th>
                             <td mat-cell *matCellDef="let row"> {{row.courses}} </td>
                           </ng-container>
-                          
-                          <ng-container matColumnDef="Status">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Status}} </td>
+                          <ng-container matColumnDef="Fac_Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Faculty </th>
+                            <td mat-cell *matCellDef="let row"> {{row.Fac_Name}} </td>
                           </ng-container>
+                          
+                         
                       
                     
 
                         <!-- Action Column -->
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Action </th>
-                            <td mat-cell *matCellDef="let element" class="action-link"> 
-                            <a ><i class="material-icons text-warning">edit</i></a> 
-                            <a ><i class="material-icons text-danger">delete</i> </a>  
+                            <td mat-cell *matCellDef="let row" class="action-link"> 
+                            <a type="button" (click)="openModal(row)" ><i class="material-icons text-warning">edit</i></a> 
+                            <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDelete(row)"><i class="material-icons text-danger">delete</i> </a>  
                             </td>
                         </ng-container>
 
@@ -137,4 +133,27 @@
             </div>
         </div>
     </div> 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Group</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <div>
+         Do you want to delete:
+       </div>
+        Group: {{removeGroup?.GroupNumber}}
+      <div>
+       
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" (click)="deleteGroup(removeGroup.Id)" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
 </div>

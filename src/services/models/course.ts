@@ -17,4 +17,5 @@ export interface Course {
     Duration?: number;
     Image?: string;
     Status?: boolean;
+    
 }
