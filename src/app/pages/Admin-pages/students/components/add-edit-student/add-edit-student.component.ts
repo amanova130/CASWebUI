@@ -130,7 +130,7 @@ private createStudent() {
 private updateStudent() {
   this.student.Address = this.address;
   this.student.PersonalUser=this.user;
-      this.studentService.update(this.student.Id, this.student)
+      this.studentService.update(this.student)
       .pipe(first()).subscribe(result => {
           if(result)
           {

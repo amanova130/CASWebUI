@@ -1,33 +1,34 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Group } from '../models/group';
-import { GroupUtils } from '../utils/groupUtils';
+import { FacultyUtils } from '../utils/facultyUtils';
 import {catchError, map, tap} from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Faculty } from '../models/faculty';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GroupService {
+export class FacultyService {
   protected basePath = 'https://localhost:5001';
 
-  constructor(private groupUtils: GroupUtils,  private http: HttpClient) { }
+  constructor(private facultyUtils: FacultyUtils,  private http: HttpClient) { }
 
-  getAllGroups(){
-    return this.http.get<Group[]>('https://localhost:5001/api/Group/getAllGroups').pipe(map( (groupList: Group[])=>{
-      return groupList;
+  getAllFaculties(){
+    return this.http.get<Faculty[]>('https://localhost:5001/api/Faculty/getAllFaculties').pipe(map( (facultyList: Faculty[])=>{
+      return facultyList;
     }),
-    tap((groupList: Group[]) =>{
-      this.groupUtils.setGroupList(groupList);
+    tap((facultyList: Faculty[]) =>{
+      this.facultyUtils.setFacultyList(facultyList);
     })
     );
   }
 
-  getGroupById(id: string){
+  getFacultyById(id: string){
     if (id === null || id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling getStudent.');
+      throw new Error('Required parameter id was null or undefined when calling getFaculty.');
   }
-  return this.http.get<Group>(`${this.basePath}/api/Group/${encodeURIComponent(String(id))}`).pipe(
+  return this.http.get<Faculty>(`${this.basePath}/api/Faculty/${encodeURIComponent(String(id))}`).pipe(
     catchError(this.errorHandler)
   )
  }
@@ -36,7 +37,7 @@ export class GroupService {
   if (id === null || id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiGroupIdDelete.');
 }
-  return this.http.delete<Group>(`${this.basePath}/api/Group/deleteGroupById?id=${encodeURIComponent(String(id))}`)
+  return this.http.delete<Faculty>(`${this.basePath}/api/Faculty/deleteFacultyById?id=${encodeURIComponent(String(id))}`)
   .pipe(
     catchError(this.errorHandler)
   )
@@ -44,9 +45,9 @@ export class GroupService {
 
 create(params: any){
   if (params.Id === null || params.Id === undefined) {
-    throw new Error('Required parameter id was null or undefined when calling apiStudentCreate.');
+    throw new Error('Required parameter id was null or undefined when calling apiCourseCreate.');
 }
-  return this.http.post<Group>(`${this.basePath}/api/Group/createGroup
+  return this.http.post<Faculty>(`${this.basePath}/api/Faculty/createFaculty
   `, params)
   .pipe(
     catchError(this.errorHandler)
@@ -54,11 +55,9 @@ create(params: any){
 }
 
 
-update(groupIn:Group){
-  console.log(groupIn);
-
+update(facultyIn:Faculty){
   const headers = new HttpHeaders({'Content-Type': 'application/json'});
-  return this.http.put<Group>(`${this.basePath}/api/Group/updateGroup`, groupIn)
+  return this.http.put<Faculty>(`${this.basePath}/api/Faculty/updateFaculty`, facultyIn)
   .pipe(
     catchError(this.errorHandler)
   )

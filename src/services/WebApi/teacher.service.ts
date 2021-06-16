@@ -43,7 +43,7 @@ export class TeacherService {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiTeacherIdDelete.');
   }
-    return this.http.delete<Teacher>(`${this.basePath}/api/Teacher/deleteTeacherById/${encodeURIComponent(String(id))}`)
+     return this.http.delete<Teacher>(`${this.basePath}/api/Teacher/deleteTeacherById?id=${encodeURIComponent(String(id))}`)
     .pipe(
       catchError(this.errorHandler)
     )

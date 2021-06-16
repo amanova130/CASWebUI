@@ -21,6 +21,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditStudentComponent } from './students/components/add-edit-student/add-edit-student.component';
 import { EventModalComponent } from './time-table/components/event-modal/event-modal.component';
+import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
 
 
 
@@ -39,7 +40,8 @@ import { EventModalComponent } from './time-table/components/event-modal/event-m
     AddEditTeacherComponent,
     CoursesComponent,
     EventModalComponent,
-    AddEditStudentComponent
+    AddEditStudentComponent,
+    AddEditGroupComponent,
 
   ],
   imports: [
@@ -69,7 +71,8 @@ import { EventModalComponent } from './time-table/components/event-modal/event-m
     TeachersComponent,
     AddEditTeacherComponent,
     CoursesComponent,
-    AddEditStudentComponent
+    AddEditStudentComponent,
+    AddEditGroupComponent
   ]
 })
 export class AdminPageModule { }

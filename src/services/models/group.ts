@@ -11,12 +11,12 @@
  */
 
 export interface Group { 
-    id?: string;
+    Id?: string;
     GroupNumber?: string;
-    numberOfStudent?: number;
-    academicYear?: number;
-    semester?: number;
+    NumberOfStudent?: number;
+    AcademicYear?: number;
+    Semester?: number;
     courses?: Array<string>;
-    facId?: string;
-    status?: boolean;
+    Fac_Name?: string;
+    Status?: boolean;
 }
