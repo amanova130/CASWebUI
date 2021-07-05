@@ -51,8 +51,6 @@ export class AddEditFacultyComponent implements OnInit {
 
 
   onSubmit() {
-      
-      this.alertService.clear();
       this.loading = true;
       if(this.form.valid)
       {
@@ -83,11 +81,11 @@ export class AddEditFacultyComponent implements OnInit {
           if(result)
           {
             this.facultyList.push(result);
-              this.alertService.success('Added new Faculty profile', { keepAfterRouteChange: true });
+              this.alertService.openAlertMsg('success','Added new Faculty profile');
               this.activeModal.close();
           }  
           else
-              this.alertService.error('Cannot add a new Faculty');
+              this.alertService.openAlertMsg('success','Cannot add a new Faculty');
       })
       .add(() => this.loading = false);
 }
@@ -100,11 +98,11 @@ export class AddEditFacultyComponent implements OnInit {
               let x = this.facultyList.find(x => x.Id === this.faculty.Id)
               let index = this.facultyList.indexOf(x!)
               this.facultyList[index] = this.faculty;
-                this.alertService.success('Faculty data updated', { keepAfterRouteChange: true });
+                this.alertService.openAlertMsg('success','Faculty data updated');
                 this.activeModal.close();
             }
             else
-                this.alertService.error('Cannot Update a Faculty data, please try again');
+                this.alertService.openAlertMsg('error','Cannot Update a Faculty data, please try again');
         })
         .add(() => this.loading = false);
     }

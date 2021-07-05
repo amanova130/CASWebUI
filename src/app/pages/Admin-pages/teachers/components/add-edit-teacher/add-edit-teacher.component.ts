@@ -6,9 +6,6 @@ import { AlertService } from 'src/services/helperServices/alert.service';
 import { Teacher } from 'src/services/models/teacher';
 import { TeacherService } from 'src/services/WebApi/teacher.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TeacherUtils } from 'src/services/utils/teacherUtils';
 import { Subscription, timer } from 'rxjs';
 import { Course } from 'src/services/models/course';
 import { CourseService } from 'src/services/WebApi/course.service';
@@ -68,7 +65,6 @@ export class AddEditTeacherComponent implements OnInit {
 
 
   onSubmit() {
-      this.alertService.clear();
       this.loading = true;
       if(this.form.valid)
       {
@@ -99,11 +95,11 @@ export class AddEditTeacherComponent implements OnInit {
           if(result)
           {
             this.teacherList.push(result);
-              this.alertService.success('Added new Teacher profile', { keepAfterRouteChange: true });
+              this.alertService.openAlertMsg('success','Added new Teacher profile');
               this.activeModal.close();
           }  
           else
-              this.alertService.error('Cannot add a new Teacher');
+              this.alertService.openAlertMsg('error','Cannot add a new Teacher');
       })
       .add(() => this.loading = false);
 }
@@ -117,11 +113,11 @@ export class AddEditTeacherComponent implements OnInit {
               let x = this.teacherList.find(x => x.Id === this.teacher.Id)
               let index = this.teacherList.indexOf(x!)
               this.teacherList[index] = this.teacher;
-                this.alertService.success('Teacher data updated', { keepAfterRouteChange: true });
+                this.alertService.openAlertMsg('success', 'Record was updated')
                 this.activeModal.close();
             }
             else
-                this.alertService.error('Cannot Update a teacher data, please try again');
+                this.alertService.openAlertMsg('error','Cannot Update a teacher data, please try again');
         })
         .add(() => this.loading = false);
     }
