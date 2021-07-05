@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { CoreModule, FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { AddEditTeacherComponent } from '../teachers/components/add-edit-teacher/add-edit-teacher.component';
-import { TeachersComponent } from '../teachers/teachers.component';
+import { AddEditTeacherComponent } from './teachers/components/add-edit-teacher/add-edit-teacher.component';
+import { TeachersComponent } from './teachers/teachers.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ExamsComponent } from './exams/exams.component';
 import { GroupsComponent } from './groups/groups.component';
@@ -30,6 +30,11 @@ import { EmailComponent } from './email/email.component';
 import { FacultiesComponent } from './faculty/faculties.component';
 import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/add-edit-faculty.component';
 import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
+import { RouterModule } from '@angular/router';
+import { AdminPageComponent } from './admin-page.component';
+import { AdminPageRoutingModule } from './admin-page-routing.module';
+import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
+
 
 
 
@@ -52,24 +57,26 @@ import { AddEditGroupComponent } from './groups/components/add-edit-group/add-ed
     EmailComponent,
     FacultiesComponent,
     AddEditFacultyComponent,
-    AddEditGroupComponent
-
+    AddEditGroupComponent,
+    AdminPageComponent,
+    AddEditHolidayComponent,
   ],
   imports: [
     AngularMaterialModule,
     MatIconModule,
     FlexLayoutModule,
+    RouterModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatCheckboxModule,
     CommonModule,
+    AdminPageRoutingModule,
     FormsModule, 
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,
-    CoreModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

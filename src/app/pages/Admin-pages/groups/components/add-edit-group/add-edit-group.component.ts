@@ -85,8 +85,6 @@ export class AddEditGroupComponent implements OnInit {
 }
 
 onSubmit() {
-      
-  this.alertService.clear();
   this.loading = true;
   if(this.form.valid)
   {
@@ -127,11 +125,11 @@ private createGroup() {
         if(result)
         {
           this.groupList.push(result);
-            this.alertService.success('Added new Group profile', { keepAfterRouteChange: true });
+            this.alertService.openAlertMsg('success','Added new Group profile');
             this.activeModal.close();
         }  
         else
-            this.alertService.error('Cannot add a new Group');
+            this.alertService.openAlertMsg('error','Cannot add a new Group');
     })
     .add(() => this.loading = false);
 }
@@ -146,11 +144,11 @@ private updateGroup() {
             let x = this.groupList.find(x => x.Id === this.group.Id)
             let index = this.groupList.indexOf(x!)
             this.groupList[index] = this.group;
-              this.alertService.success('Group data updated', { keepAfterRouteChange: true });
+              this.alertService.openAlertMsg('success','Group data updated');
               this.activeModal.close();
           }
           else
-              this.alertService.error('Cannot Update a student data, please try again');
+              this.alertService.openAlertMsg('success','Cannot Update a student data, please try again');
       })
       .add(() => this.loading = false);
   }

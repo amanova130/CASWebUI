@@ -83,8 +83,6 @@ export class AddEditStudentComponent implements OnInit {
 }
 
 onSubmit() {
-      
-  this.alertService.clear();
   this.loading = true;
   if(this.form.valid)
   {
@@ -118,11 +116,11 @@ private createStudent() {
         if(result)
         {
           this.studentList.push(result);
-            this.alertService.success('Added new Student profile', { keepAfterRouteChange: true });
+            this.alertService.openAlertMsg('success','Added new Student profile');
             this.activeModal.close();
         }  
         else
-            this.alertService.error('Cannot add a new Student');
+            this.alertService.openAlertMsg('error','Cannot add a new Student');
     })
     .add(() => this.loading = false);
 }
@@ -137,11 +135,11 @@ private updateStudent() {
             let x = this.studentList.find(x => x.Id === this.student.Id)
             let index = this.studentList.indexOf(x!)
             this.studentList[index] = this.student;
-              this.alertService.success('Student data updated', { keepAfterRouteChange: true });
+              this.alertService.openAlertMsg('success','Student data updated');
               this.activeModal.close();
           }
           else
-              this.alertService.error('Cannot Update a student data, please try again');
+              this.alertService.openAlertMsg('error','Cannot Update a student data, please try again');
       })
       .add(() => this.loading = false);
   }

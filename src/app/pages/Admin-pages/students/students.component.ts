@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AfterViewInit, ViewChild} from '@angular/core';
+import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatCheckboxModule} from '@angular/material/checkbox';
 import { Student } from 'src/services/models/student';
 import { Subscription,timer } from 'rxjs';
 import { StudentUtils } from 'src/services/utils/studentUtils';
@@ -42,15 +41,16 @@ export class StudentsComponent implements OnInit{
   studentList: Student[] = [];
   studentListSubscription!: Subscription;
   removeStudent: Student;
-
+  isLoading=false;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
-  constructor(private studentUtils: StudentUtils, private studentService: StudentService,private modalService: NgbModal,public datepipe:DatePipe,private alertService: AlertService) {}
+  constructor(private studentService: StudentService,private modalService: NgbModal,public datepipe:DatePipe) {}
   ngOnInit(): void {
+    this.isLoading=true;
     this.getAllStudentData();
     
   }
@@ -64,8 +64,7 @@ export class StudentsComponent implements OnInit{
       this.dataSource = new MatTableDataSource(this.studentList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.studentList)
-      console.log("Get student refreshed");
+      this.isLoading=false;
     });
     
   }
@@ -119,8 +118,6 @@ export class StudentsComponent implements OnInit{
         {
           this.studentList = this.studentList.filter(item => item.Id !== id);
           this.dataSource = new MatTableDataSource(this.studentList);
-          this.alertService.success("Student deleted successfully!");
-          console.log('Student deleted successfully!');
         }
       
       });
