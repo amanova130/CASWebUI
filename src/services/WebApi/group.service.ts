@@ -23,6 +23,15 @@ export class GroupService {
     );
   }
 
+  getNumberOfGroups()
+  {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<number>(`${this.basePath}/api/Group/getNumberOfGroups`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
   getGroupById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getStudent.');

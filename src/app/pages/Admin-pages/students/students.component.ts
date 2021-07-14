@@ -5,7 +5,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Student } from 'src/services/models/student';
-import { Subscription,timer } from 'rxjs';
+import { Subject, Subscription,timer } from 'rxjs';
 import { StudentUtils } from 'src/services/utils/studentUtils';
 import { StudentService} from 'src/services/WebApi/student.service';
 import { switchMap } from 'rxjs/operators';
@@ -41,6 +41,8 @@ export class StudentsComponent implements OnInit{
   studentList: Student[] = [];
   studentListSubscription!: Subscription;
   removeStudent: Student;
+  refresh: Subject<any> = new Subject();
+
   isLoading=false;
 
   @ViewChild(MatPaginator)
@@ -74,7 +76,13 @@ export class StudentsComponent implements OnInit{
     ref.componentInstance.student = student;
     ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
     ref.componentInstance.studentList = this.studentList; 
-  }
+    ref.result.then((result) => {
+      if (result) {
+      this.refreshData();
+      }
+      });
+
+    }
 
   openDelete(student:Student = {Id: ""} ){
     this.removeStudent={
@@ -125,7 +133,7 @@ export class StudentsComponent implements OnInit{
   }
 
 
-  refresh(){
+  refreshData(){
     this.getAllStudentData();
     console.log("Refresh done");
   }

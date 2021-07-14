@@ -10,7 +10,7 @@
             <div>
                 <div class="form-group" [ngClass]="{'d-none' : !isAddMode}">
                     <label>ID</label>
-                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="teacher.Id" #Id='ngModel' required
+                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editTeacher.Id" #Id='ngModel' required
                     length="9"/>
                     <div class="alert alert-danger" *ngIf="Id.errors && (Id.dirty || form.submitted)">
                         <div *ngIf="Id.errors.required">Id is required.</div>
@@ -20,14 +20,14 @@
             <div class="row my-3">
                 <div class="form-group col-6">
                     <label>First Name</label>
-                    <input type="text" id="First_name" class="form-control" name="First_name" [(ngModel)]="teacher.First_name"  required #firstName="ngModel"/>
+                    <input type="text" id="First_name" class="form-control" name="First_name" [(ngModel)]="editTeacher.First_name"  required #firstName="ngModel"/>
                     <div class="alert alert-danger" *ngIf="firstName.errors && (firstName.dirty || form.submitted)">
                         <div *ngIf="firstName.errors.required">First Name is required.</div>
                     </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Last Name</label>
-                    <input type="text" id="Last_name" class="form-control" name="Last_name" [(ngModel)]="teacher.Last_name" required
+                    <input type="text" id="Last_name" class="form-control" name="Last_name" [(ngModel)]="editTeacher.Last_name" required
                     #lastName="ngModel">
                     <div class="form-control-feedback  alert alert-danger"
                         *ngIf="lastName.errors && (lastName.dirty || form.submitted)">
@@ -38,7 +38,7 @@
             <div class="row mb-3">
                 <div class="form-group col-6">
                     <label>Email</label>
-                    <input type="text" id="Email" class="form-control"  name="Email" [(ngModel)]="teacher.Email" required #email="ngModel" pattern="[^ @]*@[^ @]*"/>
+                    <input type="text" id="Email" class="form-control"  name="Email" [(ngModel)]="editTeacher.Email" required #email="ngModel" pattern="[^ @]*@[^ @]*"/>
                     <div class="form-control-feedback alert alert-danger"
                     *ngIf="email.errors && (email.dirty || form.submitted)">
                    <p *ngIf="email.errors.required">Email is required</p>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group col-6">
                     <label>Phone</label>
-                    <input type="number" id="Phone" class="form-control" name="Phone" required name="Phone" [(ngModel)]="teacher.Phone" #phone="ngModel"/>
+                    <input type="number" id="Phone" class="form-control" name="Phone" required name="Phone" [(ngModel)]="editTeacher.Phone" #phone="ngModel"/>
                 <div class="form-control-feedback  alert alert-danger"
                 *ngIf="phone.errors && (phone.dirty || form.submitted)">
                 <p *ngIf="phone.errors.required">Phone is required</p>
@@ -59,16 +59,16 @@
                     <div>Gender </div>
                     <div class="row">
                         <div class="col-4">
-                            <input class="mr-3" type="radio" value="male" id="Gender" name="Gender" required [(ngModel)]="teacher.Gender"> Male
+                            <input class="mr-3" type="radio" value="male" id="Gender" name="Gender" required [(ngModel)]="editTeacher.Gender"> Male
                         </div>
                         <div class="col">
-                            <input class="pl-3" type="radio" value="female" id="Gender" name="Gender" required [(ngModel)]="teacher.Gender"> Female
+                            <input class="pl-3" type="radio" value="female" id="Gender" name="Gender" required [(ngModel)]="editTeacher.Gender"> Female
                         </div>
                     </div>
                 </div>
                 <div class="form-group col">
                     <label>Birth Date</label>
-                    <input type="date"  id="Birth_date" class="form-control" name="Birth_date" required [(ngModel)]="teacher.Birth_date" #birth="ngModel" />
+                    <input type="date"  id="Birth_date" class="form-control" name="Birth_date" required [(ngModel)]="editTeacher.Birth_date" #birth="ngModel" />
                 
                 <div class="form-control-feedback  alert alert-danger"
                 *ngIf="birth.errors && (birth.dirty || form.submitted)">
@@ -105,7 +105,7 @@
               <div class="form-group mb-3">
                 <mat-form-field appearance="fill">
                     <mat-label>Courses</mat-label>
-                    <mat-select [(ngModel)]="teacher.TeachesCourses" (valueChange)="choosenCourse($event)" name="courses" multiple>
+                    <mat-select [(ngModel)]="editTeacher.TeachesCourses" (valueChange)="choosenCourse($event)" name="courses" multiple>
                       <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
                     </mat-select>
                   </mat-form-field>

@@ -23,6 +23,7 @@ export class AddEditTeacherComponent implements OnInit {
   loading = false;
   submitted = false;
   newTeacher!: Teacher;
+  
   checkedList: any;
   currentSelected!: {};
   newCourseList: Course[] = [];
@@ -31,7 +32,10 @@ export class AddEditTeacherComponent implements OnInit {
     Street: "",
     ZipCode: 0
   };
-  
+  editTeacher:Teacher = {
+    Id: "",
+    Address: this.address,
+  };
   @Input()
     public teacher: Teacher = {
       Id: "",
@@ -52,6 +56,18 @@ export class AddEditTeacherComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.editTeacher={
+      Id:this.teacher.Id,
+      First_name:this.teacher.First_name,
+      Last_name:this.teacher.Last_name,
+      Phone:this.teacher.Phone,
+      Email:this.teacher.Email,
+      Gender:this.teacher.Gender,
+      Birth_date:this.teacher.Birth_date,
+      TeachesCourses:this.teacher.TeachesCourses,
+      Address:this.teacher.Address,
+      Status:true,
+    }
       this.getCourses();
       this.isAddMode = !this.teacher.Id;
      if(!this.isAddMode){
@@ -88,6 +104,7 @@ export class AddEditTeacherComponent implements OnInit {
   }
 
   private createTeacher() {
+    this.teacher=this.editTeacher;
     this.teacher.Address = this.address;
       this.teacherService.create(this.teacher)
       .pipe(first())
@@ -105,11 +122,13 @@ export class AddEditTeacherComponent implements OnInit {
 }
 
   private updateTeacher() {
-    this.teacher.Address = this.address;
-        this.teacherService.update(this.teacher)
+
+    this.editTeacher.Address = this.address;
+        this.teacherService.update(this.editTeacher)
         .pipe(first()).subscribe((result) => {
             if(result)
             {
+              this.teacher=this.editTeacher;
               let x = this.teacherList.find(x => x.Id === this.teacher.Id)
               let index = this.teacherList.indexOf(x!)
               this.teacherList[index] = this.teacher;
@@ -126,7 +145,7 @@ export class AddEditTeacherComponent implements OnInit {
 
   choosenCourse(event: string[])
   {
-    this.teacher.TeachesCourses = event;
+    this.editTeacher.TeachesCourses = event;
     console.log(this.teacher.TeachesCourses);
   }
 

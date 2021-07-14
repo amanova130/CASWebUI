@@ -30,7 +30,11 @@ import { EmailComponent } from './email/email.component';
 import { FacultiesComponent } from './faculty/faculties.component';
 import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/add-edit-faculty.component';
 import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
@@ -43,13 +47,13 @@ import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/a
   declarations: [
     GroupsComponent,
     HolidayComponent,
-    TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
     LinksComponent,
     RequestsComponent,
     TeachersComponent,
     AddEditTeacherComponent,
+    TimeTableComponent,
     CoursesComponent,
     EventModalComponent,
     AddEditStudentComponent,
@@ -58,6 +62,7 @@ import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/a
     FacultiesComponent,
     AddEditFacultyComponent,
     AddEditGroupComponent,
+    DashboardComponent,
     AdminPageComponent,
     AddEditHolidayComponent,
   ],
@@ -74,10 +79,16 @@ import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/a
     CommonModule,
     AdminPageRoutingModule,
     FormsModule, 
+    BrowserAnimationsModule,
+    BrowserModule,
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,
-    FlatpickrModule.forRoot(),
+    CoreModule,
+    NgxChartsModule,
+    RouterModule,
+    FlatpickrModule.forRoot(
+      ),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
@@ -91,13 +102,16 @@ import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/a
     ReportsComponent,
     LinksComponent,
     RequestsComponent,
+    TimeTableComponent,
     TeachersComponent,
     AddEditTeacherComponent,
     CoursesComponent,
     AddEditStudentComponent,  
     FacultiesComponent,
     AddEditFacultyComponent,
-    AddEditGroupComponent
+    AddEditGroupComponent,
+    DashboardComponent
+
 
   ]
 })

@@ -1,4 +1,70 @@
+
 :host {
+  
     background-color: EFF2FB;
-    padding: 30px
+    padding: 30px;
+    
   }
+  .content {
+    padding: 20px;   
+}
+
+mat-card.mat-elevation-z4{
+  width:15%;
+  margin: 20px 36px;
+}
+iframe,.chart-class-vertical
+{
+  width: 100%;
+  height:100%;
+}
+p
+{
+  font-weight: 600;
+  margin:20px;
+}
+.calendar
+{
+  width: 45.4%;
+  height: auto;
+  margin: 10px 26px;
+}
+.chart
+{
+  width: 45.4%;
+  height: auto;
+  margin: 10px 26px;
+}
+
+::ng-deep .ngx-charts {  
+   text{  
+     font-size: 15px !important;
+     font-weight:600 !important;
+     opacity: .7 !important;
+
+    // fill: rgb(12, 36, 173) !important; 
+  } 
+}
+
+
+
+
+.mat-card-title
+{
+  font-size:20px;
+}
+.mat-card-actions
+{
+  margin-top:1px;
+}
+img
+{
+  height: 15rem;
+}
+span{
+  color:green;
+}
+.mat-card-actions
+{
+  text-align:center;
+}

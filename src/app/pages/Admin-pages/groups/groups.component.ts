@@ -65,6 +65,11 @@ openModal(group: Group = {Id: ""} ){
   ref.componentInstance.group = group;
   //ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
   ref.componentInstance.groupList = this.groupList; 
+  ref.result.then((result) => {
+    if (result) {
+    this.refreshData();
+    }
+  });
 }
 
 openDelete(group:Group = {Id: ""} ){
@@ -108,5 +113,10 @@ openDelete(group:Group = {Id: ""} ){
       });
     }
   }
+  refreshData(){
+    this.getAllGroupData();
+    console.log("Refresh done");
+  }
+  
 }
 

@@ -10,7 +10,7 @@
         <div class="row my-1">
             <div class="form-group col-6">
                 <label>Title</label>
-                <input type="text" class="form-control" id="Title" name="Title"  [(ngModel)]="newEvent.title"  
+                <input type="text" class="form-control" id="Title" name="Title"  [(ngModel)]="recurringEvent.title"  
                />
                 </div>
             </div>
@@ -18,37 +18,81 @@
         <div class="row my-3">
             <div class="form-group col-6">
                 <label>Color</label>
-                <input type="text" id="Color" class="form-control" name="Color" [(ngModel)]="newEvent.color"/>
+                <input type="color" id="Color" class="form-control" name="Color" [(ngModel)]="recurringEvent.color.primary"/>
                 
             </div>
           </div>
 
-            <div class="form-group col-6">
-                <label>Course</label>
-                <input type="text" id="Course" class="form-control" name="Course" >
-            </div>
+            
 
             <div class="row my-3">
               <div class="form-group col-6">
                 <label>Start Date</label>
-                <input type="datetime-local" id="StartDate" class="form-control" name="StartDate" [(ngModel)]="newEvent.start" >
+                <!-- <input
+                name="startDateString"
+                class="form-control"
+                type="text"
+                mwlFlatpickr
+                [(ngModel)]="recurringEvent.start"
+                (ngModelChange)="refresh.next()"
+                [altInput]="true"
+                [convertModelValue]="true"
+                [enableTime]="true"
+                dateFormat="Y-m-dTH:i"
+                altFormat="F j, Y H:i"
+                placeholder="Not set"
+              /> -->
+              <input class="form-control" type="datetime-local" name="startDateString" [(ngModel)]="startDateString">
               </div>
               <div class="form-group col-6">
                 <label>End Date</label>
-                <input type="datetime-local" id="EndDate" class="form-control" name="EndDate" >
-
-              </div>
+                <!-- <input
+                name="endDateString"
+                class="form-control"
+                type="text"
+                mwlFlatpickr
+                [(ngModel)]="recurringEvent.end"
+                [altInput]="true"
+                [convertModelValue]="true"
+                [enableTime]="true"
+                dateFormat="Y-m-dTH:i"
+                altFormat="F j, Y H:i"
+                placeholder="Not set"
+              /> -->
+              <input class="form-control" type="datetime-local" name="endDateString" [(ngModel)]="endDateString">
+              </div> 
             </div>
+            <div class="row my-3">
+            <div class="form-group col-6">
+              <label>Until Date</label>
+              <!-- <input
+              name="lastDateString"
+                class="form-control"
+                type="text"
+                mwlFlatpickr
+                [(ngModel)]="recurringEvent.lastDate"
+                [altInput]="true"
+                [convertModelValue]="true"
+                [enableTime]="true"
+                dateFormat="Y-m-dTH:i"
+                altFormat="F j, Y H:i"
+                placeholder="Not set"
+              /> -->
+              <input class="form-control" type="datetime-local" name="lastDateString" [(ngModel)]="lastDateString">
+          </div>
+        </div>
+        <div class="row my-3">
             <div class="form-group col-6">
               <label>Event details </label>
               <textarea id="EventDetails" class="form-control" name="EventDetails" ></textarea>
 
             </div>
+          </div>
             <div class="form-group mb-3">
-              <button  class="btn btn-primary">
+              <button name="save"  class="btn btn-primary">
                   Save
               </button>
-              <a class="btn btn-link" (click)="activeModal.close('Close click')">Cancel</a>
+              <a class="btn btn-link" name="close" (click)="activeModal.close(false)">Cancel</a>
           </div>
         </form> 
         </div>

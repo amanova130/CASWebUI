@@ -30,6 +30,16 @@ export class TeacherService {
     );
   }
 
+  getNumberOfTeachers()
+  {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<number>(`${this.basePath}/api/Teacher/getNumberOfTeachers`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+
   getTeacherById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getTeacher.');
