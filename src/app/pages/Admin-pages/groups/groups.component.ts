@@ -11,6 +11,7 @@ import { Group } from 'src/services/models/group';
 import { AddEditGroupComponent } from './components/add-edit-group/add-edit-group.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from 'src/services/helperServices/alert.service';
+import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class GroupsComponent implements OnInit {
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
   removeGroup: Group;
-
+  isLoading=false;;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -41,7 +42,9 @@ export class GroupsComponent implements OnInit {
 
   constructor(private groupUtils: GroupUtils,private modalService: NgbModal,private alertService: AlertService, private groupService: GroupService) {}
   ngOnInit(): void {
+    this.isLoading=true;
     this.getAllGroupData();
+    
   }
   selection = new SelectionModel<Group>(true, []);
 
@@ -53,9 +56,7 @@ getAllGroupData(){
     this.dataSource = new MatTableDataSource(this.groupList);
     this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
-  console.log(this.dataSource);
-    // Do something
-    console.log(this.groupList);
+  this.isLoading=false;
   });
 }
 
@@ -107,8 +108,6 @@ openDelete(group:Group = {Id: ""} ){
         {
           this.groupList = this.groupList.filter(item => item.Id !== id);
           this.dataSource = new MatTableDataSource(this.groupList);
-          this.alertService.success("Group deleted successfully!");
-          console.log('Group deleted successfully!');
         }
       
       });

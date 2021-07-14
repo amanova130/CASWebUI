@@ -122,8 +122,7 @@ export class FacultiesComponent implements OnInit, OnDestroy {
         {
           this.facultyList = this.facultyList.filter(item => item.Id !== id);
           this.dataSource = new MatTableDataSource(this.facultyList);
-          this.alertService.success("faculty deleted successfully!");
-          console.log('faculty deleted successfully!');
+
         }
       
       });

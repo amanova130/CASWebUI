@@ -55,7 +55,7 @@ export class CourseService {
 
 
   create(params: any){
-    return this.http.post<Course>(`${this.basePath}/api/Course/createCourse`, params)
+    return this.http.post<Course>(`${this.basePath}/api/Course/createNewCourse`, params)
     .pipe(
       catchError(this.errorHandler)
     )
@@ -71,6 +71,8 @@ export class CourseService {
       catchError(this.errorHandler)
     )
   }
+
+
 
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';

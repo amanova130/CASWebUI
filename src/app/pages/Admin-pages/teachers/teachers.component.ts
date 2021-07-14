@@ -102,6 +102,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
+
   openModal(teacher: Teacher = {Id: ""} ){
     const ref = this.modalService.open(AddEditTeacherComponent, { centered: true });
     ref.componentInstance.teacher = teacher;
@@ -121,7 +122,8 @@ export class TeachersComponent implements OnInit, OnDestroy {
       Last_name: teacher.Last_name
     }
   }
-  deleteSelectedTeacher()
+
+  deleteSelectedTeachers()
   {
     if(this.selection.hasValue())
     {
@@ -136,8 +138,6 @@ export class TeachersComponent implements OnInit, OnDestroy {
         {
           this.teacherList = this.teacherList.filter(item => item.Id !== id);
           this.dataSource = new MatTableDataSource(this.teacherList);
-          this.alertService.success("Teacher deleted successfully!");
-          console.log('Teacher deleted successfully!');
         }
       
       });
@@ -151,7 +151,8 @@ export class TeachersComponent implements OnInit, OnDestroy {
   
   ngOnDestroy()
   {
-    this.teacherListSubscription.unsubscribe();
+    if(this.teacherListSubscription)
+      this.teacherListSubscription.unsubscribe();
   }
 }
 

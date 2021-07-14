@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { CoreModule, FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { AddEditTeacherComponent } from '../teachers/components/add-edit-teacher/add-edit-teacher.component';
-import { TeachersComponent } from '../teachers/teachers.component';
+import { AddEditTeacherComponent } from './teachers/components/add-edit-teacher/add-edit-teacher.component';
+import { TeachersComponent } from './teachers/teachers.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ExamsComponent } from './exams/exams.component';
 import { GroupsComponent } from './groups/groups.component';
@@ -35,6 +35,11 @@ import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { AdminPageComponent } from './admin-page.component';
+import { AdminPageRoutingModule } from './admin-page-routing.module';
+import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
+
+
 
 
 
@@ -57,19 +62,22 @@ import { BrowserModule } from '@angular/platform-browser';
     FacultiesComponent,
     AddEditFacultyComponent,
     AddEditGroupComponent,
-    DashboardComponent
-
+    DashboardComponent,
+    AdminPageComponent,
+    AddEditHolidayComponent,
   ],
   imports: [
     AngularMaterialModule,
     MatIconModule,
     FlexLayoutModule,
+    RouterModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatCheckboxModule,
     CommonModule,
+    AdminPageRoutingModule,
     FormsModule, 
     BrowserAnimationsModule,
     BrowserModule,

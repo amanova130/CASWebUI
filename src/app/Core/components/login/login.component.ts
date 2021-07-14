@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   public onLogin(): void {
     this.markAsDirty(this.loginForm);
     if(this.loginForm.controls['userName'].value == 'admin')
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['secure/admin']);
   }
 
   private markAsDirty(group: FormGroup): void {

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlertComponent } from './alert.component';
+import { AddEditHolidayComponent } from './add-edit-holiday.component';
 
-describe('AlertComponent', () => {
-  let component: AlertComponent;
-  let fixture: ComponentFixture<AlertComponent>;
+describe('AddEditHolidayComponent', () => {
+  let component: AddEditHolidayComponent;
+  let fixture: ComponentFixture<AddEditHolidayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AlertComponent ]
+      declarations: [ AddEditHolidayComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AlertComponent);
+    fixture = TestBed.createComponent(AddEditHolidayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
