@@ -30,7 +30,11 @@ import { EmailComponent } from './email/email.component';
 import { FacultiesComponent } from './faculty/faculties.component';
 import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/add-edit-faculty.component';
 import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -38,13 +42,13 @@ import { AddEditGroupComponent } from './groups/components/add-edit-group/add-ed
   declarations: [
     GroupsComponent,
     HolidayComponent,
-    TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
     LinksComponent,
     RequestsComponent,
     TeachersComponent,
     AddEditTeacherComponent,
+    TimeTableComponent,
     CoursesComponent,
     EventModalComponent,
     AddEditStudentComponent,
@@ -52,7 +56,8 @@ import { AddEditGroupComponent } from './groups/components/add-edit-group/add-ed
     EmailComponent,
     FacultiesComponent,
     AddEditFacultyComponent,
-    AddEditGroupComponent
+    AddEditGroupComponent,
+    DashboardComponent
 
   ],
   imports: [
@@ -66,11 +71,16 @@ import { AddEditGroupComponent } from './groups/components/add-edit-group/add-ed
     MatCheckboxModule,
     CommonModule,
     FormsModule, 
+    BrowserAnimationsModule,
+    BrowserModule,
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,
     CoreModule,
-    FlatpickrModule.forRoot(),
+    NgxChartsModule,
+    RouterModule,
+    FlatpickrModule.forRoot(
+      ),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
@@ -84,13 +94,16 @@ import { AddEditGroupComponent } from './groups/components/add-edit-group/add-ed
     ReportsComponent,
     LinksComponent,
     RequestsComponent,
+    TimeTableComponent,
     TeachersComponent,
     AddEditTeacherComponent,
     CoursesComponent,
     AddEditStudentComponent,  
     FacultiesComponent,
     AddEditFacultyComponent,
-    AddEditGroupComponent
+    AddEditGroupComponent,
+    DashboardComponent
+
 
   ]
 })

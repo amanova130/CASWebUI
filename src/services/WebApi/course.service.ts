@@ -24,6 +24,15 @@ export class CourseService {
     })
     );
   }
+  getNumberOfCourses()
+  {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<number>(`${this.basePath}/api/Course/getNumberOfCourses`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
 
   getCourseById(id: string){
     if (id === null || id === undefined) {

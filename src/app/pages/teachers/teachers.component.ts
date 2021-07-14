@@ -46,6 +46,8 @@ export class TeachersComponent implements OnInit, OnDestroy {
   @ViewChild('myTable')
   myTable!: MatTable<any>;
 
+
+  
   constructor(private teacherUtils: TeacherUtils, private teacherService: TeacherService, private modalService: NgbModal,public datepipe: DatePipe, private alertService: AlertService) {}
   ngOnInit(): void {
     this.getAllTeacherData();
@@ -105,7 +107,11 @@ export class TeachersComponent implements OnInit, OnDestroy {
     ref.componentInstance.teacher = teacher;
     ref.componentInstance.teacher.Birth_date=this.datepipe.transform(teacher.Birth_date,'yyyy-MM-dd');
     ref.componentInstance.teacherList = this.teacherList;
-    
+    ref.result.then((result) => {
+      if (result) {
+      this.refreshData();
+      }
+      });
   }
 
   openDelete(teacher:Teacher = {Id: ""} ){
@@ -138,7 +144,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
     }
   }
 
-  refresh(){
+  refreshData(){
     this.getAllTeacherData();
     console.log("Refresh done");
   }

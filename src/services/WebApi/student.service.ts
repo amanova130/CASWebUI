@@ -24,6 +24,25 @@ export class StudentService {
     );
   }
 
+  getNumberOfStudents()
+  {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<number>(`${this.basePath}/api/Student/getNumberOfStudents`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  getNumberOfStudentsInClass(groupNum:string)
+  {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<number>(`${this.basePath}/api/Student/getNumberOfStudentsInClass?id=${encodeURIComponent(String(groupNum))}`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  
   getStudentById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getStudent.');
@@ -73,3 +92,5 @@ errorHandler(error: { error: { message: string; }; status: any; message: any; })
   return throwError(errorMessage);
 }
 }
+
+

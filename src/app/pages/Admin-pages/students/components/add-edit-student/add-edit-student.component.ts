@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, switchMap } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class AddEditStudentComponent implements OnInit {
   loading = false;
   submitted = false;
   newStudent!: Student;
+  
   checkedList: any;
   currentSelected!: {};
   address: AddressBook = {
@@ -40,7 +41,11 @@ export class AddEditStudentComponent implements OnInit {
     LogIn:new Date(),
     LogOff:new Date()
   }
-  
+  editStudent:Student = {
+    Id: "",
+    Address: this.address,
+    PersonalUser:this.user,
+  };
   @Input()
     public student: Student = {
       Id: "",
@@ -51,6 +56,7 @@ export class AddEditStudentComponent implements OnInit {
 
   @Input()
     public studentList!: Student[];
+  
 
     @ViewChild('form') form!: any;
 
@@ -63,6 +69,19 @@ export class AddEditStudentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.editStudent={
+      Id:this.student.Id,
+      First_name:this.student.First_name,
+      Last_name:this.student.Last_name,
+      Phone:this.student.Phone,
+      Email:this.student.Email,
+      Gender:this.student.Gender,
+      Birth_date:this.student.Birth_date,
+      Group_Id:this.student.Group_Id,
+      PersonalUser:this.student.PersonalUser,
+      Address:this.student.Address,
+      Status:true,
+    }
     this.getGroups();
     console.log(this.groupList);
     console.log(this.student);
@@ -110,6 +129,7 @@ private getGroups(){
 
 
 private createStudent() {
+  this.student=this.editStudent;
   this.student.Address = this.address;
   this.student.PersonalUser=this.user;
     this.studentService.create(this.student)
@@ -119,7 +139,7 @@ private createStudent() {
         {
           this.studentList.push(result);
             this.alertService.success('Added new Student profile', { keepAfterRouteChange: true });
-            this.activeModal.close();
+            this.activeModal.close(true);
         }  
         else
             this.alertService.error('Cannot add a new Student');
@@ -128,17 +148,18 @@ private createStudent() {
 }
 
 private updateStudent() {
-  this.student.Address = this.address;
-  this.student.PersonalUser=this.user;
-      this.studentService.update(this.student)
+  this.editStudent.Address = this.address;
+  this.editStudent.PersonalUser=this.user;
+      this.studentService.update(this.editStudent)
       .pipe(first()).subscribe(result => {
           if(result)
           {
+            this.student=this.editStudent;
             let x = this.studentList.find(x => x.Id === this.student.Id)
             let index = this.studentList.indexOf(x!)
             this.studentList[index] = this.student;
               this.alertService.success('Student data updated', { keepAfterRouteChange: true });
-              this.activeModal.close();
+              this.activeModal.close(true);
           }
           else
               this.alertService.error('Cannot Update a student data, please try again');
@@ -148,7 +169,7 @@ private updateStudent() {
 
   choosenGroup(event: string)
   {
-    this.student.Group_Id = event;
+    this.editStudent.Group_Id = event;
     //console.log(this.student.TeachesCourses);
   }
 

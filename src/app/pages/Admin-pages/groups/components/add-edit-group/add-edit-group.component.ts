@@ -34,13 +34,9 @@ export class AddEditGroupComponent implements OnInit {
     Street: "",
     ZipCode: 0
   };
-  /*user:User={
-    UserName:"",
-    Password:"",
-    LogIn:new Date(),
-    LogOff:new Date()
-  }*/
-  
+  editGroup:Group = {
+    Id: "",
+  };
   @Input()
     public group: Group = {
       Id: "",    
@@ -63,25 +59,21 @@ export class AddEditGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.editGroup={
+      Id:this.group.Id,
+      GroupNumber:this.group.GroupNumber,
+      AcademicYear:this.group.AcademicYear,
+      Fac_Name:this.group.Fac_Name,
+      NumberOfStudent:this.group.NumberOfStudent,
+      Semester:this.group.Semester,
+      courses:this.group.courses,
+      Status:true,
+    }
     this.getFaculties();
     this.getCourses();
     console.log(this.groupList);
     console.log(this.group);
     this.isAddMode = !this.group.Id;
-  /* if(!this.isAddMode){
-     this.address={
-       City: this.student.Address.City,
-       Street:this.student.Address.Street,
-       ZipCode: this.student.Address.ZipCode
-     }
-     this.user={
-       UserName:this.student.PersonalUser.UserName,
-       Password:this.student.PersonalUser.Password,
-       LogIn:this.student.PersonalUser.LogIn,
-       LogOff:this.student.PersonalUser.LogOff 
-     }
-   }*/
 }
 
 onSubmit() {
@@ -119,8 +111,7 @@ private getFaculties(){
 
 
 private createGroup() {
-  //this.student.Address = this.address;
-  //this.student.PersonalUser=this.user;
+  this.group=this.editGroup;
     this.groupService.create(this.group)
     .pipe(first())
     .subscribe(result => {
@@ -128,7 +119,7 @@ private createGroup() {
         {
           this.groupList.push(result);
             this.alertService.success('Added new Group profile', { keepAfterRouteChange: true });
-            this.activeModal.close();
+            this.activeModal.close(true);
         }  
         else
             this.alertService.error('Cannot add a new Group');
@@ -137,17 +128,16 @@ private createGroup() {
 }
 
 private updateGroup() {
- // this.student.Address = this.address;
- // this.student.PersonalUser=this.user;
-      this.groupService.update(this.group)
+      this.groupService.update(this.editGroup)
       .pipe(first()).subscribe(result => {
           if(result)
           {
+            this.group=this.editGroup;
             let x = this.groupList.find(x => x.Id === this.group.Id)
             let index = this.groupList.indexOf(x!)
             this.groupList[index] = this.group;
               this.alertService.success('Group data updated', { keepAfterRouteChange: true });
-              this.activeModal.close();
+              this.activeModal.close(true);
           }
           else
               this.alertService.error('Cannot Update a student data, please try again');
@@ -157,12 +147,12 @@ private updateGroup() {
 
   choosenFaculty(event: string)
   {
-    this.group.Fac_Name = event;
+    this.editGroup.Fac_Name = event;
     //console.log(this.student.TeachesCourses);
   }
   choosenCourse(event: string[])
   {
-    this.group.courses = event;
+    this.editGroup.courses = event;
     console.log(this.group.courses);
   }
 

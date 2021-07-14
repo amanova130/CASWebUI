@@ -1,3 +1,4 @@
+@import '~angular-calendar/scss/angular-calendar.scss';
 h3 {
     margin: 0 0 10px;
   }
@@ -10,3 +11,42 @@ h3 {
   button{
     margin:5px;
   }
+  mat-form-field{
+  margin: auto;
+  width: 8%;
+  padding: 10px;
+  background: white;  
+  }
+
+
+mat-select{
+  font-weight: 500;  
+  font-style: italic;
+  }
+  mat-label{
+    opacity:0.6;
+    text-align: center;
+  }
+ 
+  ::ng-deep.cal-week-view .cal-time-events .cal-event {
+    background-color: rgb(240, 241, 229) !important;
+    border-width: 3px !important;
+    border-style: none none none solid !important;
+  }
+  ::ng-deep.cal-event-title{
+    font-size: 15px !important;
+    font-style: italic;
+  }
+
+  ::ng-deep.ng-start-inserted {
+    width: 10px;
+    height: 10px;
+    border-radius:0%;
+    display: inline-block;
+    margin: 2px;
+}
+.mat-card.calendar
+{
+  margin:10px;
+}
+

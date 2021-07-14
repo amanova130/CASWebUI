@@ -29,6 +29,15 @@ export class FacultyService {
     );
   }
 
+  getNumberOfFaculties()
+  {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<number>(`${this.basePath}/api/Faculty/getNumberOfFaculties`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
   getFacultyById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getFacultyById.');

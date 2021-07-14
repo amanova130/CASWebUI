@@ -10,7 +10,7 @@
             <div>
                 <div class="form-group"  >
                     <label>Group Number</label>
-                    <input [readonly]= "!isAddMode" type="text" class="form-control" id="Group_Number" name="Group_Number" [(ngModel)]="group.GroupNumber" #Id='ngModel' required
+                    <input [readonly]= "!isAddMode" type="text" class="form-control" id="Group_Number" name="Group_Number" [(ngModel)]="editGroup.GroupNumber" #Id='ngModel' required
                     length="9" />
                     <div class="alert alert-danger" *ngIf="Id.errors && (Id.dirty || form.submitted)">
                         <div *ngIf="Id.errors.required">Group Number is required.</div>
@@ -20,25 +20,25 @@
             <div class="row my-3">
                 <div class="form-group col-6">
                     <label>Number Of Students</label>
-                    <input type="number" id="NumberOfStudent" class="form-control" name="NumberOfStudent" [(ngModel)]="group.NumberOfStudent"  required #NumberOfStudent="ngModel"/>
+                    <input type="number" id="NumberOfStudent" class="form-control" name="NumberOfStudent" [(ngModel)]="editGroup.NumberOfStudent"  required #NumberOfStudent="ngModel"/>
                     <div class="alert alert-danger" *ngIf="NumberOfStudent.errors && (NumberOfStudent.dirty || form.submitted)">
                         <div *ngIf="NumberOfStudent.errors.required">Number Of Student is required.</div>
                     </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Academic Year</label>
-                    <input type="number" id="AcademicYear" class="form-control" name="AcademicYear" [(ngModel)]="group.AcademicYear" required
+                    <input type="number" id="AcademicYear" class="form-control" name="AcademicYear" [(ngModel)]="editGroup.AcademicYear" required
                     #AcademicYear="ngModel">
                     <div class="form-control-feedback  alert alert-danger"
                         *ngIf="AcademicYear.errors && (AcademicYear.dirty || form.submitted)">
-                        <p *ngIf="AcademicYear.errors.required">Last name is required</p>
+                        <p *ngIf="AcademicYear.errors.required">Academic Year is required</p>
                     </div>
                 </div>
              </div>
             <div class="row mb-3">
                 <div class="form-group col-6">
                     <label>Semester</label>
-                    <input type="number" id="Semester" class="form-control"  name="Semester" [(ngModel)]="group.Semester" required #Semester="ngModel"/>
+                    <input type="number" id="Semester" class="form-control"  name="Semester" [(ngModel)]="editGroup.Semester" required #Semester="ngModel"/>
                     <div class="form-control-feedback alert alert-danger"
                     *ngIf="Semester.errors && (Semester.dirty || form.submitted)">
                    <p *ngIf="Semester.errors.required">Semester is required</p>
@@ -51,11 +51,11 @@
                 
                     <mat-form-field appearance="fill">
                         <mat-label>Choose Faculty</mat-label>
-                        <mat-select [(ngModel)]="group.Fac_Name" (valueChange)="choosenFaculty($event)" name="Faculty" required>
+                        <mat-select [(ngModel)]="editGroup.Fac_Name" (valueChange)="choosenFaculty($event)" name="Faculty" required>
                             <mat-option>--</mat-option>
                             <mat-option *ngFor="let c of facultyList" [value]="c.FacultyName">{{c.FacultyName}}</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="groupControl.hasError('required')">Please choose a group</mat-error>
+                        <mat-error *ngIf="groupControl.hasError('required')">Please choose a faculty</mat-error>
 
                     </mat-form-field>
 
@@ -63,7 +63,7 @@
         <div class="form-group col-6">
             <mat-form-field appearance="fill">
                 <mat-label>Courses</mat-label>
-                <mat-select [(ngModel)]="group.courses" (valueChange)="choosenCourse($event)" name="courses" multiple required>
+                <mat-select [(ngModel)]="editGroup.courses" (valueChange)="choosenCourse($event)" name="courses" multiple required>
                   <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
                 </mat-select>
               </mat-form-field>
