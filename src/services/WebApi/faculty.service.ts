@@ -5,13 +5,14 @@ import { throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Faculty } from '../models/faculty';
 import { FacultyUtils } from '../utils/facultyUtils';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacultyService {
-  protected basePath = 'https://localhost:5001';
+  protected basePath = environment.basePath;;
    
   constructor(protected http: HttpClient, private facultyUtil: FacultyUtils,public datepipe: DatePipe) {}
 

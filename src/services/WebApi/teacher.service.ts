@@ -5,6 +5,7 @@ import { TeacherUtils } from '../utils/teacherUtils';
 import {catchError, map, tap} from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -12,24 +13,24 @@ import { DatePipe } from '@angular/common';
   providedIn: 'root'
 })
 export class TeacherService {
-  protected basePath = 'https://localhost:5001';
+  protected basePath = environment.basePath; // Path to connect with Backend
    
   constructor(protected http: HttpClient, private teachersUtil: TeacherUtils,public datepipe: DatePipe) {}
 
-
+// Get All teachers list
+// @return: Teacher list
+// Setting Teacher list for refresh every specific time
   getAllTeachers(){
-
     return this.http.get<Teacher[]>(`${this.basePath}/api/Teacher/getAllTeachers`).pipe(map( (teacherList: Teacher[])=>{
-    
       return teacherList;
     }),
-    
     tap((teacherList: Teacher[]) =>{
       this.teachersUtil.setTeacherList(teacherList);
     })
     );
   }
 
+  // Get Number of Teachers
   getNumberOfTeachers()
   {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -39,7 +40,7 @@ export class TeacherService {
     )
   }
 
-
+// Get Teacher Profile by Id
   getTeacherById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getTeacher.');
@@ -49,6 +50,7 @@ export class TeacherService {
   )
  }
 
+//  Delete Teacher porfile by Id
   deleteById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiTeacherIdDelete.');
@@ -59,7 +61,7 @@ export class TeacherService {
     )
   }
 
-
+// Create a new Teacher profile
   create(params: any){
     if (params.Id === null || params.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiTeacherCreate.');
@@ -70,6 +72,7 @@ export class TeacherService {
     )
   }
 
+  // Update existed teacher profile
   update(teacherIn: Teacher){
     if (teacherIn.Id === null || teacherIn.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
@@ -81,6 +84,7 @@ export class TeacherService {
     )
   }
 
+  // Error Handler for HTTP response
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
     if(error.error instanceof ErrorEvent) {

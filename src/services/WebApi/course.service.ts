@@ -4,13 +4,14 @@ import {catchError, map, tap} from 'rxjs/operators';
 import { Observable, pipe, throwError } from 'rxjs';
 import { Course } from '../models/course';
 import { CourseUtils } from '../utils/courseUtils';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
-  protected basePath = 'https://localhost:5001';
+  protected basePath = environment.basePath;
   
     constructor(protected http: HttpClient, private courseUtil: CourseUtils) {  }
    

@@ -7,16 +7,17 @@ import{CalendarEvent} from 'angular-calendar'
 
 import { HttpClient, HttpHeaders,HttpParams} from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
-
+  protected basePath = environment.basePath;
   constructor(private eventUtils: EventUtils,  private http: HttpClient) { }
 
   getAllEvents(){
-    return this.http.get<Event[]>('https://localhost:5001/api/Event').pipe(map( (eventList: Event[])=>{
+    return this.http.get<Event[]>(`${this.basePath}/api/Event`).pipe(map( (eventList: Event[])=>{
       return eventList;
     }),
     tap((eventList: Event[]) =>{
@@ -28,7 +29,7 @@ export class EventsService {
   setEvents(event:CalendarEvent)
   {
     
-      this.http.post<CalendarEvent>('https://localhost:5001/api/Event',event).subscribe(event=>console.log("event",event));
+      this.http.post<CalendarEvent>(`${this.basePath}/api/Event`,event).subscribe(event=>console.log("event",event));
 
   }
 }
