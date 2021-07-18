@@ -83,7 +83,7 @@ refresh: Subject<any> = new Subject();
       this.scheduleService.addEventToSchedule(this.recurringEvent,this.timeTable.CalendarName)
       .subscribe(result => {
           console.log(result);
-          this.alertService.success("Event Added successfully!");
+          //this.alertService.success("Event Added successfully!");
 
           this.activeModal.close(true);
 

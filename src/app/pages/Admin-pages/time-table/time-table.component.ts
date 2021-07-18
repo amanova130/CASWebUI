@@ -299,7 +299,7 @@ deleteEvent(eventToDelete: CalendarEvent) {
       .subscribe(result => {
         if(result)
         {
-          this.alertService.success("Event deleted successfully!");
+          //this.alertService.success("Event deleted successfully!");
 
         this.calendarEvents = this.calendarEvents.filter((event) => event !== eventToDelete);
         this.recurringEvents=this.recurringEvents.filter((event) => event !== recEvent);

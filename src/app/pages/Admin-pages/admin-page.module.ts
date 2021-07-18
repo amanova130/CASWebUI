@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule, FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { AddEditTeacherComponent } from './teachers/components/add-edit-teacher/add-edit-teacher.component';
@@ -32,12 +32,12 @@ import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/a
 import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 
@@ -79,12 +79,9 @@ import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/a
     CommonModule,
     AdminPageRoutingModule,
     FormsModule, 
-    BrowserAnimationsModule,
-    BrowserModule,
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,
-    CoreModule,
     NgxChartsModule,
     RouterModule,
     FlatpickrModule.forRoot(

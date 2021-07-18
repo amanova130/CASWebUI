@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -13,6 +13,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditStudentComponent } from './components/add-edit-student/add-edit-student.component';
 import { DatePipe } from '@angular/common';
 import { AlertService } from 'src/services/helperServices/alert.service';
+import { UploadFileService } from 'src/services/WebApi/uploadFile.service';
+import * as XLSX from 'xlsx';  
+import { saveAs } from 'file-saver'
+
+
 
 
 
@@ -49,8 +54,9 @@ export class StudentsComponent implements OnInit{
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
+  @ViewChild('TABLE') table: ElementRef;
 
-  constructor(private studentService: StudentService,private modalService: NgbModal,public datepipe:DatePipe) {}
+  constructor(private studentService: StudentService,private modalService: NgbModal,public datepipe:DatePipe, private uploadFileService: UploadFileService, private alertService: AlertService) {}
   ngOnInit(): void {
     this.isLoading=true;
     this.getAllStudentData();
@@ -130,6 +136,20 @@ export class StudentsComponent implements OnInit{
       
       });
     }
+  }
+
+  exportExcell(){
+    this.uploadFileService.exportToExcell('student').subscribe( response => {
+      if(response.size > 0)
+      {
+        saveAs(response, "ReportStudents.xls");
+        this.alertService.openAlertMsg("success", "Excell file is ready");
+      }
+      else
+      {
+        this.alertService.openAlertMsg("error", "Something went wrong");
+      }
+    })
   }
 
 

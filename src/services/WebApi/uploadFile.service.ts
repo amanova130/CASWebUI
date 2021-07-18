@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 
@@ -16,10 +16,16 @@ export class UploadFileService {
     {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   
-      return this.http.post('https://localhost:5001/api/Course/UploadImage', formData)
+      return this.http.post(`${this.basePath}/api/FileHandler/UploadImage`, formData)
       .pipe(
         catchError(this.errorHandler)
       )
+    }
+
+    exportToExcell(className: any): Observable<Blob> 
+    {
+        return this.http.get<any>(`${this.basePath}/api/FileHandler/exportToExcell?className=${encodeURIComponent(className)}` , { responseType: 'blob' as 'json' });
+        
     }
 
 
