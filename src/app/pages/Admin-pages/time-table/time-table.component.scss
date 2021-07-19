@@ -37,7 +37,10 @@ mat-select{
     font-size: 15px !important;
     font-style: italic;
   }
-
+  // ::ng-deep.cal-cell-top 
+  // {
+   
+  // }
   ::ng-deep.ng-start-inserted {
     width: 10px;
     height: 10px;
@@ -50,3 +53,13 @@ mat-select{
   margin:10px;
 }
 
+.addButton
+{
+  color:grey;
+  margin-left:90%;
+ 
+}
+.addButton:hover
+{
+  color:rgba(25, 13, 70, 0.829)
+}

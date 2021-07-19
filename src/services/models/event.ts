@@ -1,16 +1,20 @@
-import { AddressBook } from './addressBook';
-import { StudExam } from './studExam';
-import { User } from './user';
+import { CalendarEventAction } from "angular-calendar";
+import RRule from "rrule";
+import { Teacher } from "./teacher";
 
-export interface Event { 
-    startDate?: Date;
-    endDate?: Date;
-    title?: string;
-    color?: Color;
-    allDay?: boolean;
-   
-}
-export interface Color{
-    primary?:string;
-    secondary?:string;
-}
+/* Model that contains data about schedule*/
+export interface Schedule {
+    Start:Date,
+    End:Date,
+    Title: string;
+    Color: any;
+    rrule?: {
+      freq: any;
+      bymonth?: number;
+      bymonthday?: number;
+      byweekday?: any;
+    };
+    LastDate:Date,
+    EventId?:string,
+    Teacher?:Teacher
+  }

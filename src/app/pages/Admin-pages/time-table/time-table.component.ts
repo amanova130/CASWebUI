@@ -18,18 +18,18 @@ import {
   CalendarDayViewBeforeRenderEvent,
   CalendarEvent,
   CalendarEventAction,
+  CalendarEventTitleFormatter,
   CalendarMonthViewBeforeRenderEvent,
   CalendarView,
   CalendarWeekViewBeforeRenderEvent,
 } from 'angular-calendar';
 import { EventUtils } from 'src/services/utils/eventUtils';
-import { EventsService } from 'src/services/WebApi/event.service';
 import { FormControl, Validators } from '@angular/forms';
 import { EventModalComponent } from './components/event-modal/event-modal.component';
 import { DatePipe } from '@angular/common';
 import moment from 'moment-timezone';
 import { ViewPeriod } from 'calendar-utils';
-import { Schedule } from 'src/services/models/recurringEvent';
+import { Schedule } from 'src/services/models/event';
 import { TimeTableService } from 'src/services/WebApi/timeTable.service';
 import { TimeTable } from 'src/services/models/timeTable';
 import { switchMap } from 'rxjs/operators';
@@ -37,6 +37,7 @@ import { GroupService } from 'src/services/WebApi/group.service';
 import { Group } from 'src/services/models/group';
 import { ScheduleService } from 'src/services/WebApi/schedule.service';
 import { AlertService } from 'src/services/helperServices/alert.service';
+import { CustomEventTitleFormatter } from './custom-event-title-formatter';
 
 moment.tz.setDefault('Utc');
 
@@ -46,6 +47,12 @@ moment.tz.setDefault('Utc');
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './time-table.component.html',
   styleUrls: ['./time-table.component.scss'],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: CustomEventTitleFormatter,
+    },
+  ],
 })
 export class TimeTableComponent implements OnInit  {
   @ViewChild('modalContent', { static: true })
@@ -60,10 +67,10 @@ public dateString:string
   viewDate: Date = new Date();
   
   public recurringEvent:Schedule={
-    start:this.viewDate,
-    end:this.viewDate,
-    title: 'test',
-    color:
+    Start:this.viewDate,
+    End:this.viewDate,
+    Title: 'test',
+    Color:
     {
       primary:"#ad2121",
       secondary:"#ad2121"
@@ -72,7 +79,7 @@ public dateString:string
       freq: RRule.WEEKLY,
       byweekday: this.viewDate.getDay(),
   },
-    lastDate:this.viewDate
+    LastDate:this.viewDate
 }
   public timeTable:TimeTable;
 
@@ -128,14 +135,15 @@ public dateString:string
     {
       this.timeTable = timeTable;
       this.timeTable.GroupSchedule.forEach(lesson => {
-        this.recurringEvent.start=new Date(lesson.start),
-        this.recurringEvent.title=lesson.title,
-        this.recurringEvent.end=new Date(lesson.end),
-        this.recurringEvent.lastDate=new Date(lesson.lastDate);
-        this.recurringEvent.color.primary=lesson.color,
-        this.recurringEvent.color.secondary=lesson.color,
-        this.recurringEvent.rrule.byweekday=new Date(lesson.start).getDay();
-        this.recurringEvent.eventId=lesson.eventId;
+        this.recurringEvent.Start=new Date(lesson.Start),
+        this.recurringEvent.Title=lesson.Title,
+        this.recurringEvent.End=new Date(lesson.End),
+        this.recurringEvent.LastDate=new Date(lesson.LastDate);
+        this.recurringEvent.Color.primary=lesson.Color,
+        this.recurringEvent.Color.secondary=lesson.Color,
+        this.recurringEvent.rrule.byweekday=new Date(lesson.Start).getDay();
+        this.recurringEvent.EventId=lesson.EventId;
+        this.recurringEvent.Teacher=lesson.Teacher;
         this.addEvent();
       });
       
@@ -176,26 +184,35 @@ public dateString:string
         this.recurringEvents.length === 0
       ) {
         this.activeDayIsOpen = false;
+
       } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
-      
+        this.activeDayIsOpen = true;    
+      }   
     }
- this.recurringEvent.rrule.byweekday=this.viewDate.getDay();
-   this.openModal(true);     
+    this.viewDate = date;
+    this.recurringEvent.rrule.byweekday=this.viewDate.getDay();
+  // this.openModal(true);     
   }
 
-  openModal(isAddMode:boolean)
+  openAddModal({ date}: { date: Date;  })
   {
+    this.viewDate=date;
     const ref=this.modalService.open(EventModalComponent,{centered:true});
     ref.componentInstance.viewDate=this.viewDate;
-    ref.componentInstance.isAddMode=isAddMode;
+    ref.componentInstance.isAddMode=true;
     ref.componentInstance.recurringEvent=this.recurringEvent;
     ref.componentInstance.timeTable=this.timeTable;
+   ref.componentInstance.isAddMode=true;
+    for(let group of this.groupList)
+      {
+      if(group.GroupNumber === this.chosenGroup)
+      {
+      ref.componentInstance.courses = group.courses;
+      break;
+      }
+}
     ref.result.then((result) => {
       if (result) {
-        if(isAddMode)
           this.addEvent();
       
       this.cdr.detectChanges();
@@ -203,6 +220,7 @@ public dateString:string
       }
       });
   }
+ 
 
   handleEvent(action: string, event: CalendarEvent): void {
     // this.modalData = { event, action };
@@ -212,39 +230,42 @@ public dateString:string
 
   addEvent(): void {
     const newEvent:Schedule={
-      start:this.recurringEvent.start,
-      end:this.recurringEvent.end,
-      title: this.recurringEvent.title,
-      color:{
-        primary:this.recurringEvent.color.primary,
-        secondary:this.recurringEvent.color.primary
+      Start:this.recurringEvent.Start,
+      End:this.recurringEvent.End,
+      Title: this.recurringEvent.Title,
+      Color:{
+        primary:this.recurringEvent.Color.primary,
+        secondary:this.recurringEvent.Color.primary
       },
       rrule: {
         freq: RRule.WEEKLY,
         byweekday: this.recurringEvent.rrule.byweekday -1 < 0 ? 6: this.recurringEvent.rrule.byweekday-1,
         
     },
-    eventId:this.recurringEvent.eventId,
-    lastDate:this.recurringEvent.lastDate
+    EventId:this.recurringEvent.EventId,
+    LastDate:this.recurringEvent.LastDate,
+    Teacher:this.recurringEvent.Teacher
   };
     
     this.recurringEvents = [
       ...this.recurringEvents,
       {
-          start:newEvent.start,
-          end:newEvent.end,
-          title: newEvent.title,
-          color:{
-            primary:newEvent.color.primary,
-            secondary:newEvent.color.primary
+          Start:newEvent.Start,
+          End:newEvent.End,
+          Title: newEvent.Title,
+          Color:{
+            primary:newEvent.Color.primary,
+            secondary:newEvent.Color.primary
           },
           rrule: {
             freq: RRule.WEEKLY,
             byweekday: newEvent.rrule.byweekday,
            
         },
-        lastDate:newEvent.lastDate,
-        eventId:newEvent.eventId
+        LastDate:newEvent.LastDate,
+        EventId:newEvent.EventId,
+        Teacher:newEvent.Teacher
+
       },
     ];
     
@@ -259,27 +280,27 @@ this.refresh.next();
   {
     const rule: RRule = new RRule({
       ...event.rrule,
-      dtstart: moment(event.start).startOf('day').toDate(),
-      until: moment(event.lastDate).endOf('day').toDate(),
+      dtstart: moment(event.Start).startOf('day').toDate(),
+      until: moment(event.LastDate).endOf('day').toDate(),
       
     });
-    const { title } = event;
+    const { Title: title } = event;
 
     rule.all().forEach((date) => {
       let startOfEvent=new Date(date);
       let endOfEvent=new Date(date);
-      startOfEvent.setHours(event.start.getHours());
-      endOfEvent.setHours(event.end.getHours());
+      startOfEvent.setHours(event.Start.getHours());
+      endOfEvent.setHours(event.End.getHours());
 
-      startOfEvent.setMinutes(event.start.getMinutes());
-      endOfEvent.setMinutes(event.end.getMinutes());
+      startOfEvent.setMinutes(event.Start.getMinutes());
+      endOfEvent.setMinutes(event.End.getMinutes());
       
         this.calendarEvents.push({
           title,
           actions:this.actions,
           color:{
-            primary:event.color.primary,
-            secondary:event.color.primary
+            primary:event.Color.primary,
+            secondary:event.Color.primary
           },
           start:moment(startOfEvent).toDate(),
           end:moment(endOfEvent).toDate(),
@@ -289,13 +310,21 @@ this.refresh.next();
 
 editEvent(eventToEdit:CalendarEvent)
 {
-  this.openModal(false);
+  for(let recEvent of this.recurringEvents) {
+    if(recEvent.Title == eventToEdit.title && recEvent.Start.getDay() == eventToEdit.start.getDay())
+      {
+        this.recurringEvent=recEvent;
+        break;
+      }
+}
+//this.openEditModal();
+
 }
 deleteEvent(eventToDelete: CalendarEvent) {
   for(let recEvent of this.recurringEvents) {
-    if(recEvent.title == eventToDelete.title && recEvent.start.getDay() == eventToDelete.start.getDay())
+    if(recEvent.Title == eventToDelete.title && recEvent.Start.getDay() == eventToDelete.start.getDay())
       {
-      this.scheduleService.deleteEvent(recEvent.eventId,this.timeTable.CalendarName)
+      this.scheduleService.deleteEvent(recEvent.EventId,this.timeTable.CalendarName)
       .subscribe(result => {
         if(result)
         {

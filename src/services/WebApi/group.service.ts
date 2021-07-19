@@ -13,7 +13,8 @@ export class GroupService {
   protected basePath = environment.basePath;;
 
   constructor(private groupUtils: GroupUtils,  private http: HttpClient) { }
-
+  
+  //Function to get all groups from web api
   getAllGroups(){
     return this.http.get<Group[]>(`${this.basePath}/api/Group/getAllGroups`).pipe(map( (groupList: Group[])=>{
       return groupList;
@@ -24,6 +25,7 @@ export class GroupService {
     );
   }
 
+ //function to get total number of groups from web api
   getNumberOfGroups()
   {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -33,6 +35,7 @@ export class GroupService {
     )
   }
 
+//function to get single group from web api by given id
   getGroupById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getStudent.');
@@ -42,6 +45,7 @@ export class GroupService {
   )
  }
 
+  //function to delete single group with given id
  deleteById(id: string){
   if (id === null || id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiGroupIdDelete.');
@@ -52,6 +56,7 @@ export class GroupService {
   )
 }
 
+//function to add new group to web api
 create(params: any){
   if (params.Id === null || params.Id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentCreate.');
@@ -63,7 +68,7 @@ create(params: any){
   )
 }
 
-
+  //update existing group in web api
 update(groupIn:Group){
   console.log(groupIn);
 
@@ -73,6 +78,7 @@ update(groupIn:Group){
     catchError(this.errorHandler)
   )
 }
+//error handler for http response
 
 errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
   let errorMessage = '';

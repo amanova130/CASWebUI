@@ -79,6 +79,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     CommonModule,
     AdminPageRoutingModule,
     FormsModule, 
+    //BrowserAnimationsModule,
+    //BrowserModule,
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,

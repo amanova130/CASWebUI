@@ -14,7 +14,6 @@ import { AddEditStudentComponent } from './components/add-edit-student/add-edit-
 import { DatePipe } from '@angular/common';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { UploadFileService } from 'src/services/WebApi/uploadFile.service';
-import * as XLSX from 'xlsx';  
 import { saveAs } from 'file-saver'
 
 
@@ -40,7 +39,6 @@ export class StudentsComponent implements OnInit{
     'Birth_date',
     'Address',
     'Group_Id',
-    'PersonalUser',
   'action'];
   dataSource!: MatTableDataSource<Student>;
   studentList: Student[] = [];
@@ -60,6 +58,7 @@ export class StudentsComponent implements OnInit{
   ngOnInit(): void {
     this.isLoading=true;
     this.getAllStudentData();
+    
     
   }
   selection = new SelectionModel<Student>(true, []);

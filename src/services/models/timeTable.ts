@@ -1,4 +1,6 @@
-import { Schedule } from "./recurringEvent";
+import { Schedule } from "./event";
+
+/* Model that contains data about timeTable*/
 
 export interface TimeTable { 
     Id?:string

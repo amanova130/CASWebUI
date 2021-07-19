@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { TimeTable } from '../models/timeTable';
-import { Schedule } from '../models/recurringEvent';
+import { Schedule } from '../models/event';
 import { group } from '@angular/animations';
 import { environment } from 'src/environments/environment';
 
@@ -12,21 +12,26 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ScheduleService {
+  
+
   protected basePath = environment.basePath;
 
   constructor(private http: HttpClient) { }
 
   // Add a new Event for Group
   addEventToSchedule(event: Schedule, groupId: string) {
-    const param = {
-      start: event.start,
-      end: event.end,
-      title: event.title,
-      color: event.color.primary,
-      groupName: groupId,
-      lastDate: event.lastDate,
-      eventId: event.eventId
+    const param={
+      
+      Start:event.Start,
+      End:event.End,
+      Title:event.Title,
+      Color:event.Color.primary,
+      GroupName:groupId,
+      LastDate:event.LastDate,
+      EventId:event.EventId,
+      Teacher:event.Teacher
     }
+    
     if (event === null || event === undefined || groupId === null || groupId === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiScheduleCreate.');
     }

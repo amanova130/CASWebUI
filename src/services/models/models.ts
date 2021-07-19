@@ -1,6 +1,5 @@
 export * from './addressBook';
 export * from './admin';
-export * from './books';
 export * from './course';
 export * from './exam';
 export * from './faculty';
