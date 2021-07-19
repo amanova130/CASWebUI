@@ -6,13 +6,13 @@ import { add, addDays, endOfDay, startOfDay } from 'date-fns';
 import { TimeTableComponent } from '../../time-table.component';
 import { Schedule } from 'src/services/models/event';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
-import { ScheduleService } from 'src/services/WebApi/schedule.service';
+import { ScheduleService } from 'src/services/WebApiService/schedule.service';
 import { TimeTable } from 'src/services/models/timeTable';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { Course } from 'src/services/models/course';
 import { Group } from 'src/services/models/group';
 import { Teacher } from 'src/services/models/teacher';
-import { TeacherService } from 'src/services/WebApi/teacher.service';
+import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({

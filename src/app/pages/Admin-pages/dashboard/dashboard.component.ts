@@ -3,11 +3,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject, Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Student } from 'src/services/models/student';
-import { CourseService } from 'src/services/WebApi/course.service';
-import { FacultyService } from 'src/services/WebApi/faculty.service';
-import { GroupService } from 'src/services/WebApi/group.service';
-import { StudentService } from 'src/services/WebApi/student.service';
-import { TeacherService } from 'src/services/WebApi/teacher.service';
+import { CourseService } from 'src/services/WebApiService/course.service';
+import { FacultyService } from 'src/services/WebApiService/faculty.service';
+import { GroupService } from 'src/services/WebApiService/group.service';
+import { StudentService } from 'src/services/WebApiService/student.service';
+import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { Group } from 'src/services/models/group';
 export interface SaleData {
   name:string,

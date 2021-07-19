@@ -6,8 +6,8 @@ import { Observable, Subscription, timer } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { Course } from 'src/services/models/course';
-import { CourseService } from 'src/services/WebApi/course.service';
-import { UploadFileService } from 'src/services/WebApi/uploadFile.service';
+import { CourseService } from 'src/services/WebApiService/course.service';
+import { UploadFileService } from 'src/services/WebApiService/uploadFile.service';
 
 @Component({
   selector: 'app-courses',

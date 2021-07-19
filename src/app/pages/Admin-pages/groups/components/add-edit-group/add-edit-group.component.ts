@@ -8,9 +8,9 @@ import { AddressBook } from 'src/services/models/addressBook';
 import { Course } from 'src/services/models/course';
 import { Faculty } from 'src/services/models/faculty';
 import { Group } from 'src/services/models/group';
-import { CourseService } from 'src/services/WebApi/course.service';
-import { FacultyService } from 'src/services/WebApi/faculty.service';
-import { GroupService } from 'src/services/WebApi/group.service';
+import { CourseService } from 'src/services/WebApiService/course.service';
+import { FacultyService } from 'src/services/WebApiService/faculty.service';
+import { GroupService } from 'src/services/WebApiService/group.service';
 
 @Component({
   selector: 'app-add-edit-group',

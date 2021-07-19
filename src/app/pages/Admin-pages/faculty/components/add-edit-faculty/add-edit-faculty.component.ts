@@ -7,8 +7,8 @@ import { AlertService } from 'src/services/helperServices/alert.service';
 import { Course } from 'src/services/models/course';
 import { Faculty } from 'src/services/models/faculty';
 
-import { CourseService } from 'src/services/WebApi/course.service';
-import { FacultyService } from 'src/services/WebApi/faculty.service';
+import { CourseService } from 'src/services/WebApiService/course.service';
+import { FacultyService } from 'src/services/WebApiService/faculty.service';
 
 
 @Component({

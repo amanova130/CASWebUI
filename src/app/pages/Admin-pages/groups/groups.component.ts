@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { GroupService } from 'src/services/WebApi/group.service';
+import { GroupService } from 'src/services/WebApiService/group.service';
 import { GroupUtils } from 'src/services/utils/groupUtils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Group } from 'src/services/models/group';
