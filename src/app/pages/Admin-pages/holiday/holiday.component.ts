@@ -9,7 +9,7 @@ import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { Holiday } from 'src/services/models/holiday';
-import { HolidayService } from 'src/services/WebApi/holidayService';
+import { HolidayService } from 'src/services/WebApiService/holidayService';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { AddEditHolidayComponent } from './components/add-edit-holiday/add-edit-holiday.component';
 

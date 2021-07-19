@@ -7,13 +7,13 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { Student } from 'src/services/models/student';
 import { Subject, Subscription,timer } from 'rxjs';
 import { StudentUtils } from 'src/services/utils/studentUtils';
-import { StudentService} from 'src/services/WebApi/student.service';
+import { StudentService} from 'src/services/WebApiService/student.service';
 import { switchMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditStudentComponent } from './components/add-edit-student/add-edit-student.component';
 import { DatePipe } from '@angular/common';
 import { AlertService } from 'src/services/helperServices/alert.service';
-import { UploadFileService } from 'src/services/WebApi/uploadFile.service';
+import { UploadFileService } from 'src/services/WebApiService/uploadFile.service';
 import { saveAs } from 'file-saver'
 
 

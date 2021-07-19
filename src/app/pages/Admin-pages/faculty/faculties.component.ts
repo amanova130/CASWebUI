@@ -10,7 +10,7 @@ import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { Faculty } from 'src/services/models/faculty';
 import { FacultyUtils} from 'src/services/utils/facultyUtils';
-import { FacultyService} from 'src/services/WebApi/faculty.service';
+import { FacultyService} from 'src/services/WebApiService/faculty.service';
 import { AddEditFacultyComponent } from './components/add-edit-faculty/add-edit-faculty.component';
 
 

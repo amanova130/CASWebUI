@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first, switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { Teacher } from 'src/services/models/teacher';
-import { TeacherService } from 'src/services/WebApi/teacher.service';
+import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, timer } from 'rxjs';
 import { Course } from 'src/services/models/course';
-import { CourseService } from 'src/services/WebApi/course.service';
+import { CourseService } from 'src/services/WebApiService/course.service';
 import { AddressBook } from 'src/services/models/addressBook';
 
 @Component({

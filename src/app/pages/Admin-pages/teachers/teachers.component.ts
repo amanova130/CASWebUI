@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { TeacherService } from 'src/services/WebApi/teacher.service';
+import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { Teacher } from 'src/services/models/teacher';
 import { TeacherUtils } from 'src/services/utils/teacherUtils';
 import { SelectionModel } from '@angular/cdk/collections';

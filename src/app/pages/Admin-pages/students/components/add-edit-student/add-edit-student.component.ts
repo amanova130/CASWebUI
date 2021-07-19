@@ -10,10 +10,10 @@ import { TeacherUtils } from 'src/services/utils/teacherUtils';
 import { Subscription, timer } from 'rxjs';
 import { AddressBook } from 'src/services/models/addressBook';
 import { Student } from 'src/services/models/student';
-import { StudentService } from 'src/services/WebApi/student.service';
+import { StudentService } from 'src/services/WebApiService/student.service';
 import { User } from 'src/services/models/user';
 import { Group } from 'src/services/models/group';
-import { GroupService } from 'src/services/WebApi/group.service';
+import { GroupService } from 'src/services/WebApiService/group.service';
 @Component({
   selector: 'app-add-edit-student',
   templateUrl: './add-edit-student.component.html',

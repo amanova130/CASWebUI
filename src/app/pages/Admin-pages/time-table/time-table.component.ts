@@ -30,12 +30,12 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment-timezone';
 import { ViewPeriod } from 'calendar-utils';
 import { Schedule } from 'src/services/models/event';
-import { TimeTableService } from 'src/services/WebApi/timeTable.service';
+import { TimeTableService } from 'src/services/WebApiService/timeTable.service';
 import { TimeTable } from 'src/services/models/timeTable';
 import { switchMap } from 'rxjs/operators';
-import { GroupService } from 'src/services/WebApi/group.service';
+import { GroupService } from 'src/services/WebApiService/group.service';
 import { Group } from 'src/services/models/group';
-import { ScheduleService } from 'src/services/WebApi/schedule.service';
+import { ScheduleService } from 'src/services/WebApiService/schedule.service';
 import { AlertService } from 'src/services/helperServices/alert.service';
 import { CustomEventTitleFormatter } from './custom-event-title-formatter';
 
