@@ -35,7 +35,6 @@ export class StudentsComponent implements OnInit{
     'Birth_date',
     'Address',
     'Group_Id',
-    'PersonalUser',
   'action'];
   dataSource!: MatTableDataSource<Student>;
   studentList: Student[] = [];
@@ -54,6 +53,7 @@ export class StudentsComponent implements OnInit{
   ngOnInit(): void {
     this.isLoading=true;
     this.getAllStudentData();
+    
     
   }
   selection = new SelectionModel<Student>(true, []);

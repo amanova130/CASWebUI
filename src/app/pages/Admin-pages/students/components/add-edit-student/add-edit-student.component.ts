@@ -44,13 +44,11 @@ export class AddEditStudentComponent implements OnInit {
   editStudent:Student = {
     Id: "",
     Address: this.address,
-    PersonalUser:this.user,
   };
   @Input()
     public student: Student = {
       Id: "",
       Address: this.address,
-      PersonalUser:this.user,
       
     };
 
@@ -78,7 +76,6 @@ export class AddEditStudentComponent implements OnInit {
       Gender:this.student.Gender,
       Birth_date:this.student.Birth_date,
       Group_Id:this.student.Group_Id,
-      PersonalUser:this.student.PersonalUser,
       Address:this.student.Address,
       Status:true,
     }
@@ -92,12 +89,8 @@ export class AddEditStudentComponent implements OnInit {
        Street:this.student.Address.Street,
        ZipCode: this.student.Address.ZipCode
      }
-     this.user={
-       UserName:this.student.PersonalUser.UserName,
-       Password:this.student.PersonalUser.Password,
-       LogIn:this.student.PersonalUser.LogIn,
-       LogOff:this.student.PersonalUser.LogOff 
-     }
+     
+     
    }
 }
 
@@ -129,7 +122,6 @@ private getGroups(){
 private createStudent() {
   this.student=this.editStudent;
   this.student.Address = this.address;
-  this.student.PersonalUser=this.user;
     this.studentService.create(this.student)
     .pipe(first())
     .subscribe(result => {
@@ -147,7 +139,6 @@ private createStudent() {
 
 private updateStudent() {
   this.editStudent.Address = this.address;
-  this.editStudent.PersonalUser=this.user;
       this.studentService.update(this.editStudent)
       .pipe(first()).subscribe(result => {
           if(result)

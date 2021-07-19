@@ -1,3 +1,5 @@
+/* Model that contains data about holiday*/
+
 export interface Holiday
 {
 Id?: string;

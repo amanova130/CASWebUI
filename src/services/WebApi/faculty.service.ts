@@ -15,7 +15,7 @@ export class FacultyService {
    
   constructor(protected http: HttpClient, private facultyUtil: FacultyUtils,public datepipe: DatePipe) {}
 
-
+//function for getting all faculties from web api
   getAllFaculties(){
 
     return this.http.get<Faculty[]>(`${this.basePath}/api/Faculty/getAllFaculties`).pipe(map( (facultyList: Faculty[])=>{
@@ -28,7 +28,7 @@ export class FacultyService {
     })
     );
   }
-
+  //function to get total number of faculties from web api
   getNumberOfFaculties()
   {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -38,6 +38,7 @@ export class FacultyService {
     )
   }
 
+//function to get single faculty object from web api by given id
   getFacultyById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getFacultyById.');
@@ -46,6 +47,9 @@ export class FacultyService {
     catchError(this.errorHandler)
   )
  }
+
+
+  //function to delete single faculty object with given id
 
   deleteById(id: string){
     if (id === null || id === undefined) {
@@ -57,6 +61,7 @@ export class FacultyService {
     )
   }
 
+//function to add new faculty to web api
 
   create(params: any){
     return this.http.post<Faculty>(`${this.basePath}/api/Faculty/createFaculty`, params)
@@ -65,6 +70,8 @@ export class FacultyService {
     )
   }
 
+
+  //update existing faculty in web api
   update(facultyIn: Faculty){
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.put<Faculty>(`${this.basePath}/api/Faculty/updateFaculty`, facultyIn)
@@ -73,6 +80,7 @@ export class FacultyService {
     )
   }
 
+  //error handler for http response
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
     if(error.error instanceof ErrorEvent) {

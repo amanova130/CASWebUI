@@ -1,3 +1,54 @@
+
+
+<ng-template
+#customCellTemplate
+let-day="day"
+let-openDay="openDay"
+let-locale="locale"
+let-tooltipPlacement="tooltipPlacement"
+let-highlightDay="highlightDay"
+let-unhighlightDay="unhighlightDay"
+let-eventClicked="eventClicked"
+let-tooltipTemplate="tooltipTemplate"
+let-tooltipAppendToBody="tooltipAppendToBody">
+
+<div class="cal-cell-top"> 
+  <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+  <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+</div>
+
+<div>
+  <mat-icon class="addButton"  (click)="openAddModal(day)">add</mat-icon>
+  </div>
+<div class="cal-events" *ngIf="day.events.length > 0">
+  
+  <div
+    class="cal-event"
+    *ngFor="let event of day.events;"
+    [style.backgroundColor]="event.color?.primary"
+    [ngClass]="event?.cssClass"
+    (mouseenter)="highlightDay.emit({event: event})"
+    (mouseleave)="unhighlightDay.emit({event: event})"
+    [mwlCalendarTooltip]="event.title | calendarEventTitle:'monthTooltip':event"
+    [tooltipPlacement]="tooltipPlacement"
+    [tooltipEvent]="event"
+    [tooltipTemplate]="tooltipTemplate"
+    [tooltipAppendToBody]="tooltipAppendToBody"
+    mwlDraggable
+    [class.cal-draggable]="event.draggable"
+    dragActiveClass="cal-drag-active"
+    [dropData]="{event: event, draggedFrom: day}"
+    [dragAxis]="{x: event.draggable, y: event.draggable}"
+    (mwlClick)="eventClicked.emit({ event: event })"
+    
+    >
+
+  </div>
+</div>
+
+  
+</ng-template>
+
 <div class="container-fluid py-4">
   <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -92,21 +143,23 @@
     </mat-select>
   </mat-form-field>
 </div>
+<div>
   <mwl-calendar-month-view
   
     *ngSwitchCase="CalendarView.Month"
     [viewDate]="viewDate"
+    [cellTemplate]="customCellTemplate"
     [events]="calendarEvents"
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (beforeViewRender)="updateCalendarEvents($event)"
-      
+
   >
- 
- 
   </mwl-calendar-month-view>
+  
+</div>
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"

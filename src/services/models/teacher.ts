@@ -1,6 +1,7 @@
 
 import { AddressBook } from './addressBook';
 
+/* Model that contains data about teacher*/
 export interface Teacher { 
     Id: string;
     First_name?: string;

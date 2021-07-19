@@ -16,7 +16,7 @@ export class HolidayService {
    
   constructor(protected http: HttpClient, private holidayUtil: HolidayUtils, public datepipe: DatePipe) {}
 
-
+  //Function to get all holidays from web api//  
   getAllHolidays(){
 
     return this.http.get<Holiday[]>(`${this.basePath}/api/Holiday/getAllholidays`).pipe(map( (holidayList: Holiday[])=>{
@@ -30,6 +30,7 @@ export class HolidayService {
     );
   }
 
+//function to get single holiday object from web api by given id from web api
   getHolidayById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getHoliday.');
@@ -39,6 +40,8 @@ export class HolidayService {
   )
  }
 
+
+ //function to delete single holiday with given id in web api
   deleteById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiHolidayIdDelete.');
@@ -49,7 +52,7 @@ export class HolidayService {
     )
   }
 
-
+//function to add new holiday object to web api
   create(params: any){
     if (params.Id === null || params.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiHolidayCreate.');
@@ -60,6 +63,7 @@ export class HolidayService {
     )
   }
 
+  //update existing holiday object in web api
   update(HolidayIn: Holiday){
     if (HolidayIn.Id === null || HolidayIn.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
@@ -70,7 +74,8 @@ export class HolidayService {
       catchError(this.errorHandler)
     )
   }
-
+  
+//error handler for http response
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
     if(error.error instanceof ErrorEvent) {

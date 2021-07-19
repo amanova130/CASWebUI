@@ -9,16 +9,20 @@
     <form #form="ngForm" (ngSubmit)="onSubmit()">
         <div class="row my-1">
             <div class="form-group col-6">
-                <label>Title</label>
-                <input type="text" class="form-control" id="Title" name="Title"  [(ngModel)]="recurringEvent.title"  
-               />
+              <mat-form-field appearance="fill" class="selectGroup">
+                <mat-label>Course</mat-label>
+                <mat-select [(ngModel)]="chosenCourse" (valueChange)="choosenCourse($event)" name="course" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let courseName of courses" [value]="courseName">{{courseName}}</mat-option>
+                </mat-select>
+                </mat-form-field>
                 </div>
             </div>
         
         <div class="row my-3">
             <div class="form-group col-6">
                 <label>Color</label>
-                <input type="color" id="Color" class="form-control" name="Color" [(ngModel)]="recurringEvent.color.primary"/>
+                <input type="color" id="Color" class="form-control" name="Color" [(ngModel)]="recurringEvent.Color.primary"/>
                 
             </div>
           </div>
@@ -83,8 +87,12 @@
         </div>
         <div class="row my-3">
             <div class="form-group col-6">
-              <label>Event details </label>
-              <textarea id="EventDetails" class="form-control" name="EventDetails" ></textarea>
+              <mat-form-field appearance="fill" class="selectTeacher">
+            <mat-label>Teacher</mat-label>
+            <mat-select [(ngModel)]="chosenTeacher"  name="chosenTeacher" (valueChange)="choosenTeacher($event)" >
+            <mat-option *ngFor="let teacher of teachersList" [value]="teacher" >{{teacher.First_name}} {{teacher.Last_name}}</mat-option>
+            </mat-select>
+            </mat-form-field>
 
             </div>
           </div>

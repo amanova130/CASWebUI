@@ -38,7 +38,15 @@ export class TeacherService {
       catchError(this.errorHandler)
     )
   }
-
+  getTeachersByCourseName(courseName:string)
+  {
+  if (courseName === null || courseName === undefined) {
+  throw new Error('Required parameter id was null or undefined when calling getTeacher.');
+  }
+  return this.http.get<Teacher[]>(`${this.basePath}/api/Teacher/getTeacherByCourse?courseName=${encodeURIComponent(String(courseName))}`).pipe(
+  catchError(this.errorHandler)
+  )
+  }
 
   getTeacherById(id: string){
     if (id === null || id === undefined) {

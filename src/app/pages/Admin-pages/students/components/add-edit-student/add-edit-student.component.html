@@ -103,18 +103,6 @@
 
             
                 <div class="row my-3">
-                    <div class="form-group col-6">
-                        <label>User Name</label>
-                        <input type="text" id="User_name" class="form-control" name="User_Name" [(ngModel)]="user.UserName" required
-                        #User_Name="ngModel">
-                        <div class="form-control-feedback  alert alert-danger"
-                            *ngIf="User_Name.errors && (User_Name.dirty || form.submitted)">
-                            <p *ngIf="User_Name.errors.required">User Name is required</p>
-                        </div>
-                    </div>
-
-                    
-                 
                  <div class="form-group col-6">
                 
                     <mat-form-field appearance="fill">

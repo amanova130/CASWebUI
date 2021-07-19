@@ -14,6 +14,7 @@ export class CourseService {
   
     constructor(protected http: HttpClient, private courseUtil: CourseUtils) {  }
    
+  //Function to get all courses from web api//  
   getAllCourses(){
   
     return this.http.get<Course[]>(`${this.basePath}/api/Course/getAllCourse`).pipe(map( (courseList: Course[])=>{
@@ -24,6 +25,8 @@ export class CourseService {
     })
     );
   }
+
+  //function to get total number of courses from web api
   getNumberOfCourses()
   {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -33,7 +36,7 @@ export class CourseService {
     )
   }
 
-
+//function to get single course from web api by given id
   getCourseById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getCourse.');
@@ -43,6 +46,7 @@ export class CourseService {
   )
  }
 
+ //function to delete single course with given id
   deleteById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiCourseIdDelete.');
@@ -53,7 +57,7 @@ export class CourseService {
     )
   }
 
-
+//function to add new course to web api
   create(params: any){
     return this.http.post<Course>(`${this.basePath}/api/Course/createNewCourse`, params)
     .pipe(
@@ -61,6 +65,7 @@ export class CourseService {
     )
   }
 
+  //update existing course in web api
   update(params: Course){
     if (params.Id === null || params.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
@@ -73,7 +78,7 @@ export class CourseService {
   }
 
 
-
+//error handler for http response
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
     if(error.error instanceof ErrorEvent) {
