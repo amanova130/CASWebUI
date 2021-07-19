@@ -4,18 +4,19 @@ import { Group } from '../models/group';
 import { GroupUtils } from '../utils/groupUtils';
 import {catchError, map, tap} from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupService {
-  protected basePath = 'https://localhost:5001';
+  protected basePath = environment.basePath;;
 
   constructor(private groupUtils: GroupUtils,  private http: HttpClient) { }
   
   //Function to get all groups from web api
   getAllGroups(){
-    return this.http.get<Group[]>('https://localhost:5001/api/Group/getAllGroups').pipe(map( (groupList: Group[])=>{
+    return this.http.get<Group[]>(`${this.basePath}/api/Group/getAllGroups`).pipe(map( (groupList: Group[])=>{
       return groupList;
     }),
     tap((groupList: Group[]) =>{

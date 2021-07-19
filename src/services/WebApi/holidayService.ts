@@ -6,13 +6,14 @@ import { throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { HolidayUtils } from '../utils/holidayUtils';
 import { Holiday } from '../models/holiday';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class HolidayService {
-  protected basePath = 'https://localhost:5001';
+  protected basePath = environment.basePath;
    
   constructor(protected http: HttpClient, private holidayUtil: HolidayUtils, public datepipe: DatePipe) {}
 

@@ -4,16 +4,18 @@ import { Student } from '../models/student';
 import { StudentUtils } from '../utils/studentUtils';
 import {catchError, map, tap} from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
-  protected basePath = 'https://localhost:5001';
+  protected basePath = environment.basePath; //Path to connect with Web API
 
 
   constructor(private studentUtils: StudentUtils,  private http: HttpClient) { }
 
+  // Get All student list
   getAllstudents(){
     return this.http.get<Student[]>(`${this.basePath}/api/Student/getAllStudents`).pipe(map( (studentList: Student[])=>{
       return studentList;
@@ -24,6 +26,7 @@ export class StudentService {
     );
   }
 
+  // Get Number of Student
   getNumberOfStudents()
   {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -33,6 +36,7 @@ export class StudentService {
     )
   }
 
+  // Get number of Student in specific Class
   getNumberOfStudentsInClass(groupNum:string)
   {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -42,7 +46,7 @@ export class StudentService {
     )
   }
 
-  
+  // Get student profile by Id
   getStudentById(id: string){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getStudent.');
@@ -52,6 +56,7 @@ export class StudentService {
   )
  }
 
+//  Delete Student By Id
  deleteById(id: string){
   if (id === null || id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentIdDelete.');
@@ -62,6 +67,7 @@ export class StudentService {
   )
 }
 
+// Create a new Student profile
 create(params: any){
   if (params.Id === null || params.Id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentCreate.');
@@ -73,7 +79,7 @@ create(params: any){
   )
 }
 
-
+// Update an existed student profile
 update(studentIn:Student){
   const headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this.http.put<Student>(`${this.basePath}/api/Student/updateStudent`, studentIn)
@@ -82,6 +88,7 @@ update(studentIn:Student){
   )
 }
 
+// Error handler for HTTP response
 errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
   let errorMessage = '';
   if(error.error instanceof ErrorEvent) {
