@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription, timer } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Course } from 'src/services/models/course';
 import { CourseService } from 'src/services/WebApiService/course.service';
-import { UploadFileService } from 'src/services/WebApiService/uploadFile.service';
+import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 
 @Component({
   selector: 'app-courses',
@@ -23,7 +24,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   dataSource!: MatTableDataSource<Course>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  courseData: Course={
+  course: Course={
     Id: "",
   };
   @ViewChild('form') form!: any;
@@ -34,7 +35,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private alertService: AlertService, 
     private http: HttpClient, 
     private changeDetectorRef: ChangeDetectorRef,
-    private uploadFileService: UploadFileService
+    private modalService: NgbModal
      ) {}
   
   ngOnInit(): void {
@@ -53,31 +54,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
     });
   }
 
-  setCourse(course?: Course)
-  {
-    if(course===undefined)
-    {
-      this.isAddMode=true;
-    }
-    else{
-      this.courseData=course;
-      this.isAddMode=false;
-    } 
-  }
-
-  public uploadFile = (files: any) => {
-    if (files.length === 0) {
-      return;
-    }
-    let fileToUpload = <File>files[0];
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    this.uploadFileService.uploadImage(formData).pipe(first())
-    .subscribe(result => {
-      if(result)
-      this.courseData.Image=Object.values(result).toString();
-    });
-  }
 
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
@@ -92,54 +68,25 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit()
-  {
-      this.isLoading = true;
-      if(this.form.valid)
+
+  openAddEditModal(course: Course = {Id: ""} ){
+    const ref = this.modalService.open(AddEditCourseComponent, { centered: true });
+    ref.componentInstance.course = course;
+    ref.componentInstance.courseList = this.courseList;
+    ref.result.then((result) => {
+      if(result !== 'Close click')
       {
-        this.submitted = true;
-        if (this.isAddMode) this.createCourse();
-        else this.updateCourse();
+        this.dataSource.data = result
+        this.dataSource.paginator=this.paginator;
+        this.obs = this.dataSource.connect();
       }
-      else {
-        this.isLoading = false;
-      }
+    });
+
   }
 
-
-  private createCourse(){
-    this.courseService.create(this.courseData)
-    .pipe(first())
-    .subscribe(result => {
-        if(result)
-        {
-          this.courseList.push(result);
-          console.log("Result:" +result);
-          this.dataSource = new MatTableDataSource(this.courseList);
-          this.alertService.openAlertMsg('success', 'Added a new Course profile');
-        }  
-        else
-        this.alertService.openAlertMsg('error', 'Something went wrong, please try again');
-    })
-    .add(() => this.isLoading = false);
-    this.courseData=null;
-  }
-
-  private updateCourse()
-  {
-    this.courseService.update(this.courseData)
-    .pipe(first()).subscribe((result) => {
-        if(result)
-        {
-          let x = this.courseList.find(x => x.Id === this.courseData.Id)
-          let index = this.courseList.indexOf(x!)
-          this.courseList[index] = this.courseData;
-          this.alertService.openAlertMsg('success', 'Course Updated Successfully') 
-        }
-        else
-        this.alertService.openAlertMsg('error', 'Cannot Update a course data, please try again');
-    })
-    .add(() => this.isLoading = false);
+  openDeleteModal(course: Course = {Id: ""}){
+    this.course.Id = course.Id;
+    this.course.CourseName = course.CourseName;
   }
 
   deleteCourse(id: string){
@@ -148,17 +95,21 @@ export class CoursesComponent implements OnInit, OnDestroy {
         if(res)
         {
           this.courseList = this.courseList.filter(item => item.Id !== id);
-          this.dataSource = new MatTableDataSource(this.courseList);
+          this.dataSource.data = this.courseList;
           this.obs = this.dataSource.connect();
-          this.alertService.openAlertMsg('success', 'Record was deleted successfully');
+          this.alertService.successResponseFromDataBase();
         }
-      
+        else
+          this.alertService.errorResponseFromDataBase();
       });
     }
   }
   refresh(){
+    if(this.courseListSubscription)
+      this.courseListSubscription.unsubscribe();
     this.getCourses();
   }
+
   ngOnDestroy()
   {
     if (this.dataSource) { 

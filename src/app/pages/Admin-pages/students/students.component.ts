@@ -12,15 +12,10 @@ import { switchMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditStudentComponent } from './components/add-edit-student/add-edit-student.component';
 import { DatePipe } from '@angular/common';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { UploadFileService } from 'src/services/WebApiService/uploadFile.service';
 import { saveAs } from 'file-saver'
-
-
-
-
-
-
+import { UploadExcelModalComponent } from 'src/app/shared/components/upload-excel-modal/upload-excel-modal.component';
 
 @Component({
   selector: 'app-students',
@@ -33,6 +28,7 @@ export class StudentsComponent implements OnInit{
     'Id' ,
     'First_name',
     'Last_name',
+    'Image' ,
     'Email',
     'Phone',
     'Gender',
@@ -82,8 +78,8 @@ export class StudentsComponent implements OnInit{
     ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
     ref.componentInstance.studentList = this.studentList; 
     ref.result.then((result) => {
-      if (result) {
-      this.refreshData();
+      if (result !== 'Close click') {
+       this.dataSource.data = result;
       }
       });
 
@@ -97,6 +93,9 @@ export class StudentsComponent implements OnInit{
     }
   }
 
+  public createImgPath = (serverPath: string) => {
+    return `https://localhost:5001/${serverPath}`;
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -130,9 +129,11 @@ export class StudentsComponent implements OnInit{
         if(res)
         {
           this.studentList = this.studentList.filter(item => item.Id !== id);
-          this.dataSource = new MatTableDataSource(this.studentList);
+          this.dataSource.data = this.studentList;
+          this.alertService.successResponseFromDataBase();
         }
-      
+        else
+        this.alertService.errorResponseFromDataBase();
       });
     }
   }
@@ -142,19 +143,33 @@ export class StudentsComponent implements OnInit{
       if(response.size > 0)
       {
         saveAs(response, "ReportStudents.xls");
-        this.alertService.openAlertMsg("success", "Excell file is ready");
+        this.alertService.successResponseFromDataBase();
       }
       else
       {
-        this.alertService.openAlertMsg("error", "Something went wrong");
+        this.alertService.errorResponseFromDataBase();
       }
     })
   }
 
+  uploadToExcell(){
+    const ref = this.modalService.open(UploadExcelModalComponent, { centered: true });
+    ref.result.then((result) => {
+      if (result) {
+       this.dataSource.data = result;
+      }
+      });
+  }
 
   refreshData(){
+    if(this.studentListSubscription)
+      this.studentListSubscription.unsubscribe();
     this.getAllStudentData();
-    console.log("Refresh done");
+  }
+
+  ngOnDestroy(){
+    if(this.studentListSubscription)
+      this.studentListSubscription.unsubscribe();
   }
 }
 

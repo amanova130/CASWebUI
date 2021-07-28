@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, switchMap } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,12 +14,13 @@ import { StudentService } from 'src/services/WebApiService/student.service';
 import { User } from 'src/services/models/user';
 import { Group } from 'src/services/models/group';
 import { GroupService } from 'src/services/WebApiService/group.service';
+import { UploadFileService } from '../../../../../../services/WebApiService/uploadFile.service';
 @Component({
   selector: 'app-add-edit-student',
   templateUrl: './add-edit-student.component.html',
   styleUrls: ['./add-edit-student.component.scss']
 })
-export class AddEditStudentComponent implements OnInit {
+export class AddEditStudentComponent implements OnInit, OnDestroy {
   groupControl = new FormControl('', Validators.required);
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
@@ -63,6 +64,7 @@ export class AddEditStudentComponent implements OnInit {
     private alertService: AlertService,
     public activeModal: NgbActiveModal,
     private groupService: GroupService,
+    private uploadFileService: UploadFileService,
 
   ) { }
 
@@ -71,6 +73,7 @@ export class AddEditStudentComponent implements OnInit {
       Id:this.student.Id,
       First_name:this.student.First_name,
       Last_name:this.student.Last_name,
+      Image: this.student.Image,
       Phone:this.student.Phone,
       Email:this.student.Email,
       Gender:this.student.Gender,
@@ -80,8 +83,6 @@ export class AddEditStudentComponent implements OnInit {
       Status:true,
     }
     this.getGroups();
-    console.log(this.groupList);
-    console.log(this.student);
     this.isAddMode = !this.student.Id;
    if(!this.isAddMode){
      this.address={
@@ -103,10 +104,9 @@ onSubmit() {
     else this.updateStudent();
   }
   else {
+    this.alertService.errorFormField();
     this.loading = false;
   }
-
- 
 }
 
 
@@ -118,7 +118,19 @@ private getGroups(){
   });
 }
 
-
+public uploadFile = (files: any) => {
+  if (files.length === 0) {
+    return;
+  }
+  let fileToUpload = <File>files[0];
+  const formData = new FormData();
+  formData.append('file', fileToUpload, fileToUpload.name);
+  this.uploadFileService.uploadImage(formData).pipe(first())
+  .subscribe(result => {
+    if(result)
+    this.editStudent.Image=Object.values(result).toString();
+  });
+}
 private createStudent() {
   this.student=this.editStudent;
   this.student.Address = this.address;
@@ -127,12 +139,12 @@ private createStudent() {
     .subscribe(result => {
         if(result)
         {
-          this.studentList.push(result);
-            this.alertService.openAlertMsg('success','Added new Student profile');
-            this.activeModal.close();
+            this.studentList.push(result); 
+            this.activeModal.close(this.studentList);
+            this.alertService.successResponseFromDataBase();
         }  
         else
-            this.alertService.openAlertMsg('error','Cannot add a new Student');
+            this.alertService.errorResponseFromDataBase();
     })
     .add(() => this.loading = false);
 }
@@ -147,11 +159,11 @@ private updateStudent() {
             let x = this.studentList.find(x => x.Id === this.student.Id)
             let index = this.studentList.indexOf(x!)
             this.studentList[index] = this.student;
-              this.alertService.openAlertMsg('success','Student data updated');
-              this.activeModal.close();
+            this.activeModal.close(this.studentList);
+            this.alertService.successResponseFromDataBase();
           }
           else
-              this.alertService.openAlertMsg('error','Cannot Update a student data, please try again');
+              this.alertService.errorResponseFromDataBase();
       })
       .add(() => this.loading = false);
   }
@@ -159,7 +171,11 @@ private updateStudent() {
   choosenGroup(event: string)
   {
     this.editStudent.Group_Id = event;
-    //console.log(this.student.TeachesCourses);
+  }
+
+  ngOnDestroy(){
+    if(this.groupListSubscription)
+      this.groupListSubscription.unsubscribe();
   }
 
 }

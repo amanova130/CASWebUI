@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,7 +10,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Group } from 'src/services/models/group';
 import { AddEditGroupComponent } from './components/add-edit-group/add-edit-group.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 
 
@@ -19,7 +19,7 @@ import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss']
 })
-export class GroupsComponent implements OnInit {
+export class GroupsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'select',
     'GroupNumber',
@@ -66,8 +66,8 @@ openModal(group: Group = {Id: ""} ){
   //ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
   ref.componentInstance.groupList = this.groupList; 
   ref.result.then((result) => {
-    if (result) {
-    this.refreshData();
+    if (result !== 'Close click') {
+      this.dataSource.data = result;
     }
   });
 }
@@ -95,7 +95,6 @@ openDelete(group:Group = {Id: ""} ){
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -107,15 +106,25 @@ openDelete(group:Group = {Id: ""} ){
         if(res)
         {
           this.groupList = this.groupList.filter(item => item.Id !== id);
-          this.dataSource = new MatTableDataSource(this.groupList);
+          this.dataSource.data = this.groupList;
+          this.alertService.successResponseFromDataBase();
         }
+        else
+          this.alertService.errorResponseFromDataBase();
       
       });
     }
   }
+
   refreshData(){
+    if(this.groupListSubscription)
+      this.groupListSubscription.unsubscribe();
     this.getAllGroupData();
-    console.log("Refresh done");
+  }
+
+  ngOnDestroy(){
+    if(this.groupListSubscription)
+      this.groupListSubscription.unsubscribe();
   }
   
 }

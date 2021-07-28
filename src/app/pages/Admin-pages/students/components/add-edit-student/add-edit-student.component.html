@@ -104,7 +104,6 @@
             
                 <div class="row my-3">
                  <div class="form-group col-6">
-                
                     <mat-form-field appearance="fill">
                         <mat-label>Choose Group</mat-label>
                         <mat-select [(ngModel)]="editStudent.Group_Id" (valueChange)="choosenGroup($event)" name="group" required>
@@ -114,7 +113,11 @@
                         <mat-error *ngIf="groupControl.hasError('required')">Please choose a group</mat-error>
                         <mat-hint>You can pick up a group for a new student here</mat-hint>
                     </mat-form-field>
-
+                </div>
+                <div class="form-group col-6" [ngClass]="{'d-none': !isAddMode}">
+                    <label>Image</label>
+                    <input type="file" id="Image"  #file class="form-control" name="Image" required
+                    (change)="uploadFile(file.files)"/>   
                 </div>
             </div>
             

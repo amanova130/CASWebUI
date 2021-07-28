@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, timer } from 'rxjs';
 import { switchMap, first } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 
 import { Course } from 'src/services/models/course';
 import { Faculty } from 'src/services/models/faculty';
@@ -16,11 +16,11 @@ import { FacultyService } from 'src/services/WebApiService/faculty.service';
   templateUrl: './add-edit-faculty.component.html',
   styleUrls: ['./add-edit-faculty.component.scss']
 })
-export class AddEditFacultyComponent implements OnInit {
+export class AddEditFacultyComponent implements OnInit, OnDestroy{
   courseList: Course[] = [];
   courseListSubscription!: Subscription;
   isAddMode!: boolean;
-  loading = false;
+  isLoading = false;
   submitted = false;
   newFaculty!: Faculty;
   checkedList: any;
@@ -45,13 +45,12 @@ export class AddEditFacultyComponent implements OnInit {
 
   ngOnInit() {
       this.getCourses();
-      console.log(this.faculty);
       this.isAddMode = !this.faculty.Id;
   }
 
 
   onSubmit() {
-      this.loading = true;
+      this.isLoading = true;
       if(this.form.valid)
       {
         this.submitted = true;
@@ -59,7 +58,8 @@ export class AddEditFacultyComponent implements OnInit {
         else this.updateFaculty();
       }
       else {
-        this.loading = false;
+        this.alertService.errorFormField();
+        this.isLoading = false;
       }
 
      
@@ -69,8 +69,6 @@ export class AddEditFacultyComponent implements OnInit {
     this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getAllCourses())).subscribe((list: Course[])=>
     {
       this.courseList = list;
-     // console.log(this.courseList);
-
     });
   }
 
@@ -80,14 +78,14 @@ export class AddEditFacultyComponent implements OnInit {
       .subscribe(result => {
           if(result)
           {
-            this.facultyList.push(result);
-              this.alertService.openAlertMsg('success','Added new Faculty profile');
-              this.activeModal.close();
+            this.facultyList.push(result)
+            this.activeModal.close(this.facultyList);
+            this.alertService.successResponseFromDataBase();
           }  
           else
-              this.alertService.openAlertMsg('success','Cannot add a new Faculty');
+              this.alertService.errorResponseFromDataBase();
       })
-      .add(() => this.loading = false);
+      .add(() => this.isLoading = false);
 }
 
   private updateFaculty() {
@@ -98,13 +96,13 @@ export class AddEditFacultyComponent implements OnInit {
               let x = this.facultyList.find(x => x.Id === this.faculty.Id)
               let index = this.facultyList.indexOf(x!)
               this.facultyList[index] = this.faculty;
-                this.alertService.openAlertMsg('success','Faculty data updated');
-                this.activeModal.close();
+              this.activeModal.close(this.facultyList);
+              this.alertService.successResponseFromDataBase();
             }
             else
-                this.alertService.openAlertMsg('error','Cannot Update a Faculty data, please try again');
+                this.alertService.errorResponseFromDataBase();
         })
-        .add(() => this.loading = false);
+        .add(() => this.isLoading = false);
     }
 
 
@@ -112,6 +110,11 @@ export class AddEditFacultyComponent implements OnInit {
   choosenCourse(event: string[])
   {
     this.faculty.Courses = event;
+  }
+
+  ngOnDestroy(){
+    if(this.courseListSubscription)
+      this.courseListSubscription.unsubscribe();
   }
 
 }

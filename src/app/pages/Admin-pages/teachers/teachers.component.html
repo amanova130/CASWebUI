@@ -92,7 +92,12 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
                             <td mat-cell *matCellDef="let row"> {{row.Last_name}} </td>
                           </ng-container>
-                      
+
+                          <ng-container matColumnDef="Image" >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+                            <td  mat-cell *matCellDef="let row"> <img class="personImg" [src]="createImgPath(row.Image)" alt="student Image"></td>
+                          </ng-container>
+
                           <ng-container matColumnDef="Email">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
                             <td mat-cell *matCellDef="let row"> {{row.Email}} </td>

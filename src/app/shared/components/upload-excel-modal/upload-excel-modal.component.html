@@ -1,0 +1,15 @@
+<input type="file" (change)="onChange($event)" #inputFile> <button (click)="removeData()">Remove Data</button>
+<div *ngIf="isExcelFile === false">
+  This is not an Excel file
+</div>
+    <span *ngIf="spinnerEnabled" class="k-i-loading k-icon"></span>
+    <table>
+      <th *ngFor="let key of keys">
+        {{key}}
+      </th>
+      <!-- <tr *ngFor="let item of dataSheet | async">
+        <td *ngFor="let key of keys">
+          {{item[key]}}
+        </td>
+      </tr>  -->
+    </table>

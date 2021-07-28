@@ -7,7 +7,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Faculty } from 'src/services/models/faculty';
 import { FacultyUtils} from 'src/services/utils/facultyUtils';
 import { FacultyService} from 'src/services/WebApiService/faculty.service';
@@ -99,7 +99,12 @@ export class FacultiesComponent implements OnInit, OnDestroy {
     const ref = this.modalService.open(AddEditFacultyComponent, { centered: true });
     ref.componentInstance.faculty = faculty;
     ref.componentInstance.facultyList = this.facultyList;
-    
+    ref.result.then((result) => {
+      if(result !== 'Close click')
+      {
+        this.dataSource.data = result;
+      }
+    });
   }
 
   openDelete(faculty:Faculty = {Id: ""} ){
@@ -113,6 +118,7 @@ export class FacultiesComponent implements OnInit, OnDestroy {
     {
       this.selection.selected.forEach(selected=>(this.deleteFaculty(selected.Id)));
     }
+    this.alertService.errorFormField();
   }
 
   deleteFaculty(id: string){
@@ -121,22 +127,25 @@ export class FacultiesComponent implements OnInit, OnDestroy {
         if(res)
         {
           this.facultyList = this.facultyList.filter(item => item.Id !== id);
-          this.dataSource = new MatTableDataSource(this.facultyList);
-
+          this.dataSource.data= this.facultyList;
+          this.alertService.successResponseFromDataBase();
         }
-      
+        else
+          this.alertService.errorResponseFromDataBase();
       });
     }
   }
 
   refresh(){
+    if(this.facultyListSubscription)
+      this.facultyListSubscription.unsubscribe();
     this.getAllfacultyData();
-    console.log("Refresh done");
   }
   
   ngOnDestroy()
   {
-    this.facultyListSubscription.unsubscribe();
+    if(this.facultyListSubscription)
+      this.facultyListSubscription.unsubscribe();
   }
 }
 
