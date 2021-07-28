@@ -10,7 +10,7 @@ import { TeacherUtils } from 'src/services/utils/teacherUtils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditTeacherComponent } from './components/add-edit-teacher/add-edit-teacher.component';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { DatePipe } from '@angular/common';
 
 
@@ -25,6 +25,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
     'Id' ,
     'First_name',
     'Last_name',
+    'Image' ,
     'Email',
     'Phone',
     'Gender',
@@ -93,7 +94,9 @@ export class TeachersComponent implements OnInit, OnDestroy {
       }
         
   }
-
+  public createImgPath = (serverPath: string) => {
+    return `https://localhost:5001/${serverPath}`;
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -109,8 +112,8 @@ export class TeachersComponent implements OnInit, OnDestroy {
     ref.componentInstance.teacher.Birth_date=this.datepipe.transform(teacher.Birth_date,'yyyy-MM-dd');
     ref.componentInstance.teacherList = this.teacherList;
     ref.result.then((result) => {
-      if (result) {
-      this.refreshData();
+      if (result !== 'Close click') {
+        this.dataSource.data = result;
       }
       });
   }
@@ -128,6 +131,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
     if(this.selection.hasValue())
     {
       this.selection.selected.forEach(selected=>(this.deleteTeacher(selected.Id)));
+      this.refreshData();
     }
   }
 
@@ -137,16 +141,19 @@ export class TeachersComponent implements OnInit, OnDestroy {
         if(res)
         {
           this.teacherList = this.teacherList.filter(item => item.Id !== id);
-          this.dataSource = new MatTableDataSource(this.teacherList);
+          this.dataSource.data = this.teacherList;
+          this.alertService.successResponseFromDataBase();
         }
-      
+        else
+        this.alertService.errorResponseFromDataBase();
       });
     }
   }
 
   refreshData(){
+    if(this.teacherListSubscription)
+      this.teacherListSubscription.unsubscribe();
     this.getAllTeacherData();
-    console.log("Refresh done");
   }
   
   ngOnDestroy()

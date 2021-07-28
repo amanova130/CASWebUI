@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, timer } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { AddressBook } from 'src/services/models/addressBook';
 import { Course } from 'src/services/models/course';
 import { Faculty } from 'src/services/models/faculty';
@@ -17,7 +17,7 @@ import { GroupService } from 'src/services/WebApiService/group.service';
   templateUrl: './add-edit-group.component.html',
   styleUrls: ['./add-edit-group.component.scss']
 })
-export class AddEditGroupComponent implements OnInit {
+export class AddEditGroupComponent implements OnInit, OnDestroy {
   courseList: Course[] = [];
   courseListSubscription!: Subscription;
   groupControl = new FormControl('', Validators.required);
@@ -54,8 +54,6 @@ export class AddEditGroupComponent implements OnInit {
     private courseService: CourseService,
     private facultyService: FacultyService,
 
-   // private groupService: GroupService,
-
   ) { }
 
   ngOnInit() {
@@ -85,25 +83,21 @@ onSubmit() {
     else this.updateGroup();
   }
   else {
+    this.alertService.errorFormField();
     this.loading = false;
   }
-
- 
 }
 
 private getCourses(){
   this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getAllCourses())).subscribe((list: Course[])=>
   {
     this.courseList = list;
-   // console.log(this.courseList);
-
   });
 }
 private getFaculties(){
   this.facultyListSubscription = timer(0).pipe(switchMap(()=> this.facultyService.getAllFaculties())).subscribe((list: Faculty[])=>
   {
     this.facultyList = list;
-    console.log(this.facultyList);
   });
 }
 
@@ -115,12 +109,12 @@ private createGroup() {
     .subscribe(result => {
         if(result)
         {
-          this.groupList.push(result);
-            this.alertService.openAlertMsg('success','Added new Group profile');
-            this.activeModal.close();
+          this.groupList.push(result)
+          this.activeModal.close(this.groupList);
+          this.alertService.successResponseFromDataBase();
         }  
         else
-            this.alertService.openAlertMsg('error','Cannot add a new Group');
+            this.alertService.errorResponseFromDataBase();
     })
     .add(() => this.loading = false);
 }
@@ -134,11 +128,12 @@ private updateGroup() {
             let x = this.groupList.find(x => x.Id === this.group.Id)
             let index = this.groupList.indexOf(x!)
             this.groupList[index] = this.group;
-              this.alertService.openAlertMsg('success','Group data updated');
-              this.activeModal.close();
+            this.activeModal.close(this.groupList);
+              this.alertService.successResponseFromDataBase();
+
           }
           else
-              this.alertService.openAlertMsg('success','Cannot Update a student data, please try again');
+              this.alertService.errorResponseFromDataBase();
       })
       .add(() => this.loading = false);
   }
@@ -146,12 +141,17 @@ private updateGroup() {
   choosenFaculty(event: string)
   {
     this.editGroup.Fac_Name = event;
-    //console.log(this.student.TeachesCourses);
   }
   choosenCourse(event: string[])
   {
     this.editGroup.courses = event;
     console.log(this.group.courses);
+  }
+  ngOnDestroy(){
+    if(this.courseListSubscription)
+      this.courseListSubscription.unsubscribe();
+    if(this.facultyListSubscription)
+      this.facultyListSubscription.unsubscribe();
   }
 
 }

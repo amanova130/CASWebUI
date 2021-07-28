@@ -27,7 +27,7 @@
                                <ul class="header-buttons">
                                    <li class="m-l-10">
                                        <div class="icon-button-demo">
-                                           <button mat-mini-fab="" (click)="setCourse()" data-bs-toggle="modal" data-bs-target="#addEditModal" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                                           <button mat-mini-fab="" (click)="openAddEditModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                               <i class="material-icons">add</i>
                                             </button>
                                         </div>
@@ -53,7 +53,7 @@
                                     <img [src]="createImgPath(course.Image)" alt="course img">
                                 </div>
                                 <div class="row">
-                                    <span class="text-center h3">{{course.CourseName}}</span>
+                                    <span class="text-center h5">{{course.CourseName}}</span>
                                     <span class="text-center">Course Duration: {{course.Duration}}</span>
                                 </div>
                                 <div class="row container mt-2 description">
@@ -61,9 +61,9 @@
                                         {{course.Description}}
                                     </p>
                                 </div>
-                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <a type="button" data-bs-toggle="modal" data-bs-target="#addEditModal" (click)="setCourse(course)"><i class="material-icons text-warning">edit</i></a> 
-                                    <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="setCourse(course)"><i class="material-icons text-danger">delete</i> </a>  
+                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2">
+                                    <a type="button" (click)="openAddEditModal(course)"><i class="material-icons text-warning">edit</i></a> 
+                                    <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDeleteModal(course)"><i class="material-icons text-danger">delete</i> </a>  
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Course</h5>
+          <h3 class="modal-title" id="deleteModalLabel">Delete Course</h3>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -91,76 +91,14 @@
                 Do you want delete:
             </p>
             <p class="text-danger">
-               Course Id:  {{courseData.Id}}
-            </p>
-            <p class="text-danger">
-               Course Name:  {{courseData.CourseName}}
+               Course Name:  {{course.CourseName}}
             </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button"  data-bs-dismiss="modal" class="btn btn-danger" (click)="deleteCourse(courseData.Id)">Delete</button>
+          <button type="button"  data-bs-dismiss="modal" class="btn btn-danger" (click)="deleteCourse(course.Id)">Delete</button>
         </div>
       </div>
     </div>
 </div>
 
-<!-- Add and Edit Modal -->
-<div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h1 *ngIf="isAddMode" class="modal-title">Add Course</h1>
-            <h1 *ngIf="!isAddMode" class="modal-title">Edit Course</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form #form="ngForm">
-                <div>
-                    <div class="form-group d-none" >
-                        <label>ID</label>
-                        <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="courseData.Id" #Id='ngModel' />
-                    </div>
-                </div>
-                <div class="row my-3">
-                    <div class="form-group col-6">
-                        <label>Course Name</label>
-                        <input type="text" id="CourseName" class="form-control" name="CourseName" [(ngModel)]="courseData.CourseName"  required #courseName="ngModel"/>
-                        <div class="alert alert-danger" *ngIf="courseName.errors && (courseName.dirty || form.submitted)">
-                            <div *ngIf="courseName.errors.required">Course Name is required.</div>
-                        </div>
-                    </div>
-                    <div class="form-group col-6">
-                        <label>Description</label>
-                        <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="courseData.Description"
-                        #description="ngModel">
-                    </div>
-                 </div>
-                <div class="row mb-3">
-                    <div class="form-group col-6">
-                        <label>Duration</label>
-                        <input type="number" id="Duration" class="form-control"  name="Duration" [(ngModel)]="courseData.Duration" required #duration="ngModel"/>
-                        <div class="form-control-feedback alert alert-danger"
-                        *ngIf="duration.errors && (duration.dirty || form.submitted)">
-                       <p *ngIf="duration.errors.required">Duration is required</p>
-                       <p *ngIf="duration.errors.pattern">Duration must contain at least the @ character</p>
-                   </div>
-                    </div>
-                    <div class="form-group col-6" [ngClass]="{'d-none': !isAddMode}">
-                        <label>Image</label>
-                        <input type="file" id="Image"  #file class="form-control" name="Image" required
-                        (change)="uploadFile(file.files)"/>   
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button [disabled]="isLoading" class="btn btn-primary" data-bs-dismiss="modal" (click)="onSubmit()">
-            <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
-            Save
-            </button>
-        </div>
-      </div>
-    </div>
-</div>

@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Holiday } from 'src/services/models/holiday';
-import { HolidayService } from 'src/services/WebApiService/holidayService';
+import { HolidayService } from 'src/services/WebApiService/holiday.service';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
@@ -11,7 +11,7 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
   templateUrl: './add-edit-holiday.component.html',
   styleUrls: ['./add-edit-holiday.component.scss']
 })
-export class AddEditHolidayComponent implements  OnInit {
+export class AddEditHolidayComponent implements  OnInit{
   isAddMode=false;
   loading = false;
   submitted = false;
@@ -57,6 +57,7 @@ export class AddEditHolidayComponent implements  OnInit {
           this.updateHoliday();
       }
       else {
+        this.alertService.errorFormField();
         this.loading = false;
       }
     
@@ -69,11 +70,11 @@ export class AddEditHolidayComponent implements  OnInit {
           if(result)
           {
             this.holidayList.push(result);
-              this.activeModal.close();
-              this.alertService.openAlertMsg('success', 'Input is updated')
+              this.activeModal.close(this.holidayList);
+              this.alertService.successResponseFromDataBase
             }
             else
-            this.alertService.openAlertMsg('error', 'Cannot update the data, please try again')
+            this.alertService.errorResponseFromDataBase();
       })
       .add(() => this.loading = false);
 }
@@ -86,11 +87,11 @@ export class AddEditHolidayComponent implements  OnInit {
               let x = this.holidayList.find(x => x.Id === this.holiday.Id)
               let index = this.holidayList.indexOf(x!)
               this.holidayList[index] = this.holiday;
-              this.activeModal.close();
-              this.alertService.openAlertMsg('success', 'Input is updated')
+              this.activeModal.close(this.holidayList);
+              this.alertService.successResponseFromDataBase();
             }
             else
-            this.alertService.openAlertMsg('error', 'Cannot update the data, please try again')
+            this.alertService.errorResponseFromDataBase();
         })
         .add(() => this.loading = false);
   }

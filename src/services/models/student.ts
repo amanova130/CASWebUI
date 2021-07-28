@@ -13,6 +13,7 @@ export interface Student {
     Gender?: string;
     Birth_date?: string;
     Address?: AddressBook;
+    Image?: string;
     Status?: boolean;
     Group_Id?: string;
     Grades?: Array<StudExam>;

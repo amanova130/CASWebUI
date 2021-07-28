@@ -110,6 +110,11 @@
                     </mat-select>
                   </mat-form-field>
             </div>
+            <div class="form-group" [ngClass]="{'d-none': !isAddMode}">
+                <label>Image</label>
+                <input type="file" id="Image"  #file class="form-control" name="Image" required
+                (change)="uploadFile(file.files)"/>   
+            </div>
             <div class="form-group mb-3">
                 <button [disabled]="loading" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

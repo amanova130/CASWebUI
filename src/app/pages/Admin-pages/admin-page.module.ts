@@ -5,11 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { AddEditTeacherComponent } from './teachers/components/add-edit-teacher/add-edit-teacher.component';
 import { TeachersComponent } from './teachers/teachers.component';
-import { CoursesComponent } from './courses/courses.component';
+import { CoursesComponent } from '../../shared/components/courses/courses.component';
 import { ExamsComponent } from './exams/exams.component';
 import { GroupsComponent } from './groups/groups.component';
 import { HolidayComponent } from './holiday/holiday.component';
-import { LinksComponent } from './links/links.component';
 import { ReportsComponent } from './reports/reports.component';
 import { RequestsComponent } from './requests/requests.component';
 import { TimeTableComponent } from './time-table/time-table.component';
@@ -32,16 +31,14 @@ import { AddEditFacultyComponent } from './faculty/components/add-edit-faculty/a
 import { AddEditGroupComponent } from './groups/components/add-edit-group/add-edit-group.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { InboxComponent } from './email/components/inbox/inbox.component';
-import { SentComponent } from './email/components/sent/sent.component';
-import { ComposeComponent } from './email/components/compose/compose.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedModule } from 'src/app/shared/shared.module';
+
 
 
 
@@ -52,12 +49,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
     HolidayComponent,
     ExamsComponent,
     ReportsComponent,
-    LinksComponent,
     RequestsComponent,
     TeachersComponent,
     AddEditTeacherComponent,
     TimeTableComponent,
-    CoursesComponent,
     EventModalComponent,
     AddEditStudentComponent,
     StudentsComponent,
@@ -68,9 +63,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     DashboardComponent,
     AdminPageComponent,
     AddEditHolidayComponent,
-    InboxComponent,
-    SentComponent,
-    ComposeComponent,
     
   ],
   imports: [
@@ -88,6 +80,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     CommonModule,
     AdminPageRoutingModule,
     FormsModule, 
+    SharedModule,
     //BrowserAnimationsModule,
     //BrowserModule,
     NgbModalModule,
@@ -109,21 +102,17 @@ import { NgSelectModule } from '@ng-select/ng-select';
     TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
-    LinksComponent,
     RequestsComponent,
     TimeTableComponent,
     TeachersComponent,
     AddEditTeacherComponent,
-    CoursesComponent,
     AddEditStudentComponent,  
     FacultiesComponent,
     AddEditFacultyComponent,
     AddEditGroupComponent,
     DashboardComponent,
     EmailComponent,
-    InboxComponent,
-    SentComponent,
-    ComposeComponent,
+
 
   ]
 })

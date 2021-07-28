@@ -1,0 +1,140 @@
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <span><h2 class="page-title">All Additional Links for learning</h2></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="body">
+                    <div class="materialTableHeader">
+                        <div class="row justify-content-end">
+                            <div class="col-4">
+                               <ul class="header-buttons">
+                                   <li class="m-l-10">
+                                       <div class="icon-button-demo">
+                                           <button mat-mini-fab="" (click)="openAddEditModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                                              <i class="material-icons">add</i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <li class="m-l-10">
+                                        <div class="icon-button-demo">
+                                            <button mat-mini-fab="" color="primary" (click)="refresh()" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary" >
+                                                <i class="material-icons">refresh</i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isLoading" class="h6 mt-5 text-center">
+                        <img src="assets/images/loading.gif" alt="Loading...">
+                   </div>
+                   <section>
+                    <div class="row w-100">
+                        <div class="col">
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+
+                            </div>
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+
+                            </div>
+                            <div class="row">
+
+                            </div>
+                        </div>
+                   </div>
+                   </section>
+                   <div class="container usefullLinks py-4">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#">
+                              <img class="d-block linkLogo rounded" src="assets/images/youTubeLogo.png" alt="">
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#"> <img class="d-block linkLogo rounded" src="assets/images/1280px-Stack_Overflow_logo.svg.png" alt=""></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> <img class="d-block linkLogo rounded" src="assets/images/128-1280187_github-logo-png-github-transparent-png.png" alt=""></a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#"> <img class="d-block linkLogo rounded" src="assets/images/linkedin-logo.png" alt=""></a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#"> <img class="d-block linkLogo rounded" src="assets/images/1_jWvfVlJ5UpAqjbDxfVXX2g.png" alt=""></a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#"> <img class="d-block linkLogo rounded" src="assets/images/Coursera_logo.png" alt=""></a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#"> <img class="d-block linkLogo rounded" src="assets/images/Story_Logo_Udemy_262x110_1x.png" alt=""></a>
+                          </li>
+                      </ul>
+                </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3" *ngFor="let link of linkList">
+                            <div class="card card-link">
+                                <div class="row">
+                                    <img [src]="createImgPath(link.Image)" alt="link img">
+                                </div>
+                                <div class="row">
+                                    <span class="text-center h5">{{link.Title}}</span>
+                                    
+                                </div>
+                                <div class="row container mt-2 description">
+                                    <p class="h-100">
+                                        {{link.Description}}
+                                    </p>
+                                </div>
+                                <a [href]="link.URL" target="_blank" class="btn btn-primary">View more</a>
+                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2">
+                                    <a type="button" (click)="openAddEditModal(link)"><i class="material-icons text-warning">edit</i></a> 
+                                    <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDeleteModal(link)"><i class="material-icons text-danger">delete</i> </a>  
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="deleteModalLabel">Delete Link</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Do you want delete:
+            </p>
+            <p class="text-danger">
+               Link Name:  {{link.Title}}
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button"  data-bs-dismiss="modal" class="btn btn-danger" (click)="deleteLink(link.Id)">Delete</button>
+        </div>
+      </div>
+    </div>
+</div>
+

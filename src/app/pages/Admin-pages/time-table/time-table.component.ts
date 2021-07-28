@@ -36,7 +36,7 @@ import { switchMap } from 'rxjs/operators';
 import { GroupService } from 'src/services/WebApiService/group.service';
 import { Group } from 'src/services/models/group';
 import { ScheduleService } from 'src/services/WebApiService/schedule.service';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { CustomEventTitleFormatter } from './custom-event-title-formatter';
 
 moment.tz.setDefault('Utc');

@@ -42,9 +42,9 @@ export class FacultyService {
 //function to get single faculty object from web api by given id
   getFacultyById(id: string){
     if (id === null || id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling getFacultyById.');
+      throw new Error('Required parameter id was null or undefined when calling getFacById.');
   }
-  return this.http.get<Faculty>(`${this.basePath}/api/Faculty/getFacultyById?id=${encodeURIComponent(String(id))}`).pipe(
+  return this.http.get<Faculty>(`${this.basePath}/api/Faculty/getFacById?id=${encodeURIComponent(String(id))}`).pipe(
     catchError(this.errorHandler)
   )
  }
@@ -54,7 +54,7 @@ export class FacultyService {
 
   deleteById(id: string){
     if (id === null || id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling deleteFacultyById.');
+      throw new Error('Required parameter id was null or undefined when calling deleteFacById.');
   }
     return this.http.delete<Faculty>(`${this.basePath}/api/Faculty/deleteFacById?id=${encodeURIComponent(String(id))}`)
     .pipe(

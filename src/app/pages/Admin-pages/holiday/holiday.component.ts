@@ -7,9 +7,9 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Holiday } from 'src/services/models/holiday';
-import { HolidayService } from 'src/services/WebApiService/holidayService';
+import { HolidayService } from 'src/services/WebApiService/holiday.service';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { AddEditHolidayComponent } from './components/add-edit-holiday/add-edit-holiday.component';
 
@@ -101,7 +101,12 @@ export class HolidayComponent implements  OnInit, OnDestroy {
     const ref = this.modalService.open(AddEditHolidayComponent, { centered: true });
     ref.componentInstance.holiday = holiday;
     ref.componentInstance.holidayList = this.holidayList;
-    
+    ref.result.then((result) => {
+      if(result !== 'Close click')
+      {
+        this.dataSource.data = result;
+      }
+    });
   }
 
   openDelete(holiday:Holiday){
@@ -116,8 +121,10 @@ export class HolidayComponent implements  OnInit, OnDestroy {
     if(this.selection.hasValue())
     {
       this.selection.selected.forEach(selected=>(this.deleteHoliday(selected.Id)));
-      this.alertService.openAlertMsg('success', 'Records were deleted successfully')
+      this.alertService.successResponseFromDataBase();
     }
+    else
+      this.alertService.errorFormField();
   }
 
   deleteHoliday(id: string){
@@ -126,15 +133,19 @@ export class HolidayComponent implements  OnInit, OnDestroy {
         if(res)
         {
           this.holidayList = this.holidayList.filter(item => item.Id !== id);
-          this.dataSource = new MatTableDataSource(this.holidayList);
+          this.dataSource.data = this.holidayList;
+         this.alertService.successResponseFromDataBase();
         }
+        else
+          this.alertService.errorResponseFromDataBase();
       });
     }
   }
 
   refresh(){
+    if(this.holidayListSubscription)
+    this.holidayListSubscription.unsubscribe();
     this.getAllholidayData();
-    console.log("Refresh done");
   }
   
   ngOnDestroy()
