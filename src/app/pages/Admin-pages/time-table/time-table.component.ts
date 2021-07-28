@@ -13,7 +13,7 @@ import {
   isSameMonth, 
 } from 'date-fns';
 import { Subject, Subscription, timer } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarDayViewBeforeRenderEvent,
   CalendarEvent,
@@ -55,8 +55,9 @@ moment.tz.setDefault('Utc');
   ],
 })
 export class TimeTableComponent implements OnInit  {
-  @ViewChild('modalContent', { static: true })
-  modalContent!: TemplateRef<any>;
+  @ViewChild('deleteModal', { static: true })
+  
+  deleteModal!: TemplateRef<any>;
   groupControl = new FormControl('', Validators.required);
   view: CalendarView = CalendarView.Month;
   groupList: Group[] = [];
@@ -65,6 +66,7 @@ export class TimeTableComponent implements OnInit  {
 public dateString:string
   CalendarView = CalendarView;
   viewDate: Date = new Date();
+  public activeModal: NgbActiveModal;
   
   public recurringEvent:Schedule={
     Start:this.viewDate,
@@ -97,7 +99,8 @@ public dateString:string
       onClick: ({ event }: { event: CalendarEvent }): void => {
         // weekDay=event.start.getDay() - 1 < 0 ? 6 : event.start.getDay() - 1; 
        // this.recurringEvents = this.recurringEvents.filter((iEvent) => iEvent.title !== event.title || iEvent.rrule.byweekday !== weekDay);
-        this.deleteEvent(event);
+        this.openDelete(event);
+        //this.openDelete(event);
       },
     },
   ];
@@ -106,10 +109,14 @@ public dateString:string
   refresh: Subject<any> = new Subject();
   timeTableSubscription!:Subscription;
   recurringEvents: Schedule[] = [];
+  removeEvent:CalendarEvent;
   calendarEvents: CalendarEvent[] = [];
   viewPeriod: ViewPeriod;
   chosenGroup : string;
+  eventToEdit:Schedule;
   activeDayIsOpen: boolean = true;
+  isLoading=false;
+  loading=false;
 
   constructor(private timeTableService:TimeTableService,
     private cdr: ChangeDetectorRef,
@@ -150,6 +157,8 @@ public dateString:string
     });
   }
   this.refresh.next();  
+    this.isLoading=false;
+
   }
   
   updateCalendarEvents(
@@ -193,45 +202,69 @@ public dateString:string
     this.recurringEvent.rrule.byweekday=this.viewDate.getDay();
   // this.openModal(true);     
   }
+getCoursesByGroup(chosenGroup:string)
+{
+  for(let group of this.groupList)
+      {
+      if(group.GroupNumber === chosenGroup)
+           return group.courses;
+      }
+return false;
+}
 
-  openAddModal({ date}: { date: Date;  })
+openAddModal({ date}: { date: Date;  })
   {
+    
     this.viewDate=date;
     const ref=this.modalService.open(EventModalComponent,{centered:true});
     ref.componentInstance.viewDate=this.viewDate;
     ref.componentInstance.isAddMode=true;
     ref.componentInstance.recurringEvent=this.recurringEvent;
     ref.componentInstance.timeTable=this.timeTable;
-   ref.componentInstance.isAddMode=true;
-    for(let group of this.groupList)
-      {
-      if(group.GroupNumber === this.chosenGroup)
-      {
-      ref.componentInstance.courses = group.courses;
-      break;
-      }
-}
+    ref.componentInstance.isAddMode=true;
+    ref.componentInstance.courses = this.getCoursesByGroup(this.chosenGroup);
     ref.result.then((result) => {
       if (result) {
+        this.recurringEvent=result;
           this.addEvent();
-      
-      this.cdr.detectChanges();
-      this.refresh.next();
+          this.alertService.openAlertMsg('success','Added new Event');
       }
       });
-  }
- 
+  
+  
+}
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
-    this.editEvent(event);
+  openEditModal(eventToEdit:CalendarEvent)
+  {
+    const ref=this.modalService.open(EventModalComponent,{centered:true});
+    ref.componentInstance.viewDate=this.viewDate;
+    ref.componentInstance.isAddMode=false;
+    ref.componentInstance.eventToEdit=this.eventToEdit;
+    ref.componentInstance.timeTable=this.timeTable;
+    ref.componentInstance.courses = this.getCoursesByGroup(this.chosenGroup);
+    ref.result.then((result) => {
+      if (result) {
+      for(let event of this.calendarEvents){
+        if(event.id === this.eventToEdit.EventId){
+          this.calendarEvents = this.calendarEvents.filter((calendarEvent) =>  calendarEvent !== event);
+        }
+      }
+      result.rrule.byweekday -= 1;
+      this.recurringEvents[this.recurringEvents.findIndex(el => el.EventId === result.EventId)] = result;
+      this.pushEvent(result);
+      this.alertService.openAlertMsg('success','Event was updated!');
+
+      }
+      });
+      
   }
+
+  
 
   addEvent(): void {
     const newEvent:Schedule={
-      Start:this.recurringEvent.Start,
-      End:this.recurringEvent.End,
+      Start:new Date(this.recurringEvent.Start),
+      End:new Date(this.recurringEvent.End),
       Title: this.recurringEvent.Title,
       Color:{
         primary:this.recurringEvent.Color.primary,
@@ -239,11 +272,11 @@ public dateString:string
       },
       rrule: {
         freq: RRule.WEEKLY,
-        byweekday: this.recurringEvent.rrule.byweekday -1 < 0 ? 6: this.recurringEvent.rrule.byweekday-1,
+        byweekday: this.recurringEvent.rrule.byweekday == -1  ? 6: this.recurringEvent.rrule.byweekday-1,
         
     },
     EventId:this.recurringEvent.EventId,
-    LastDate:this.recurringEvent.LastDate,
+    LastDate:new Date(this.recurringEvent.LastDate),
     Teacher:this.recurringEvent.Teacher
   };
     
@@ -272,6 +305,7 @@ public dateString:string
 this.pushEvent(newEvent);
 this.cdr.detectChanges();
 this.refresh.next();
+
     
 
  }
@@ -295,7 +329,10 @@ this.refresh.next();
       startOfEvent.setMinutes(event.Start.getMinutes());
       endOfEvent.setMinutes(event.End.getMinutes());
       
-        this.calendarEvents.push({
+        this.calendarEvents= [
+          ...this.calendarEvents,
+          {
+          id:event.EventId,
           title,
           actions:this.actions,
           color:{
@@ -304,43 +341,66 @@ this.refresh.next();
           },
           start:moment(startOfEvent).toDate(),
           end:moment(endOfEvent).toDate(),
-        });
+        }
+        ]
       });
+this.cdr.detectChanges();
+this.refresh.next();
+
   }
 
-editEvent(eventToEdit:CalendarEvent)
+editEvent(event:CalendarEvent)
 {
+  this.viewDate=event.start;
   for(let recEvent of this.recurringEvents) {
-    if(recEvent.Title == eventToEdit.title && recEvent.Start.getDay() == eventToEdit.start.getDay())
+    if(recEvent.EventId == event.id)
       {
-        this.recurringEvent=recEvent;
+        this.eventToEdit=recEvent;
         break;
       }
 }
-//this.openEditModal();
+this.openEditModal(event);
 
 }
+
 deleteEvent(eventToDelete: CalendarEvent) {
+  this.loading=true;
   for(let recEvent of this.recurringEvents) {
-    if(recEvent.Title == eventToDelete.title && recEvent.Start.getDay() == eventToDelete.start.getDay())
+    if(recEvent.EventId == eventToDelete.id)
       {
       this.scheduleService.deleteEvent(recEvent.EventId,this.timeTable.CalendarName)
       .subscribe(result => {
         if(result)
         {
-          //this.alertService.success("Event deleted successfully!");
-
-        this.calendarEvents = this.calendarEvents.filter((event) => event !== eventToDelete);
-        this.recurringEvents=this.recurringEvents.filter((event) => event !== recEvent);
-         this.cdr.detectChanges();
-        this.refresh.next();   
+          for(let event of this.calendarEvents)
+            {
+        if(event.id == eventToDelete.id )
+          this.calendarEvents = this.calendarEvents.filter((calendarEvent) =>  calendarEvent !== event);
+              }
+              this.recurringEvents=this.recurringEvents.filter((event) => event !== recEvent);
+              this.cdr.detectChanges();
+              this.refresh.next(); 
+              this.modal.dismissAll();
+          this.alertService.openAlertMsg('success','Deleted Successfully');  
         }      
-  });
+        else
+        {
+          this.alertService.openAlertMsg('error','Cannot Delete an event');
+        }
+  }).add(() => this.loading = false);
+  
   break;
+  
   }
 }
 }
+openDelete(eventToDelete: CalendarEvent){
+  
+  this.modal.open(this.deleteModal);
+  this.removeEvent=eventToDelete;
 
+
+}
 
 
   setView(view: CalendarView) {
@@ -359,10 +419,11 @@ deleteEvent(eventToDelete: CalendarEvent) {
   }
   choosenGroup(event: string)
   {
+    this.isLoading=true;
     this.chosenGroup = event;
     this.getTimeTable();
   }
-
+  
 
 
 }

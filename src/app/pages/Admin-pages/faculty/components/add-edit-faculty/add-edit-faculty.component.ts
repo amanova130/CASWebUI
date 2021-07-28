@@ -26,7 +26,9 @@ export class AddEditFacultyComponent implements OnInit {
   checkedList: any;
   currentSelected!: {};
   newCourseList: Course[] = [];
- 
+  editFaculty:Faculty = {
+    Id: "",
+  };
   
   @Input()
     public faculty: Faculty;
@@ -44,8 +46,15 @@ export class AddEditFacultyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.editFaculty={
+      Id:this.faculty.Id,
+      FacultyName:this.faculty.FacultyName,
+      Description:this.faculty.Description,
+      Courses:this.faculty.Courses,
+      Status:true
+    
+    }
       this.getCourses();
-      console.log(this.faculty);
       this.isAddMode = !this.faculty.Id;
   }
 
@@ -75,6 +84,7 @@ export class AddEditFacultyComponent implements OnInit {
   }
 
   private createFaculty() {
+    this.faculty=this.editFaculty;
       this.facultyService.create(this.faculty)
       .pipe(first())
       .subscribe(result => {
@@ -91,10 +101,11 @@ export class AddEditFacultyComponent implements OnInit {
 }
 
   private updateFaculty() {
-        this.facultyService.update(this.faculty)
+        this.facultyService.update(this.editFaculty)
         .pipe(first()).subscribe((result) => {
             if(result)
             {
+              this.faculty=this.editFaculty;
               let x = this.facultyList.find(x => x.Id === this.faculty.Id)
               let index = this.facultyList.indexOf(x!)
               this.facultyList[index] = this.faculty;
@@ -111,7 +122,7 @@ export class AddEditFacultyComponent implements OnInit {
 
   choosenCourse(event: string[])
   {
-    this.faculty.Courses = event;
+    this.editFaculty.Courses = event;
   }
 
 }

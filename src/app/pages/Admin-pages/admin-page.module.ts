@@ -38,7 +38,10 @@ import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
+import { InboxComponent } from './email/components/inbox/inbox.component';
+import { SentComponent } from './email/components/sent/sent.component';
+import { ComposeComponent } from './email/components/compose/compose.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -65,8 +68,13 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DashboardComponent,
     AdminPageComponent,
     AddEditHolidayComponent,
+    InboxComponent,
+    SentComponent,
+    ComposeComponent,
+    
   ],
   imports: [
+    ReactiveFormsModule,
     AngularMaterialModule,
     MatIconModule,
     FlexLayoutModule,
@@ -76,6 +84,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatPaginatorModule,
     MatFormFieldModule,
     MatCheckboxModule,
+    NgSelectModule,
     CommonModule,
     AdminPageRoutingModule,
     FormsModule, 
@@ -84,6 +93,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,
+    FormsModule,
     NgxChartsModule,
     RouterModule,
     FlatpickrModule.forRoot(
@@ -109,8 +119,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     FacultiesComponent,
     AddEditFacultyComponent,
     AddEditGroupComponent,
-    DashboardComponent
-
+    DashboardComponent,
+    EmailComponent,
+    InboxComponent,
+    SentComponent,
+    ComposeComponent,
 
   ]
 })

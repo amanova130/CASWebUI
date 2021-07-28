@@ -24,7 +24,12 @@ export class GroupService {
     })
     );
   }
+  async getGroupsByFaculty(facultyName:string){
+    let res=await this.http.get<Group[]>(`${this.basePath}/api/Group/getGroupsByFaculty?id=${encodeURIComponent(String(facultyName))}`).toPromise();
+      return res;    
+  }
 
+  
  //function to get total number of groups from web api
   getNumberOfGroups()
   {
@@ -45,6 +50,7 @@ export class GroupService {
   )
  }
 
+ 
   //function to delete single group with given id
  deleteById(id: string){
   if (id === null || id === undefined) {

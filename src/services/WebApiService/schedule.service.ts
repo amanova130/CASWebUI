@@ -28,7 +28,6 @@ export class ScheduleService {
       Color:event.Color.primary,
       GroupName:groupId,
       LastDate:event.LastDate,
-      EventId:event.EventId,
       Teacher:event.Teacher
     }
     
@@ -41,6 +40,29 @@ export class ScheduleService {
       )
 
   }
+
+editEvent(event:Schedule,groupId:string)
+{
+  const param={
+      
+    Start:event.Start,
+    End:event.End,
+    Title:event.Title,
+    Color:event.Color.primary,
+    GroupName:groupId,
+    LastDate:event.LastDate,
+    Teacher:event.Teacher,
+    EventId:event.EventId
+  }
+  
+  if (event === null || event === undefined || groupId === null || groupId === undefined) {
+    throw new Error('Required parameter id was null or undefined when calling apiScheduleCreate.');
+  }
+  return this.http.put<Schedule>(`${this.basePath}/api/Schedule/updateEvent?groupId=${encodeURIComponent(String(groupId))}`, param)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+}
 
   // Delete Event by id and Group id
   deleteEvent(eventId: string, groupId: string) {

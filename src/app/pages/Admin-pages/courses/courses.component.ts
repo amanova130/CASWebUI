@@ -113,6 +113,18 @@ export class CoursesComponent implements OnInit, OnDestroy {
     .subscribe(result => {
         if(result)
         {
+          this.courseList = [
+            ...this.courseList,
+            {
+              Id: result.Id,
+              CourseName: result.CourseName,
+              Description: result.Description,
+              Duration: result.Duration,
+              Image: result.Image,
+              Status: result.Status,
+                
+            }
+          ]
           this.courseList.push(result);
           console.log("Result:" +result);
           this.dataSource = new MatTableDataSource(this.courseList);

@@ -1,0 +1,25 @@
+html{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper-box{
+    margin-top: 5%;
+    overflow-x: hidden !important;
+
+}
+.submit
+{
+margin-right:2%;
+}
+
+.mat-form-field
+{
+    width:40%;
+    margin-right: 5%;
+}
+// ::ng-deep.mat-select-value-text
+// {
+//     background: rgba(147, 147, 228, 0.349);
+// }

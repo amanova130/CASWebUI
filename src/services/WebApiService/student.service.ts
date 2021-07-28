@@ -26,6 +26,12 @@ export class StudentService {
     );
   }
 
+  getStudentsByGroup(groupNumber:string){
+    return this.http.get<Student[]>(`${this.basePath}/api/Student/getAllStudentsByGroup?groupName=${encodeURIComponent(String(groupNumber))}`).pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
   // Get Number of Student
   getNumberOfStudents()
   {
