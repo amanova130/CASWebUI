@@ -36,6 +36,7 @@ import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 
@@ -62,8 +63,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DashboardComponent,
     AdminPageComponent,
     AddEditHolidayComponent,
+    
   ],
   imports: [
+    ReactiveFormsModule,
     AngularMaterialModule,
     MatIconModule,
     FlexLayoutModule,
@@ -72,6 +75,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatSortModule,
     MatPaginatorModule,
     MatFormFieldModule,
+    MatCheckboxModule,
+    NgSelectModule,
     CommonModule,
     AdminPageRoutingModule,
     FormsModule, 
@@ -81,6 +86,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgbModalModule,
     ReactiveFormsModule,
     MatCheckboxModule,
+    FormsModule,
     NgxChartsModule,
     RouterModule,
     FlatpickrModule.forRoot(
@@ -104,7 +110,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FacultiesComponent,
     AddEditFacultyComponent,
     AddEditGroupComponent,
-    DashboardComponent
+    DashboardComponent,
+    EmailComponent,
+
+
   ]
 })
 export class AdminPageModule { }

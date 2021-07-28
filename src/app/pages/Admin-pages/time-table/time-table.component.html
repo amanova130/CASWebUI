@@ -2,6 +2,7 @@
 
 <ng-template
 #customCellTemplate
+
 let-day="day"
 let-openDay="openDay"
 let-locale="locale"
@@ -11,6 +12,7 @@ let-unhighlightDay="unhighlightDay"
 let-eventClicked="eventClicked"
 let-tooltipTemplate="tooltipTemplate"
 let-tooltipAppendToBody="tooltipAppendToBody">
+
 
 <div class="cal-cell-top"> 
   <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
@@ -40,9 +42,7 @@ let-tooltipAppendToBody="tooltipAppendToBody">
     [dropData]="{event: event, draggedFrom: day}"
     [dragAxis]="{x: event.draggable, y: event.draggable}"
     (mwlClick)="eventClicked.emit({ event: event })"
-    
-    >
-
+  >
   </div>
 </div>
 
@@ -138,13 +138,16 @@ let-tooltipAppendToBody="tooltipAppendToBody">
   <mat-form-field appearance="fill" class="selectGroup">
     <mat-label>Group</mat-label>
     <mat-select [(ngModel)]="chosenGroup" (valueChange)="choosenGroup($event)" name="group" >
-        <mat-option>--</mat-option>
         <mat-option *ngFor="let c of groupList" [value]="c.GroupNumber">{{c.GroupNumber}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 <div>
-  <mwl-calendar-month-view
+  <div *ngIf="isLoading" class="h6 mt-5 text-center">
+    <img src="assets/images/loading.gif" alt="Loading...">
+  </div>
+  <div *ngIf="!isLoading">
+  <mwl-calendar-month-view 
   
     *ngSwitchCase="CalendarView.Month"
     [viewDate]="viewDate"
@@ -153,8 +156,9 @@ let-tooltipAppendToBody="tooltipAppendToBody">
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
     (beforeViewRender)="updateCalendarEvents($event)"
+    (eventClicked)="editEvent($event.event)"
+
 
   >
   </mwl-calendar-month-view>
@@ -164,8 +168,10 @@ let-tooltipAppendToBody="tooltipAppendToBody">
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="calendarEvents"
+    (dayClicked)="addEvent()"
     [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (hourSegmentClicked)="openAddModal($event)"
+    (eventClicked)="editEvent($event.event)"
     (beforeViewRender)="updateCalendarEvents($event)"
     
   >
@@ -175,14 +181,46 @@ let-tooltipAppendToBody="tooltipAppendToBody">
     [viewDate]="viewDate"
     [events]="calendarEvents"
     [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (hourSegmentClicked)="openAddModal($event)"
+    (eventClicked)="editEvent($event.event)"
     (beforeViewRender)="updateCalendarEvents($event)"
     (change)="refresh.next()"
     
   >
   </mwl-calendar-day-view>
 </div>
+</div>
+
 </mat-card>
 
+<!-- Delete Modal -->
+<ng-template #deleteModal let-c="close" let-d="dismiss">    
+  <div class="modal-header">    
+      <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>    
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">    
+          <span aria-hidden="true">×</span>    
+      </button>    
+  </div>    
+  <div class="modal-body">    
+      <h2>Are you sure to delete this?</h2>    
+  </div>    
+  <div class="content">
+  Title:  <strong>{{removeEvent?.title}}</strong>
+</div>
+<div class="content">
+  Day:  <strong>{{this.datepipe.transform(removeEvent.start, 'EEEE')}}</strong>
+  </div>
+  <div class="content">
+  Start:  <strong>{{this.datepipe.transform(removeEvent.start, ' HH:mm')}}</strong>
+  </div>
+  <div class="content">
+  End:  <strong>{{this.datepipe.transform(removeEvent.end, 'HH:mm')}}</strong>
+  </div>
+  <div class="modal-footer">    
+      <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Cancel</button>    
+      <button type="button" [disabled]="loading" class="btn btn-outline-dark" (click)="deleteEvent(removeEvent)">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>  
 
-
+        Yes</button>    
+  </div>    
+</ng-template> 

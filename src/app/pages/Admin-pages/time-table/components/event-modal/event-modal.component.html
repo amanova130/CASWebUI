@@ -1,5 +1,7 @@
 <div class="modal-header">
-  <h1 class="modal-title">Add Event</h1>
+  <h1 *ngIf="isAddMode" class="modal-title">Add Event</h1>
+  <h1 *ngIf="!isAddMode" class="modal-title">Edit Event</h1>
+
   
   <button type="button" class="close btn" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">X</span>
@@ -7,81 +9,50 @@
 </div>
   <div class="modal-body">
     <form #form="ngForm" (ngSubmit)="onSubmit()">
+      
         <div class="row my-1">
             <div class="form-group col-6">
               <mat-form-field appearance="fill" class="selectGroup">
                 <mat-label>Course</mat-label>
-                <mat-select [(ngModel)]="chosenCourse" (valueChange)="choosenCourse($event)" name="course" >
+                <mat-select [(ngModel)]="chosenCourse" (valueChange)="choosenCourse($event)" name="course" required  >
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let courseName of courses" [value]="courseName">{{courseName}}</mat-option>
                 </mat-select>
                 </mat-form-field>
                 </div>
+                
             </div>
         
         <div class="row my-3">
             <div class="form-group col-6">
                 <label>Color</label>
-                <input type="color" id="Color" class="form-control" name="Color" [(ngModel)]="recurringEvent.Color.primary"/>
-                
+                <input type="color" id="Color" class="form-control" name="Color" [(ngModel)]="event.Color.primary"/>
             </div>
+            <div class="form-group col-6">
+            <label>Date</label>
+              
+                <input class="form-control" type="date" name="date" [(ngModel)]="date" disabled>
+              </div>
           </div>
 
             
 
             <div class="row my-3">
               <div class="form-group col-6">
-                <label>Start Date</label>
-                <!-- <input
-                name="startDateString"
-                class="form-control"
-                type="text"
-                mwlFlatpickr
-                [(ngModel)]="recurringEvent.start"
-                (ngModelChange)="refresh.next()"
-                [altInput]="true"
-                [convertModelValue]="true"
-                [enableTime]="true"
-                dateFormat="Y-m-dTH:i"
-                altFormat="F j, Y H:i"
-                placeholder="Not set"
-              /> -->
-              <input class="form-control" type="datetime-local" name="startDateString" [(ngModel)]="startDateString">
+                <label>Start time</label>
+            
+              <input class="form-control" type="time" name="startDateString" [(ngModel)]="startDateString">
               </div>
               <div class="form-group col-6">
-                <label>End Date</label>
-                <!-- <input
-                name="endDateString"
-                class="form-control"
-                type="text"
-                mwlFlatpickr
-                [(ngModel)]="recurringEvent.end"
-                [altInput]="true"
-                [convertModelValue]="true"
-                [enableTime]="true"
-                dateFormat="Y-m-dTH:i"
-                altFormat="F j, Y H:i"
-                placeholder="Not set"
-              /> -->
-              <input class="form-control" type="datetime-local" name="endDateString" [(ngModel)]="endDateString">
+                <label>End Time</label>
+                
+              <input class="form-control" type="time" name="endDateString" [(ngModel)]="endDateString">
               </div> 
             </div>
             <div class="row my-3">
             <div class="form-group col-6">
               <label>Until Date</label>
-              <!-- <input
-              name="lastDateString"
-                class="form-control"
-                type="text"
-                mwlFlatpickr
-                [(ngModel)]="recurringEvent.lastDate"
-                [altInput]="true"
-                [convertModelValue]="true"
-                [enableTime]="true"
-                dateFormat="Y-m-dTH:i"
-                altFormat="F j, Y H:i"
-                placeholder="Not set"
-              /> -->
+              
               <input class="form-control" type="datetime-local" name="lastDateString" [(ngModel)]="lastDateString">
           </div>
         </div>
@@ -89,16 +60,17 @@
             <div class="form-group col-6">
               <mat-form-field appearance="fill" class="selectTeacher">
             <mat-label>Teacher</mat-label>
-            <mat-select [(ngModel)]="chosenTeacher"  name="chosenTeacher" (valueChange)="choosenTeacher($event)" >
-            <mat-option *ngFor="let teacher of teachersList" [value]="teacher" >{{teacher.First_name}} {{teacher.Last_name}}</mat-option>
+            <mat-select   [(ngModel)]="this.chosenTeacher.Id" (valueChange)="choosenTeacher($event)"  name="chosenTeacher"  >
+            <mat-option *ngFor="let teacher of teachersList" [value]="teacher.Id" >{{teacher.First_name}} {{teacher.Last_name}}</mat-option>
             </mat-select>
             </mat-form-field>
 
             </div>
           </div>
             <div class="form-group mb-3">
-              <button name="save"  class="btn btn-primary">
-                  Save
+              <button name="save" [disabled]="loading"  class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>  
+                Save
               </button>
               <a class="btn btn-link" name="close" (click)="activeModal.close(false)">Cancel</a>
           </div>

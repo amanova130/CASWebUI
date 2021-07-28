@@ -6,10 +6,16 @@ table {
     color: #555;
     padding: 15px;
 }
-
-.compose{
-    margin-bottom: 20%;
+#description
+{
+    
+    
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
+
 .card {
     background-color: #fff;
     border-radius: 10px;
@@ -32,7 +38,10 @@ table {
     height: 70px;
     min-width: 800px;
 }
-
+.mat-row:hover 
+{
+background: rgb(202, 201, 201);
+}
 .materialTableHeader .header-buttons-left input.search-field {
     font-weight: 500;
     color: rgba(0,0,0,.54);

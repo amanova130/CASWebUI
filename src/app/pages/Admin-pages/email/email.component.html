@@ -1,0 +1,48 @@
+<div class="row my-3">
+  <div class="col-2">
+    <mat-card class="email_menu">
+      <nav id="sidebarMenu" class="col-md-12 col-lg-12 d-md-block sidebar collapse w-100 h-100">
+        <div class="position-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link">
+                <button mat-raised-button class="compose" color="primary" (mwlClick)="composeView()">COMPOSE</button>
+              </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+              <a mat-button (mwlClick)="inboxView()">Inbox</a>
+            </li>
+            <li class="nav-item" >
+              <a mat-button (mwlClick)="sentView()">Sent</a>
+            </li>
+            <li class="nav-item">
+                <a mat-button (mwlClick)="sentView()">Draft</a>
+            </li>
+            <li class="nav-item">
+              <a mat-button (mwlClick)="sentView()">Trash</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    </mat-card>
+  </div>
+  <div class="col-lg-10">
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h2 class="page-title">Email</h2>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <app-inbox *ngIf="isInbox"></app-inbox>
+      <app-sent *ngIf="isSent"></app-sent>
+      <app-compose *ngIf="isCompose"></app-compose>
+    </div>
+  </div>
+</div>

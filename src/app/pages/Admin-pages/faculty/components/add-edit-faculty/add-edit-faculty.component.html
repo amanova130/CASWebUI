@@ -9,19 +9,19 @@
         <form #form="ngForm" (ngSubmit)="onSubmit()" >
                 <div class="form-group d-none">
                     <label>ID</label>
-                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="faculty.Id" #Id='ngModel' />
+                    <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editFaculty.Id" #Id='ngModel' />
                 </div>
             <div class="row my-3">
                 <div class="form-group col-6">
                     <label>Faculty Name</label>
-                    <input type="text" id="faculty_name" class="form-control" name="faculty_name" [(ngModel)]="faculty.FacultyName"  required #facultyName="ngModel"/>
+                    <input type="text" id="faculty_name" class="form-control" name="faculty_name" [(ngModel)]="editFaculty.FacultyName"  required #facultyName="ngModel"/>
                     <div class="alert alert-danger" *ngIf="facultyName.errors && (facultyName.dirty || form.submitted)">
                         <div *ngIf="facultyName.errors.required">faculty Name is required.</div>
                     </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Description</label>
-                    <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="faculty.Description" required
+                    <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="editFaculty.Description" required
                     #description="ngModel">
                     <div class="form-control-feedback  alert alert-danger"
                         *ngIf="description.errors && (description.dirty || form.submitted)">
@@ -33,7 +33,7 @@
               <div class="form-group mb-3">
                 <mat-form-field appearance="fill">
                     <mat-label>Courses</mat-label>
-                    <mat-select [(ngModel)]="faculty.Courses" (valueChange)="choosenCourse($event)" name="Courses" multiple>
+                    <mat-select [(ngModel)]="editFaculty.Courses" (valueChange)="choosenCourse($event)" name="Courses" multiple>
                       <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
                     </mat-select>
                   </mat-form-field>
