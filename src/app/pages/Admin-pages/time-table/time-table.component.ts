@@ -227,7 +227,7 @@ openAddModal({ date}: { date: Date;  })
       if (result) {
         this.recurringEvent=result;
           this.addEvent();
-          this.alertService.openAlertMsg('success','Added new Event');
+          this.alertService.successResponseFromDataBase;
       }
       });
   
@@ -252,7 +252,7 @@ openAddModal({ date}: { date: Date;  })
       result.rrule.byweekday -= 1;
       this.recurringEvents[this.recurringEvents.findIndex(el => el.EventId === result.EventId)] = result;
       this.pushEvent(result);
-      this.alertService.openAlertMsg('success','Event was updated!');
+      this.alertService.successResponseFromDataBase();
 
       }
       });
@@ -381,11 +381,11 @@ deleteEvent(eventToDelete: CalendarEvent) {
               this.cdr.detectChanges();
               this.refresh.next(); 
               this.modal.dismissAll();
-          this.alertService.openAlertMsg('success','Deleted Successfully');  
+          this.alertService.successResponseFromDataBase();  
         }      
         else
         {
-          this.alertService.openAlertMsg('error','Cannot Delete an event');
+          this.alertService.errorResponseFromDataBase;
         }
   }).add(() => this.loading = false);
   

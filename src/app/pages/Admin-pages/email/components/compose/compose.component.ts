@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { AlertService } from 'src/services/helperServices/alert.service';
+import { isThisSecond } from 'date-fns';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Message, OutlookMessage, ReceiverDetails } from 'src/services/models/message';
 import { Faculty, Group } from 'src/services/models/models';
 import { Student } from 'src/services/models/student';
@@ -30,10 +31,9 @@ import { StudentService } from 'src/services/WebApiService/student.service';
     public groupList:Group[]=[];
     public receiverList:ReceiverDetails[]=[];
     public isFaculty:boolean=false;
-    selectedFaculty: any;
+    selectedFaculty: string[];
     selectedStudent: any;
     selectedGroup: any;
-
 
     public isGroup:boolean=false;
     public isStudent:boolean=false;
@@ -57,165 +57,128 @@ import { StudentService } from 'src/services/WebApiService/student.service';
       groups: new FormControl(''),
       students: new FormControl(''),
       category: new FormControl(''),
+      
 
+    
 
       
       })
+
       }
-onSubmit(value:any)
-{
-  this.receiverList.length=0;
-if(value.category === 'faculty')
-{
-  for(let faculty of value.faculties)
+choosenFaculty(e:any)
+  {          
+               
+  }
+ onSubmit(value:any)
+ {
+   if(this.isStudent)
+   {
+     console.log(this.FormData.value)
+     this.sendMessage(this.FormData.value);
+   }
+  else if(this.isGroup)
   {
-    this.getGroupsByFaculty(faculty);
-    if(this.groupList.length > 0)
-    {
-    for(let group of this.groupList)
-      this.getStudentsByGroup(group.GroupNumber);
-    }
+    this.studentService.getStudentsByGroups(this.FormData.value.groups).subscribe(studentList=>{
+      let emails:string[]=[];
+      if(studentList)
+      {
+        studentList.forEach(student=>{
+         emails.push(student.Email);
+
+        })
+        this.FormData.value.students=emails;
+        this.sendMessage(this.FormData.value);
+      }
+       
+   });
+  }
+  else 
+  {
+    this.studentService.getStudentsByFaculties(this.FormData.value.faculties).subscribe(studentList=>{
+      let emails:string[]=[];
+      if(studentList)
+      {
+        studentList.forEach(student=>{
+         emails.push(student.Email);
+
+        })
+        this.FormData.value.students=emails;
+        this.sendMessage(this.FormData.value);
+      }
+       
+   });
 
   }
-  //this.sendMessage(value);
-}
-  else if(value.category === 'group')
-  {
-    for(let groupName of value.groups)
-    {
+ }
 
-      this.getStudentsByGroup(groupName);
-    }
-   // this.sendMessage(value);
-
-  }
-  else
-  {
-    for(let student of value.students)
-    {
-        this.addReceiver(student);
-    }
- //   this.sendMessage(value);
-
-  }
-  console.log(this.receiverList);
-
-  
-
-
-
-}
-
-sendMessage(value:any)
+sendMessage(message:any)
 {
-  const message:Message=
-  {
-   Description:value.Description,
-   Subject:value.Subject,
-    Receiver:this.receiverList,
+  const msgToSend:Message={
+    Description:message.Description,
+    Subject:message.Subject,
     DateTime:new Date(),
+    Receiver:message.students,
     Status:true
   }
-  this.messageService.create(message).subscribe(result => {
-    if(result)
-    {
-        this.alertService.openAlertMsg('success','Added new message');
-    }  
-    else
-        this.alertService.openAlertMsg('error','Cannot add a new Group');
-}) 
+  this.messageService.create(msgToSend).subscribe(res=>{
+     if(res)
+       console.log("succeded");
+  });
 }
  
- choosenCategory(e:MatSelectChange)
+choosenCategory(e:any)
     {
-      if(e.value === "faculty")
+      if(e.value == 'faculty')
       {
         this.getAllFaculties();
-        this.groupList.length=0;
-        this.studentList.length=0;
+       this.isFaculty=true;
+       this.isGroup=false;
+       this.isStudent=false;
+      }
 
-        this.isFaculty=true;
-        this.isGroup=false;
+      
+       else if(e.value == 'group')
+       {
+        this.getAllGroups();
+         this.isGroup=true;
+         this.isFaculty=false;
         this.isStudent=false;
-      }
-         else if(e.value === "group")
-        {
-          this.groupService.getAllGroups().subscribe((list: Group[])=>{
-            this.groupList = list;
-            this.facultyList.length=0;
-            this.studentList.length=0;
-            this.isFaculty=false;
-            this.isGroup=true;
-            this.isStudent=false;
-          });
-          
-        }
-        else
-        {
-          this.studentService.getAllstudents().subscribe((list: Student[])=>{
-            if(list)
-            {
-            this.studentList = list;
-            this.groupList.length=0;
-            this.facultyList.length=0;
-            this.studentList.map(
-              (student: any) => {
-                student.full_name = student.First_name + ' ' + student.Last_name;
-                return student;
-              });
-            this.isFaculty=false;
-            this.isGroup=false;
-            this.isStudent=true;
-            }
-        });
-      }
+       }
+
+       else
+       {
+        this.getAllStudents();
+        this.isStudent=true;
+        this.isFaculty=false;
+        this.isGroup=false;
+       }
     }
+
    getAllFaculties()
    {
     this.facultyService.getAllFaculties().subscribe((list: Faculty[])=>{
       this.facultyList = list;
     });
    }
-  async getGroupsByFaculty(facultyName:string)
+   getAllGroups()
    {
-   let res =await this.groupService.getGroupsByFaculty(facultyName).then(data=>{
-    console.log("promise result");
-   })
-   console.log("after promise");
+    this.groupService.getAllGroups().subscribe((list: Group[])=>{
+      this.groupList = list;
+    });
    }
-   getStudentsByGroup(groupNumber:string)
+
+   getAllStudents()
    {
-    
-      this.studentService.getStudentsByGroup(groupNumber).subscribe((list: Student[])=>{
-        if(list)
-        {
-        for(let student of list)
-        {
-          //this.studentList.push(student);
-          const receiver:ReceiverDetails={
-            Id:student.Id,
-            Email:student.Email
-          }
-          this.receiverList.push(receiver);
-        }
-      }
-      });
-    
+    this.studentService.getAllstudents().subscribe((list: Student[])=>{
+      this.studentList = list;
+      this.studentList.map(
+        (student: any) => {
+          student.full_name = student.First_name + ' ' + student.Last_name;
+          return student;
+        });
+    });
    }
-   addReceiver(studentId:string )
-   {
-     for(let student of this.studentList)
-     {
-       if(studentId === student.Id)
-       {
-    const receiver:ReceiverDetails={
-      Id:student.Id,
-      Email:student.Email
-    }
-    this.receiverList.push(receiver);
-  }
-  }
-}
+
   }
   
     

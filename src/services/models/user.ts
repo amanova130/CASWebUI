@@ -2,9 +2,11 @@
 
 
 export interface User { 
-    id?: string;
-    Password?: string;
     UserName?: string;
+    Password?: string;
     LogIn?: Date;
     LogOff?: Date;
+    Role?:string;
+    Status?:boolean;
+    Email?:string;
 }

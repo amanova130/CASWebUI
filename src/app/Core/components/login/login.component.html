@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div  class="container-fluid">
     <div class="row no-gutter">
         <!-- The image half -->
         <div class="col-md-6 d-none d-md-flex bg-image"></div>
@@ -8,14 +8,17 @@
                 <!-- Demo content-->
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-10 col-xl-7 mx-auto">
+                        <div *ngIf="isLoginPage" class="col-lg-10 col-xl-7 mx-auto">
                             <form novalidate [formGroup]="loginForm">
                                 <div id="login-container">
-                              
+                                  
                                     <h2 class="primary">Login</h2>
+                                    <mat-error *ngIf="isWrong">
+                                      Username or password is incorrect
+                                    </mat-error>
                               
-                                    <mat-form-field class="example-full-width">
-                                      <input matInput placeholder="User name" formControlName="userName" required>
+                                    <mat-form-field class="example-full-width" >
+                                      <input matInput placeholder="User name" formControlName="userName"   required>
                                       <mat-error *ngIf="loginForm.controls['userName'].hasError('required')">
                                         Please enter user name
                                       </mat-error>
@@ -24,11 +27,20 @@
                               
                                     <mat-form-field>
                                       <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password"
-                                        required>
+                                        >
                                       <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
                                         Please enter password
                                       </mat-error>
+
+                                      <mat-error *ngIf="loginForm.controls['password'].hasError('minLength')">
+                                        Password must contain at least 5 symbols
+                                      </mat-error>
+
+                                      <mat-error *ngIf="loginForm.controls['password'].hasError('maxLength')">
+                                        Password is too long
+                                      </mat-error>
                                     </mat-form-field>
+                                    
                                     <br>
                               
                                     <div>
@@ -39,7 +51,7 @@
                                       <br>
                                       <br>
                                       <hr>
-                                      <a class="primary" routerLink='login/forgot-pass'>Forgot Password?</a>
+                                      <a class="primary" routerLink='../forgot-pass'>Forgot Password?</a>
                                       <br>
                                     </div>
                               

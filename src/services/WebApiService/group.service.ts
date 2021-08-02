@@ -24,9 +24,10 @@ export class GroupService {
     })
     );
   }
-  async getGroupsByFaculty(facultyName:string){
-    let res=await this.http.get<Group[]>(`${this.basePath}/api/Group/getGroupsByFaculty?id=${encodeURIComponent(String(facultyName))}`).toPromise();
-      return res;    
+  getGroupsByFaculty(facultyName:string){
+   return  this.http.get<Group[]>(`${this.basePath}/api/Group/getGroupsByFaculty?id=${encodeURIComponent(String(facultyName))}`).pipe(
+    catchError(this.errorHandler)
+   )
   }
 
   

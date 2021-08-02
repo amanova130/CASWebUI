@@ -14,7 +14,7 @@ export class MessageService {
 
   constructor(  private http: HttpClient) { }
 
-  // Get All student list
+  // Get All message list
   getMessagesByReceiverId(id:string){
     return this.http.get<Message[]>(`${this.basePath}/api/Message/getAllMsgByReceiver?id=${encodeURIComponent(String(id))}`)
     .pipe(
@@ -32,7 +32,7 @@ export class MessageService {
 
  
 
-//  Delete Student By Id
+//  Delete message By Id
  deleteById(id: string){
   if (id === null || id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentIdDelete.');
@@ -43,7 +43,7 @@ export class MessageService {
   )
 }
 
-// Create a new Student profile
+// Create a new message profile
 create(params: any){
   if (params === null || params === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentCreate.');
@@ -55,7 +55,7 @@ create(params: any){
   )
 }
 
-// Update an existed student profile
+// Update an existed message profile
 update(studentIn:Message){
   const headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this.http.put<Message>(`${this.basePath}/api/Student/updateStudent`, studentIn)
