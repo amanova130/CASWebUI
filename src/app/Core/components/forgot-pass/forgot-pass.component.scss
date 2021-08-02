@@ -2,8 +2,10 @@
     display: flex;
     flex-direction: column;
     padding: 1.7em;
-    width: 290px;
+    width: 100%;
     position: relative;
+    height: 100%;
+    text-align: center;
   }
   
   .Sign-Up-btn {
@@ -13,7 +15,8 @@
   .Login-btn {
     margin-top: 2.5em;
     height: 2.5em;
-    float: right;
+    float: center;
+    width: 50%;
   }
   .footer-sec {
     text-align: center;
@@ -21,7 +24,39 @@
   h2 {
     font-size: 21pt;
   }
+  p
+  {
+    color:grey;
+    font-weight: 500;
+  }
   
   .footer-sec a {
     text-decoration: none;
   }
+.example-full-width
+{
+  width:50%;
+  margin-left: 25%;
+  margin-top:5%;
+}
+.bg-image {
+  background-image: url('/assets/images/forgot-pass.jpg');
+  background-size: cover;
+  background-position: center center;
+}
+
+.login,
+.image {
+  min-height: 100vh;
+}
+.mat-card-subtitle
+{
+  text-align: left;
+  margin-left:20%;
+  margin-bottom: 10%;
+}
+
+  
+  
+ 
+  

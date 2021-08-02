@@ -38,6 +38,12 @@ import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/a
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { InboxComponent } from './email/components/inbox/inbox.component';
+import { SentComponent } from './email/components/sent/sent.component';
+import { ViewMailComponent } from './email/components/view-mail/view-mail.component';
+import { ComposeComponent } from './email/components/compose/compose.component';
+import { TruncatePipesModule } from 'angular-truncate-pipes';
+import { StaffComponent } from './staff/staff.component';
 
 
 
@@ -63,11 +69,17 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DashboardComponent,
     AdminPageComponent,
     AddEditHolidayComponent,
+    ComposeComponent,
+    InboxComponent,
+    StaffComponent,
+    SentComponent,
+    ViewMailComponent,    
     
   ],
   imports: [
     ReactiveFormsModule,
     AngularMaterialModule,
+    TruncatePipesModule,
     MatIconModule,
     FlexLayoutModule,
     RouterModule,
@@ -112,6 +124,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AddEditGroupComponent,
     DashboardComponent,
     EmailComponent,
+    ComposeComponent,
+    InboxComponent,
+    SentComponent,
+    ViewMailComponent,
+    StaffComponent
 
 
   ]

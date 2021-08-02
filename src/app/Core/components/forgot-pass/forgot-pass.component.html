@@ -1,4 +1,54 @@
-<form novalidate [formGroup]="forgetForm">
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <!-- The image half -->
+    <div class="col-md-6 d-none d-md-flex bg-image"></div>
+    <!-- The content half -->
+    <div class="col-md-6 bg-light">
+      <div class="login d-flex align-items-center py-5">
+        <!-- Demo content-->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <form novalidate [formGroup]="forgetForm">
+                <div id="login-container" >
+                  <h2 class="primary">Forgot your password?</h2>
+                  <mat-card-subtitle>Let us help you</mat-card-subtitle>
+                  <p>Enter your registered email address and we'll send you a verification to reset your password</p>
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Email address" formControlName="email" required>
+                    <mat-error *ngIf="forgetForm.controls.email.hasError('required')">
+                      Please enter email id
+                    </mat-error>
+                  </mat-form-field>
+                  <div>
+                    <button mat-raised-button color="primary" class="Login-btn" (click)="onForget()">Send</button>
+                  </div>
+
+                  <div class="footer-sec">
+                    <br>
+                    <br>
+                    <hr>
+                    <a class="primary" routerLink='../login'>Login?</a>
+                    <br>
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div><!-- End -->
+      </div>
+    </div><!-- End -->
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <form novalidate [formGroup]="forgetForm">
     <div id="login-container" class="mat-elevation-z8">
       <h2 class="primary">Forgot your password?</h2>
       <p>Enter your registered email address and we'll send you a verification to reset your password</p>
@@ -19,4 +69,4 @@
       </div>
   
     </div>
-  </form>
+  </form> -->

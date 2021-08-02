@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
+import { Message } from 'src/services/models/message';
+import { MessageService } from 'src/services/WebApiService/message.service';
+import { UserService } from 'src/services/WebApiService/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,7 +15,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class ForgotPassComponent implements OnInit {
   public forgetForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private userService:UserService,
+              private messageService:MessageService,
+              private alertService:AlertService,
+              private router: Router) 
+              { }
 
   public ngOnInit(): void {
     this.forgetForm = this.fb.group({
@@ -20,6 +30,17 @@ export class ForgotPassComponent implements OnInit {
 
   public onForget(): void {
     this.markAsDirty(this.forgetForm);
+    this.userService.resetPass(this.forgetForm.controls['email'].value).subscribe(res=>{
+      if(res)
+      {
+        this.alertService.successResponseFromDataBase();
+        this.router.navigate(['../login']);
+      }
+ },
+ err=>{
+   this.alertService.errorResponseFromDataBase();
+ });
+    
   }
 
   private markAsDirty(group: FormGroup): void {

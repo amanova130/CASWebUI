@@ -43,7 +43,7 @@ export class EmailComponent implements OnInit {
     private messageService:MessageService) { }
 
   ngOnInit(): void {
-    this.isInbox=true;
+    this.isSent=true;
   }
   selection = new SelectionModel<Message>(true, []);
 

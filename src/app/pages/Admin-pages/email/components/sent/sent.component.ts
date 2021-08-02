@@ -6,12 +6,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Message } from 'src/services/models/message';
 import { MessageService } from 'src/services/WebApiService/message.service';
 import { ViewMailComponent } from '../view-mail/view-mail.component';
+import { Pipe, PipeTransform } from '@angular/core';
+
 
 @Component({
   selector: 'app-sent',
   templateUrl: './sent.component.html',
   styleUrls: ['./sent.component.scss']
 })
+
 export class SentComponent implements OnInit {
   displayedColumns: string[] = ['select', 'Receiver','Subject', 'DateTime'];
   public messageList:Message[];
