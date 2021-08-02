@@ -7,13 +7,13 @@ import { EmailComponent } from './email/email.component';
 import { ExamsComponent } from './exams/exams.component';
 import { FacultiesComponent } from './faculty/faculties.component';
 import { GroupsComponent } from './groups/groups.component';
-import { HolidayComponent } from './holiday/holiday.component';
 import { LinksComponent } from '../../shared/components/links/links.component';
 import { ReportsComponent } from './reports/reports.component';
 import { RequestsComponent } from './requests/requests.component';
 import { StudentsComponent } from './students/students.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { TimeTableComponent } from './time-table/time-table.component';
+import { HolidayComponent } from 'src/app/shared/components/holiday/holiday.component';
 
 
 const routes: Routes = [

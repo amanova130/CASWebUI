@@ -1,11 +1,8 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
-import { Router } from '@angular/router';
-import { AlertService } from 'src/services/helperServices/alert.service';
-import { Message, OutlookMessage, ReceiverDetails } from 'src/services/models/message';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
+import { Message, ReceiverDetails } from 'src/services/models/message';
 import { Faculty, Group } from 'src/services/models/models';
 import { Student } from 'src/services/models/student';
 import { FacultyService } from 'src/services/WebApiService/faculty.service';
@@ -57,9 +54,6 @@ import { StudentService } from 'src/services/WebApiService/student.service';
       groups: new FormControl(''),
       students: new FormControl(''),
       category: new FormControl(''),
-
-
-      
       })
       }
 onSubmit(value:any)
@@ -119,10 +113,10 @@ sendMessage(value:any)
   this.messageService.create(message).subscribe(result => {
     if(result)
     {
-        this.alertService.openAlertMsg('success','Added new message');
+        this.alertService.successResponseFromDataBase();
     }  
     else
-        this.alertService.openAlertMsg('error','Cannot add a new Group');
+        this.alertService.errorResponseFromDataBase();
 }) 
 }
  
@@ -186,20 +180,20 @@ sendMessage(value:any)
    getStudentsByGroup(groupNumber:string)
    {
     
-      this.studentService.getStudentsByGroup(groupNumber).subscribe((list: Student[])=>{
-        if(list)
-        {
-        for(let student of list)
-        {
-          //this.studentList.push(student);
-          const receiver:ReceiverDetails={
-            Id:student.Id,
-            Email:student.Email
-          }
-          this.receiverList.push(receiver);
-        }
-      }
-      });
+      // this.studentService.getStudentsByGroup(groupNumber).subscribe((list: Student[])=>{
+      //   if(list)
+      //   {
+      //   for(let student of list)
+      //   {
+      //     //this.studentList.push(student);
+      //     const receiver:ReceiverDetails={
+      //       Id:student.Id,
+      //       Email:student.Email
+      //     }
+      //     this.receiverList.push(receiver);
+      //   }
+      // }
+      // });
     
    }
    addReceiver(studentId:string )

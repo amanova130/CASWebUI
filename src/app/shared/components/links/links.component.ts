@@ -1,24 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { AddEditCourseComponent } from 'src/app/shared/components/courses/add-edit-course/add-edit-course.component';
-import { Course } from 'src/services/models/course';
 import { ExtendedLink } from 'src/services/models/extended_link';
 import { Faculty } from 'src/services/models/faculty';
-import { CourseService } from 'src/services/WebApiService/course.service';
 import { ExtendedLinkService } from 'src/services/WebApiService/extended_link.service';
 import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { AlertService } from '../../helperServices/alert.service';
+import { SliderService } from '../../helperServices/slider.service';
 import { AddEditLinksComponent } from './add-edit-links/add-edit-links.component';
 
 @Component({
   selector: 'app-links',
   templateUrl: './links.component.html',
-  styleUrls: ['./links.component.scss']
+  styleUrls: ['./links.component.scss'],
 })
 export class LinksComponent implements OnInit, OnDestroy {
   isAddMode: boolean;
@@ -34,28 +32,38 @@ export class LinksComponent implements OnInit, OnDestroy {
   };
   @ViewChild('form') form!: any;
   submitted: boolean;
+  filtredLinkList: ExtendedLink[];
   facultyList: Faculty[] = [];
   facultyListSubscription!: Subscription;
+  responsiveOptions: any;
+  backgroundImg: any; 
+  sliderItems: any;
 
   constructor( 
     private linkService: ExtendedLinkService, 
     private alertService: AlertService, 
-    private http: HttpClient, 
-    private changeDetectorRef: ChangeDetectorRef,
     private modalService: NgbModal,
     private facultyService: FacultyService,
+    private sliderService: SliderService,
+    private cdRef:ChangeDetectorRef
      ) {}
   
   ngOnInit(): void {
-    this.changeDetectorRef.detectChanges();
     this.getFaculties();
-   this.getLinks()
+    this.getLinks();
+    this.responsiveOptions = this.sliderService.responsiveOptions;
+    this.backgroundImg = this.sliderService.backgroundImages;
+  }
+
+  setBackgroundImg(num: any){
+    return `url(${this.backgroundImg[num]})`;
   }
 
   private getLinks(){
     this.linkListSubscription = timer(0, 60000).pipe(switchMap(()=> this.linkService.getAllLinks())).subscribe((list: ExtendedLink[])=>
     {
       this.linkList = list;
+      this.filtredLinkList = this.linkList;
       this.isLoading=false;
     });
   }
@@ -64,7 +72,12 @@ export class LinksComponent implements OnInit, OnDestroy {
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
-
+  getLinksByFaculty(faculty : string)
+  {
+    this.filtredLinkList=this.linkList.filter(link=> link.Fac_name == faculty);
+    if(this.filtredLinkList.length == 0)
+      this.filtredLinkList = this.linkList;
+  }
   openAddEditModal(link: ExtendedLink = {Id: ""} ){
     const ref = this.modalService.open(AddEditLinksComponent, { centered: true });
     ref.componentInstance.link = link;

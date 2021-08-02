@@ -85,6 +85,18 @@ create(params: any){
   )
 }
 
+// Create a new Student profile
+insertListOfStudents(params: any){
+  if (params === null || params === undefined) {
+    throw new Error('Required parameter id was null or undefined when calling apiStudentCreate.');
+}
+  return this.http.post<Student>(`${this.basePath}/api/Student/insertListOfStudents
+  `, params)
+  .pipe(
+    catchError(this.errorHandler)
+  )
+}
+
 // Update an existed student profile
 update(studentIn:Student){
   const headers = new HttpHeaders({'Content-Type': 'application/json'});

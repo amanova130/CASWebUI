@@ -1,5 +1,3 @@
-import { Student } from "./student";
-
 
 export interface Message { 
     Id?: string;

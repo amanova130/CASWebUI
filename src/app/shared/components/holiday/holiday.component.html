@@ -30,21 +30,21 @@
                                 <li *ngIf="isSelected">
                                   <div class="icon-button-demo">
                                       <button mat-mini-fab="" data-bs-toggle="modal" data-bs-target="#deleteSelectedModal" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                         <i class="material-icons">delete</i>
+                                         <i class="material-icons text-white">delete</i>
                                        </button>
                                    </div>
                                </li>
                                    <li class="m-l-10">
                                        <div class="icon-button-demo">
                                            <button mat-mini-fab="" (click)="openModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                              <i class="material-icons">add</i>
+                                              <i class="material-icons text-white">add</i>
                                             </button>
                                         </div>
                                     </li>
                                     <li class="m-l-10">
                                         <div class="icon-button-demo">
                                             <button mat-mini-fab="" (click)="refresh()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary" >
-                                                <i class="material-icons">refresh</i>
+                                                <i class="material-icons text-white">refresh</i>
                                             </button>
                                         </div>
                                     </li>
@@ -126,7 +126,7 @@
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteModalLabel">Delete Holiday</h5>
@@ -150,7 +150,7 @@
 
 <!-- Delete Selected Modal -->
 <div class="modal fade" id="deleteSelectedModal" tabindex="-1" aria-labelledby="deleteSelectedModal" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteSelectedModal">Delete Selected Holiday profile</h5>

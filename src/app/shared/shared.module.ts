@@ -10,6 +10,10 @@ import { CoursesComponent } from "./components/courses/courses.component";
 import { AddEditCourseComponent } from 'src/app/shared/components/courses/add-edit-course/add-edit-course.component';
 import { SafePipe } from "./pipes/safe.pipe";
 import { UploadExcelModalComponent } from './components/upload-excel-modal/upload-excel-modal.component';
+import { HolidayComponent } from "./components/holiday/holiday.component";
+import { AddEditHolidayComponent } from "./components/holiday/components/add-edit-holiday/add-edit-holiday.component";
+import { CarouselModule } from "primeng/carousel";
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -19,6 +23,8 @@ import { UploadExcelModalComponent } from './components/upload-excel-modal/uploa
     AddEditCourseComponent,
     SafePipe,
     UploadExcelModalComponent,
+    HolidayComponent,
+    AddEditHolidayComponent,
 ],
   imports: 
   [CommonModule,
@@ -28,6 +34,8 @@ import { UploadExcelModalComponent } from './components/upload-excel-modal/uploa
     MatFormFieldModule,
     FormsModule,
     MatFormFieldModule,
+    CarouselModule,
+    ButtonModule,
 ],
   exports: [
     LinksComponent,
@@ -35,6 +43,8 @@ import { UploadExcelModalComponent } from './components/upload-excel-modal/uploa
     CoursesComponent,
     AddEditCourseComponent,
     UploadExcelModalComponent,
+    HolidayComponent,
+    AddEditHolidayComponent,
 ]
 })
 export class SharedModule {}

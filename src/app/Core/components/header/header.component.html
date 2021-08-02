@@ -6,20 +6,19 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse navbar-right" id="navbarText">
-        <span>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="login">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Dark mode</a>
-                </li>
-              </ul>
-        </span>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end align-item-center">
+        <div class="form-check form-switch p-3">
+          <input class="form-check-input" type="checkbox" [checked]="isDarkMode" id="flexSwitchCheckDefault" (click)="toggleTheme()">
+          <label class="form-check-label" for="flexSwitchCheckDefault"><span class="material-icons icon-color">
+            dark_mode
+            </span></label>
+        </div>
+        <button class="btn " type="button"><span class="material-icons">
+          manage_accounts
+          </span></button>
+        <button class="btn " type="button"><span class="material-icons">
+          logout
+          </span></button>
       </div>
     </div>
   </nav>

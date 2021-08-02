@@ -41,13 +41,11 @@ p
      font-size: 15px !important;
      font-weight:600 !important;
      opacity: .7 !important;
-
+     background-color: var(--background-default);
+    color: var(--color-dark);
     // fill: rgb(12, 36, 173) !important; 
   } 
 }
-
-
-
 
 .mat-card-title
 {

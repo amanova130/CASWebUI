@@ -1,5 +1,4 @@
 
-
 <ng-template
 #customCellTemplate
 
@@ -19,11 +18,10 @@ let-tooltipAppendToBody="tooltipAppendToBody">
   <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
 </div>
 
-<div>
+<div class="addEventSection">
   <mat-icon class="addButton"  (click)="openAddModal(day)">add</mat-icon>
   </div>
 <div class="cal-events" *ngIf="day.events.length > 0">
-  
   <div
     class="cal-event"
     *ngFor="let event of day.events;"
@@ -49,26 +47,16 @@ let-tooltipAppendToBody="tooltipAppendToBody">
   
 </ng-template>
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 mb-5">
   <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <ul class="breadcrumb breadcrumb-style">
-              <li class="breadcrumb-item">
-                  <h4 class="page-title">Calendar</h4>
-              </li>
-              <li class="breadcrumb-item bcrumb-1">
-                  <a routerlink="/dashboard">
-                      <i class="material-icons">home</i> Home
-                  </a>
-              </li>
-                  <li class="breadcrumb-item active">TimeTable</li>
-          </ul>
+         <h2 class="mb-0 pr-2">Time Table</h2>
       </div>
   </div>
 
 
 
-<mat-card class="mat-elevation-z4 calendar">
+<mat-card class="mat-elevation-z4 calendar mb-3">
 <div class="row text-center">
   <div class="col-md-4">
    
@@ -217,10 +205,10 @@ let-tooltipAppendToBody="tooltipAppendToBody">
   End:  <strong>{{this.datepipe.transform(removeEvent.end, 'HH:mm')}}</strong>
   </div>
   <div class="modal-footer">    
-      <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Cancel</button>    
-      <button type="button" [disabled]="loading" class="btn btn-outline-dark" (click)="deleteEvent(removeEvent)">
+      <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cancel</button>    
+      <button type="button" [disabled]="loading" class="btn btn-danger" (click)="deleteEvent(removeEvent)">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>  
 
-        Yes</button>    
+        Delete</button>    
   </div>    
 </ng-template> 

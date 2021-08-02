@@ -8,7 +8,6 @@ import { TeachersComponent } from './teachers/teachers.component';
 import { CoursesComponent } from '../../shared/components/courses/courses.component';
 import { ExamsComponent } from './exams/exams.component';
 import { GroupsComponent } from './groups/groups.component';
-import { HolidayComponent } from './holiday/holiday.component';
 import { ReportsComponent } from './reports/reports.component';
 import { RequestsComponent } from './requests/requests.component';
 import { TimeTableComponent } from './time-table/time-table.component';
@@ -34,10 +33,13 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
-import { AddEditHolidayComponent } from './holiday/components/add-edit-holiday/add-edit-holiday.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ViewMailComponent } from './email/components/view-mail/view-mail.component';
+import { SentComponent } from './email/components/sent/sent.component';
+import { ComposeComponent } from './email/components/compose/compose.component';
+import { InboxComponent } from './email/components/inbox/inbox.component';
 
 
 
@@ -46,7 +48,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [
     GroupsComponent,
-    HolidayComponent,
+
     ExamsComponent,
     ReportsComponent,
     RequestsComponent,
@@ -62,8 +64,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AddEditGroupComponent,
     DashboardComponent,
     AdminPageComponent,
-    AddEditHolidayComponent,
-    
+    ViewMailComponent,
+    SentComponent,
+    ComposeComponent,
+    InboxComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -98,7 +102,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   exports: [
     GroupsComponent,
-    HolidayComponent,
+
     TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
@@ -112,8 +116,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AddEditGroupComponent,
     DashboardComponent,
     EmailComponent,
-
-
   ]
 })
 export class AdminPageModule { }

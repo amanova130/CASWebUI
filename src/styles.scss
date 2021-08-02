@@ -7,21 +7,56 @@
 
 
   /* angular-cli file: src/styles.css */
-  @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 *,
 ::before,
 ::after {
     box-sizing: border-box
 }
+:root {
+    /* Colors-Light */
+    --background-default: #ffffff;
+    --background-table-title: #ebebee;
+    --background-searchBox: #ffffff;
+    --background-body: #f0f3fb;
+
+    --color-default: #f4faff;
+    --color-dark: #212121;
+    --color-light: #212121;
+    --color-theme-icon: #212121;
+  
+    --error-default: #ef3e36;
+    --error-dark: #800600;
+    --error-light: #ffcecc;
+    // Colors-Dark
+  
+    // --background-default:#1A202E;
+    // --background-table-title: #020910;
+    // --background-thead: #8b8787;
+    // --background-body: #f0f3fb;
+
+    // --color-default: #f4faff;
+    // --color-dark: #96a2b4;
+    // --color-light: #F7F7F7;
+  
+    // --error-default: #ef3e36;
+    // --error-dark: #800600;
+    // --error-light: #ffcecc;
+  
+    /* Shadows */
+    --background-tertiary-shadow: 0 1px 3px 0 rgba(92, 125, 153, 0.5);
+  }
 body, html {
     padding: 0;
     margin: 0;
     height: 100%;
     transition: all .5s;
-    background-color: #f0f3fb;
+    overflow-y: hidden;
+    background-color: var(--background-body);
     font-family: Roboto,sans-serif;
     font-size: 14px;
     box-sizing: border-box;
+    color: var(--color-dark);
   }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
@@ -50,6 +85,116 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
     background: #5400b3; 
   }
 
+  .materialTableHeader .header-buttons {
+    position: absolute;
+    right: 20px;
+    padding: 6px 8px 8px;
+}
+
+.header-buttons li{
+    list-style: none;
+    display: inline-block;
+}
+
+.materialTableHeader h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: #5b626b;
+}
+.mat-h2, .mat-title, .mat-typography h2 {
+    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: normal;
+    margin: 0 0 16px;
+}
+.m-l-20 {
+    margin-left: 20px;
+}
+.m-l-10{
+    margin-left: 10px;
+}
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    color: var(--color-light);
+}
+
+.materialTableHeader .header-buttons-left input.search-field {
+    font-weight: 500;
+    color: var(--color-light); //color: var(--color-light--)
+    border-radius: 25px;
+    border: 0;
+    height: 25px;
+    padding: 8px 8px 8px 40px;
+    width: 250px; 
+    background-color: var(--background-searchBox);
+}
+.materialTableHeader .header-buttons-left li {
+    display: inline-block;
+}
+.materialTableHeader .header-buttons-left .search-icon {
+    position: absolute;
+    top: 10px;
+    padding-left: 10px;
+    // color: rgba(0,0,0,.54);  
+    color: var(--color-light);
+}
+
+.materialTableHeader .header-buttons-left {
+    position: absolute;
+    list-style: none;
+    padding-top: 3px;
+}
+
+.materialTableHeader {
+    padding: 10px 20px;
+    align-items: center;
+    border-color: #e6e9ed;
+    //background-color: #ebebee; 
+    background-color: var(--background-table-title);
+    height: 70px;
+    min-width: 800px;
+}
+
+.card, .mat-card {
+    background-color: var(--background-default);
+    border-radius: 10px;
+    color: var(--color-dark);
+    border: none;
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 0 0.46875rem 2.1875rem rgb(90 97 105 / 10%), 0 0.9375rem 1.40625rem rgb(90 97 105 / 10%), 0 0.25rem 0.53125rem rgb(90 97 105 / 12%), 0 0.125rem 0.1875rem rgb(90 97 105 / 10%);
+}
+
+.mat-table, .table, .mat-paginator{
+    background-color: var(--background-default)!important;
+    color: var(--color-dark)!important;
+}
+.mat-cell,.mat-footer-cell, .mat-header-cell, .mat-checkbox-input, .mat-select-value, .mat-select-arrow, .btn-close, .mat-form-field-label{
+    color: var(--color-dark)!important;
+}
+
+::placeholder, .mat-select-placeholder, .mat-hint {
+    color: var(--color-light)!important;
+  }
+  .modal-body, .modal-header, .modal-footer{
+    background-color: var(--background-table-title);
+    color: var(--color-dark)!important;
+  }
+
+  .form-control{
+    background-color: var(--background-searchBox);
+    color: var(--color-dark);
+  }
   
   
 

@@ -15,7 +15,7 @@ h3 {
   margin: auto;
   width: 8%;
   padding: 10px;
-  background: white;  
+  background-color: var(--background-default) !important;
   }
 
 
@@ -27,9 +27,12 @@ mat-select{
     opacity:0.6;
     text-align: center;
   }
+  .addEventSection{
+    background-color: var(--background-default) !important;
+  }
  
   ::ng-deep.cal-week-view .cal-time-events .cal-event {
-    background-color: rgb(240, 241, 229) !important;
+    background-color: var(--background-default) !important;
     border-width: 3px !important;
     border-style: none none none solid !important;
   }
@@ -37,16 +40,18 @@ mat-select{
     font-size: 15px !important;
     font-style: italic;
   }
-  // ::ng-deep.cal-cell-top 
-  // {
-   
-  // }
+  ::ng-deep .cal-month-view .cal-cell-top, .cal-week-view, .cal-day-view
+  {
+    background-color: var(--background-default) !important;
+    color: var(--color-dark);
+  }
   ::ng-deep.ng-start-inserted {
     width: 10px;
     height: 10px;
     border-radius:0%;
     display: inline-block;
     margin: 2px;
+    background-color: var(--background-default) !important;
 }
 .mat-card.calendar
 {
@@ -57,11 +62,10 @@ mat-select{
 {
   color:grey;
   margin-left:90%;
- 
 }
 .addButton:hover
 {
-  color:rgba(25, 13, 70, 0.829)
+  color: var(--color-dark);
 }
 .modal-body
 {
@@ -69,6 +73,24 @@ mat-select{
 }
 .content
 {
+  background-color: var(--background-default) !important;
+  color: var(--color-dark);
   text-align: center;
   padding-bottom:25px;
+}
+.cal-events{
+  max-height: 20px!important;
+  background-color: var(--background-default) !important;
+}
+::ng-deep.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #289e3c!important;
+}
+
+::ng-deep.cal-week-view .cal-hour-odd
+{
+  background-color: var(--background-searchBox);
+}
+::ng-deep.cal-week-view .cal-time-events .cal-day-columns
+{
+  background-color: var(--background-default) !important;
 }

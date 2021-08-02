@@ -1,6 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
+import { Student } from 'src/services/models/student';
+import { StudentService } from 'src/services/WebApiService/student.service';
 import * as XLSX from 'xlsx';
+import { AlertService } from '../../helperServices/alert.service';
 
 @Component({
   selector: 'app-upload-excel-modal',
@@ -8,19 +12,22 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./upload-excel-modal.component.scss']
 })
 export class UploadExcelModalComponent implements OnInit {
-
+  isDataLoaded = true;
   spinnerEnabled = false;
   keys: string[];
-  dataSheet = new Subject();
+  dataSheet = new Subject<any>();
+  data: any;
   @ViewChild('inputFile') inputFile: ElementRef;
   isExcelFile: boolean;
-  constructor() { }
+  studentList: Student[] = [];
+
+  constructor(public modal: NgbActiveModal, private studentService: StudentService, private alertService: AlertService) { }
 
   ngOnInit(): void {
   }
 
   onChange(evt: any) {
-    let data: any, header;
+    //let data: any;
     const target: DataTransfer = <DataTransfer>(evt.target);
     this.isExcelFile = !!target.files[0].name.match(/(.xls|.xlsx)/);
     if (target.files.length > 1) {
@@ -39,25 +46,73 @@ export class UploadExcelModalComponent implements OnInit {
         const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
         /* save data */
-        data = XLSX.utils.sheet_to_json(ws);
+        this.data = XLSX.utils.sheet_to_json(ws);
       };
 
       reader.readAsBinaryString(target.files[0]);
 
       reader.onloadend = (e) => {
         this.spinnerEnabled = false;
-        this.keys = Object.keys(data[0]);
-        this.dataSheet.next(data)
+        this.keys = Object.keys(this.data[0]);
+        this.dataSheet.next(this.data);
+        this.isDataLoaded = false;
       }
     } else {
       this.inputFile.nativeElement.value = '';
     }
   }
 
+  uploadList(){
+    if(this.data !== null && this.data !== undefined)
+      this.convertToStudentList();
+      if(this.studentList.length > 0)
+      {
+        // this.studentService.insertListOfStudents(this.studentList).subscribe(result =>{
+        //   if(result)
+        //     this.alertService.genericAlertMsg("success", "File ulodad successfully");
+        //   else
+        //   this.alertService.errorResponseFromDataBase();
+        // });
+      }
+     
+  }
+
+  convertToStudentList(){
+    for(let item of this.data)
+    {
+      if(item.Id != null && item.Id != undefined)
+      {
+        let student : Student ={
+          Id: item.Id,
+          First_name: item.First_name,
+          Last_name: item.Last_name,
+          Email: item.Email,
+          Birth_date: item.Birth_date,
+          Phone: item.Phone,
+          Gender: item.Gender,
+          Group_Id: item.Group_Id,
+          Address: {
+            City: item.City,
+            Street: item.Street,
+            ZipCode: item.ZipCode
+          }
+        }
+        this.studentList.push(student);
+      }
+      else
+      {
+        this.studentList = [];
+        this.alertService.genericAlertMsg("error", "Failed to upload, One of the Ids is empty, please check it before upload");
+      }
+      
+    }
+  }
+
   removeData() {
     this.inputFile.nativeElement.value = '';
-    this.dataSheet.next(null);
-    this.keys = null;
+    this.dataSheet.next([]);
+    this.keys = [];
+    this.isDataLoaded = true;
   }
 
 }

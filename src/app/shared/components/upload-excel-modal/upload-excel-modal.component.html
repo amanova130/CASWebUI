@@ -1,15 +1,41 @@
-<input type="file" (change)="onChange($event)" #inputFile> <button (click)="removeData()">Remove Data</button>
-<div *ngIf="isExcelFile === false">
-  This is not an Excel file
-</div>
-    <span *ngIf="spinnerEnabled" class="k-i-loading k-icon"></span>
-    <table>
-      <th *ngFor="let key of keys">
-        {{key}}
-      </th>
-      <!-- <tr *ngFor="let item of dataSheet | async">
-        <td *ngFor="let key of keys">
-          {{item[key]}}
-        </td>
-      </tr>  -->
-    </table>
+
+  <div class="modal-header">
+    <h4 class="modal-title">Upload an Excel file</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group col-4">
+        <input type="file" (change)="onChange($event)" #inputFile required/>   
+      </div>
+      <div class="col-8 gap-2 d-md-flex justify-content-md-end text-center" *ngIf="!isDataLoaded">
+        <p class="text-warning">Please do double check before You upload the data to Data base</p>
+        <button class="btn btn-success me-md-2" (click)="uploadList()" type="button">Upload Data</button>
+        <button class="btn btn-warning"  (click)="removeData()" type="button">Remove Data</button>
+      </div>
+    </div>
+  
+    <div *ngIf="isExcelFile === false" class="text-danger h4">
+      <i>This is not an Excel file</i> 
+    </div>
+    <div class="container-fluid table-responsive pt-3">
+      <table class="table">
+        <th *ngFor="let key of keys">
+          {{key}}
+        </th>
+        <tr *ngFor="let item of dataSheet | async">
+          <td *ngFor="let key of keys">
+            {{item[key]}}
+          </td>
+        </tr> 
+      </table>
+    </div>   
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+
+
+

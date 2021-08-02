@@ -153,12 +153,12 @@ export class StudentsComponent implements OnInit{
   }
 
   uploadToExcell(){
-    const ref = this.modalService.open(UploadExcelModalComponent, { centered: true });
-    ref.result.then((result) => {
-      if (result) {
-       this.dataSource.data = result;
-      }
-      });
+    const ref = this.modalService.open(UploadExcelModalComponent, { centered: true, size: 'xl'  ,scrollable: true });
+    // ref.result.then((result) => {
+    //   if (result) {
+    //    this.dataSource.data = result;
+    //   }
+    //   });
   }
 
   refreshData(){
