@@ -1,4 +1,4 @@
-<!-- <mat-card>
+<mat-card>
 <div class="container">
     <h2 class="text-center mb-5">New Message</h2>
     <div class="row">
@@ -7,7 +7,7 @@
       <div class="form-group">
     <mat-form-field >
         <mat-label>Send to...</mat-label>
-        <mat-select  formControlName="category"  (selectionChange)="choosenCategory($event)" >
+        <mat-select  formControlName="category" (selectionChange)="choosenCategory($event)"  >
           <mat-option value="faculty">Faculty</mat-option>
           <mat-option value="group">Group</mat-option>
           <mat-option value="student">Student</mat-option>
@@ -15,7 +15,7 @@
         </mat-select> 
       </mat-form-field> 
 
-    <ng-select *ngIf="this.isFaculty" [items]="facultyList"  
+    <ng-select *ngIf="this.isFaculty" [items]="facultyList" 
               formControlName="faculties"
                bindLabel="FacultyName"
                bindValue="FacultyName"
@@ -35,17 +35,13 @@
     </ng-select>
       <ng-select *ngIf="this.isStudent" [items]="studentList"
       formControlName="students"
-
       bindLabel="full_name"
-      bindValue="Id"
+      bindValue="Email"
       placeholder="Select Student"
       appendTo="body"
       [multiple]="true"
       >
-       <ng-template  ng-label-tmp let-item="item">
-        <span >{{ item.First_name + ' ' + item.Last_name }}</span>
-    </ng-template> 
-  
+     
       </ng-select>
 
       
@@ -80,4 +76,4 @@
     </div>
     </div>
     </div>
-</mat-card> -->
+</mat-card>

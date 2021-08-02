@@ -50,7 +50,11 @@ export class StudentsComponent implements OnInit{
   sort: MatSort = new MatSort;
   @ViewChild('TABLE') table: ElementRef;
 
-  constructor(private studentService: StudentService,private modalService: NgbModal,public datepipe:DatePipe, private uploadFileService: UploadFileService, private alertService: AlertService) {}
+  constructor(private studentService: StudentService,
+              private modalService: NgbModal,
+              public datepipe:DatePipe, 
+              private uploadFileService: UploadFileService, 
+              private alertService: AlertService) {}
   ngOnInit(): void {
     this.isLoading=true;
     this.getAllStudentData();

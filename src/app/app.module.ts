@@ -27,6 +27,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {CarouselModule} from 'primeng/carousel';
 
 
+
+import { SafePipe } from './shared/pipes/safe.pipe';
+import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-edit-staff/add-edit-staff.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +41,7 @@ import {CarouselModule} from 'primeng/carousel';
     SideNavBarComponent,
     LoginComponent,
     ForgotPassComponent,
+    AddEditStaffComponent,
     
     
   ],

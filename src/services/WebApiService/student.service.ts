@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Student } from '../models/student';
 import { StudentUtils } from '../utils/studentUtils';
@@ -32,6 +32,28 @@ export class StudentService {
     )
   }
 
+  getStudentsByGroups(groupNumbers:string[]){
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    let queryParameters = new HttpParams();
+        if (groupNumbers) {
+          groupNumbers.forEach((element) => {
+                queryParameters = queryParameters.append('groupNames', <any>element);
+            })
+        }
+    return this.http.get<Array<Student>>(`${this.basePath}/api/Student/getAllStudentsByGroups`,{params: queryParameters,headers:headers});
+            
+}
+
+getStudentsByFaculties(facNumbers:string[]){
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+  let queryParameters = new HttpParams();
+      if (facNumbers) {
+        facNumbers.forEach((element) => {
+              queryParameters = queryParameters.append('facultyNames', <any>element);
+          })
+      }
+  return this.http.get<Array<Student>>(`${this.basePath}/api/Student/getAllStudentsByFaculties`,{params: queryParameters,headers:headers});
+    }
   // Get Number of Student
   getNumberOfStudents()
   {

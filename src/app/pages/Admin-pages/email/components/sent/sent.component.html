@@ -59,7 +59,7 @@
             </ng-container>
             <ng-container matColumnDef="Receiver">
               <th mat-header-cell *matHeaderCellDef> Receiver </th>
-              <td mat-cell *matCellDef="let element "> {{element.Receiver}} </td> 
+              <td mat-cell *matCellDef="let element "> <span class="receivers"> {{ (element.Receiver.length>6)? (element.Receiver | slice:0:6)+'..':(element.Receiver) }}</span> </td> 
             </ng-container>
     
             <!-- Weight Column -->

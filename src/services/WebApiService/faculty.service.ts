@@ -20,8 +20,8 @@ export class FacultyService {
   getAllFaculties(){
 
     return this.http.get<Faculty[]>(`${this.basePath}/api/Faculty/getAllFaculties`).pipe(map( (facultyList: Faculty[])=>{
-    
       return facultyList;
+      
     }),
     
     tap((facultyList: Faculty[]) =>{

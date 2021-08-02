@@ -1,6 +1,7 @@
 
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Message } from 'src/services/models/message';
 import { InboxComponent } from '../inbox/inbox.component';
 @Component({
@@ -8,10 +9,13 @@ import { InboxComponent } from '../inbox/inbox.component';
   templateUrl: './view-mail.component.html',
   styleUrls: ['./view-mail.component.scss']
 })
+
 export class ViewMailComponent implements OnInit {
 
   constructor(
     public datepipe: DatePipe,
+    public activeModal: NgbActiveModal,
+
 
   ) { }
   @Input()
@@ -20,5 +24,12 @@ export class ViewMailComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
+close()
+  {
+    this.activeModal.close();
+  }
+  resend()
+  {
+    
+  }
 }

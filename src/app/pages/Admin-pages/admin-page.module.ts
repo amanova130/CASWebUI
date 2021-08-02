@@ -36,10 +36,13 @@ import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ViewMailComponent } from './email/components/view-mail/view-mail.component';
-import { SentComponent } from './email/components/sent/sent.component';
-import { ComposeComponent } from './email/components/compose/compose.component';
 import { InboxComponent } from './email/components/inbox/inbox.component';
+import { SentComponent } from './email/components/sent/sent.component';
+import { ViewMailComponent } from './email/components/view-mail/view-mail.component';
+import { ComposeComponent } from './email/components/compose/compose.component';
+
+import { StaffComponent } from './staff/staff.component';
+import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/components/add-edit-holiday/add-edit-holiday.component';
 
 
 
@@ -64,14 +67,18 @@ import { InboxComponent } from './email/components/inbox/inbox.component';
     AddEditGroupComponent,
     DashboardComponent,
     AdminPageComponent,
-    ViewMailComponent,
-    SentComponent,
+    AddEditHolidayComponent,
     ComposeComponent,
     InboxComponent,
+    StaffComponent,
+    SentComponent,
+    ViewMailComponent,    
+    
   ],
   imports: [
     ReactiveFormsModule,
     AngularMaterialModule,
+    //TruncatePipesModule,
     MatIconModule,
     FlexLayoutModule,
     RouterModule,
@@ -116,6 +123,13 @@ import { InboxComponent } from './email/components/inbox/inbox.component';
     AddEditGroupComponent,
     DashboardComponent,
     EmailComponent,
+    ComposeComponent,
+    InboxComponent,
+    SentComponent,
+    ViewMailComponent,
+    StaffComponent
+
+
   ]
 })
 export class AdminPageModule { }

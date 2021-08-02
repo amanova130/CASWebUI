@@ -62,7 +62,13 @@
             <mat-form-field appearance="fill">
                 <mat-label>Courses</mat-label>
                 <mat-select [(ngModel)]="editGroup.courses" (valueChange)="choosenCourse($event)" name="courses" multiple required>
-                  <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
+                    <mat-select-trigger>
+                        {{editGroup.courses.length != 0 ? editGroup.courses[0] : ''}}
+                        <span *ngIf="editGroup.courses.length > 1" class="example-additional-selection">
+                          (+{{editGroup.courses.length - 1}} {{editGroup.courses.length === 2 ? 'other' : 'others'}})
+                        </span>
+                      </mat-select-trigger>
+                    <mat-option *ngFor="let c of courseList" [value]="c.CourseName" >{{c.CourseName}}</mat-option>
                 </mat-select>
               </mat-form-field>
         </div>

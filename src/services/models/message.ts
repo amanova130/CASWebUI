@@ -3,7 +3,7 @@ export interface Message {
     Id?: string;
     Subject?:string;
     Description?: string;
-    Receiver?: ReceiverDetails[];
+    Receiver?: String[];
     Sender?: string;
     DateTime?: Date;
     Status?: boolean;

@@ -1,27 +1,31 @@
-table {
-    width: 100%;
-  }
-  .card .body {
+.card .body {
     font-size: 14px;
     color: #555;
     padding: 15px;
 }
-#description
-{
-    
-    
-    width: 50px;
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 0 0.46875rem 2.1875rem rgb(90 97 105 / 10%), 0 0.9375rem 1.40625rem rgb(90 97 105 / 10%), 0 0.25rem 0.53125rem rgb(90 97 105 / 12%), 0 0.125rem 0.1875rem rgb(90 97 105 / 10%);
+}
+.materialTableHeader .header-buttons-left {
+    position: absolute;
+    list-style: none;
+    padding-top: 3px;
 }
 
-   
-  
-.mat-row:hover 
-{
-background: rgb(202, 201, 201);
+.materialTableHeader {
+    padding: 10px 20px;
+    align-items: center;
+    border-color: #e6e9ed;
+    background-color: #ebebee;
+    height: 70px;
+    min-width: 800px;
 }
+
 .materialTableHeader .header-buttons-left input.search-field {
     font-weight: 500;
     color: rgba(0,0,0,.54);
@@ -82,10 +86,13 @@ background: rgb(202, 201, 201);
     right: 20px;
     padding: 6px 8px 8px;
 }
-// .receivers{
-//   display: block;
-//   width: 200px;
-//   overflow: hidden;
-//   white-space: nowrap;
-//   text-overflow: ellipsis;
-// }
+
+.personImg {
+    border-radius: 10px;
+    height: 33px;
+    width: 33px;
+    background: #fff;
+    position: inherit;
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    padding: 2px;
+}
