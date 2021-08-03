@@ -51,7 +51,7 @@ body, html {
     margin: 0;
     height: 100%;
     transition: all .5s;
-    overflow-y: hidden;
+    overflow-y: auto;
     background-color: var(--background-body);
     font-family: Roboto,sans-serif;
     font-size: 14px;
@@ -196,5 +196,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
     color: var(--color-dark);
   }
   
+  .loadingImg{
+    width: 100px;
+    height: 100px;
+  }
   
 

@@ -28,17 +28,16 @@ export class AdminService {
 
   
 
- 
-
   // Get student profile by Id
   getAdminById(id: string){
     if (id === null || id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling getStudent.');
+      throw new Error('Required parameter id was null or undefined when calling getAdmin.');
   }
-  return this.http.get<Admin>(`${this.basePath}/api/Admin/${encodeURIComponent(String(id))}`).pipe(
+  return this.http.get<Admin>(`${this.basePath}/api/Admin/getAdminById?id=${encodeURIComponent(String(id))}`).pipe(
     catchError(this.errorHandler)
   )
  }
+
 
 //  Delete Student By Id
  deleteById(id: string){

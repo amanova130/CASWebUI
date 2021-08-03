@@ -1,17 +1,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <ul class="breadcrumb breadcrumb-style">
-                <li class="breadcrumb-item">
-                    <h2 class="page-title">All Staff</h2>
-                </li>
-                <li class="breadcrumb-item bcrumb-1">
-                    <a routerlink="/dashboard">
-                        <i class="material-icons">home</i> Home
-                    </a>
-                </li>
-                    <li class="breadcrumb-item active">Admins</li>
-            </ul>
+          <h2 class="page-title">All Staff</h2>
         </div>
     </div>
     <div class="row">
@@ -140,7 +130,7 @@
                           </tr>
                         </table>
                         <div *ngIf="isLoading" class="h6 mt-5 text-center">
-                          <img src="assets/images/loading.gif" alt="Loading...">
+                          <img  class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
                      </div>
                         <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
                       </div>

@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   public isWrong:boolean;
   public isLoginPage:boolean=false;
   public attempts:number=3;
+  public loggedUser: any;
 
   constructor(private fb: FormBuilder,
                private router: Router,
@@ -43,21 +44,19 @@ export class LoginComponent implements OnInit {
           if(res)
           {
             if(this.loginForm.controls['password'].value == res.Password )
+            {
               this.router.navigate(['secure/admin']);
+              localStorage.setItem('userId', res.UserName);
+              localStorage.setItem('userRole', res.Role);
+            }
             else
             {
              this.isWrong=true;
-            //  this.loginForm.controls['userName'].setValue("");
-            //  this.loginForm.controls['password'].setValue("");
-
            }
           }
     },
     err => 
     {
-      // console.log(err);
-      // this.loginForm.controls['userName'].setValue("");
-      // this.loginForm.controls['password'].setValue("");
       this.attempts--;
       if(this.attempts == 0)
       {
@@ -66,20 +65,12 @@ export class LoginComponent implements OnInit {
       }
       else
       this.isWrong=true;
-      
-
-  });
-}
-    
-
-
-    // if(this.loginForm.controls['userName'].value == 'admin')
-    // this.router.navigate(['secure/admin']);
+     });
+  }
   }
 
   private markAsDirty(group: FormGroup): void {
     group.markAsDirty();
-    // tslint:disable-next-line:forin
     for (const i in group.controls) {
       group.controls[i].markAsDirty();
     }

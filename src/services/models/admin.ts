@@ -10,7 +10,7 @@ export interface Admin {
     Phone?: string;
     Image?: string;
     Gender?: string;
-    Birth_date?: Date;
+    Birth_date?: string;
     Address?: AddressBook;
     Status?: boolean;
 }

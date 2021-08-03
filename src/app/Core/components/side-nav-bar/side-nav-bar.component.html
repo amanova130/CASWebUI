@@ -2,17 +2,17 @@
     <div class="position-sticky">
       <ul class="nav flex-column">
         <li class="sidebar-user-panel nav-item pb-2">
-          <div class="user-panel">
+          <div class="user-panel" *ngIf="loggedUser">
             <div class="image">
-              <img alt="User Image" class="img-circle user-img-circle" src="assets/images/student.jpg">
+              <img alt="User Image" class="img-circle user-img-circle" [src]="createImgPath(loggedUser.Image)">
             </div>
           </div>
           <div class="profile-usertitle">
-            <div class="sidebar-userpic-name">Sarah Connor </div>
-            <div class="profile-usertitle-job">Admin</div>
+            <div class="sidebar-userpic-name">{{loggedUser.First_name}}  {{loggedUser.Last_name}}</div>
+            <div class="profile-usertitle-job">{{loggedUser.Role}}</div>
           </div>
         </li>
-        <li class="nav-item pt-2">
+        <li class="nav-item pt-2" *ngIf="isAdmin">
           <a class="nav-link" aria-current="page" routerLink='admin/dashboard' routerLinkActive="active">
             <i class="material-icons">
               dashboard
@@ -20,7 +20,7 @@
             Dashboard
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink='admin/teachers' routerLinkActive="active">
             <i class="material-icons">
               badge
@@ -29,7 +29,7 @@
             Teachers
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/students" routerLinkActive="active">
             <i class="material-icons">
               recent_actors
@@ -47,7 +47,7 @@
             Courses
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/groups" routerLinkActive="active">
             <i class="material-icons">
               groups
@@ -56,7 +56,7 @@
             Groups
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/faculties" routerLinkActive="active">
             <i class="material-icons">
               auto_stories
@@ -65,7 +65,7 @@
             Faculties
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/time-table" routerLinkActive="active">
             <i class="material-icons">
               today
@@ -81,15 +81,21 @@
               </i>
               <span data-feather="file-text"></span>
               Exams
-              <!-- Will be dropdown menu for 
-              -grades
-              -exam scheduler -->
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="admin/grades" routerLinkActive="active">
+              <i class="material-icons">
+                timeline
+              </i>
+              <span data-feather="file-text"></span>
+              Grades
             </a>
           </li>
       </ul>
       <hr>
-      <ul class="nav flex-column mb-2">
-        <li class="nav-item">
+      <ul class="nav flex-column mb-2" >
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/email" routerLinkActive="active">
             <i class="material-icons">
               contact_mail
@@ -107,7 +113,7 @@
             Holiday
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/reports" routerLinkActive="active">
             <i class="material-icons">
               library_books            </i>
@@ -133,7 +139,7 @@
              Requests
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAdmin">
             <a class="nav-link" routerLink="admin/staff"   routerLinkActive="active">
               <i class="material-icons">
                 manage_accounts

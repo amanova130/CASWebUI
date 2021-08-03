@@ -42,16 +42,12 @@ import { ViewMailComponent } from './email/components/view-mail/view-mail.compon
 import { ComposeComponent } from './email/components/compose/compose.component';
 
 import { StaffComponent } from './staff/staff.component';
-import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/components/add-edit-holiday/add-edit-holiday.component';
-
-
-
-
+import { AddEditExamComponent } from './exams/components/add-edit-exam/add-edit-exam.component';
+import { GradesComponent } from './grades/grades.component';
 
 @NgModule({
   declarations: [
     GroupsComponent,
-
     ExamsComponent,
     ReportsComponent,
     RequestsComponent,
@@ -67,12 +63,13 @@ import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/compo
     AddEditGroupComponent,
     DashboardComponent,
     AdminPageComponent,
-    AddEditHolidayComponent,
     ComposeComponent,
     InboxComponent,
     StaffComponent,
     SentComponent,
-    ViewMailComponent,    
+    ViewMailComponent,
+    AddEditExamComponent,
+    GradesComponent,    
     
   ],
   imports: [
@@ -109,7 +106,6 @@ import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/compo
   ],
   exports: [
     GroupsComponent,
-
     TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
@@ -127,7 +123,8 @@ import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/compo
     InboxComponent,
     SentComponent,
     ViewMailComponent,
-    StaffComponent
+    StaffComponent,
+    GradesComponent
 
 
   ]

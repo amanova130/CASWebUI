@@ -69,8 +69,6 @@ export class AddEditGroupComponent implements OnInit, OnDestroy {
     }
     this.getFaculties();
     this.getCourses();
-    console.log(this.groupList);
-    console.log(this.group);
     this.isAddMode = !this.group.Id;
 }
 

@@ -23,7 +23,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4" *ngIf="isAdmin">
                                <ul class="header-buttons">
                                    <li class="m-l-10">
                                        <div class="icon-button-demo">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div *ngIf="isLoading" class="h6 mt-5 text-center">
-                        <img src="assets/images/loading.gif" alt="Loading...">
+                        <img  class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
                    </div>
                     <div class="row mt-3">
                         <div class="col-md-3" *ngFor="let course of obs | async">
@@ -61,7 +61,7 @@
                                         {{course.Description}}
                                     </p>
                                 </div>
-                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2">
+                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2" *ngIf="isAdmin">
                                     <a type="button" (click)="openAddEditModal(course)"><i class="material-icons text-warning">edit</i></a> 
                                     <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDeleteModal(course)"><i class="material-icons text-danger">delete</i> </a>  
                                 </div>
