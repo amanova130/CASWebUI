@@ -24,11 +24,6 @@ import { SideNavBarComponent } from './Core/components/side-nav-bar/side-nav-bar
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //import { ViewMailComponent } from './pages/Admin-pages/email/components/view-mail/view-mail.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {CarouselModule} from 'primeng/carousel';
-
-
-
-import { SafePipe } from './shared/pipes-and-enum/safe.pipe';
 import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-edit-staff/add-edit-staff.component';
 
 
