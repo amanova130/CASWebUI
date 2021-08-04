@@ -107,9 +107,9 @@ private createGroup() {
     .subscribe(result => {
         if(result)
         {
-          this.groupList.push(result)
-          this.activeModal.close(this.groupList);
+          this.groupList.push(result);
           this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.groupList);
         }  
         else
             this.alertService.errorResponseFromDataBase();
@@ -126,9 +126,8 @@ private updateGroup() {
             let x = this.groupList.find(x => x.Id === this.group.Id)
             let index = this.groupList.indexOf(x!)
             this.groupList[index] = this.group;
+            this.alertService.successResponseFromDataBase();
             this.activeModal.close(this.groupList);
-              this.alertService.successResponseFromDataBase();
-
           }
           else
               this.alertService.errorResponseFromDataBase();

@@ -86,9 +86,10 @@ private createLink(){
   .subscribe(result => {
       if(result)
       {
-        this.linkList.push(result)
-        this.activeModal.close(this.linkList);
+        this.linkList.push(result);
         this.alertService.successResponseFromDataBase();
+        this.activeModal.close(this.linkList);
+      
       }  
       else
       this.alertService.errorResponseFromDataBase();
@@ -120,8 +121,9 @@ private updateLink()
         let x = this.linkList.find(x => x.Id === this.link.Id)
         let index = this.linkList.indexOf(x!)
         this.linkList[index] = this.link;
-        this.activeModal.close(this.linkList);
         this.alertService.successResponseFromDataBase();
+        this.activeModal.close(this.linkList);
+     
       }
       else
       this.alertService.errorResponseFromDataBase();

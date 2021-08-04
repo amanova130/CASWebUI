@@ -140,8 +140,9 @@ private createStudent() {
         if(result)
         {
             this.studentList.push(result); 
-            this.activeModal.close(this.studentList);
             this.alertService.successResponseFromDataBase();
+            this.activeModal.close(this.studentList);
+          
         }  
         else
             this.alertService.errorResponseFromDataBase();
@@ -159,8 +160,9 @@ private updateStudent() {
             let x = this.studentList.find(x => x.Id === this.student.Id)
             let index = this.studentList.indexOf(x!)
             this.studentList[index] = this.student;
-            this.activeModal.close(this.studentList);
             this.alertService.successResponseFromDataBase();
+            this.activeModal.close(this.studentList);
+          
           }
           else
               this.alertService.errorResponseFromDataBase();

@@ -1,25 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Admin } from 'src/services/models/admin';
 import { LoggedUser } from 'src/services/models/loggedUser';
 import { AdminService } from 'src/services/WebApiService/admin.service';
 import { StudentService } from '../../../../services/WebApiService/student.service';
+import { RequestService } from '../../../../services/WebApiService/request.service';
+import { Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Request } from 'src/services/models/request';
+import { TokenStorageService } from '../../../shared/helperServices/token-storage.service';
+import { Role } from 'src/app/shared/pipes-and-enum/roleEnum';
 
 @Component({
   selector: 'app-side-nav-bar',
   templateUrl: './side-nav-bar.component.html',
   styleUrls: ['./side-nav-bar.component.scss']
 })
-export class SideNavBarComponent implements OnInit {
+export class SideNavBarComponent implements OnInit, OnDestroy {
 
   public isAdmin= false;
   public isStudent= false;
   public loggedUser: LoggedUser;
-  constructor(private adminService: AdminService, private studentService: StudentService) { }
+  newRequest = 0;
+  requestListSubscription!: Subscription;
+  constructor(private adminService: AdminService, private studentService: StudentService, private requestService: RequestService, private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
+    this.getCountOfNewRequest();
+   this.setLoggedUserDetails();
+  }
+
+  setLoggedUserDetails(){
+    const sessionUser = this.tokenStorage.getUser();
     this.loggedUser={
-      Id: localStorage.getItem('userId'),
-      Role: localStorage.getItem('userRole'),
+      Id: sessionUser.UserName,
+      Role: sessionUser.Role
     }
     if(this.loggedUser.Role === 'Admin')
     {
@@ -28,7 +42,7 @@ export class SideNavBarComponent implements OnInit {
     else if(this.loggedUser.Role === 'Student')
       this.isStudentLogged();
   }
-
+  
   isAdminLogged(){
     this.adminService.getAdminById(this.loggedUser.Id).subscribe( result=>
       {
@@ -41,8 +55,8 @@ export class SideNavBarComponent implements OnInit {
             Phone: result.Phone,
             Image: result.Image,
             Birth_date: result.Birth_date,
-            Id: localStorage.getItem('userId'),
-            Role: localStorage.getItem('userRole'),
+            Id: result.Id,
+            Role: Role.Admin
           }
           this.isAdmin = true;
         }
@@ -61,8 +75,8 @@ export class SideNavBarComponent implements OnInit {
             Phone: result.Phone,
             Image: result.Image,
             Birth_date: result.Birth_date,
-            Id: localStorage.getItem('userId'),
-            Role: localStorage.getItem('userRole'),
+            Id: result.Id,
+            Role: Role.Student
           }
           localStorage.setItem('group', result.Group_Id);
           this.isStudent = true;
@@ -72,6 +86,19 @@ export class SideNavBarComponent implements OnInit {
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
-
+  
+getCountOfNewRequest(){
+  this.requestListSubscription = timer(0, 60000).pipe(
+    switchMap(()=> this.requestService.getCountOfNewRequest("New"))
+  ).subscribe((count: number)=>{
+    this.newRequest=count;
+  });
+}
+ 
+ngOnDestroy()
+{
+  if(this.requestListSubscription)
+    this.requestListSubscription.unsubscribe();
+}
 
 }

@@ -28,7 +28,7 @@ import {CarouselModule} from 'primeng/carousel';
 
 
 
-import { SafePipe } from './shared/pipes/safe.pipe';
+import { SafePipe } from './shared/pipes-and-enum/safe.pipe';
 import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-edit-staff/add-edit-staff.component';
 
 
@@ -42,8 +42,6 @@ import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-
     LoginComponent,
     ForgotPassComponent,
     AddEditStaffComponent,
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -73,7 +71,7 @@ import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-
       useFactory: adapterFactory,
     }),
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

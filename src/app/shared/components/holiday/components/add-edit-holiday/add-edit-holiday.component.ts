@@ -70,8 +70,9 @@ export class AddEditHolidayComponent implements  OnInit{
           if(result)
           {
             this.holidayList.push(result);
+            this.alertService.successResponseFromDataBase();
               this.activeModal.close(this.holidayList);
-              this.alertService.successResponseFromDataBase
+            
             }
             else
             this.alertService.errorResponseFromDataBase();
@@ -87,8 +88,9 @@ export class AddEditHolidayComponent implements  OnInit{
               let x = this.holidayList.find(x => x.Id === this.holiday.Id)
               let index = this.holidayList.indexOf(x!)
               this.holidayList[index] = this.holiday;
-              this.activeModal.close(this.holidayList);
               this.alertService.successResponseFromDataBase();
+              this.activeModal.close(this.holidayList);
+            
             }
             else
             this.alertService.errorResponseFromDataBase();

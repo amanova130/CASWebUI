@@ -8,12 +8,14 @@ import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { CoursesComponent } from "./components/courses/courses.component";
 import { AddEditCourseComponent } from 'src/app/shared/components/courses/add-edit-course/add-edit-course.component';
-import { SafePipe } from "./pipes/safe.pipe";
+import { SafePipe } from "./pipes-and-enum/safe.pipe";
 import { UploadExcelModalComponent } from './components/upload-excel-modal/upload-excel-modal.component';
 import { HolidayComponent } from "./components/holiday/holiday.component";
 import { AddEditHolidayComponent } from "./components/holiday/components/add-edit-holiday/add-edit-holiday.component";
 import { CarouselModule } from "primeng/carousel";
 import {ButtonModule} from 'primeng/button';
+import { RequestsComponent } from "./components/requests/requests.component";
+import { AddRequestComponent } from './components/requests/add-request/add-request.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import {ButtonModule} from 'primeng/button';
     UploadExcelModalComponent,
     HolidayComponent,
     AddEditHolidayComponent,
+    RequestsComponent,
+    AddRequestComponent,
 ],
   imports: 
   [CommonModule,
@@ -45,6 +49,7 @@ import {ButtonModule} from 'primeng/button';
     UploadExcelModalComponent,
     HolidayComponent,
     AddEditHolidayComponent,
+    RequestsComponent,
 ]
 })
 export class SharedModule {}

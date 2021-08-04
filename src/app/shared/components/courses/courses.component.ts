@@ -10,6 +10,9 @@ import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Course } from 'src/services/models/course';
 import { CourseService } from 'src/services/WebApiService/course.service';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
+import { TokenStorageService } from '../../helperServices/token-storage.service';
+import { Admin } from '../../../../services/models/admin';
+import { Role } from '../../pipes-and-enum/roleEnum';
 
 @Component({
   selector: 'app-courses',
@@ -38,18 +41,20 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private alertService: AlertService, 
     private http: HttpClient, 
     private changeDetectorRef: ChangeDetectorRef,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private tokenStorage: TokenStorageService
      ) {}
   
   ngOnInit(): void {
-    let role = localStorage.getItem('userRole');
-    if(role === 'Admin')
+    const loggedUser = this.tokenStorage.getUser();
+    if(loggedUser.Role === Role.Admin)
     {
       this.isAdmin = true;
       this.getCourses();
     } 
     else
     {
+      this.isLoading=false;
       this.isStudent = true;
     }
      

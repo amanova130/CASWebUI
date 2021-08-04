@@ -96,8 +96,9 @@ export class AddEditStaffComponent implements OnInit {
               let x = this.adminList.find(x => x.Id === this.admin.Id)
               let index = this.adminList.indexOf(x!)
               this.adminList[index] = this.admin;
-              this.activeModal.close(this.adminList);
               this.alertService.successResponseFromDataBase();
+              this.activeModal.close(this.adminList);
+            
             }
             else
                 this.alertService.errorResponseFromDataBase();
@@ -116,9 +117,10 @@ export class AddEditStaffComponent implements OnInit {
         .subscribe(result => {
             if(result)
             {
-                this.adminList.push(result); 
+                this.adminList.push(result);
+                this.alertService.successResponseFromDataBase(); 
                 this.activeModal.close(this.adminList);
-                this.alertService.successResponseFromDataBase();
+             
             }  
             else
                 this.alertService.errorResponseFromDataBase();

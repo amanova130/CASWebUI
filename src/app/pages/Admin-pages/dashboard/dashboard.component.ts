@@ -9,6 +9,7 @@ import { GroupService } from 'src/services/WebApiService/group.service';
 import { StudentService } from 'src/services/WebApiService/student.service';
 import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { Group } from 'src/services/models/group';
+import { TokenStorageService } from '../../../shared/helperServices/token-storage.service';
 export interface SaleData {
   name:string,
   value:number;
@@ -26,7 +27,8 @@ export class DashboardComponent implements OnInit {
     private teacherService:TeacherService,
     private groupService:GroupService,
     private facultyService:FacultyService,
-    private courseService:CourseService) {}
+    private courseService:CourseService,
+    private tokenStorage: TokenStorageService) {}
   totalStudents:number;
   totalTeachers:number;
   totalGroups:number;
@@ -38,12 +40,6 @@ export class DashboardComponent implements OnInit {
   saleData:SaleData[] = [];
   update$: Subject<any> = new Subject();
   //saleData:SaleData[];
- 
-  
-
-  
-  
-
 
   ngOnInit(): void {
     this.getNumberOfStudents();
@@ -52,8 +48,6 @@ export class DashboardComponent implements OnInit {
     this.getNumberOfFaculties();
     this.getNumberOfCourses();
     this.getGroups();
-    
-
   }
 
   private getGroups(){
