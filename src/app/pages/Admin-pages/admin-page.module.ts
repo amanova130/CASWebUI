@@ -9,7 +9,7 @@ import { CoursesComponent } from '../../shared/components/courses/courses.compon
 import { ExamsComponent } from './exams/exams.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ReportsComponent } from './reports/reports.component';
-import { RequestsComponent } from './requests/requests.component';
+import { RequestsComponent } from '../../shared/components/requests/requests.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { AngularMaterialModule } from 'src/app/Core/material-module/angular-material.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -50,7 +50,6 @@ import { GradesComponent } from './grades/grades.component';
     GroupsComponent,
     ExamsComponent,
     ReportsComponent,
-    RequestsComponent,
     TeachersComponent,
     AddEditTeacherComponent,
     TimeTableComponent,
@@ -95,7 +94,6 @@ import { GradesComponent } from './grades/grades.component';
     MatCheckboxModule,
     FormsModule,
     NgxChartsModule,
-    RouterModule,
     FlatpickrModule.forRoot(
       ),
     CalendarModule.forRoot({
@@ -108,7 +106,6 @@ import { GradesComponent } from './grades/grades.component';
     TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
-    RequestsComponent,
     TimeTableComponent,
     TeachersComponent,
     AddEditTeacherComponent,
@@ -124,8 +121,6 @@ import { GradesComponent } from './grades/grades.component';
     ViewMailComponent,
     StaffComponent,
     GradesComponent
-
-
   ]
 })
 export class AdminPageModule { }

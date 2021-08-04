@@ -116,8 +116,9 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
           if(result)
           { 
               this.teacherList.push(result)
-              this.activeModal.close(this.teacherList);
               this.alertService.successResponseFromDataBase();
+              this.activeModal.close(this.teacherList);
+           
           }  
           else
               this.alertService.errorResponseFromDataBase();
@@ -136,8 +137,9 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
               let x = this.teacherList.find(x => x.Id === this.teacher.Id)
               let index = this.teacherList.indexOf(x!)
               this.teacherList[index] = this.teacher;
-              this.activeModal.close(this.teacherList);
               this.alertService.successResponseFromDataBase();
+              this.activeModal.close(this.teacherList);
+            
             }
             else
                 this.alertService.errorResponseFromDataBase();

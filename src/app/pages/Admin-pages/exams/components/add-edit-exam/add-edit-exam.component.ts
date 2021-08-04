@@ -107,9 +107,10 @@ export class AddEditExamComponent implements OnInit {
         {
           this.examList.push(res);
           this.isLoading = false;
+          this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.examList);
          
-          this.alertService.successResponseFromDataBase();
+
         }
         else
         this.alertService.errorResponseFromDataBase();    
@@ -124,8 +125,9 @@ export class AddEditExamComponent implements OnInit {
             this.examList = this.examList.filter(exam => exam.Id !== this.newExam.Id);
             this.examList.push(this.newExam);
             this.isLoading = false;
-            this.activeModal.close(this.examList);
             this.alertService.successResponseFromDataBase();
+            this.activeModal.close(this.examList);
+            
           }
           else
           this.alertService.errorResponseFromDataBase();    

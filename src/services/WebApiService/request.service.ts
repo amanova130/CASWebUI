@@ -54,10 +54,7 @@ export class RequestService {
   }
 
 //function to add new Request object to web api
-  create(params: any){
-    if (params.Id === null || params.Id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling apiRequestCreate.');
-  }
+  createRequest(params: any){
     return this.http.post<Request>(`${this.basePath}/api/Request/createNewRequest`, params)
     .pipe(
       catchError(this.errorHandler)
@@ -65,12 +62,18 @@ export class RequestService {
   }
 
   //update existing Request object in web api
-  update(requestIn: Request){
+  updateRequest(requestIn: Request){
     if (requestIn.Id === null || requestIn.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
   }
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.put<Request>(`${this.basePath}/api/Request/updateRequest`, requestIn)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  getCountOfNewRequest(value: string){
+    return this.http.get<number>(`${this.basePath}/api/Request/getCountOFNewRequest?fieldName=status_request&value=${encodeURIComponent(String(value))}`)
     .pipe(
       catchError(this.errorHandler)
     )

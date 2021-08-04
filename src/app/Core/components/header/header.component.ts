@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { dark } from 'src/app/shared/helperServices/themeProperties';
 import { ThemeService } from '../../../shared/helperServices/theme.service';
+import { TokenStorageService } from '../../../shared/helperServices/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,7 @@ import { ThemeService } from '../../../shared/helperServices/theme.service';
 export class HeaderComponent implements OnInit {
 
   isDarkMode=false;
-  constructor(private themeService: ThemeService) { }
+  constructor(private themeService: ThemeService, private tokenStorage: TokenStorageService, private router: Router,) { }
 
   ngOnInit(): void {
     let storedTheme = localStorage.getItem('theme');
@@ -27,6 +29,11 @@ export class HeaderComponent implements OnInit {
     } else {
       this.themeService.setDarkTheme();
     }
+  }
+
+  logOut(){
+    this.tokenStorage.signOut();
+    this.router.navigate(['/login']); 
   }
 
 }

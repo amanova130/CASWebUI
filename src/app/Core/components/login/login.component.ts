@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService } from 'src/app/shared/helperServices/alert.service';
+import { TokenStorageService } from 'src/app/shared/helperServices/token-storage.service';
+import { Role } from 'src/app/shared/pipes-and-enum/roleEnum';
 import { User } from 'src/services/models/user';
 import { UserService } from 'src/services/WebApiService/user.service';
 import { ForgotPassComponent } from '../forgot-pass/forgot-pass.component';
+import { AlertService } from '../../../shared/helperServices/alert.service';
+
+
 
 @Component({
   selector: 'app-login',
@@ -26,8 +30,8 @@ export class LoginComponent implements OnInit {
                private router: Router,
                private userService:UserService,
                private modalService: NgbModal,
-               private alertService:AlertService
-               
+               private tokenStorage: TokenStorageService,
+              private alertService: AlertService
                ) { }
 
   public ngOnInit(): void {
@@ -48,7 +52,19 @@ export class LoginComponent implements OnInit {
     }
     this.userService.checkAuth(user).subscribe(res=>{
           if(res)
-              this.router.navigate(['secure/admin']);
+              {
+                this.tokenStorage.saveUser(res);
+                if(res.Role === Role.Admin)
+                {
+                  this.router.navigate(['secure/admin']); 
+                  this.tokenStorage.saveToken('role', Role.Admin);
+                }
+                else
+                {
+                  this.router.navigate(['secure/student']);
+                  this.tokenStorage.saveToken('role', Role.Student);
+                }  
+              }
           else
             {
              this.isWrong=true;
@@ -60,7 +76,6 @@ export class LoginComponent implements OnInit {
       if(this.attempts == 0)
       {
         this.router.navigate(['../forgot-pass']);
-
       }
       else
       {

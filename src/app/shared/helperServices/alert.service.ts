@@ -9,7 +9,9 @@ export class AlertService {
 public successResponseFromDataBase(){
         Swal.fire({
           icon: 'success',
-          text: 'Successfully Done',
+          text: 'Records Updated',
+          showConfirmButton: false,
+          timer: 1500
         })
     }
 
@@ -17,6 +19,8 @@ public errorResponseFromDataBase(){
       Swal.fire({
         icon: 'error',
         text: 'Something went wrong, please try again!',
+        showConfirmButton: false,
+        timer: 1500
       })
   }
 

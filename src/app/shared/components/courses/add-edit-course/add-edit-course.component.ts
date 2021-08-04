@@ -72,9 +72,10 @@ submitted=false;
     .subscribe(result => {
         if(result)
         {
-          this.courseList.push(result)
-          this.activeModal.close(this.courseList);
+          this.courseList.push(result);
           this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.courseList);
+       
 
         }  
         else

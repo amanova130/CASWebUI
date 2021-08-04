@@ -25,7 +25,7 @@
             <i class="material-icons">
               badge
             </i>
-            <span data-feather="file"></span>
+           
             Teachers
           </a>
         </li>
@@ -34,16 +34,14 @@
             <i class="material-icons">
               recent_actors
             </i>
-            <span data-feather="shopping-cart"></span>
             Students
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
           <a class="nav-link" routerLink="admin/courses" routerLinkActive="active">
             <i class="material-icons">
               local_library
             </i>
-            <span data-feather="users"></span>
             Courses
           </a>
         </li>
@@ -52,7 +50,6 @@
             <i class="material-icons">
               groups
             </i>
-            <span data-feather="file"></span>
             Groups
           </a>
         </li>
@@ -61,7 +58,6 @@
             <i class="material-icons">
               auto_stories
             </i>
-            <span data-feather="bar-chart-2"></span>
             Faculties
           </a>
         </li>
@@ -70,37 +66,74 @@
             <i class="material-icons">
               today
             </i>
-            <span data-feather="layers"></span>
             Time table
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin">
             <a class="nav-link" routerLink="admin/exams" routerLinkActive="active">
               <i class="material-icons">
                 analytics
               </i>
-              <span data-feather="file-text"></span>
               Exams
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAdmin">
             <a class="nav-link" routerLink="admin/grades" routerLinkActive="active">
               <i class="material-icons">
                 timeline
               </i>
-              <span data-feather="file-text"></span>
               Grades
+            </a>
+          </li>
+          <!-- For Student Page -->
+          <li class="nav-item pt-2" *ngIf="isStudent">
+            <a class="nav-link" aria-current="page" routerLink='student/student-dashboard' routerLinkActive="active">
+              <i class="material-icons">
+                dashboard
+              </i>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="isStudent">
+            <a class="nav-link" routerLink="student/courses" routerLinkActive="active">
+              <i class="material-icons">
+                local_library
+              </i>
+              Courses
+            </a>
+          </li>
+          <li class="nav-item pt-2" *ngIf="isStudent">
+            <a class="nav-link" aria-current="page" routerLink='student/time-table-view' routerLinkActive="active">
+              <i class="material-icons">
+                dashboard
+              </i>
+              Time-table
+            </a>
+          </li>
+          <li class="nav-item pt-2" *ngIf="isStudent">
+            <a class="nav-link" aria-current="page" routerLink='student/exam-grades' routerLinkActive="active">
+              <i class="material-icons">
+                dashboard
+              </i>
+              Exams and Grades
+            </a>
+          </li>
+          <li class="nav-item pt-2" *ngIf="isStudent">
+            <a class="nav-link" aria-current="page" routerLink='student/contacts' routerLinkActive="active">
+              <i class="material-icons">
+                dashboard
+              </i>
+              Contacts
             </a>
           </li>
       </ul>
       <hr>
-      <ul class="nav flex-column mb-2" >
-        <li class="nav-item" *ngIf="isAdmin">
+      <ul class="nav flex-column mb-2"  *ngIf="isAdmin">
+        <li class="nav-item">
           <a class="nav-link" routerLink="admin/email" routerLinkActive="active">
             <i class="material-icons">
               contact_mail
             </i>
-            <span data-feather="file-text"></span>
            Email
           </a>
         </li>
@@ -109,15 +142,13 @@
             <i class="material-icons">
               holiday_village
             </i>
-            <span data-feather="file-text"></span>
             Holiday
           </a>
         </li>
-        <li class="nav-item" *ngIf="isAdmin">
+        <li class="nav-item" >
           <a class="nav-link" routerLink="admin/reports" routerLinkActive="active">
             <i class="material-icons">
               library_books            </i>
-            <span data-feather="file-text"></span>
            Reports
           </a>
         </li>
@@ -126,7 +157,7 @@
               <i class="material-icons">
                 share
               </i>
-              <span data-feather="file-text"></span>
+
               Links
             </a>
         </li>
@@ -135,17 +166,43 @@
               <i class="material-icons">
                 description
               </i>
-              <span data-feather="file-text"></span>
              Requests
+             <span [matBadge]="newRequest" matBadgeOverlap="false" matBadgeColor="accent"></span>
             </a>
           </li>
-          <li class="nav-item" *ngIf="isAdmin">
-            <a class="nav-link" routerLink="admin/staff"   routerLinkActive="active">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="admin/staff" routerLinkActive="active">
               <i class="material-icons">
                 manage_accounts
               </i>
-              <span data-feather="file-text"></span>
              Staff
+            </a>
+          </li>
+      </ul>
+      <!-- For Student Page -->
+      <ul class="nav flex-column mb-2"  *ngIf="isStudent">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="student/holiday" routerLinkActive="active">
+            <i class="material-icons">
+              holiday_village
+            </i>
+            Holiday
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="student/links" routerLinkActive="active">
+              <i class="material-icons">
+                share
+              </i>
+              Links
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="student/requests" routerLinkActive="active">
+              <i class="material-icons">
+                description
+              </i>
+             Leave Request
             </a>
           </li>
       </ul>

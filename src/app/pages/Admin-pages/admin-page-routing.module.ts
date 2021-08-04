@@ -9,7 +9,7 @@ import { FacultiesComponent } from './faculty/faculties.component';
 import { GroupsComponent } from './groups/groups.component';
 import { LinksComponent } from '../../shared/components/links/links.component';
 import { ReportsComponent } from './reports/reports.component';
-import { RequestsComponent } from './requests/requests.component';
+import { RequestsComponent } from '../../shared/components/requests/requests.component';
 import { StudentsComponent } from './students/students.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { TimeTableComponent } from './time-table/time-table.component';
@@ -42,7 +42,6 @@ const routes: Routes = [
         { path: 'email',  component: EmailComponent },
         { path: 'grades',  component: GradesComponent },
         { path: 'staff',  component: StaffComponent },
-
 
     ]
 },

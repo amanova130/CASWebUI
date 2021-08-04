@@ -89,9 +89,10 @@ export class AddEditFacultyComponent implements OnInit, OnDestroy{
       .subscribe(result => {
           if(result)
           {
-            this.facultyList.push(result)
-            this.activeModal.close(this.facultyList);
+            this.facultyList.push(result);
             this.alertService.successResponseFromDataBase();
+            this.activeModal.close(this.facultyList);
+          
           }  
           else
               this.alertService.errorResponseFromDataBase();
@@ -108,8 +109,9 @@ export class AddEditFacultyComponent implements OnInit, OnDestroy{
               let x = this.facultyList.find(x => x.Id === this.faculty.Id)
               let index = this.facultyList.indexOf(x!)
               this.facultyList[index] = this.faculty;
-              this.activeModal.close(this.facultyList);
               this.alertService.successResponseFromDataBase();
+              this.activeModal.close(this.facultyList);
+              
             }
             else
                 this.alertService.errorResponseFromDataBase();
