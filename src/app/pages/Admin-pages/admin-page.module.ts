@@ -68,8 +68,7 @@ import { GradesComponent } from './grades/grades.component';
     StaffComponent,
     SentComponent,
     ViewMailComponent,
-    AddEditExamComponent,
-    GradesComponent,    
+  
     
   ],
   imports: [

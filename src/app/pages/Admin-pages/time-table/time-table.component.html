@@ -19,9 +19,12 @@ let-tooltipAppendToBody="tooltipAppendToBody">
 </div>
 
 <div class="addEventSection">
-  <mat-icon class="addButton"  (click)="openAddModal(day)">add</mat-icon>
+  <mat-icon *ngIf="addBtn" class="addButton"  (click)="openAddModal(day)">add</mat-icon>
   </div>
-<div class="cal-events" *ngIf="day.events.length > 0">
+<div class="cal-events" 
+    *ngIf="day.events.length > 0"
+    >
+  
   <div
     class="cal-event"
     *ngFor="let event of day.events;"

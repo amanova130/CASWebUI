@@ -18,7 +18,7 @@ import { GroupService } from 'src/services/WebApiService/group.service';
   styleUrls: ['./add-edit-group.component.scss']
 })
 export class AddEditGroupComponent implements OnInit, OnDestroy {
-  courseList: Course[] = [];
+  courseList: string[] = [];
   courseListSubscription!: Subscription;
   groupControl = new FormControl('', Validators.required);
   facultyList: Faculty[] = [];
@@ -68,8 +68,10 @@ export class AddEditGroupComponent implements OnInit, OnDestroy {
       Status:true,
     }
     this.getFaculties();
-    this.getCourses();
+    //this.getCourses();
     this.isAddMode = !this.group.Id;
+    if(!this.isAddMode)
+      this.choosenFaculty(this.editGroup.Fac_Name);
 }
 
 onSubmit() {
@@ -86,8 +88,8 @@ onSubmit() {
   }
 }
 
-private getCourses(){
-  this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getAllCourses())).subscribe((list: Course[])=>
+private getCoursesByFaculty(facultyName:string){
+  this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getCoursesByFaculty(facultyName))).subscribe((list: string[])=>
   {
     this.courseList = list;
   });
@@ -139,6 +141,8 @@ private updateGroup() {
   choosenFaculty(event: string)
   {
     this.editGroup.Fac_Name = event;
+    this.getCoursesByFaculty(this.editGroup.Fac_Name);
+
   }
   choosenCourse(event: string[])
   {
