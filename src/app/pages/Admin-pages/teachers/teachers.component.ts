@@ -72,9 +72,9 @@ export class TeachersComponent implements OnInit, OnDestroy {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    if(numSelected !== undefined)
+    if(numSelected !== undefined )
       this.isSelected=true;
-    else
+   else
       this.isSelected=false;
     return numSelected === numRows;
     

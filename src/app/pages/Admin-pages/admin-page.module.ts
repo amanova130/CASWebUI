@@ -42,7 +42,6 @@ import { ViewMailComponent } from './email/components/view-mail/view-mail.compon
 import { ComposeComponent } from './email/components/compose/compose.component';
 
 import { StaffComponent } from './staff/staff.component';
-import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/components/add-edit-holiday/add-edit-holiday.component';
 
 
 
@@ -67,7 +66,6 @@ import { AddEditHolidayComponent } from 'src/app/shared/components/holiday/compo
     AddEditGroupComponent,
     DashboardComponent,
     AdminPageComponent,
-    AddEditHolidayComponent,
     ComposeComponent,
     InboxComponent,
     StaffComponent,

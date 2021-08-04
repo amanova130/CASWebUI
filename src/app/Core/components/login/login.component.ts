@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { User } from 'src/services/models/user';
 import { UserService } from 'src/services/WebApiService/user.service';
 import { ForgotPassComponent } from '../forgot-pass/forgot-pass.component';
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
                private router: Router,
                private userService:UserService,
                private modalService: NgbModal,
+               private alertService:AlertService
                
                ) { }
 
@@ -39,25 +41,20 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid)
     {
     this.markAsDirty(this.loginForm);
-    this.userService.getUserById(this.loginForm.controls['userName'].value).subscribe(res=>{
+    let user:User={
+      UserName:this.loginForm.controls['userName'].value,
+      Password:this.loginForm.controls['password'].value
+    }
+    this.userService.checkAuth(user).subscribe(res=>{
           if(res)
-          {
-            if(this.loginForm.controls['password'].value == res.Password )
               this.router.navigate(['secure/admin']);
-            else
+          else
             {
              this.isWrong=true;
-            //  this.loginForm.controls['userName'].setValue("");
-            //  this.loginForm.controls['password'].setValue("");
-
            }
-          }
-    },
+          },
     err => 
     {
-      // console.log(err);
-      // this.loginForm.controls['userName'].setValue("");
-      // this.loginForm.controls['password'].setValue("");
       this.attempts--;
       if(this.attempts == 0)
       {
@@ -65,8 +62,10 @@ export class LoginComponent implements OnInit {
 
       }
       else
+      {
+        this.alertService.genericAlertMsg("error","Try again!You have "+this.attempts+ " attempts left");
       this.isWrong=true;
-      
+      }
 
   });
 }

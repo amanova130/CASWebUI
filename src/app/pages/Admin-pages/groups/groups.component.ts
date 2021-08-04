@@ -30,7 +30,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
     'Fac_Name',
   'action'];
   dataSource!: MatTableDataSource<Group>;
-
+  isSelected=false;
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
   removeGroup: Group;
@@ -82,14 +82,27 @@ openDelete(group:Group = {Id: ""} ){
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
+    if(numSelected !== undefined )
+      this.isSelected=true;
+    else
+      this.isSelected=false;
     return numSelected === numRows;
+    
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
+    if(this.isAllSelected())
+    {
+      this.selection.clear();
+      this.isSelected=false;
+    }
+      else
+      {
         this.dataSource.data.forEach(row => this.selection.select(row));
+        this.isSelected=true;
+      }
+        
   }
 
   applyFilter(event: Event) {
@@ -99,7 +112,14 @@ openDelete(group:Group = {Id: ""} ){
       this.dataSource.paginator.firstPage();
     }
   }
-
+  deleteSelectedGroups()
+  {
+    if(this.selection.hasValue())
+    {
+      this.selection.selected.forEach(selected=>(this.deleteGroup(selected.Id)));
+      this.refreshData();
+    }
+  }
   deleteGroup(id: string){
     if(id!==null || id!==undefined){
       this.groupService.deleteById(id).subscribe(res => {

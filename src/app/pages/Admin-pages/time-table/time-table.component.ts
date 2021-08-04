@@ -63,7 +63,7 @@ export class TimeTableComponent implements OnInit  {
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
 
-public dateString:string
+public dateString:string;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   public activeModal: NgbActiveModal;
@@ -105,7 +105,7 @@ public dateString:string
     },
   ];
 
-
+  border:'green';
   refresh: Subject<any> = new Subject();
   timeTableSubscription!:Subscription;
   recurringEvents: Schedule[] = [];
@@ -117,6 +117,7 @@ public dateString:string
   activeDayIsOpen: boolean = true;
   isLoading=false;
   loading=false;
+  addBtn:boolean=false;
 
   constructor(private timeTableService:TimeTableService,
     private cdr: ChangeDetectorRef,
@@ -422,6 +423,7 @@ openDelete(eventToDelete: CalendarEvent){
     this.isLoading=true;
     this.chosenGroup = event;
     this.getTimeTable();
+    this.addBtn=true;
   }
   
 

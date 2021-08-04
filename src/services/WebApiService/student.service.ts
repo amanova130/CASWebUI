@@ -79,7 +79,7 @@ getStudentsByFaculties(facNumbers:string[]){
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getStudent.');
   }
-  return this.http.get<Student>(`${this.basePath}/api/Student/${encodeURIComponent(String(id))}`).pipe(
+  return this.http.get<Student>(`${this.basePath}/api/Student/getStudentById?id=${encodeURIComponent(String(id))}`).pipe(
     catchError(this.errorHandler)
   )
  }

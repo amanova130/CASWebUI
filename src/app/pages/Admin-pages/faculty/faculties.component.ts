@@ -110,6 +110,7 @@ export class FacultiesComponent implements OnInit, OnDestroy {
   openDelete(faculty:Faculty = {Id: ""} ){
     this.removeFaculty={
       Id: faculty.Id,
+      FacultyName:faculty.FacultyName
     }
   }
   deleteSelectedFaculties()

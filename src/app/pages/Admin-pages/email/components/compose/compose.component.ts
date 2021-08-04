@@ -123,7 +123,7 @@ sendMessage(message:any)
        console.log("succeded");
   });
 }
- 
+
 choosenCategory(e:any)
     {
       if(e.value == 'faculty')

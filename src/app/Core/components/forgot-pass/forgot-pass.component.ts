@@ -33,12 +33,13 @@ export class ForgotPassComponent implements OnInit {
     this.userService.resetPass(this.forgetForm.controls['email'].value).subscribe(res=>{
       if(res)
       {
-        this.alertService.successResponseFromDataBase();
+        this.alertService.genericAlertMsg("success","A message containing information about the password was sent to the specified email address."
+                                         +"If you do not receive this message, please check the correctness of the entered email address, or contact the secretariat")
         this.router.navigate(['../login']);
       }
  },
  err=>{
-   this.alertService.errorResponseFromDataBase();
+   this.alertService.genericAlertMsg("error","The email address is not found on this database.")
  });
     
   }
