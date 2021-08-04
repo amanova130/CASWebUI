@@ -1,14 +1,17 @@
 
 
 export interface Exam { 
-    id?: string;
-    subject?: string;
-    facId?: string;
-    groupId?: string;
-    room?: number;
-    teacherId?: string;
-    testNum?: string;
-    duration?: string;
-    examDate?: Date;
-    status?: boolean;
+    Id?: string;
+    Course?: string;
+    Fac_name?: string;
+    Group_num?: string;
+    Room?: number;
+    Teacher_id?: string;
+    Test_num?: string;
+    StartTime?: string;
+    EndTime?: string;
+    Semester?: string;
+    Year?: string;
+    ExamDate?: string;
+    Status?: boolean;
 }

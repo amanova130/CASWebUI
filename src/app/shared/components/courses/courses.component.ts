@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@ang
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { locale } from 'moment';
 import { Observable, Subscription, timer } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
@@ -29,6 +30,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
   };
   @ViewChild('form') form!: any;
   submitted: boolean;
+  isAdmin = false; 
+  isStudent = false;
 
   constructor( 
     private courseService: CourseService, 
@@ -39,8 +42,19 @@ export class CoursesComponent implements OnInit, OnDestroy {
      ) {}
   
   ngOnInit(): void {
+    let role = localStorage.getItem('userRole');
+    if(role === 'Admin')
+    {
+      this.isAdmin = true;
+      this.getCourses();
+    } 
+    else
+    {
+      this.isStudent = true;
+    }
+     
     this.changeDetectorRef.detectChanges();
-   this.getCourses()
+  
   }
 
   private getCourses(){

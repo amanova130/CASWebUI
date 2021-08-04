@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   public isWrong:boolean;
   public isLoginPage:boolean=false;
   public attempts:number=3;
+  public loggedUser: any;
 
   constructor(private fb: FormBuilder,
                private router: Router,
@@ -78,7 +79,6 @@ export class LoginComponent implements OnInit {
 
   private markAsDirty(group: FormGroup): void {
     group.markAsDirty();
-    // tslint:disable-next-line:forin
     for (const i in group.controls) {
       group.controls[i].markAsDirty();
     }

@@ -28,8 +28,6 @@ export class AdminService {
 
   
 
- 
-
   // Get student profile by Id
   getAdminById(id: string){
     if (id === null || id === undefined) {
@@ -39,6 +37,7 @@ export class AdminService {
     catchError(this.errorHandler)
   )
  }
+
 
 //  Delete Student By Id
  deleteById(id: string){

@@ -15,6 +15,7 @@ import { TeachersComponent } from './teachers/teachers.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { HolidayComponent } from 'src/app/shared/components/holiday/holiday.component';
 import { StaffComponent } from './staff/staff.component';
+import { GradesComponent } from './grades/grades.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,7 @@ const routes: Routes = [
         { path: 'reports',  component: ReportsComponent },
         { path: 'requests',  component: RequestsComponent },
         { path: 'email',  component: EmailComponent },
+        { path: 'grades',  component: GradesComponent },
         { path: 'staff',  component: StaffComponent },
 
 

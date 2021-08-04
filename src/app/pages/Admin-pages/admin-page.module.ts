@@ -42,15 +42,12 @@ import { ViewMailComponent } from './email/components/view-mail/view-mail.compon
 import { ComposeComponent } from './email/components/compose/compose.component';
 
 import { StaffComponent } from './staff/staff.component';
-
-
-
-
+import { AddEditExamComponent } from './exams/components/add-edit-exam/add-edit-exam.component';
+import { GradesComponent } from './grades/grades.component';
 
 @NgModule({
   declarations: [
     GroupsComponent,
-
     ExamsComponent,
     ReportsComponent,
     RequestsComponent,
@@ -70,7 +67,8 @@ import { StaffComponent } from './staff/staff.component';
     InboxComponent,
     StaffComponent,
     SentComponent,
-    ViewMailComponent,    
+    ViewMailComponent,
+  
     
   ],
   imports: [
@@ -107,7 +105,6 @@ import { StaffComponent } from './staff/staff.component';
   ],
   exports: [
     GroupsComponent,
-
     TimeTableComponent,
     ExamsComponent,
     ReportsComponent,
@@ -125,7 +122,8 @@ import { StaffComponent } from './staff/staff.component';
     InboxComponent,
     SentComponent,
     ViewMailComponent,
-    StaffComponent
+    StaffComponent,
+    GradesComponent
 
 
   ]
