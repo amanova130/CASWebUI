@@ -38,6 +38,14 @@ export class UserService {
   );
 }
 
+checkAuth(param:User){
+  if(param === null || param === undefined)
+  throw new Error('Required parameter id was null or undefined when calling getUser.');
+
+return this.http.post<User>(`${this.basePath}/api/User/CheckAuth`,param).pipe(
+    catchError(this.errorHandler)
+);
+}
 resetPass(email:string)
 {
   if(email === null || email === undefined)

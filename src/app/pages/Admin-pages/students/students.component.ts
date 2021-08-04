@@ -43,6 +43,8 @@ export class StudentsComponent implements OnInit{
   refresh: Subject<any> = new Subject();
 
   isLoading=false;
+  isSelected=false;
+
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -105,14 +107,26 @@ export class StudentsComponent implements OnInit{
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
+    if(numSelected !== 0)
+      this.isSelected=true;
+    else
+      this.isSelected=false;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
+    if(this.isAllSelected())
+    {
+      this.selection.clear();
+      this.isSelected=false;
+    }
+      else
+      {
         this.dataSource.data.forEach(row => this.selection.select(row));
+        this.isSelected=true;
+      }
+        
   }
 
   /** The label for the checkbox on the passed row */
@@ -141,7 +155,14 @@ export class StudentsComponent implements OnInit{
       });
     }
   }
-
+  deleteSelectedStudents()
+  {
+    if(this.selection.hasValue())
+    {
+      this.selection.selected.forEach(selected=>(this.deleteStudent(selected.Id)));
+      this.refreshData();
+    }
+  }
   exportExcell(){
     this.uploadFileService.exportToExcell('student').subscribe( response => {
       if(response.size > 0)
