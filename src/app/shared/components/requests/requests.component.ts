@@ -132,6 +132,8 @@ export class RequestsComponent implements OnInit, OnDestroy {
                     Receiver:this.requestorEmail,
                     Status:true
                   }
+                  this.emailBody.ReceiverNames=[];
+                  this.emailBody.ReceiverNames.push(student.First_name + ' ' + student.Last_name);
                   this.showMessageBeforeSending();
                 }
                   

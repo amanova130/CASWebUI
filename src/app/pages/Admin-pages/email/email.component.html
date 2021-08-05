@@ -6,18 +6,16 @@
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link">
-                <button mat-raised-button class="compose" color="primary" (mwlClick)="composeView()">COMPOSE</button>
+                <button mat-raised-button class="compose" color="primary" (mwlClick)="composeView()">COMPOSE <strong>+</strong></button>
               </a>
             </li>
             <hr>
             <li class="nav-item" >
-              <a mat-button (mwlClick)="sentView()">Sent</a>
+               
+              <a mat-button (mwlClick)="sentView()"><mat-icon>send</mat-icon>  Sent</a>
             </li>
             <li class="nav-item">
-                <a mat-button (mwlClick)="sentView()">Draft</a>
-            </li>
-            <li class="nav-item">
-              <a mat-button (mwlClick)="sentView()">Trash</a>
+              <a mat-button (mwlClick)="trashView()"> <mat-icon>delete_outline</mat-icon>  Trash</a>
             </li>
           </ul>
         </div>
@@ -32,9 +30,10 @@
           <span><h2 class="page-title">Email</h2></span>
         </div>
       </div>
-      <app-inbox *ngIf="isInbox"></app-inbox>
+
       <app-sent *ngIf="isSent"></app-sent>
       <app-compose *ngIf="isCompose"></app-compose>
+      <app-trash *ngIf="isTrash"></app-trash>
     </div>
   </div>
 </div>

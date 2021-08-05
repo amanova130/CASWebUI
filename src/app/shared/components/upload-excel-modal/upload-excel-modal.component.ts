@@ -67,12 +67,16 @@ export class UploadExcelModalComponent implements OnInit {
       this.convertToStudentList();
       if(this.studentList.length > 0)
       {
-        // this.studentService.insertListOfStudents(this.studentList).subscribe(result =>{
-        //   if(result)
-        //     this.alertService.genericAlertMsg("success", "File ulodad successfully");
-        //   else
-        //   this.alertService.errorResponseFromDataBase();
-        // });
+        this.studentService.insertListOfStudents(this.studentList).subscribe(result =>{
+          if(result)
+            this.alertService.genericAlertMsg("success", "File uploaded successfully");
+        },
+        err=>{
+          console.log("error:");
+          console.log(err.value);
+          this.alertService.errorResponseFromDataBase();
+
+        });
       }
      
   }

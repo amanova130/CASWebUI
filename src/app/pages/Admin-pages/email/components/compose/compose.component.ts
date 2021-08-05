@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { isThisSecond } from 'date-fns';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
-import { Message, OutlookMessage, ReceiverDetails } from 'src/services/models/message';
+import { Message, ReceiverDetails } from 'src/services/models/message';
 import { Faculty, Group } from 'src/services/models/models';
 import { Student } from 'src/services/models/student';
 import { FacultyService } from 'src/services/WebApiService/faculty.service';
@@ -32,7 +32,7 @@ import { StudentService } from 'src/services/WebApiService/student.service';
     selectedFaculty: string[];
     selectedStudent: any;
     selectedGroup: any;
-
+    public studentEmails:string[]=[];
     public isGroup:boolean=false;
     public isStudent:boolean=false;
     selectedOptions:[];
@@ -45,7 +45,8 @@ import { StudentService } from 'src/services/WebApiService/student.service';
       private facultyService:FacultyService,
       private groupService:GroupService,
       private alertService:AlertService,
-      private messageService:MessageService) { }
+      private messageService:MessageService,
+      private router: Router) { }
       
     ngOnInit() {
       this.FormData = this.builder.group({
@@ -63,28 +64,37 @@ import { StudentService } from 'src/services/WebApiService/student.service';
       })
 
       }
-choosenFaculty(e:any)
-  {          
-               
-  }
+
  onSubmit(value:any)
  {
+   this.studentEmails.length=0;
    if(this.isStudent)
    {
-     console.log(this.FormData.value)
+     if(this.FormData.value.faculties.length>0)
+        this.FormData.value.faculties.length=0;
+      if(this.FormData.value.groups.length>0)
+         this.FormData.value.groups.length=0;
+     console.log(this.FormData.value);
+     this.studentEmails=this.FormData.value.students;
      this.sendMessage(this.FormData.value);
+
    }
   else if(this.isGroup)
   {
+    if(this.FormData.value.faculties.length>0)
+      this.FormData.value.faculties.length=0;
+    if(this.FormData.value.students.length>0)
+      this.FormData.value.students.length=0;
     this.studentService.getStudentsByGroups(this.FormData.value.groups).subscribe(studentList=>{
       let emails:string[]=[];
+      
       if(studentList)
       {
         studentList.forEach(student=>{
          emails.push(student.Email);
 
         })
-        this.FormData.value.students=emails;
+        this.studentEmails=emails;
         this.sendMessage(this.FormData.value);
       }
        
@@ -92,6 +102,10 @@ choosenFaculty(e:any)
   }
   else 
   {
+    if(this.FormData.value.groups.length>0)
+      this.FormData.value.groups.length=0;
+    if(this.FormData.value.students.length>0)
+      this.FormData.value.students.length=0;
     this.studentService.getStudentsByFaculties(this.FormData.value.faculties).subscribe(studentList=>{
       let emails:string[]=[];
       if(studentList)
@@ -100,7 +114,7 @@ choosenFaculty(e:any)
          emails.push(student.Email);
 
         })
-        this.FormData.value.students=emails;
+        this.studentEmails=emails;
         this.sendMessage(this.FormData.value);
       }
        
@@ -115,13 +129,37 @@ sendMessage(message:any)
     Description:message.Description,
     Subject:message.Subject,
     DateTime:new Date(),
-    Receiver:message.students,
+    Receiver:this.studentEmails,
     Status:true
   }
+  if(message.faculties.length > 0)
+    msgToSend.ReceiverNames =message.faculties;
+  else if(message.groups.length > 0)
+    msgToSend.ReceiverNames =message.groups;
+    else
+    {
+      msgToSend.ReceiverNames=[];
+      message.students.forEach((email: string)=>{
+        this.studentList.forEach(student=>{
+          if(student.Email === email)
+            msgToSend.ReceiverNames.push(student.First_name + " " +student.Last_name);
+        })
+      })
+    //msgToSend.ReceiverNames=message.students;
+    }
   this.messageService.create(msgToSend).subscribe(res=>{
      if(res)
-       console.log("succeded");
+     {
+       this.alertService.genericAlertMsg("success","Email sent successfully");
+       this.router.navigate(['../email']);
+     }
+  },
+  err=>{
+    this.alertService.errorResponseFromDataBase;
+    this.router.navigate(['./email']);
+
   });
+
 }
 
 choosenCategory(e:any)
