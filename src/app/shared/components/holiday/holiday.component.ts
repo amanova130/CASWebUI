@@ -12,6 +12,10 @@ import { Holiday } from 'src/services/models/holiday';
 import { HolidayService } from 'src/services/WebApiService/holiday.service';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { AddEditHolidayComponent } from './components/add-edit-holiday/add-edit-holiday.component';
+import { LoggedUser } from '../../../../services/models/loggedUser';
+import { User } from 'src/services/models/user';
+import { TokenStorageService } from '../../helperServices/token-storage.service';
+import { Role } from '../../pipes-and-enum/roleEnum';
 
 
 @Component({
@@ -30,6 +34,7 @@ export class HolidayComponent implements  OnInit, OnDestroy {
   'action'];
   dataSource!: MatTableDataSource<Holiday>;
 
+  loggedUser: User;
   holidayList: Holiday[] = [];
   holidayListSubscription!: Subscription;
   removeHoliday!: Holiday;
@@ -41,10 +46,19 @@ export class HolidayComponent implements  OnInit, OnDestroy {
   sort: MatSort = new MatSort;
   @ViewChild('myTable')
   myTable!: MatTable<any>;
+  isStudent = true;
 
-  constructor(private holidayService: HolidayService, private modalService: NgbModal,public datepipe: DatePipe, private alertService: AlertService) {}
+  constructor(private holidayService: HolidayService, 
+    private modalService: NgbModal,
+    public datepipe: DatePipe, 
+    private alertService: AlertService,
+    private tokenStorage: TokenStorageService) {}
+
   ngOnInit(): void {
     this.getAllholidayData();
+    this.loggedUser = this.tokenStorage.getUser();
+    if(this.loggedUser.Role === Role.Student)
+      this.isStudent = !this.isStudent;
   }
   selection = new SelectionModel<Holiday>(true, []);
 

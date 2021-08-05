@@ -19,12 +19,20 @@ export class RequestService {
 
   //Function to get all Requests from web api//  
   getAllRequests(){
-
     return this.http.get<Request[]>(`${this.basePath}/api/Request/getAllRequests`).pipe(map( (requestList: Request[])=>{
-    
       return requestList;
     }),
-    
+    tap((requestList: Request[]) =>{
+      this.requestUtil.setRequestList(requestList);
+    })
+    );
+  }
+
+  getRequestsListBySenderId(senderId: String){
+    return this.http.get<Request[]>(`${this.basePath}/api/Request/getRequestsListBySenderId?senderId=${encodeURIComponent(String(senderId))}`)
+    .pipe(map( (requestList: Request[])=>{
+      return requestList;
+    }),
     tap((requestList: Request[]) =>{
       this.requestUtil.setRequestList(requestList);
     })

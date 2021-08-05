@@ -12,6 +12,9 @@ import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { AlertService } from '../../helperServices/alert.service';
 import { SliderService } from '../../helperServices/slider.service';
 import { AddEditLinksComponent } from './add-edit-links/add-edit-links.component';
+import { TokenStorageService } from '../../helperServices/token-storage.service';
+import { User } from 'src/services/models/user';
+import { Role } from '../../pipes-and-enum/roleEnum';
 
 @Component({
   selector: 'app-links',
@@ -38,17 +41,22 @@ export class LinksComponent implements OnInit, OnDestroy {
   responsiveOptions: any;
   backgroundImg: any; 
   sliderItems: any;
-
+  loggedUser: User;
+  isStudent=true;
   constructor( 
     private linkService: ExtendedLinkService, 
     private alertService: AlertService, 
     private modalService: NgbModal,
     private facultyService: FacultyService,
     private sliderService: SliderService,
-    private cdRef:ChangeDetectorRef
+    private tokenStorage: TokenStorageService
      ) {}
   
   ngOnInit(): void {
+    this.loggedUser = this.tokenStorage.getUser();
+    if(this.loggedUser.Role === Role.Student)
+      this.isStudent = !this.isStudent;
+      
     this.getFaculties();
     this.getLinks();
     this.responsiveOptions = this.sliderService.responsiveOptions;

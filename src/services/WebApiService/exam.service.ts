@@ -50,6 +50,13 @@ export class ExamService {
   )
  }
 
+ getExamByGroup(groupNumber: string, semester: string, year: string, testNo: string){
+   return this.http.get<Exam[]>(`${this.basePath}/api/Exam/getExamByGroup?groupNumber=${encodeURIComponent(String(groupNumber))}&semester=${encodeURIComponent(String(semester))}
+   &year=${encodeURIComponent(String(year))}&testNo=${encodeURIComponent(String(testNo))}`)
+   .pipe(
+    catchError(this.errorHandler))
+ }
+
 
   //function to delete single exam object with given id
 

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { dark } from 'src/app/shared/helperServices/themeProperties';
+import { User } from 'src/services/models/user';
 import { ThemeService } from '../../../shared/helperServices/theme.service';
 import { TokenStorageService } from '../../../shared/helperServices/token-storage.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from '../../../shared/components/profile/profile.component';
+import { AlertService } from '../../../shared/helperServices/alert.service';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +15,14 @@ import { TokenStorageService } from '../../../shared/helperServices/token-storag
 })
 export class HeaderComponent implements OnInit {
 
+  loggedUser: User;
   isDarkMode=false;
-  constructor(private themeService: ThemeService, private tokenStorage: TokenStorageService, private router: Router,) { }
+  constructor(private themeService: ThemeService, private tokenStorage: TokenStorageService, private router: Router,
+    private modalRef: NgbModal,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
+    this.loggedUser = this.tokenStorage.getUser();
     let storedTheme = localStorage.getItem('theme');
     let checkValue = localStorage.getItem('checkbox');
     if (storedTheme == 'dark' && checkValue == 'true') {
@@ -29,6 +37,11 @@ export class HeaderComponent implements OnInit {
     } else {
       this.themeService.setDarkTheme();
     }
+  }
+
+  openProfileModal(){
+    const ref = this.modalRef.open(ProfileComponent);
+    ref.componentInstance.user = this.loggedUser;
   }
 
   logOut(){

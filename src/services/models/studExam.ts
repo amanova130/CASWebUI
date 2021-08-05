@@ -1,5 +1,5 @@
 
 export interface StudExam { 
-    examId?: string;
-    grade?: number;
+    ExamId?: string;
+    Grade?: number;
 }

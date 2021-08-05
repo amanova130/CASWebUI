@@ -67,32 +67,17 @@ import { GradesComponent } from './grades/grades.component';
     StaffComponent,
     SentComponent,
     ViewMailComponent,
-  
+    AddEditExamComponent,
+    GradesComponent
     
   ],
   imports: [
-    ReactiveFormsModule,
     AngularMaterialModule,
-    //TruncatePipesModule,
-    MatIconModule,
     FlexLayoutModule,
     RouterModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    NgSelectModule,
     CommonModule,
     AdminPageRoutingModule,
-    FormsModule, 
-    SharedModule,
-    //BrowserAnimationsModule,
-    //BrowserModule,
-    NgbModalModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    FormsModule,
+    SharedModule, 
     NgxChartsModule,
     FlatpickrModule.forRoot(
       ),
@@ -120,7 +105,8 @@ import { GradesComponent } from './grades/grades.component';
     SentComponent,
     ViewMailComponent,
     StaffComponent,
-    GradesComponent
+    GradesComponent,
+    AddEditExamComponent
   ]
 })
 export class AdminPageModule { }

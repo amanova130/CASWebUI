@@ -15,6 +15,9 @@ import { Message } from 'src/services/models/message';
 import { StudentService } from '../../../../services/WebApiService/student.service';
 import Swal from 'sweetalert2';
 import { AddRequestComponent } from './add-request/add-request.component';
+import { User } from 'src/services/models/user';
+import { TokenStorageService } from '../../helperServices/token-storage.service';
+import { Role } from '../../pipes-and-enum/roleEnum';
 
 @Component({
   selector: 'app-requests',
@@ -46,17 +49,48 @@ export class RequestsComponent implements OnInit, OnDestroy {
   sort: MatSort = new MatSort;
   @ViewChild('myTable')
   myTable!: MatTable<any>;
-
-  constructor(private requestService: RequestService, private modalService: NgbModal, public datepipe: DatePipe, private alertService: AlertService,
-    private messageService: MessageService, private studentService: StudentService) {}
-  ngOnInit(): void {
-    this.getAllRequestData();
-  }
+  isStudent=true;
+  loggedUser: User;
   selection = new SelectionModel<Request>(true, []);
+
+  constructor(private requestService: RequestService, 
+    private modalService: NgbModal, 
+    public datepipe: DatePipe, 
+    private alertService: AlertService,
+    private messageService: MessageService, 
+    private studentService: StudentService,
+    private tokenStorage: TokenStorageService) {}
+
+    
+  ngOnInit(): void {
+    this.loggedUser = this.tokenStorage.getUser();
+    if(this.loggedUser.Role === Role.Student)
+    {
+      this.isStudent = !this.isStudent;
+      this.getRequestByStudentId();
+    }
+    else
+      this.getAllRequestData();
+  }
+
+ 
 
   getAllRequestData(){
     this.requestListSubscription = timer(0, 60000).pipe(
       switchMap(()=> this.requestService.getAllRequests())
+    ).subscribe((list: Request[])=>{
+      this.requestList = list;
+      this.dataSource = new MatTableDataSource(this.requestList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoading=false;
+      console.log("Get Request refreshed");
+    });
+  }
+
+  getRequestByStudentId(){
+    this.requestListSubscription = timer(0, 60000).pipe(
+      switchMap(()=> this.requestService.getRequestsListBySenderId(this.loggedUser.UserName))
     ).subscribe((list: Request[])=>{
       this.requestList = list;
       this.dataSource = new MatTableDataSource(this.requestList);

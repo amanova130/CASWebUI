@@ -12,7 +12,7 @@
                         <div class="row justify-content-end">
                             <div class="col-4">
                                <ul class="header-buttons">
-                                   <li class="m-l-10">
+                                   <li class="m-l-10" *ngIf="isStudent">
                                        <div class="icon-button-demo">
                                            <button mat-mini-fab="" (click)="openAddEditModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                               <i class="material-icons text-white">add</i>
@@ -83,17 +83,16 @@
                                     <span class="text-center h5">{{link.Title}}</span>
                                     
                                 </div>
-                                <div class="row container mt-2 description">
+                                <div class="row container my-3 description">
                                     <p class="h-100">
                                         {{link.Description}}
                                     </p>
                                 </div>
-                                <a [href]="link.URL" target="_blank" class="btn btn-primary">View more</a>
-                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2">
+                                <a [href]="link.URL" target="_blank" class="btn btn-primary my-3">View more</a>
+                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2" *ngIf="isStudent">
                                     <a type="button" (click)="openAddEditModal(link)"><i class="material-icons text-warning">edit</i></a> 
                                     <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDeleteModal(link)"><i class="material-icons text-danger">delete</i> </a>  
                                 </div>
-                               
                             </div>
                         </div>
                     </div>

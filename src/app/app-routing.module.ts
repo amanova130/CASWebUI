@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ForgotPassComponent } from './Core/components/forgot-pass/forgot-pass.component';
 import { LoginComponent } from './Core/components/login/login.component';
 import { MainLayoutComponent } from './Core/components/main-layout/main-layout.component';
+import { AutenticationGuard } from './shared/helperServices/autentication.guard';
 import { Role } from './shared/pipes-and-enum/roleEnum';
 
 

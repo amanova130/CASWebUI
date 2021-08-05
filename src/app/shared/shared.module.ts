@@ -16,6 +16,7 @@ import { CarouselModule } from "primeng/carousel";
 import {ButtonModule} from 'primeng/button';
 import { RequestsComponent } from "./components/requests/requests.component";
 import { AddRequestComponent } from './components/requests/add-request/add-request.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AddRequestComponent } from './components/requests/add-request/add-reque
     AddEditHolidayComponent,
     RequestsComponent,
     AddRequestComponent,
+    ProfileComponent,
 ],
   imports: 
   [CommonModule,

@@ -28,13 +28,13 @@
                             <div class="col-4">
                                <ul class="header-buttons">
                                 <li *ngIf="isSelected">
-                                  <div class="icon-button-demo">
+                                  <div class="icon-button-demo" *ngIf="isStudent">
                                       <button mat-mini-fab="" data-bs-toggle="modal" data-bs-target="#deleteSelectedModal" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                          <i class="material-icons text-white">delete</i>
                                        </button>
                                    </div>
                                </li>
-                                   <li class="m-l-10">
+                                   <li class="m-l-10" *ngIf="isStudent">
                                        <div class="icon-button-demo">
                                            <button mat-mini-fab="" (click)="openModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
                                               <i class="material-icons text-white">add</i>
@@ -55,15 +55,14 @@
                     </div>
                       <div class="table-resposive">
                         <table mat-table [dataSource]="dataSource" #myTable matSort class="w-100">
-                      
                             <ng-container matColumnDef="select">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell *matHeaderCellDef [hidden]="!isStudent">
                                   <mat-checkbox (change)="$event ? masterToggle() : null"
                                                 [checked]="selection.hasValue() && isAllSelected()"
                                                 [indeterminate]="selection.hasValue() && !isAllSelected()">
                                   </mat-checkbox>
                                 </th>
-                                <td mat-cell *matCellDef="let row">
+                                <td mat-cell *matCellDef="let row" [hidden]="!isStudent">
                                   <mat-checkbox (click)="$event.stopPropagation()"
                                                 (change)="$event ? selection.toggle(row) : null"
                                                 [checked]="selection.isSelected(row)">
@@ -97,8 +96,8 @@
                       
                         <!-- Action Column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> Action </th>
-                            <td mat-cell *matCellDef="let row" class="action-link" (click)="$event.stopPropagation()"> 
+                            <th mat-header-cell *matHeaderCellDef [hidden]="!isStudent"> Action </th>
+                            <td mat-cell *matCellDef="let row" class="action-link" [hidden]="!isStudent" (click)="$event.stopPropagation()"> 
                             <a type="button" (click)="openModal(row)"><i class="material-icons text-warning">edit</i></a> 
                             <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDelete(row)"><i class="material-icons text-danger">delete</i> </a>  
                             </td>
