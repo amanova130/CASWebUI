@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewMailComponent } from './components/view-mail/view-mail.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { InboxComponent } from './components/inbox/inbox.component';
+import { ComposeComponent } from './components/compose/compose.component';
 
 
 export interface Email {	
@@ -29,12 +30,15 @@ export interface Email {
 
 export class EmailComponent implements OnInit {
   @ViewChild(InboxComponent, {static: true})
+  
   displayedColumns: string[] = ['select', 'Sender','Subject', 'DateTime'];
+  @ViewChild(ComposeComponent)  child: ComposeComponent;
   public messageList:Message[];
   dataSource!: MatTableDataSource<Message>;
-  public isInbox:boolean;
   public isSent:boolean;
   public isCompose:boolean;
+  public isTrash:boolean;
+
 
  
   constructor(
@@ -66,25 +70,26 @@ export class EmailComponent implements OnInit {
       const numRows = this.dataSource.data.length;
       return numSelected === numRows;
     }
-    inboxView()
-    {
-      this.isInbox=true;
-      this.isSent=false;
-      this.isCompose=false;
-
-    }
+   
     sentView()
     {
       this.isSent=true;
-      this.isInbox=false;
       this.isCompose=false;
+      this.isTrash=false;
 
     }
     composeView()
     {
       this.isSent=false;
-      this.isInbox=false;
       this.isCompose=true;
+      this.isTrash=false;
+
+    }
+    trashView()
+    {
+      this.isSent=false;
+      this.isCompose=false;
+      this.isTrash=true;
     }
 }
 

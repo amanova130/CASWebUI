@@ -5,32 +5,27 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Message } from 'src/services/models/message';
 import { MessageService } from 'src/services/WebApiService/message.service';
-import { ViewMailComponent } from '../view-mail/view-mail.component';
 import { Pipe, PipeTransform } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
+import { ViewMailComponent } from '../view-mail/view-mail.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subscription } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
-  selector: 'app-sent',
-  templateUrl: './sent.component.html',
-  styleUrls: ['./sent.component.scss']
+  selector: 'app-trash',
+  templateUrl: './trash.component.html',
+  styleUrls: ['./trash.component.scss']
 })
+export class TrashComponent implements OnInit {
 
-export class SentComponent implements OnInit {
   displayedColumns: string[] = ['select', 'Receiver','Subject', 'DateTime',"action"];
   public messageList:Message[];
   public removeMessage:Message;
-  messageListSubscription!: Subscription;
-
   dataSource!: MatTableDataSource<Message>;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  isSelected=false;
-  isLoading=true;
   selection = new SelectionModel<Message>(true, []);
   constructor(
     public datepipe: DatePipe,
@@ -40,13 +35,15 @@ export class SentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.messageService.getMessagesBySenderId("Admin").subscribe((list: Message[])=>{
+    this.messageService.GetAllDeletedBySender("Admin").subscribe((list: Message[])=>{
+     if(list)
+     {
       this.messageList=list;
       this.dataSource=new MatTableDataSource(this.messageList);
       this.dataSource.paginator = this.paginator;
      this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
       this.dataSource.sort = this.sort;
-      this.isLoading=false;
+     }
     });
 
 }
@@ -65,21 +62,11 @@ openViewModal(message: Message = {Id: ""} ){
 
   }
   masterToggle() {
-    if(this.isAllSelected())
-    {
-      this.selection.clear();
-      this.isSelected=false;
-    }
-      else
-      {
+    this.isAllSelected() ?
+        this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));
-        this.isSelected=true;
-      }
-        
   }
-  openDelete(message:Message = {Id: ""} ){
-    this.removeMessage=message;
-  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -91,20 +78,14 @@ openViewModal(message: Message = {Id: ""} ){
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    if(numSelected !== undefined)
-      this.isSelected=true;
-    else
-      this.isSelected=false;
     return numSelected === numRows;
-    
+  }
+  openDelete(message:Message = {Id: ""} ){
+    this.removeMessage=message;
   }
   deleteSelectedMessages()
   {
-    if(this.selection.hasValue())
-    {
-      this.selection.selected.forEach(selected=>(this.deleteMessage(selected.Id)));
-    }
-    this.alertService.errorFormField();
+
   }
   deleteMessage(id:string)
   {
@@ -121,17 +102,6 @@ openViewModal(message: Message = {Id: ""} ){
       });
     }
  }
- refresh(){
-  this.messageService.getMessagesBySenderId("Admin").subscribe((list: Message[])=>{
-    this.messageList=list;
-    this.dataSource=new MatTableDataSource(this.messageList);
-    this.dataSource.paginator = this.paginator;
-   this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
-    this.dataSource.sort = this.sort;
-    this.isLoading=false;
-
-  });
-}
 }
 
 

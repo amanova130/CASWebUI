@@ -44,6 +44,7 @@ import { ComposeComponent } from './email/components/compose/compose.component';
 import { StaffComponent } from './staff/staff.component';
 import { AddEditExamComponent } from './exams/components/add-edit-exam/add-edit-exam.component';
 import { GradesComponent } from './grades/grades.component';
+import { TrashComponent } from './email/components/trash/trash.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,10 @@ import { GradesComponent } from './grades/grades.component';
     SentComponent,
     ViewMailComponent,
     AddEditExamComponent,
-    GradesComponent
+    GradesComponent,
+    TrashComponent
+
+  
     
   ],
   imports: [
@@ -106,7 +110,8 @@ import { GradesComponent } from './grades/grades.component';
     ViewMailComponent,
     StaffComponent,
     GradesComponent,
-    AddEditExamComponent
+    AddEditExamComponent,
+    TrashComponent
   ]
 })
 export class AdminPageModule { }

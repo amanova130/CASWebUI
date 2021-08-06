@@ -37,7 +37,7 @@ export class MessageService {
   if (id === null || id === undefined) {
     throw new Error('Required parameter id was null or undefined when calling apiStudentIdDelete.');
 }
-  return this.http.delete<Message>(`${this.basePath}/api/Student/deleteStudentById?id=${encodeURIComponent(String(id))}`)
+  return this.http.delete<Message>(`${this.basePath}/api/Message/deleteMsgById?id=${encodeURIComponent(String(id))}`)
   .pipe(
     catchError(this.errorHandler)
   )
@@ -54,7 +54,14 @@ create(params: any){
     catchError(this.errorHandler)
   )
 }
+GetAllDeletedBySender(id:string)
+{
+  return this.http.get<Message[]>(`${this.basePath}/api/Message/getAllDeletedBySender?id=${encodeURIComponent(String(id))}`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
 
+}
 // Update an existed message profile
 update(studentIn:Message){
   const headers = new HttpHeaders({'Content-Type': 'application/json'});
