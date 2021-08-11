@@ -1,107 +1,109 @@
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <span><h2 class="page-title">All Courses</h2></span>
-        </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <span>
+        <h2 class="page-title">All Courses</h2>
+      </span>
     </div>
-    <div class="row">
-        <div *ngIf="isStudent">
-            Need to creatre function to fetch courses by group of Student
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="body">
-                    <div class="materialTableHeader">
-                        <div class="row">
-                            <div class="col-8 p-0">
-                                <ul class="header-buttons-left ml-0 p-0">
-                                    <li class="dropdown">
-                                        <h2>Courses</h2>
-                                    </li>
-                                    <li class="dropdown m-l-20 pt-2">
-                                        <label for="search-input">
-                                            <i class="material-icons search-icon">search</i>
-                                        </label>
-                                        <input matInput (keyup)="applyFilter($event)" placeholder="Search" type="text" aria-label="Search box" class="browser-default search-field" #input>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-4" *ngIf="isAdmin">
-                               <ul class="header-buttons">
-                                   <li class="m-l-10">
-                                       <div class="icon-button-demo">
-                                           <button mat-mini-fab="" (click)="openAddEditModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                              <i class="material-icons text-white">add</i>
-                                            </button>
-                                        </div>
-                                    </li>
-                                    <li class="m-l-10">
-                                        <div class="icon-button-demo">
-                                            <button mat-mini-fab="" color="primary" (click)="refresh()" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary" >
-                                                <i class="material-icons text-white">refresh</i>
-                                            </button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="body">
+          <div class="materialTableHeader">
+            <div class="row">
+              <div class="col-8 p-0">
+                <ul class="header-buttons-left ml-0 p-0">
+                  <li class="dropdown">
+                    <h2>Courses</h2>
+                  </li>
+                  <li class="dropdown m-l-20 pt-2">
+                    <label for="search-input">
+                      <i class="material-icons search-icon">search</i>
+                    </label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" type="text"
+                      aria-label="Search box" class="browser-default search-field" #input>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-4" *ngIf="isAdmin">
+                <ul class="header-buttons">
+                  <li class="m-l-10">
+                    <div class="icon-button-demo">
+                      <button mat-mini-fab="" (click)="openAddEditModal()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <i class="material-icons text-white">add</i>
+                      </button>
                     </div>
-                    <div *ngIf="isLoading" class="h6 mt-5 text-center">
-                        <img  class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
-                   </div>
-                    <div class="row mt-3">
-                        <div class="col-md-3" *ngFor="let course of obs | async">
-                            <div class="card card-course">
-                                <div class="row">
-                                    <img [src]="createImgPath(course.Image)" alt="course img">
-                                </div>
-                                <div class="row">
-                                    <span class="text-center h5">{{course.CourseName}}</span>
-                                    <span class="text-center">Course Duration: {{course.Duration}}</span>
-                                </div>
-                                <div class="row container mt-2 description">
-                                    <p class="h-100">
-                                        {{course.Description}}
-                                    </p>
-                                </div>
-                                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2" *ngIf="isAdmin">
-                                    <a type="button" (click)="openAddEditModal(course)"><i class="material-icons text-warning">edit</i></a> 
-                                    <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDeleteModal(course)"><i class="material-icons text-danger">delete</i> </a>  
-                                </div>
-                            </div>
-                        </div>
+                  </li>
+                  <li class="m-l-10">
+                    <div class="icon-button-demo">
+                      <button mat-mini-fab="" color="primary" (click)="refresh()"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <i class="material-icons text-white">refresh</i>
+                      </button>
                     </div>
-                    <mat-paginator [length]="100"
-              [pageSize]="8"
-              [pageSizeOptions]="[8, 16, 32, 100]">
-</mat-paginator>
-                </div>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
+          <div *ngIf="isLoading" class="h6 mt-5 text-center">
+            <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-3" *ngFor="let course of obs | async">
+              <div class="card card-course">
+                <div class="row">
+                  <img [src]="createImgPath(course.Image)" alt="course img">
+                </div>
+                <div class="row">
+                  <span class="text-center h5">{{course.CourseName}}</span>
+                  <span class="text-center">Course Duration: {{course.Duration}}</span>
+                </div>
+                <div class="row container mt-2 description">
+                  <p class="h-100">
+                    {{course.Description}}
+                  </p>
+                </div>
+                <div class="action d-grid gap-2 d-md-flex justify-content-md-end my-2" *ngIf="isAdmin">
+                  <a type="button" (click)="openAddEditModal(course)"><i
+                      class="material-icons text-warning">edit</i></a>
+                  <a type="button" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    (click)="openDeleteModal(course)"><i class="material-icons text-danger">delete</i> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator [length]="100" [pageSize]="8" [pageSizeOptions]="[8, 16, 32, 100]">
+          </mat-paginator>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title" id="deleteModalLabel">Delete Course</h3>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>
-                Do you want delete:
-            </p>
-            <p class="text-danger">
-               Course Name:  {{course.CourseName}}
-            </p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button"  data-bs-dismiss="modal" class="btn btn-danger" (click)="deleteCourse(course.Id)">Delete</button>
-        </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="deleteModalLabel">Delete Course</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Do you want delete:
+        </p>
+        <p class="text-danger">
+          Course Name: {{course.CourseName}}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" data-bs-dismiss="modal" class="btn btn-danger"
+          (click)="deleteCourse(course.Id)">Delete</button>
       </div>
     </div>
+  </div>
 </div>
-

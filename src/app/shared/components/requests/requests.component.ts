@@ -32,71 +32,75 @@ export class RequestsComponent implements OnInit, OnDestroy {
     'SenderId',
     'Subject',
     'Reason',
-  'StatusOfRequest',
-  'action'
-];
+    'StatusOfRequest',
+    'action'
+  ];
   dataSource!: MatTableDataSource<Request>;
-  requestorEmail: string[]=[];
+  requestorEmail: string[] = [];
   requestList: Request[] = [];
   emailBody: Message;
   requestListSubscription!: Subscription;
   removeRequest!: Request;
-  isLoading=true;
-  isSelected=false;
+  isLoading = true;
+  isSelected = false;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
   @ViewChild('myTable')
   myTable!: MatTable<any>;
-  isStudent=true;
+  isStudent = true;
   loggedUser: User;
   selection = new SelectionModel<Request>(true, []);
+  statusOFRequest: string = 'All';
 
-  constructor(private requestService: RequestService, 
-    private modalService: NgbModal, 
-    public datepipe: DatePipe, 
+  constructor(private requestService: RequestService,
+    private modalService: NgbModal,
+    public datepipe: DatePipe,
     private alertService: AlertService,
-    private messageService: MessageService, 
+    private messageService: MessageService,
     private studentService: StudentService,
-    private tokenStorage: TokenStorageService) {}
+    private tokenStorage: TokenStorageService) { }
 
-    
+
   ngOnInit(): void {
     this.loggedUser = this.tokenStorage.getUser();
-    if(this.loggedUser.Role === Role.Student)
-    {
+    if (this.loggedUser.Role === Role.Student) {
       this.isStudent = !this.isStudent;
       this.getRequestByStudentId();
     }
     else
+    {
       this.getAllRequestData();
+    }
+      
+
   }
 
- 
 
-  getAllRequestData(){
+
+  getAllRequestData() {
     this.requestListSubscription = timer(0, 60000).pipe(
-      switchMap(()=> this.requestService.getAllRequests())
-    ).subscribe((list: Request[])=>{
+      switchMap(() => this.requestService.getAllRequests())
+    ).subscribe((list: Request[]) => {
       this.requestList = list;
       this.dataSource = new MatTableDataSource(this.requestList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.isLoading=false;
+      this.isLoading = false;
       console.log("Get Request refreshed");
     });
   }
 
-  getRequestByStudentId(){
+  getRequestByStudentId() {
     this.requestListSubscription = timer(0, 60000).pipe(
-      switchMap(()=> this.requestService.getRequestsListBySenderId(this.loggedUser.UserName))
-    ).subscribe((list: Request[])=>{
+      switchMap(() => this.requestService.getRequestsListBySenderId(this.loggedUser.UserName))
+    ).subscribe((list: Request[]) => {
       this.requestList = list;
       this.dataSource = new MatTableDataSource(this.requestList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.isLoading=false;
+      this.isLoading = false;
       console.log("Get Request refreshed");
     });
   }
@@ -110,96 +114,104 @@ export class RequestsComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateStatusOfRequest(status: string, request: Request){
+  updateStatusOfRequest(status: string, request: Request) {
     this.requestorEmail = [];
-    if(request)
-    {
+    if (request) {
       request.UpdatedDate = new Date().toLocaleDateString();
       request.StatusOfRequest = status;
-      this.requestService.updateRequest(request).subscribe(data => 
-        {
-          if(data)
-          {
-            this.studentService.getStudentById(request.SenderId).subscribe(
-              student => {
-                if(student)
-                {
-                  this.requestorEmail.push(student.Email);
-                  this.emailBody={
-                    Description: 'Dear ' +student.First_name+' '+student.Last_name +', Your request has been '+request.StatusOfRequest,
-                    Subject: 'Your request has been '+request.StatusOfRequest,
-                    DateTime:new Date(),
-                    Receiver:this.requestorEmail,
-                    Status:true
-                  }
-                  this.emailBody.ReceiverNames=[];
-                  this.emailBody.ReceiverNames.push(student.First_name + ' ' + student.Last_name);
-                  this.showMessageBeforeSending();
+      this.requestService.updateRequest(request).subscribe(data => {
+        if (data) {
+          this.studentService.getStudentById(request.SenderId).subscribe(
+            student => {
+              if (student) {
+                this.requestorEmail.push(student.Email);
+                this.emailBody = {
+                  Description: 'Dear ' + student.First_name + ' ' + student.Last_name + ', Your request has been ' + request.StatusOfRequest,
+                  Subject: 'Your request has been ' + request.StatusOfRequest,
+                  DateTime: new Date(),
+                  Receiver: this.requestorEmail,
+                  Status: true
                 }
-                  
+                this.emailBody.ReceiverNames = [];
+                this.emailBody.ReceiverNames.push(student.First_name + ' ' + student.Last_name);
+                this.showMessageBeforeSending();
               }
-            )
-          }
-        })
+
+            }
+          )
+        }
+      })
     }
   }
 
-showMessageBeforeSending(){
-  Swal.fire({
-    title: 'Do you want reply?',
-    text: "Email will be send to student",
-    icon: 'info',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, send it!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-     this.sendEmail(this.emailBody);
-    }
-  })
-}
+  showMessageBeforeSending() {
+    Swal.fire({
+      title: 'Do you want reply?',
+      text: "Email will be send to student",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, send it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sendEmail(this.emailBody);
+      }
+    })
+  }
 
-sendEmail(message:Message)
-{
-  this.messageService.create(message).subscribe(res=>{
-     if(res)
-       this.alertService.genericAlertMsg('success', 'Your email was sent successfully');
+  sendEmail(message: Message) {
+    this.messageService.create(message).subscribe(res => {
+      if (res)
+        this.alertService.genericAlertMsg('success', 'Your email was sent successfully');
       else
-      this.alertService.errorResponseFromDataBase();
-  });
-}
+        this.alertService.errorResponseFromDataBase();
+    });
+  }
+
+  showFiltredRequests(status: string) {
+    this.statusOFRequest = status;
+    let list;
+    if (status !== 'All') {
+      list = this.requestList.filter((request) =>
+        request.StatusOfRequest === status
+      );
+      this.dataSource = new MatTableDataSource(list);
+    }
+    else
+      this.dataSource = new MatTableDataSource(this.requestList);
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
 
-
-  openModal(request?: Request){
+  openModal(request?: Request) {
     const ref = this.modalService.open(AddRequestComponent, { centered: true });
     ref.result.then((result) => {
-      if(result != 'Close click')
-      {
+      if (result != 'Close click') {
         this.requestList.push(result);
         this.dataSource.data = this.requestList;
       }
     });
   }
 
-  openDelete(request:Request){
-    this.removeRequest={
+  openDelete(request: Request) {
+    this.removeRequest = {
       Id: request.Id,
       Reason: request.Reason,
       Subject: request.Subject,
     }
   }
 
-  refresh(){
-    if(this.requestListSubscription)
-    this.requestListSubscription.unsubscribe();
+  refresh() {
+    if (this.requestListSubscription)
+      this.requestListSubscription.unsubscribe();
     this.getAllRequestData();
   }
-  
-  ngOnDestroy()
-  {
-    if(this.requestListSubscription)
+
+  ngOnDestroy() {
+    if (this.requestListSubscription)
       this.requestListSubscription.unsubscribe();
   }
 }

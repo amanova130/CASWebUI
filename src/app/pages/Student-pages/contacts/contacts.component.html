@@ -1,1 +1,84 @@
-<p>contacts works!</p>
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="body">
+          <div class="materialTableHeader">
+            <div class="row">
+              <div class="col-8 p-0">
+                <ul class="header-buttons-left ml-0 p-0">
+                  <li class="dropdown">
+                    <h2>Contacts</h2>
+                  </li>
+                  <li class="dropdown m-l-20 pt-2">
+                    <label for="search-input">
+                      <i class="material-icons search-icon">search</i>
+                    </label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" type="text"
+                      aria-label="Search box" class="browser-default search-field" #input>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <mat-tab-group (selectedTabChange)="changeContactList($event)">
+            <mat-tab *ngFor="let tab of asyncTabs | async" [label]="tab.label">
+              <ng-template mat-tab-label>{{tab.label}}</ng-template>
+              <ng-container *ngIf="isLoading" class="h6 mt-5 text-center">
+                <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+              </ng-container>
+              <!-- Mat-tab content -->
+              <div class="row mt-3 container mx-auto">
+                <div class="col-md-3" *ngFor="let contact of obs | async">
+                  <div class="card card-contact" *ngIf="contactList.length!=0">
+                    <div class="mb-2">
+                      <div class="contact-grid">
+                        <div class="profile-header" [style.background]="colorValue | randomColor">
+                          <p class="text-center mt-3 pt-3">
+                            {{contact.First_name}} {{contact.Last_name}}
+                          </p>
+                          <p class="text-center pb-3">
+                            {{tab.label}}
+                          </p>
+                        </div>
+                        <div class="text-center ">
+                          <img [src]="createImgPath(contact.Image)" alt="contact img" class="contact-img">
+                        </div>
+                        <div *ngIf="tab.label=='Teacher'" class="p-3 m-3">
+                          Courses:
+                          <div *ngIf="tab.label=='Teacher'" class="courses">
+                            <div class=" text-center" *ngFor="let course of contact.TeachesCourses">
+                              {{course}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="text-center py-3 my-3" *ngIf="tab.label=='Admin'">
+                          <p class="align-middle">
+                            <span class="material-icons align-middle pr-2">
+                              call </span>{{contact.Phone}}
+                          </p>
+                          <p class="align-middle">
+                            <span class="material-icons align-middle pr-2">
+                                phone_in_talk </span>04-871-41-51
+                          </p>
+                        </div>
+                        <p class="text-center my-3 align-middle">
+                            <span class="material-icons align-middle pr-2">
+                                contact_mail
+                                </span>
+                          {{contact.Email}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <mat-paginator [length]="100" [pageSize]="8" [pageSizeOptions]="[8, 16, 32, 100]">
+              </mat-paginator>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

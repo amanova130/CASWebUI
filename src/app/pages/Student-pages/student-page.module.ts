@@ -18,6 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StudentPageComponent } from './student-page.component';
+import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { StudentPageComponent } from './student-page.component';
     ContactsComponent,
     ExamGradesComponent,
     TimeTableViewComponent,
-    StudentPageComponent
+    StudentPageComponent,
+    RandomColorPipe
   ],
   imports: [
     CommonModule,

@@ -56,6 +56,15 @@ return this.http.get<Array<string>>(`${this.basePath}/api/Course/GetCoursesByFac
   catchError(this.errorHandler)
 )
 }
+
+getCoursesByGroupName(groupName: string){
+  if (groupName === null || groupName === undefined) {
+    throw new Error('Required parameter id was null or undefined when calling getCourse.');
+}
+return this.http.get<Course[]>(`${this.basePath}/api/Course/getCourseByGroupName?groupName=${encodeURIComponent(String(groupName))}`).pipe(
+  catchError(this.errorHandler)
+)
+}
  //function to delete single course with given id
   deleteById(id: string){
     if (id === null || id === undefined) {

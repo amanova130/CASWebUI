@@ -35,11 +35,11 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
       Id: sessionUser.UserName,
       Role: sessionUser.Role
     }
-    if(this.loggedUser.Role === 'Admin')
+    if(this.loggedUser.Role === Role.Admin)
     {
       this.isAdminLogged();
     }
-    else if(this.loggedUser.Role === 'Student')
+    else if(this.loggedUser.Role === Role.Student)
       this.isStudentLogged();
   }
   
@@ -78,7 +78,7 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
             Id: result.Id,
             Role: Role.Student
           }
-          localStorage.setItem('group', result.Group_Id);
+          this.tokenStorage.saveToken('group', result.Group_Id);
           this.isStudent = true;
         }
       });
