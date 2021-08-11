@@ -17,7 +17,10 @@ h3 {
   padding: 10px;
   background-color: var(--background-default) !important;
   }
-
+.send
+{
+  margin-bottom:3%;
+}
 
 mat-select{
   font-weight: 500;  
@@ -32,7 +35,7 @@ mat-select{
   }
  
   ::ng-deep.cal-week-view .cal-time-events .cal-event {
-    background-color: var(--background-default) !important;
+    background-color:#dee2e6!important;
     border-width: 3px !important;
     border-style: none none none solid !important;
   }

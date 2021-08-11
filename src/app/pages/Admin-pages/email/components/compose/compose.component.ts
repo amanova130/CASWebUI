@@ -55,12 +55,7 @@ import { StudentService } from 'src/services/WebApiService/student.service';
       faculties: new FormControl(''),
       groups: new FormControl(''),
       students: new FormControl(''),
-      category: new FormControl(''),
-      
-
-    
-
-      
+      category: new FormControl(''), 
       })
 
       }

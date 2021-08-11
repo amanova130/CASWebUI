@@ -9,7 +9,7 @@ export interface Schedule {
     Title: string;
     Color: any;
     rrule?: {
-      freq: any;
+      freq?: any;
       bymonth?: number;
       bymonthday?: number;
       byweekday?: any;

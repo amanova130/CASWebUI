@@ -53,6 +53,7 @@ p
 .mat-card-title
 {
   font-size:20px;
+  margin-bottom:9.5%;
 }
 .mat-card-actions
 {
@@ -69,3 +70,32 @@ span{
 {
   text-align:center;
 }
+// .holiday 
+// {
+//   margin-top:2%;
+//   margin-left:3%;
+//   overflow:auto;
+//   width: 40%;
+//   height: 40%;
+
+// }
+
+// .messages
+// {
+//   width: 40%;
+//   height: 40%;
+//   overflow:auto;
+
+// }
+.messages,.holiday
+{
+  overflow:auto;
+  margin-top:20px;
+  margin-left:3%;
+    height: 40%;
+
+}
+.messages{
+  margin-right: 30px;
+}
+

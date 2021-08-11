@@ -62,18 +62,36 @@
         <div class="row" *ngIf="showPasswordField">
           <div class="col-8">
             <label>Current Password</label>
-            <input type="password" id="Description" class="form-control" name="Description" [(ngModel)]="currentPWD"
+            <input type="password" id="Description" class="form-control" name="Description" (click)="isCurrent=true" (blur)="checkCurrentPWD()" [(ngModel)]="currentPWD"
               #Password="ngModel">
+              <div class="alert alert-danger" *ngIf="!isCurrent">
+                <div *ngIf="!isCurrent">The password you typed does not match the current password</div>
+            </div>
           </div>
           <div class="col-8">
             <label>New Password</label>
-            <input type="password" id="Description" class="form-control" name="Description" [(ngModel)]="newPWD"
+            <input type="password" (click)="isSame=isCorrectFormat=true"  id="Description" class="form-control"  name="Description" [(ngModel)]="newPWD" (blur)="checkNewPWD()" 
               #Password="ngModel">
+              <div class="alert alert-danger"   *ngIf="newPWD.length < 5 && newPWD.length != 0 && isCurrent">
+                <div *ngIf="newPWD.length < 5 && newPWD.length != 0 && isCurrent" >New Password must contain at least 5 symbols </div>
+            </div>
+            <div class="alert alert-danger"   *ngIf="!isCorrectFormat  && isCurrent && newPWD.length > 0">
+              <div *ngIf="!isCorrectFormat && isCurrent" >Incorrect symbols in new password.Use letters and digits only. </div>
+          </div>
+          <div class="alert alert-danger"   *ngIf="!isSame  && isCurrent && newPWD.length > 0">
+            <div *ngIf="!isSame && isCurrent" >The new password cannot be the same as the current password </div>
+        </div>
           </div>
           <div class="col-8">
             <label>Confirm Password</label>
-            <input type="password" id="Description" (blur)="confirmNewPWD()" class="form-control" name="Description" [(ngModel)]="confirmPWD"
+            <input type="password" id="Description" (blur)="confirmNewPWD()" (click)="isConfirmed=true"  class="form-control" name="Description" [(ngModel)]="confirmPWD"
               #Password="ngModel">
+              <div class="alert alert-danger" *ngIf="!isConfirmed && isCurrent">
+                <div *ngIf="!isConfirmed">The password confirm does not match</div>
+            </div>
+            <div class="alert alert-danger" *ngIf="newPWD.length == 0 && confirmPWD.length > 0">
+              <div *ngIf="newPWD.length == 0">New password field is empty</div>
+          </div>
           </div>
         </div>
       </div>
@@ -81,7 +99,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">Close</button>
-  <button [disabled]="isLoading" class="btn btn-primary" (click)="onSubmit()">
+  <button [disabled]="isLoading || !isConfirmed " class="btn btn-primary" (click)="onSubmit()">
     <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
     Save
   </button>

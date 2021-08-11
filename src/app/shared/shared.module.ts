@@ -17,6 +17,8 @@ import {ButtonModule} from 'primeng/button';
 import { RequestsComponent } from "./components/requests/requests.component";
 import { AddRequestComponent } from './components/requests/add-request/add-request.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AutoResetPassComponent } from "./components/auto-reset-pass/auto-reset-pass.component";
+import { SplashScreenComponent } from "../Core/components/splash-screen/splash-screen.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     RequestsComponent,
     AddRequestComponent,
     ProfileComponent,
+    AutoResetPassComponent,
+    SplashScreenComponent
 ],
   imports: 
   [CommonModule,
@@ -52,6 +56,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     HolidayComponent,
     AddEditHolidayComponent,
     RequestsComponent,
+    AutoResetPassComponent,
+    SplashScreenComponent
 ]
 })
 export class SharedModule {}

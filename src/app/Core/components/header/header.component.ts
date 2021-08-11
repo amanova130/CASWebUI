@@ -7,6 +7,7 @@ import { TokenStorageService } from '../../../shared/helperServices/token-storag
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from '../../../shared/components/profile/profile.component';
 import { AlertService } from '../../../shared/helperServices/alert.service';
+import { UserService } from 'src/services/WebApiService/user.service';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,7 @@ export class HeaderComponent implements OnInit {
   isDarkMode=false;
   constructor(private themeService: ThemeService, private tokenStorage: TokenStorageService, private router: Router,
     private modalRef: NgbModal,
+    private userService:UserService,
     private alertService: AlertService) { }
 
   ngOnInit(): void {
@@ -45,8 +47,15 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut(){
-    this.tokenStorage.signOut();
-    this.router.navigate(['/login']); 
+    const user:User=this.tokenStorage.getUser();
+    user.LogOff=new Date();
+    this.userService.updateUser(user).subscribe(res=>{
+      if(res)
+      {
+        this.tokenStorage.signOut();
+        this.router.navigate(['/login']); 
+      }
+    })
   }
 
 }

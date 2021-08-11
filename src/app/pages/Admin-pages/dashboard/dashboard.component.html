@@ -1,138 +1,146 @@
+<!-- <splash-screen
+[duration]="2"
+[animationDuration]="2"
+></splash-screen> -->
+
 <mat-toolbar color="primary">
-    Dashboard
-  </mat-toolbar>
-  <div class="content">
-    <div fxLayout="row wrap">
+  Dashboard
+</mat-toolbar>
+<div class="content">
+  <div fxLayout="row wrap">
     <mat-card class="mat-elevation-z4">
       <mat-card-header>
-        <mat-card-title>        
-             Students
+        <mat-card-title>
+          Students
         </mat-card-title>
       </mat-card-header>
-      
+
       <mat-card-content>
         <p>
-         Total: <span>{{totalStudents}}</span>
+          Total: <span>{{totalStudents}}</span>
         </p>
       </mat-card-content>
       <img mat-card-image src="assets/images/students.png">
       <mat-card-actions>
         <button class="view" routerLink='../students' routerLinkActive="active" mat-button>View</button>
-        
+
       </mat-card-actions>
     </mat-card>
 
     <mat-card class="mat-elevation-z4">
-        <mat-card-header>
-          <mat-card-title>        
-               Teachers
-          </mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
-          <p>
-            Total: <span>{{totalTeachers}}</span>
+      <mat-card-header>
+        <mat-card-title>
+          Teachers
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          Total: <span>{{totalTeachers}}</span>
         </p>
-        </mat-card-content>
-        <img mat-card-image src="assets/images/teacher.jpg">
-        <mat-card-actions>
-            <button class="view" routerLink='../teachers' routerLinkActive="active" mat-button>View</button>
+      </mat-card-content>
+      <img mat-card-image src="assets/images/teacher.jpg">
+      <mat-card-actions>
+        <button class="view" routerLink='../teachers' routerLinkActive="active" mat-button>View</button>
 
-        </mat-card-actions>
-      </mat-card>
-
-      <mat-card class="mat-elevation-z4">
-        <mat-card-header>
-          <mat-card-title>        
-                Courses
-          </mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
-          <p>
-            Total: <span>{{totalCourses}}</span> 
-
-          </p>
-        </mat-card-content>
-        <img mat-card-image src="assets/images/courses.PNG">
-        <mat-card-actions>
-            <button class="view" routerLink='../courses' routerLinkActive="active" mat-button>View</button>
-        </mat-card-actions>
-      </mat-card>
-      <mat-card class="mat-elevation-z4">
-        <mat-card-header>
-          <mat-card-title>        
-                Groups
-          </mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
-          <p>
-            Total: <span>{{totalGroups}}</span>
-
-          </p>
-        </mat-card-content>
-        <img mat-card-image src="assets/images/groups.PNG">
-        <mat-card-actions>
-            <button class="view" routerLink='../groups' routerLinkActive="active" mat-button>View</button>
-        </mat-card-actions>
-      </mat-card>
-
-      <mat-card class="mat-elevation-z4">
-        <mat-card-header>
-          <mat-card-title>        
-                Faculties
-          </mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
-          <p>
-            Total: <span>{{totalFaculties}}</span>
-          </p>
-        </mat-card-content>
-        <img mat-card-image src="assets/images/faculties.gif">
-        <mat-card-actions>
-            <button class="view" routerLink='../faculties' routerLinkActive="active" mat-button>View</button>
-        </mat-card-actions>
-      </mat-card>
-  </div>
-  <div fxLayout="row wrap" >
-  <mat-card class="calendar" >
-    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FJerusalem&amp;src=Y2FzbWFuYWdtZW50NzhAZ21haWwuY29t&amp;src=YmM3ZGwyajdtZm9hcGZkcWlrdGdjOW1mZjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=OWVydGtmMzNncDU0YmZydGMyN2UzMXVhMzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=cjFybGdhcnNrc3J0OWdqM2EycGVyNDY2NW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=b2RkcTYyaGdzcnU3NTNzMGM1aWttZnJhYjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZHBiZ3ZoZ2JhZWkxYmpjcDBhaGFjcG52MW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23039BE5&amp;color=%23616161&amp;color=%233F51B5&amp;color=%23795548&amp;color=%23E4C441&amp;color=%238E24AA"  frameborder="0" scrolling="no"></iframe>
+      </mat-card-actions>
     </mat-card>
-    
-    
-<mat-card class="chart" >
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Courses
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          Total: <span>{{totalCourses}}</span>
+
+        </p>
+      </mat-card-content>
+      <img mat-card-image src="assets/images/courses.PNG">
+      <mat-card-actions>
+        <button class="view" routerLink='../courses' routerLinkActive="active" mat-button>View</button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Groups
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          Total: <span>{{totalGroups}}</span>
+
+        </p>
+      </mat-card-content>
+      <img mat-card-image src="assets/images/groups.PNG">
+      <mat-card-actions>
+        <button class="view" routerLink='../groups' routerLinkActive="active" mat-button>View</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Faculties
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          Total: <span>{{totalFaculties}}</span>
+        </p>
+      </mat-card-content>
+      <img mat-card-image src="assets/images/faculties.gif">
+      <mat-card-actions>
+        <button class="view" routerLink='../faculties' routerLinkActive="active" mat-button>View</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div fxLayout="row wrap">
+    <mat-card class="calendar">
+      <iframe
+        src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FJerusalem&amp;src=Y2FzbWFuYWdtZW50NzhAZ21haWwuY29t&amp;src=YmM3ZGwyajdtZm9hcGZkcWlrdGdjOW1mZjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=OWVydGtmMzNncDU0YmZydGMyN2UzMXVhMzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=cjFybGdhcnNrc3J0OWdqM2EycGVyNDY2NW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=b2RkcTYyaGdzcnU3NTNzMGM1aWttZnJhYjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZHBiZ3ZoZ2JhZWkxYmpjcDBhaGFjcG52MW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23039BE5&amp;color=%23616161&amp;color=%233F51B5&amp;color=%23795548&amp;color=%23E4C441&amp;color=%238E24AA"
+        frameborder="0" scrolling="no"></iframe>
+    </mat-card>
+
+
+    <mat-card class="chart">
       <div>
         <div>
           <div>
             <div>
-  <ngx-charts-bar-vertical 
-    [view]="[700,400]"
-    [results]="saleData"
-    [xAxisLabel]="'Groups'"
-    [yAxisLabel]="'Students'"
-    [showXAxisLabel]="true"
-    [showYAxisLabel]="true"
-    [xAxis]="true"
-    [yAxis]="true"
-    [gradient]="true"
-    [scheme]="'nightLights'"
-    [animations]="true"
-    >
-</ngx-charts-bar-vertical>
+              <ngx-charts-bar-vertical [view]="[700,400]" [results]="saleData" [xAxisLabel]="'Groups'"
+                [yAxisLabel]="'Students'" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true"
+                [gradient]="true" [scheme]="'nightLights'" [animations]="true">
+              </ngx-charts-bar-vertical>
             </div>
           </div>
         </div>
-        </div>
-      </mat-card>
-       <div class="row">
-         <div class="column">
-     
-    </div>
-    
-    </div>
-    </div>
+      </div>
+    </mat-card>
   </div>
 
-
+  <div class="row">
+    <div class="col-7">
+      <mat-card class="holiday">
+        <div class="app-holiday">
+          <app-holiday></app-holiday>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-5">
+      <mat-card class="messages">
+        <div>
+        <mat-card-title>Sent messages</mat-card-title>
+      </div>
+        <div class="app-messages">
+          <app-sent></app-sent>
+        </div>
+      </mat-card>
+    </div>
+  </div>
