@@ -1,1 +1,106 @@
-<p>time-table-view works!</p>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <span><h2 class="page-title">Time Table</h2></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                
+                <div class="body">
+                    <h3 class="groupName">Time Table</h3>
+                    <div class="materialTableHeader">
+                        <div class="row days">
+                            <div class="col-2">
+                                <strong>Sunday</strong>   
+                            </div>
+                            <div class="col-2">
+                                <strong>Monday</strong>   
+                            </div>
+                            <div class="col-2">
+                                <strong>Tuesday</strong>   
+                            </div>
+                            <div class="col-2">
+                                <strong>Wednesday</strong>   
+                            </div>
+                            <div class="col-2">
+                                <strong>Thursday</strong>   
+                            </div>
+                            <div class="col-2 ">
+                                <strong>Friday</strong>   
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <div *ngFor="let item of schedule" >
+                            <mat-card class="mat-elevation-z8" *ngIf="item.rrule.byweekday == 0">
+                                <strong  [style.color]="item.Color">Subject: {{item.Title}}</strong>   
+                                <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} - {{this.datepipe.transform(item.End, ' HH:mm')}}                     
+                                <br>Teacher: {{item.Teacher.First_name}} {{item.Teacher.Last_name}}                    
+
+                        </mat-card>
+                        </div>
+                        </div>
+                        <div class="col-2">
+                            <div id="sunday" *ngFor="let item of schedule" >
+                            <mat-card class="mat-elevation-z8 "  *ngIf="item.rrule.byweekday == 1">
+                                <strong  [style.color]="item.Color">Subject: {{item.Title}}</strong>   
+                                <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} - {{this.datepipe.transform(item.End, ' HH:mm')}}                     
+                                <br>Teacher: {{item.Teacher.First_name}} {{item.Teacher.Last_name}}                    
+
+                        </mat-card>
+                        </div>
+                        </div>
+                        <div class="col-2">
+                            <div *ngFor="let item of schedule" >
+                            <mat-card class="mat-elevation-z8" *ngIf="item.rrule.byweekday == 2">
+                                <strong  [style.color]="item.Color">Subject: {{item.Title}}</strong>   
+                                <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} - {{this.datepipe.transform(item.End, ' HH:mm')}}  
+                                <br>Teacher: {{item.Teacher.First_name}} {{item.Teacher.Last_name}}                    
+                             </mat-card>
+                        </div>
+                        </div>
+                        <div class="col-2">
+                            <div *ngFor="let item of schedule" >
+                            <mat-card class="mat-elevation-z8"  *ngIf="item.rrule.byweekday == 3">
+                                <strong  [style.color]="item.Color">Subject: {{item.Title}}</strong>   
+                                <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} - {{this.datepipe.transform(item.End, ' HH:mm')}}                     
+                                <br>Teacher: {{item.Teacher.First_name}} {{item.Teacher.Last_name}}                    
+
+                            </mat-card>
+                        </div>
+                        </div>
+                        <div class="col-2">
+                            <div *ngFor="let item of schedule" >
+                            <mat-card class="mat-elevation-z8" *ngIf="item.rrule.byweekday == 4">
+                                <strong  [style.color]="item.Color">Subject: {{item.Title}}</strong>   
+                                <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} - {{this.datepipe.transform(item.End, ' HH:mm')}}                     
+                                <br>Teacher: {{item.Teacher.First_name}} {{item.Teacher.Last_name}}                    
+
+                             </mat-card>
+                        </div>
+                        </div>
+                        <div class="col-2">
+                            <div *ngFor="let item of schedule" >
+                            <mat-card class="mat-elevation-z8 friday" *ngIf="item.rrule.byweekday == 5">
+                                <strong  [style.color]="item.Color">Subject: {{item.Title}}</strong>   
+                                <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} - {{this.datepipe.transform(item.End, ' HH:mm')}}                                          
+                                <br>Teacher: {{item.Teacher.First_name}} {{item.Teacher.Last_name}}                    
+
+                            </mat-card>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                    
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

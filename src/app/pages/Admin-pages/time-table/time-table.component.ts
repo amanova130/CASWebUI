@@ -217,7 +217,7 @@ openAddModal({ date}: { date: Date;  })
   {
     
     this.viewDate=date;
-    const ref=this.modalService.open(EventModalComponent,{centered:true});
+    const ref=this.modalService.open(EventModalComponent,{centered:true,backdrop:"static"});
     ref.componentInstance.viewDate=this.viewDate;
     ref.componentInstance.isAddMode=true;
     ref.componentInstance.recurringEvent=this.recurringEvent;
@@ -237,7 +237,7 @@ openAddModal({ date}: { date: Date;  })
 
   openEditModal(eventToEdit:CalendarEvent)
   {
-    const ref=this.modalService.open(EventModalComponent,{centered:true});
+    const ref=this.modalService.open(EventModalComponent,{centered:true,backdrop:"static"});
     ref.componentInstance.viewDate=this.viewDate;
     ref.componentInstance.isAddMode=false;
     ref.componentInstance.eventToEdit=this.eventToEdit;
@@ -424,6 +424,11 @@ openDelete(eventToDelete: CalendarEvent){
     this.chosenGroup = event;
     this.getTimeTable();
     this.addBtn=true;
+  }
+
+  sendTimeTableLink()
+  {
+    
   }
   
 

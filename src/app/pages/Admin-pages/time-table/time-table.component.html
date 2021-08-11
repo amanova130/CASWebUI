@@ -126,6 +126,7 @@ let-tooltipAppendToBody="tooltipAppendToBody">
 <br />
 <div [ngSwitch]="view">
   <div class="row text-center">
+    <div>
   <mat-form-field appearance="fill" class="selectGroup">
     <mat-label>Group</mat-label>
     <mat-select [(ngModel)]="chosenGroup" (valueChange)="choosenGroup($event)" name="group" >
@@ -133,7 +134,14 @@ let-tooltipAppendToBody="tooltipAppendToBody">
     </mat-select>
   </mat-form-field>
 </div>
+<div class="send">
+  <button (click)="sendTimeTableLink()" mat-raised-button>Send Time Table</button>
+  </div>
+
+</div>
+
 <div>
+  
   <div *ngIf="isLoading" class="h6 mt-5 text-center">
     <img  class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
   </div>

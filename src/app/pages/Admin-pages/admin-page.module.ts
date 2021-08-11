@@ -45,6 +45,7 @@ import { StaffComponent } from './staff/staff.component';
 import { AddEditExamComponent } from './exams/components/add-edit-exam/add-edit-exam.component';
 import { GradesComponent } from './grades/grades.component';
 import { TrashComponent } from './email/components/trash/trash.component';
+import { SplashScreenComponent } from 'src/app/Core/components/splash-screen/splash-screen.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import { TrashComponent } from './email/components/trash/trash.component';
     ViewMailComponent,
     AddEditExamComponent,
     GradesComponent,
-    TrashComponent
+    TrashComponent,
 
   
     

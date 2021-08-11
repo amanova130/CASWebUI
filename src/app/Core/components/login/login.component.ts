@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
     this.userService.checkAuth(user).subscribe(res=>{
           if(res)
               {
+                res.Password=user.Password;
                 this.tokenStorage.saveUser(res);
                 if(res.Role === Role.Admin)
                 {
@@ -101,3 +102,5 @@ export class LoginComponent implements OnInit {
 
 
 }
+
+

@@ -9,4 +9,5 @@ export interface User {
     Role?:string;
     Status?:boolean;
     Email?:string;
+    ChangePwdDate?:string;
 }
