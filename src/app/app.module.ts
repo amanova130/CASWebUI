@@ -37,6 +37,8 @@ import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-
     LoginComponent,
     ForgotPassComponent,
     AddEditStaffComponent,
+    
+    
   ],
   imports: [
     BrowserModule,

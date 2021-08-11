@@ -126,7 +126,7 @@ openViewModal(message: Message = {Id: ""} ){
     this.messageList=list;
     this.dataSource=new MatTableDataSource(this.messageList);
     this.dataSource.paginator = this.paginator;
-   this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
+  // this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
     this.dataSource.sort = this.sort;
     this.isLoading=false;
 

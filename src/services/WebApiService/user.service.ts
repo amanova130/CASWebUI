@@ -38,6 +38,17 @@ export class UserService {
   );
 }
 
+checkEnteredPWD(enteredPass:string,userId:string)
+{
+  if(enteredPass === null || enteredPass === undefined || userId === undefined || userId === undefined)
+  throw new Error('Required parameter id was null or undefined when calling checkEnteredPWD.');
+
+return this.http.get<boolean>(`${this.basePath}/api/User/checkEnteredPWD?pass=${encodeURIComponent(String(enteredPass))}&userId=${encodeURIComponent(String(userId))}`).pipe(
+    catchError(this.errorHandler)
+);
+}
+
+
 checkAuth(param:User){
   if(param === null || param === undefined)
   throw new Error('Required parameter id was null or undefined when calling getUser.');
@@ -60,7 +71,24 @@ resetPass(email:string)
 }
 
 
-  
+  updateUser(userIn:User)
+  {
+    if(userIn === null || userIn === undefined)
+    throw new Error('Required parameter id was null or undefined when calling updateUser.');
+    return this.http.put<User>(`${this.basePath}/api/User/updateUser`, userIn)
+    .pipe(
+      catchError(this.errorHandler)
+    );
+  }
+  updateLogTime(log:string,userId:string)
+  {
+    if(log === null || log === undefined)
+    throw new Error('Required parameter id was null or undefined when calling updateUser.');
+    return this.http.get<User>(`${this.basePath}/api/User/updateLogTime?id=${encodeURIComponent(String(userId))}&logType=${encodeURIComponent(String(log))}`)
+    .pipe(
+      catchError(this.errorHandler)
+    );
+  }
 
   // Error Handler for HTTP response
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {

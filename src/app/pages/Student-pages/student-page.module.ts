@@ -26,7 +26,7 @@ import { StudentPageComponent } from './student-page.component';
     ContactsComponent,
     ExamGradesComponent,
     TimeTableViewComponent,
-    StudentPageComponent
+    StudentPageComponent,
   ],
   imports: [
     CommonModule,

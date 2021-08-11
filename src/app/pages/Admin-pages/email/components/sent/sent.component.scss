@@ -5,11 +5,10 @@ table {
     font-size: 14px;
     color: #555;
     padding: 15px;
+    overflow:hidden;
 }
 #description
-{
-    
-    
+{   
     width: 50px;
     white-space: nowrap;
     overflow: hidden !important;
