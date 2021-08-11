@@ -12,6 +12,7 @@ import { StudExam } from '../../../../services/models/studExam';
 import { AlertService } from '../../../shared/helperServices/alert.service';
 import { Message } from 'src/services/models/message';
 import { MessageService } from '../../../../services/WebApiService/message.service';
+import { StudExamService } from 'src/services/WebApiService/stud-exam.service';
 
 @Component({
   selector: 'app-grades',
@@ -19,10 +20,7 @@ import { MessageService } from '../../../../services/WebApiService/message.servi
   styleUrls: ['./grades.component.scss']
 })
 export class GradesComponent implements OnInit {
-
-  gradesA: number[]=[];
-  gradesB: number[]=[];
-  studExam: StudExam;
+  studExamList: StudExam[] = [];
   selectionObject = {
     semester: '',
     year: '',
@@ -30,10 +28,10 @@ export class GradesComponent implements OnInit {
     examId: '',
     testNumber: ''
   };
-  isLoading=false;
-  showTable= false;
+  isLoading = false;
+  showTable = false;
   dataSource!: MatTableDataSource<Student>;
-  studentList: Student[]=[];
+  studentList: Student[] = [];
   showExam = false;
   groupList: Group[] = [];
   examList: Exam[] = [];
@@ -45,7 +43,8 @@ export class GradesComponent implements OnInit {
     private studentService: StudentService,
     private examService: ExamService,
     private alertService: AlertService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private studExamService: StudExamService,
   ) { }
 
   ngOnInit(): void {
@@ -63,26 +62,25 @@ export class GradesComponent implements OnInit {
   }
 
   getExamForGroup(event: any) {
-    this.examList=[];
+    this.examList = [];
     if (this.selectionObject.group != '' && this.selectionObject.semester != '' && this.selectionObject.year != '') {
-      this.examService.getExamByGroup(this.selectionObject.group, this.selectionObject.semester, 
+      this.examService.getExamByGroup(this.selectionObject.group, this.selectionObject.semester,
         this.selectionObject.year, this.selectionObject.testNumber).subscribe(data => {
-        if (data)
-          this.examList = data;
+          if (data)
+            this.examList = data;
           this.showExam = true;
-      });
+        });
     }
 
-      this.studentService.getStudentsByGroup(this.selectionObject.group).subscribe(data =>{
-        if(data)
-        {
-          this.studentList = data;
-          this.dataSource = new MatTableDataSource(this.studentList);
-        }
-      });
+    // this.studentService.getStudentsByGroup(this.selectionObject.group).subscribe(data => {
+    //   if (data) {
+    //     this.studentList = data;
+    //     // this.dataSource = new MatTableDataSource(this.studentList);
+    //   }
+    // });
   }
 
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -90,74 +88,68 @@ export class GradesComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  setGrades(event: any){
-    let dataForTable = [];
-    let examId = event.target.value;
-    if(examId != '' && this.selectionObject.testNumber != '')
-    {
-     this.studentList.forEach(student =>{
-       student.Grades.forEach(exam =>{
-         if(exam.ExamId == examId)
-          dataForTable.push(student, exam.Grade);
-       })
-     })
-    }
+  setStudExam(event: any) {
+    this.studExamService.getAllStudentsGradeByExamId(this.selectionObject.examId).subscribe(result => {
+      if(result)
+      {
+        this.studExamList = result;
+          this.dataSource = new MatTableDataSource(this.studExamList);
+      }
+    })
   }
 
-  sentEmailForStudents(){
+  sentEmailForStudents() {
     console.log(this.email);
-    if(this.email !== null && this.email !== undefined)
-    {
-      this.messageService.create(this.email).subscribe(data =>
-        {
-          if(data)
-            this.alertService.genericAlertMsg("success", "Emails for all students were sent");
-        },
+    if (this.email !== null && this.email !== undefined) {
+      this.messageService.create(this.email).subscribe(data => {
+        if (data)
+          this.alertService.genericAlertMsg("success", "Emails for all students were sent");
+      },
         err => {
           this.alertService.errorResponseFromDataBase();
         })
     }
   }
 
-  editGrade(event: any, student: Student){
-    if(event.target.value !='')
-    {
-      if(this.selectionObject.examId != '' && this.selectionObject.testNumber != '')
-      {
-        const studExam={
-          ExamId: this.selectionObject.examId,
-          Grade: event.target.value
-        }
-        if(student.Grades.length > 0)
-        {
-          student.Grades.forEach(grade=>{
-            if(grade.ExamId == this.selectionObject.examId)
-              grade.Grade = event.target.value;
-            else
-              student.Grades.push(studExam);
-          });
-        }
-        else
-          student.Grades.push(studExam);
-        if(!this.email.Receiver.includes(student.Email))
-          this.email.Receiver.push(student.Email);
-        this.studentService.update(student).subscribe(data => {
-          if(data)
-          console.log(data);
-        });
-      }
-     else
-     this.alertService.genericAlertMsg("error", "Please choose all fields!");  
-    }
+  editGrade(event: any, student: Student) {
+    // if(event.target.value !='')
+    // {
+    //   if(this.selectionObject.examId != '' && this.selectionObject.testNumber != '')
+    //   {
+    //     const studExam={
+    //       ExamId: this.selectionObject.examId,
+    //       Grade: event.target.value
+    //     }
+    //     if(student.Grades.length > 0)
+    //     {
+    //       student.Grades.forEach(grade=>{
+    //         if(grade.ExamId == this.selectionObject.examId)
+    //           grade.Grade = event.target.value;
+    //         else
+    //           student.Grades.push(studExam);
+    //       });
+    //     }
+    //     else
+    //       student.Grades.push(studExam);
+    //     if(!this.email.Receiver.includes(student.Email))
+    //       this.email.Receiver.push(student.Email);
+    //     this.studentService.update(student).subscribe(data => {
+    //       if(data)
+    //       console.log(data);
+    //     });
+    //   }
+    //  else
+    //  this.alertService.genericAlertMsg("error", "Please choose all fields!");  
+    // }
   }
 
-  newEmailDetails(){
+  newEmailDetails() {
     this.email = {
-    Subject: "You got a new grade!",
-    Description: "Please check your grade in our portal. If you have a question please contact us",
-    Receiver: [],
-    DateTime: new Date(),
-    Status: true
+      Subject: "You got a new grade!",
+      Description: "Please check your grade in our portal. If you have a question please contact us",
+      Receiver: [],
+      DateTime: new Date(),
+      Status: true
     }
   }
 

@@ -16,5 +16,4 @@ export interface Student {
     Image?: string;
     Status?: boolean;
     Group_Id?: string;
-    Grades?: Array<StudExam>;
 }

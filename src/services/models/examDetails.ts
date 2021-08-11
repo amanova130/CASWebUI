@@ -18,7 +18,7 @@ export class ExamDetails {
         'Id',
         'First_name',
         'Last_name',
-        'Test_A',
-        'Test_B'
+        'Grade',
+
     ]
 }
