@@ -135,9 +135,10 @@ let-tooltipAppendToBody="tooltipAppendToBody">
   </mat-form-field>
 </div>
 <div class="send">
-  <button (click)="sendTimeTableLink()" mat-raised-button>Send Time Table</button>
+  <div class="d-flex flex-row-reverse">
+  <button class="sendBtn" [hidden]="!chosenGroup" (click)="createMessage()" mat-raised-button> <span id="sendLbl"> Send Time Table Link</span></button>
   </div>
-
+</div>
 </div>
 
 <div>

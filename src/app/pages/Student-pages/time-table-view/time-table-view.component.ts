@@ -17,6 +17,7 @@ import { TokenStorageService } from 'src/app/shared/helperServices/token-storage
 })
 export class TimeTableViewComponent implements OnInit {
   public timeTable:TimeTable;
+  public calendarUrl:string;
   public schedule:Schedule[];
   // dataSource!: MatTableDataSource<Faculty>;
   // displayedColumns: string[] = [
@@ -40,6 +41,7 @@ export class TimeTableViewComponent implements OnInit {
     this.timeTableService.getTTByGroupNumber(groupNum).subscribe(res=>{
       if(res)
       {
+        this.calendarUrl="https://calendar.google.com/calendar/embed?src="+ res.CalendarId;
         console.log(res);
         this.timeTable=res;
         this.schedule=this.timeTable.GroupSchedule;

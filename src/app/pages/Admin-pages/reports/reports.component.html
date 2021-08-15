@@ -55,26 +55,26 @@
                                   <mat-form-field *ngIf="isAverage" >
                                     <mat-label>Choose category...</mat-label>
                                     <mat-select (selectionChange)="choosenCategory($event)"  >
-                                      <mat-option value="faculties">Faculties</mat-option>
+                                      <!-- <mat-option value="faculties">Faculties</mat-option> -->
                                       <mat-option value="groups">Groups</mat-option>
                                       <mat-option value="students">Students</mat-option>
                                     </mat-select> 
                                   </mat-form-field>
 
 
-                                  <mat-form-field *ngIf="isFaculty" >
-                                    <mat-label>Choose Faculty...</mat-label>
-                                    <mat-select [(ngModel)]="faculty" (selectionChange)="choosenFaculty($event)"  >
-                                        <mat-option *ngFor="let f of facultyList" [value]="f" >{{f.FacultyName}}</mat-option>
+                                  <mat-form-field *ngIf="isGroup" >
+                                    <mat-label>Choose Group...</mat-label>
+                                    <mat-select [(ngModel)]="group" (selectionChange)="choosenGroup($event)"  >
+                                        <mat-option *ngFor="let g of groupList" [value]="g" >{{g.GroupNumber}}</mat-option>
                                     </mat-select> 
                                   </mat-form-field>
 
-                                  <mat-form-field *ngIf="isCourse" >
+                                  <!-- <mat-form-field *ngIf="isCourse" >
                                     <mat-label>Choose course...</mat-label>
                                     <mat-select [(ngModel)]="course" (selectionChange)="choosenCategory($event)"  >
                                         <mat-option *ngFor="let c of courseList" [value]="c">{{c}}</mat-option>
                                     </mat-select> 
-                                  </mat-form-field>
+                                  </mat-form-field> -->
 
                                   <button [disabled]="loading" class="btn btn-primary" (mwlClick)="onSubmit()">
                                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
