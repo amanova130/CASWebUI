@@ -42,6 +42,7 @@ export class AddEditExamComponent implements OnInit {
   newExam: Exam;
   startTime: string;
   endTime : string;
+  filteredGroupList:Group[];
 
   @ViewChild('form') form!: any;
   
@@ -136,6 +137,8 @@ export class AddEditExamComponent implements OnInit {
 
     public choosenCourse(course: string)
     {
+      this.teacherList.length = 0;
+      this.newExam.Teacher_id="";
       this.teacherService.getTeachersByCourseName(course).subscribe(res =>
         {
           if(res)
@@ -143,12 +146,19 @@ export class AddEditExamComponent implements OnInit {
         })
     }
     public choosenGroup(group: string){
-      this.courseList = this.groupList.find(g=> g.GroupNumber == group).courses;
+      this.newExam.Teacher_id="";
+      this.newExam.Course="";
+      if(group == undefined)
+        this.courseList.length = 0;
+      else
+        this.courseList=this.groupList.find(g=> g.GroupNumber == group).courses.slice();
     }
 
     public choosenFaculty(facultyName: string)
     {
-      this.groupList = this.groupList.filter(group => group.Fac_Name === facultyName);
+      this.filteredGroupList = this.groupList.filter(group => group.Fac_Name === facultyName).slice();
+      this.newExam.Course="";
+      this.newExam.Teacher_id="";
     }
     private getGroupList()
     {

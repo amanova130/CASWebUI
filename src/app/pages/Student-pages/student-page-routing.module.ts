@@ -26,7 +26,7 @@ const routes: Routes = [
           { path: 'holiday',  component: HolidayComponent },
           { path: 'links',  component: LinksComponent },
           { path: 'contacts',  component: ContactsComponent },
-          { path: 'requests',  component: RequestsComponent },,
+          { path: 'requests',  component: RequestsComponent },
       ]
   },
   ];

@@ -38,6 +38,10 @@ import { Group } from 'src/services/models/group';
 import { ScheduleService } from 'src/services/WebApiService/schedule.service';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { CustomEventTitleFormatter } from './custom-event-title-formatter';
+import { StudentService } from 'src/services/WebApiService/student.service';
+import { Student } from 'src/services/models/student';
+import { Message } from 'src/services/models/message';
+import { MessageService } from 'src/services/WebApiService/message.service';
 
 moment.tz.setDefault('Utc');
 
@@ -113,6 +117,7 @@ public dateString:string;
   calendarEvents: CalendarEvent[] = [];
   viewPeriod: ViewPeriod;
   chosenGroup : string;
+  groupStudents:Student[];
   eventToEdit:Schedule;
   activeDayIsOpen: boolean = true;
   isLoading=false;
@@ -126,7 +131,10 @@ public dateString:string;
     private scheduleService:ScheduleService,
     private modalService:NgbModal, 
     private alertService: AlertService,
-    private groupService: GroupService) {}
+    private studentService:StudentService,
+    private groupService: GroupService,
+    private messageService:MessageService,
+    ) {}
   
   
   ngOnInit(): void {
@@ -426,9 +434,41 @@ openDelete(eventToDelete: CalendarEvent){
     this.addBtn=true;
   }
 
-  sendTimeTableLink()
+  createMessage()
   {
-    
+    this.studentService.getStudentsByGroup(this.chosenGroup).subscribe(res=>{
+      this.groupStudents=res;
+      const calendarUrl="https://calendar.google.com/calendar/embed?src="+ this.timeTable.CalendarId;
+      const msg:Message={
+        Description:"<strong>Dear student!</strong><br>Add your time table with a link: <a href=\""+calendarUrl+"\">Calendar Link</a><hr>" ,
+      
+        Subject:"Your Time Table is ready!",
+        DateTime:new Date(),
+        Status:true
+      }
+      msg.Receiver=[];
+      msg.ReceiverNames=[];
+      msg.ReceiverNames.push(this.timeTable.CalendarName);
+      this.groupStudents.forEach(student=>{
+        msg.Receiver.push(student.Email);
+        
+      })
+      this.sendMessage(msg);
+     
+    })
+  }
+  sendMessage(message:any)
+  {
+    this.messageService.create(message).subscribe(res=>{
+      if(res)
+      {
+        this.alertService.genericAlertMsg("success","Email sent successfully");
+       
+      }
+   },
+   err=>{
+     this.alertService.errorResponseFromDataBase;
+   });
   }
   
 
