@@ -77,7 +77,7 @@
           </mat-form-field>
         </div>
         <div class="send">
-          <button (click)="sendTimeTableLink()" mat-raised-button>Send Time Table</button>
+          <button (click)="createMessage()" mat-raised-button>Send Time Table</button>
         </div>
 
       </div>
@@ -106,37 +106,78 @@
       </div>
     </div>
 
-  </mat-card>
 
-  <!-- Delete Modal -->
-  <ng-template #deleteModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">×</span>
-      </button>
+<br />
+<div [ngSwitch]="view">
+  <div class="row text-center">
+    <div>
+      <mat-form-field appearance="fill" class="selectGroup">
+        <mat-label>Group</mat-label>
+        <mat-select [(ngModel)]="chosenGroup" (valueChange)="choosenGroup($event)" name="group">
+          <mat-option *ngFor="let c of groupList" [value]="c.GroupNumber">{{c.GroupNumber}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="modal-body">
-      <h2>Are you sure to delete this?</h2>
+    <div class="send">
+      <div class="d-flex flex-row-reverse">
+        <button class="sendBtn" [hidden]="!chosenGroup" (click)="createMessage()" mat-raised-button> <span id="sendLbl">
+            Send Time Table Link</span></button>
+      </div>
     </div>
-    <div class="content">
-      Title: <strong>{{removeEvent?.title}}</strong>
-    </div>
-    <div class="content">
-      Day: <strong>{{this.datepipe.transform(removeEvent.start, 'EEEE')}}</strong>
-    </div>
-    <div class="content">
-      Start: <strong>{{this.datepipe.transform(removeEvent.start, ' HH:mm')}}</strong>
-    </div>
-    <div class="content">
-      End: <strong>{{this.datepipe.transform(removeEvent.end, 'HH:mm')}}</strong>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cancel</button>
-      <button type="button" [disabled]="loading" class="btn btn-danger" (click)="deleteEvent(removeEvent)">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+  </div>
 
-        Delete</button>
+  <div>
+
+    <div *ngIf="isLoading" class="h6 mt-5 text-center">
+      <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
     </div>
-  </ng-template>
+    <div *ngIf="!isLoading">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+        [cellTemplate]="customCellTemplate" [events]="calendarEvents" [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+        (beforeViewRender)="updateCalendarEvents($event)" (eventClicked)="editEvent($event.event)">
+      </mwl-calendar-month-view>
+
+    </div>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="calendarEvents"
+      (dayClicked)="addEvent()" [refresh]="refresh" (hourSegmentClicked)="openAddModal($event)"
+      (eventClicked)="editEvent($event.event)" (beforeViewRender)="updateCalendarEvents($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="calendarEvents"
+      [refresh]="refresh" (hourSegmentClicked)="openAddModal($event)" (eventClicked)="editEvent($event.event)"
+      (beforeViewRender)="updateCalendarEvents($event)" (change)="refresh.next()">
+    </mwl-calendar-day-view>
+  </div>
 </div>
+
+<!-- Delete Modal -->
+<ng-template #deleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h2>Are you sure to delete this?</h2>
+  </div>
+  <div class="content">
+    Title: <strong>{{removeEvent?.title}}</strong>
+  </div>
+  <div class="content">
+    Day: <strong>{{this.datepipe.transform(removeEvent.start, 'EEEE')}}</strong>
+  </div>
+  <div class="content">
+    Start: <strong>{{this.datepipe.transform(removeEvent.start, ' HH:mm')}}</strong>
+  </div>
+  <div class="content">
+    End: <strong>{{this.datepipe.transform(removeEvent.end, 'HH:mm')}}</strong>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cancel</button>
+    <button type="button" [disabled]="loading" class="btn btn-danger" (click)="deleteEvent(removeEvent)">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+
+      Delete</button>
+  </div>
+</ng-template>

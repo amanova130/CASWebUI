@@ -3,6 +3,9 @@ import { CourseService } from 'src/services/WebApiService/course.service';
 import { Course } from 'src/services/models/course';
 import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { Faculty } from 'src/services/models/faculty';
+import { ReportService } from 'src/services/WebApiService/report.service';
+import { GroupService } from 'src/services/WebApiService/group.service';
+import { Group } from 'src/services/models/group';
 
 @Component({
   selector: 'app-reports',
@@ -13,12 +16,18 @@ export class ReportsComponent implements OnInit {
 isAverage=false;
 isCourse=false;
 isFaculty=false;
+isGroup=false;
+
 course:string;
 faculty:any;
+group:any;
 loading:false;
 courseList:string[];
+groupList:Group[];
 facultyList:Faculty[];
   constructor(private courseService:CourseService,
+            private groupService:GroupService,
+             private reportService:ReportService,
              private facultyService:FacultyService) { }
 
   ngOnInit(): void {
@@ -33,19 +42,17 @@ facultyList:Faculty[];
   choosenCategory(category:any)
   {
     console.log(category);
-    if(category.value == 'faculties')
+    if(category.value == 'groups')
     {
-      this.isFaculty=true;
-     //this.isCourse=true;
-      this.facultyService.getAllFaculties().subscribe(res=>{
-        if(res)
-        this.facultyList=res;
-      })
-          }
+     this.groupService.getAllGroups().subscribe(res=>{
+       this.isGroup=true;
+        this.groupList=res;
+     })
     }
-    choosenFaculty(faculty:any)
+    }
+    choosenGroup(faculty:any)
     {
-      this.isCourse=true;
+      //this.isCourse=true;
       this.courseService.getCoursesByFaculty(faculty.value.FacultyName).subscribe(res=>{
         if(res)
         this.courseList=res;
@@ -56,7 +63,7 @@ facultyList:Faculty[];
     {
       console.log(this.course);
       
-          this.facultyService.getAverageByCourse(this.faculty.Id,this.course).subscribe(res=>{
+          this.reportService.getAverageByCourse(this.faculty.Id,this.course).subscribe(res=>{
               if(res)
               {
                 console.log(res);

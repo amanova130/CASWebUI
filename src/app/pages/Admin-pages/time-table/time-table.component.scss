@@ -1,4 +1,4 @@
-@import '~angular-calendar/scss/angular-calendar.scss';
+ @import '~angular-calendar/scss/angular-calendar.scss';
 h3 {
     margin: 0 0 10px;
   }
@@ -30,9 +30,7 @@ mat-select{
     opacity:0.6;
     text-align: center;
   }
-  .addEventSection{
-    background-color: var(--background-default) !important;
-  }
+
  
   ::ng-deep.cal-week-view .cal-time-events .cal-event {
     background-color:#dee2e6!important;
@@ -43,18 +41,12 @@ mat-select{
     font-size: 15px !important;
     font-style: italic;
   }
-  ::ng-deep .cal-month-view .cal-cell-top, .cal-week-view, .cal-day-view
-  {
-    background-color: var(--background-default) !important;
-    color: var(--color-dark);
-  }
   ::ng-deep.ng-start-inserted {
     width: 10px;
     height: 10px;
     border-radius:0%;
     display: inline-block;
     margin: 2px;
-    background-color: var(--background-default) !important;
 }
 .mat-card.calendar
 {
@@ -74,26 +66,48 @@ mat-select{
 {
   text-align: center;
 }
-.content
+
+
+
+
+
+::ng-deep mwl-calendar-month-cell
+{
+  background-color: var(--background-default) !important;
+
+}
+// ::ng-deep mwl-calendar-month-view-header
+// {
+//   background-color: var(--background-default) !important;
+
+// }
+::ng-deep .cal-month-view
+{
+  background-color: var(--background-default) !important;
+//  color: var(--color-dark);
+
+}
+
+::ng-deep .cal-month-view:hover
 {
   background-color: var(--background-default) !important;
   color: var(--color-dark);
-  text-align: center;
-  padding-bottom:25px;
-}
-.cal-events{
-  max-height: 20px!important;
+
+}::ng-deep .cal-cell-row:hover,::ng-deep .cal-cell:hover
+{
   background-color: var(--background-default) !important;
+  color: var(--color-dark);
+
 }
-::ng-deep.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
-  color: #289e3c!important;
+::ng-deep .cal-week-view ,::ng-deep.cal-hour-odd
+{
+  background-color: var(--background-default) !important;
+  color: var(--color-dark);
+
 }
 
-::ng-deep.cal-week-view .cal-hour-odd
+::ng-deep .cal-hour-segment
 {
-  background-color: var(--background-searchBox);
-}
-::ng-deep.cal-week-view .cal-time-events .cal-day-columns
-{
-  background-color: var(--background-default) !important;
+  border-bottom:thin double !important;
+  border-bottom-color: #b3aaaa !important;
 }
