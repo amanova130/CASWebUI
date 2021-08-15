@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,6 +19,15 @@ export class StudExamService {
       catchError(this.errorHandler)
     )
   }
+
+  // Update an existed student profile
+update(studExamIn:StudExam){
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this.http.put<StudExam>(`${this.basePath}/api/StudExam/updateGrade`, studExamIn)
+  .pipe(
+    catchError(this.errorHandler)
+  )
+}
 
   // Error handler for HTTP response
 errorHandler(error: { error: { message: string; }; status: any; message: any; }) {

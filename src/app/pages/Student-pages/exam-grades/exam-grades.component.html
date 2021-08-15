@@ -1,1 +1,35 @@
-<p>exam-grades works!</p>
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="body">
+          <div class="materialTableHeader">
+            <div class="row">
+              <div class="col-8 p-0">
+                <ul class="header-buttons-left ml-0 p-0">
+                  <li class="dropdown">
+                    <h2>Exams and grades</h2>
+                  </li>
+                  <li class="dropdown m-l-20 pt-2">
+                    <label for="search-input">
+                      <i class="material-icons search-icon">search</i>
+                    </label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" type="text"
+                      aria-label="Search box" class="browser-default search-field" #input>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <mat-tab-group>
+               <!-- Mat-tab content -->
+            <mat-tab label="Exams"><app-grades-exams></app-grades-exams></mat-tab>
+            <mat-tab label="Average"><app-average></app-average></mat-tab>
+            <!-- <mat-paginator [length]="100" [pageSize]="8" [pageSizeOptions]="[8, 16, 32, 100]">
+            </mat-paginator> -->
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StudentPageComponent } from './student-page.component';
 import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe';
+import { GradesExamsComponent } from './exam-grades/components/grades-exams/grades-exams.component';
+import { AverageComponent } from './exam-grades/components/average/average.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe'
     ExamGradesComponent,
     TimeTableViewComponent,
     StudentPageComponent,
-    RandomColorPipe
+    RandomColorPipe,
+    GradesExamsComponent,
+    AverageComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +55,9 @@ import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe'
     StudentDashboardComponent,
     ContactsComponent,
     ExamGradesComponent,
-    TimeTableViewComponent
+    TimeTableViewComponent,
+    GradesExamsComponent,
+    AverageComponent
   ],
 })
 export class StudentPageModule { }

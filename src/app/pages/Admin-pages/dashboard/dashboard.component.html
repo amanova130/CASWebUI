@@ -6,8 +6,8 @@
 <mat-toolbar color="primary">
   Dashboard
 </mat-toolbar>
-<div class="content">
-  <div fxLayout="row wrap">
+<div class="container-fluid">
+  <div fxLayout="row wrap" fxLayoutAlign="space-around" >
     <mat-card class="mat-elevation-z4">
       <mat-card-header>
         <mat-card-title>
@@ -26,7 +26,6 @@
 
       </mat-card-actions>
     </mat-card>
-
     <mat-card class="mat-elevation-z4">
       <mat-card-header>
         <mat-card-title>
@@ -45,7 +44,6 @@
 
       </mat-card-actions>
     </mat-card>
-
     <mat-card class="mat-elevation-z4">
       <mat-card-header>
         <mat-card-title>
@@ -82,7 +80,6 @@
         <button class="view" routerLink='../groups' routerLinkActive="active" mat-button>View</button>
       </mat-card-actions>
     </mat-card>
-
     <mat-card class="mat-elevation-z4">
       <mat-card-header>
         <mat-card-title>
@@ -101,14 +98,12 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div fxLayout="row wrap">
+  <div class="w-100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
     <mat-card class="calendar">
       <iframe
         src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FJerusalem&amp;src=Y2FzbWFuYWdtZW50NzhAZ21haWwuY29t&amp;src=YmM3ZGwyajdtZm9hcGZkcWlrdGdjOW1mZjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=OWVydGtmMzNncDU0YmZydGMyN2UzMXVhMzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=cjFybGdhcnNrc3J0OWdqM2EycGVyNDY2NW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=b2RkcTYyaGdzcnU3NTNzMGM1aWttZnJhYjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZHBiZ3ZoZ2JhZWkxYmpjcDBhaGFjcG52MW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23039BE5&amp;color=%23616161&amp;color=%233F51B5&amp;color=%23795548&amp;color=%23E4C441&amp;color=%238E24AA"
         frameborder="0" scrolling="no"></iframe>
     </mat-card>
-
-
     <mat-card class="chart">
       <div>
         <div>
@@ -124,23 +119,12 @@
       </div>
     </mat-card>
   </div>
-
-  <div class="row">
-    <div class="col-7">
-      <mat-card class="holiday">
-        <div class="app-holiday">
-          <app-holiday></app-holiday>
-        </div>
-      </mat-card>
+  <div fxLayout="row wrap">
+    <div class="container-fluid">
+      <app-holiday></app-holiday>
     </div>
-    <div class="col-5">
-      <mat-card class="messages">
-        <div>
-        <mat-card-title>Sent messages</mat-card-title>
-      </div>
-        <div class="app-messages">
-          <app-sent></app-sent>
-        </div>
-      </mat-card>
+    <div class="container-fluid px-4 mb-3">
+      <app-sent></app-sent>
     </div>
   </div>
+</div>

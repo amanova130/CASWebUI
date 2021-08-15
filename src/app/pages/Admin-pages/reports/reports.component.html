@@ -1,94 +1,88 @@
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <span><h2 class="page-title">All Reports</h2></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="body">
-                    <div class="materialTableHeader">
-                        <div class="row">
-                            <div class="col-8 p-0">
-                                <ul class="header-buttons-left ml-0 p-0">
-                                    <li class="dropdown">
-                                        <h2>Reports</h2>
-                                    </li>
-
-                                </ul>
-                                
-                            </div>
-                            <div class="col-4">
-                               <ul class="header-buttons">
-                                    <li class="m-l-10">
-                                        <div class="icon-button-demo">
-                                            <button mat-mini-fab=""  color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary" >
-                                                <i class="material-icons text-white">refresh</i>
-                                            </button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                       
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="body">
+          <div class="materialTableHeader">
+            <div class="row">
+              <div class="col-8 p-0">
+                <ul class="header-buttons-left ml-0 p-0">
+                  <li class="dropdown">
+                    <h2>Reports</h2>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-4">
+                <ul class="header-buttons">
+                  <li class="m-l-10">
+                    <div class="icon-button-demo">
+                      <button mat-mini-fab="" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <i class="material-icons text-white">refresh</i>
+                      </button>
                     </div>
-                      <div class="table-resposive">
-                          
-                        <mat-card class="mat-elevation-z4">
-                            <mat-card-header>
-                              <mat-card-title>       
-                              </mat-card-title>
-                            </mat-card-header>
-                            
-                            <mat-card-content>
-                                <mat-form-field >
-                                    <mat-label>Choose report...</mat-label>
-                                    <mat-select (selectionChange)="choosenReport($event)"  >
-                                      <mat-option value="average">Average</mat-option>
-                                      
-                                      
-                                      
-                                    </mat-select> 
-                                  </mat-form-field>
-
-                                  <mat-form-field *ngIf="isAverage" >
-                                    <mat-label>Choose category...</mat-label>
-                                    <mat-select (selectionChange)="choosenCategory($event)"  >
-                                      <mat-option value="faculties">Faculties</mat-option>
-                                      <mat-option value="groups">Groups</mat-option>
-                                      <mat-option value="students">Students</mat-option>
-                                    </mat-select> 
-                                  </mat-form-field>
-
-
-                                  <mat-form-field *ngIf="isFaculty" >
-                                    <mat-label>Choose Faculty...</mat-label>
-                                    <mat-select [(ngModel)]="faculty" (selectionChange)="choosenFaculty($event)"  >
-                                        <mat-option *ngFor="let f of facultyList" [value]="f" >{{f.FacultyName}}</mat-option>
-                                    </mat-select> 
-                                  </mat-form-field>
-
-                                  <mat-form-field *ngIf="isCourse" >
-                                    <mat-label>Choose course...</mat-label>
-                                    <mat-select [(ngModel)]="course" (selectionChange)="choosenCategory($event)"  >
-                                        <mat-option *ngFor="let c of courseList" [value]="c">{{c}}</mat-option>
-                                    </mat-select> 
-                                  </mat-form-field>
-
-                                  <button [disabled]="loading" class="btn btn-primary" (mwlClick)="onSubmit()">
-                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Save
-                                </button>
-                            </mat-card-content>
-                            <mat-card-actions>
-                              
-                    
-                            </mat-card-actions>
-                          </mat-card>
-                      </div>
-                </div>
+                  </li>
+                </ul>
+              </div>
             </div>
+
+          </div>
+          <div class="table-resposive">
+
+            <mat-card class="mat-elevation-z4">
+              <mat-card-header>
+                <mat-card-title>
+                </mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <mat-form-field>
+                  <mat-label>Choose report...</mat-label>
+                  <mat-select (selectionChange)="choosenReport($event)">
+                    <mat-option value="average">Average</mat-option>
+
+
+
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="isAverage">
+                  <mat-label>Choose category...</mat-label>
+                  <mat-select (selectionChange)="choosenCategory($event)">
+                    <mat-option value="faculties">Faculties</mat-option>
+                    <mat-option value="groups">Groups</mat-option>
+                    <mat-option value="students">Students</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field *ngIf="isFaculty">
+                  <mat-label>Choose Faculty...</mat-label>
+                  <mat-select [(ngModel)]="faculty" (selectionChange)="choosenFaculty($event)">
+                    <mat-option *ngFor="let f of facultyList" [value]="f">{{f.FacultyName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="isCourse">
+                  <mat-label>Choose course...</mat-label>
+                  <mat-select [(ngModel)]="course" (selectionChange)="choosenCategory($event)">
+                    <mat-option *ngFor="let c of courseList" [value]="c">{{c}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <button [disabled]="loading" class="btn btn-primary" (mwlClick)="onSubmit()">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Save
+                </button>
+              </mat-card-content>
+              <mat-card-actions>
+
+
+              </mat-card-actions>
+            </mat-card>
+          </div>
         </div>
-    </div> 
+      </div>
+    </div>
+  </div>
 </div>

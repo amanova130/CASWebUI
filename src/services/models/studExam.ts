@@ -7,4 +7,5 @@ export interface StudExam {
     Year?: string;
     Grade?: number;
     JoinedField?: any;
+    Status?: boolean;
 }

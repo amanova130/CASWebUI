@@ -1,11 +1,11 @@
 <div class="container-fluid py-4">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <span>
-        <h2 class="page-title">Grades</h2>
+        
       </span>
     </div>
-  </div>
+  </div> -->
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <div class="card">
@@ -14,6 +14,9 @@
             <div class="row">
               <div class="col-8 p-0">
                 <ul class="header-buttons-left ml-0 p-0">
+                  <li class="dropdown">
+                    <h2>Grades</h2>
+                  </li>
                   <li class="dropdown m-l-20 pt-2">
                     <label for="search-input">
                       <i class="material-icons search-icon">search</i>
@@ -26,62 +29,66 @@
             </div>
           </div>
           <!-- Table for grades -->
-          <div class="row container mt-3">
+          <div class="row container mt-3 align-items-center">
             <div class="col-2">
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Year</mat-label>
-                    <input matInput [value]="selectionObject.year" [(ngModel)]="selectionObject.year">
-                  </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Year</mat-label>
+                <input matInput [value]="selectionObject.year" [(ngModel)]="selectionObject.year">
+              </mat-form-field>
             </div>
             <div class="col-2">
               <mat-form-field appearance="fill">
                 <mat-label>Semester</mat-label>
                 <mat-select [(ngModel)]="selectionObject.semester" (selectionChange)="selectionObject.testNumber=''">
-                    <mat-option *ngFor="let semester of examDetails.Semester"  [value]="semester">
-                        {{semester}}
-                      </mat-option>
+                  <mat-option *ngFor="let semester of examDetails.Semester" [value]="semester">
+                    {{semester}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div class="col-2">
               <mat-form-field appearance="fill">
                 <mat-label>Group</mat-label>
-                <mat-select [(ngModel)]="selectionObject.group" (selectionChange)="selectionObject.testNumber=''">
-                    <mat-option *ngFor="let group of groupList" [value]="group.GroupNumber">
-                        {{group.GroupNumber}}
-                      </mat-option>
+                <mat-select [(ngModel)]="selectionObject.group" (selectionChange)="changeGroup()">
+                  <mat-option *ngFor="let group of groupList" [value]="group.GroupNumber">
+                    {{group.GroupNumber}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div class="col-2">
-                <mat-form-field appearance="fill">
-                  <mat-label>TestNo</mat-label>
-                  <mat-select (selectionChange)="getExamForGroup($event)" [(ngModel)]="selectionObject.testNumber">
-                      <mat-option *ngFor="let test of examDetails.TestNumber" [value]="test">
-                          {{test}}
-                        </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>TestNo</mat-label>
+                <mat-select (selectionChange)="getExamForGroup($event)" [(ngModel)]="selectionObject.testNumber">
+                  <mat-option *ngFor="let test of examDetails.TestNumber" [value]="test">
+                    {{test}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
             <div class="col-2">
               <mat-form-field appearance="fill" *ngIf="examList.length>0">
                 <mat-label>Exam</mat-label>
                 <mat-select (selectionChange)="setStudExam($event)" [(ngModel)]="selectionObject.examId">
-                    <mat-option *ngFor="let exam of examList" [value]="exam.Id">
-                        {{exam.Course}}
-                      </mat-option>
+                  <mat-option *ngFor="let exam of examList" [value]="exam.Id">
+                    {{exam.Course}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
               <p *ngIf="!(examList.length>0)&&showExam">No Exam for this Group</p>
             </div>
+            <div class="col gap-2 justify-content-md-end">
+
+            </div>
           </div>
+
           <div class="table-resposive">
             <table mat-table [dataSource]="dataSource" matSort class="w-100">
 
               <ng-container matColumnDef="Id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Student Id </th>
                 <td mat-cell *matCellDef="let row"> {{row.StudId}} </td>
-              </ng-container>         
+              </ng-container>
               <ng-container matColumnDef="First_name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> First name </th>
                 <td mat-cell *matCellDef="let row"> {{row.JoinedField[0].f_name}} </td>
@@ -92,31 +99,32 @@
               </ng-container>
               <ng-container matColumnDef="Grade">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Grade </th>
-                <td mat-cell *matCellDef="let row"> 
-                    <mat-form-field floatLabel="never">
-                        <input type="number" matInput placeholder="55"
-                        [disabled]="selectionObject.testNumber==='B'" (blur)="editGrade($event, row)" [value]="row.Grade">
-                    </mat-form-field></td>
+                <td mat-cell *matCellDef="let row">
+                  <mat-form-field floatLabel="never">
+                    <input type="number" matInput placeholder="55" [disabled]="selectionObject.testNumber==='B'"
+                      (blur)="editGrade($event, row)" [value]="row.Grade">
+                  </mat-form-field>
+                </td>
               </ng-container>
-          
+
               <tr mat-header-row *matHeaderRowDef="examDetails.GradeTableHeader"></tr>
               <tr mat-row *matRowDef="let row, columns: examDetails.GradeTableHeader;"></tr>
-          
+
               <!-- Row shown when there is no matching data. -->
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
               </tr>
             </table>
             <div *ngIf="isLoading" class="h6 mt-5 text-center">
-              <img  class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
-         </div>
+              <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+            </div>
             <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
           </div>
 
-          <div class="text-end m-3 p-3" *ngIf="showTable">
-              <button class="btn btn-primary" (click)="sentEmailForStudents()">
+          <div class="text-end m-3 p-3">
+            <button class="btn btn-primary" (click)="sentEmailForStudents()">
               Send Email for Students
-          </button></div>
+            </button></div>
         </div>
       </div>
     </div>

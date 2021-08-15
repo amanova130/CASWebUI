@@ -23,7 +23,7 @@ export class GradesComponent implements OnInit {
   studExamList: StudExam[] = [];
   selectionObject = {
     semester: '',
-    year: '',
+    year: new Date().getFullYear().toString(),
     group: '',
     examId: '',
     testNumber: ''
@@ -71,13 +71,6 @@ export class GradesComponent implements OnInit {
           this.showExam = true;
         });
     }
-
-    // this.studentService.getStudentsByGroup(this.selectionObject.group).subscribe(data => {
-    //   if (data) {
-    //     this.studentList = data;
-    //     // this.dataSource = new MatTableDataSource(this.studentList);
-    //   }
-    // });
   }
 
 
@@ -90,10 +83,10 @@ export class GradesComponent implements OnInit {
   }
   setStudExam(event: any) {
     this.studExamService.getAllStudentsGradeByExamId(this.selectionObject.examId).subscribe(result => {
-      if(result)
-      {
+      if (result) {
         this.studExamList = result;
-          this.dataSource = new MatTableDataSource(this.studExamList);
+        this.dataSource = new MatTableDataSource(this.studExamList);
+        this.showTable = !this.showTable;
       }
     })
   }
@@ -103,7 +96,7 @@ export class GradesComponent implements OnInit {
     if (this.email !== null && this.email !== undefined) {
       this.messageService.create(this.email).subscribe(data => {
         if (data)
-          this.alertService.genericAlertMsg("success", "Emails for all students were sent");
+          this.alertService.genericAlertMsg("success", "Emails for students were sent");
       },
         err => {
           this.alertService.errorResponseFromDataBase();
@@ -111,44 +104,48 @@ export class GradesComponent implements OnInit {
     }
   }
 
-  editGrade(event: any, student: Student) {
-    // if(event.target.value !='')
-    // {
-    //   if(this.selectionObject.examId != '' && this.selectionObject.testNumber != '')
-    //   {
-    //     const studExam={
-    //       ExamId: this.selectionObject.examId,
-    //       Grade: event.target.value
-    //     }
-    //     if(student.Grades.length > 0)
-    //     {
-    //       student.Grades.forEach(grade=>{
-    //         if(grade.ExamId == this.selectionObject.examId)
-    //           grade.Grade = event.target.value;
-    //         else
-    //           student.Grades.push(studExam);
-    //       });
-    //     }
-    //     else
-    //       student.Grades.push(studExam);
-    //     if(!this.email.Receiver.includes(student.Email))
-    //       this.email.Receiver.push(student.Email);
-    //     this.studentService.update(student).subscribe(data => {
-    //       if(data)
-    //       console.log(data);
-    //     });
-    //   }
-    //  else
-    //  this.alertService.genericAlertMsg("error", "Please choose all fields!");  
-    // }
+  changeGroup() {
+    this.selectionObject.testNumber = '';
+    this.selectionObject.examId = '';
+    this.dataSource.data.length = 0;
+  }
+
+  editGrade(event: any, studExam: StudExam) {
+    if (event.target.value != '') {
+      if (this.selectionObject.examId != '' && this.selectionObject.testNumber != '') {
+        console.log(event.target.value);
+        const newGrade: StudExam = {
+          Id: studExam.Id,
+          StudId: studExam.StudId,
+          ExamId: studExam.ExamId,
+          UpdatedDate: new Date().toLocaleDateString(),
+          Year: studExam.Year,
+          Grade: event.target.value
+        }
+        this.studExamService.update(newGrade).subscribe(res => {
+          if (res) {
+            if (!this.email.Receiver.includes(studExam.JoinedField[0].email)) {
+              this.email.Receiver.push(studExam.JoinedField[0].email);
+              this.email.ReceiverNames.push(studExam.JoinedField[0].f_name + ' ' + studExam.JoinedField[0].l_name);
+            }
+
+          }
+          console.log(res);
+        })
+        console.log(newGrade);
+      }
+      else
+        this.alertService.genericAlertMsg("error", "Please choose all fields!");
+    }
   }
 
   newEmailDetails() {
     this.email = {
-      Subject: "You got a new grade!",
+      Subject: "You have been graded!",
       Description: "Please check your grade in our portal. If you have a question please contact us",
       Receiver: [],
       DateTime: new Date(),
+      ReceiverNames: [],
       Status: true
     }
   }

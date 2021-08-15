@@ -1,11 +1,11 @@
 <div class="container-fluid py-4">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <span>
         <h2 class="page-title">All Requests</h2>
       </span>
     </div>
-  </div>
+  </div> -->
   <div class="row">
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
       <div class="card p-3">
@@ -14,10 +14,14 @@
         </p>
         <div class="d-grid gap-2 mx-auto">
           <button class="btn btn-outline-primary" type="button" (click)="showFiltredRequests('New')">New</button>
-          <button class="btn btn-outline-info" type="button"  (click)="showFiltredRequests('Reviewing')">Reviewing</button>
-          <button class="btn btn-outline-success" type="button" (click)="showFiltredRequests('Approved')">Approved</button>
-          <button class="btn btn-outline-danger" type="button" (click)="showFiltredRequests('Rejected')">Rejected</button>
-          <button class="btn btn-outline-warning" type="button" (click)="showFiltredRequests('All')">All Requests</button>
+          <button class="btn btn-outline-info" type="button"
+            (click)="showFiltredRequests('Reviewing')">Reviewing</button>
+          <button class="btn btn-outline-success" type="button"
+            (click)="showFiltredRequests('Approved')">Approved</button>
+          <button class="btn btn-outline-danger" type="button"
+            (click)="showFiltredRequests('Rejected')">Rejected</button>
+          <button class="btn btn-outline-warning" type="button" (click)="showFiltredRequests('All')">All
+            Requests</button>
         </div>
       </div>
     </div>

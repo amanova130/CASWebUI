@@ -1,171 +1,173 @@
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <span><h2 class="page-title">All Students</h2></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="body">
-                    <div class="materialTableHeader">
-                        <div class="row">
-                            <div class="col-8 p-0">
-                                <ul class="header-buttons-left ml-0 p-0">
-                                    <li class="dropdown">
-                                        <h2>Students</h2>
-                                    </li>
-                                    <li class="dropdown m-l-20 pt-2">
-                                        <label for="search-input">
-                                            <i class="material-icons search-icon">search</i>
-                                        </label>
-                                        <input matInput (keyup)="applyFilter($event)" placeholder="Search" type="text" aria-label="Search box" class="browser-default search-field" #input>
-                                    </li>
-                                </ul>
-                                
-                            </div>
-                            <div class="col-4">
-                               <ul class="header-buttons">
-                                <li *ngIf="isSelected">
-                                  <div class="icon-button-demo">
-                                      <button mat-mini-fab="" data-bs-toggle="modal" data-bs-target="#deleteSelectedModal" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                         <i class="material-icons text-white">delete</i>
-                                       </button>
-                                   </div>
-                               </li>
-                                   <li class="m-l-10">
-                                       <div class="icon-button-demo">
-                                           <button mat-mini-fab="" (click)="openModal()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                              <i class="material-icons text-white">add</i>
-                                            </button>
-                                        </div>
-                                    </li>
-                                    <li class="m-l-10">
-                                        <div class="icon-button-demo">
-                                            <button mat-mini-fab="" (click)="refreshData()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                                <i class="material-icons text-white">refresh</i>
-                                            </button>
-                                        </div>
-                                    </li>
-                                    <li class="m-l-10">
-                                      <div class="icon-button">
-                                          <button mat-mini-fab="" (click)="exportExcell()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                            <span class="material-icons text-white">
-                                              save_alt
-                                              </span>
-                                          </button>
-                                      </div>
-                                  </li>
-                                  <li class="m-l-10">
-                                    <div class="icon-button">
-                                        <button mat-mini-fab="" (click)="uploadToExcell()" color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-                                          <span class="material-icons text-white">
-                                            file_upload
-                                            </span>
-                                        </button>
-                                    </div>
-                                </li>
-                                </ul>
-                            </div>
-                        </div>
-                       
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="body">
+          <div class="materialTableHeader">
+            <div class="row">
+              <div class="col-8 p-0">
+                <ul class="header-buttons-left ml-0 p-0">
+                  <li class="dropdown">
+                    <h2>Students</h2>
+                  </li>
+                  <li class="dropdown m-l-20 pt-2">
+                    <label for="search-input">
+                      <i class="material-icons search-icon">search</i>
+                    </label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" type="text"
+                      aria-label="Search box" class="browser-default search-field" #input>
+                  </li>
+                </ul>
+
+              </div>
+              <div class="col-4">
+                <ul class="header-buttons">
+                  <li *ngIf="isSelected">
+                    <div class="icon-button-demo">
+                      <button mat-mini-fab="" data-bs-toggle="modal" data-bs-target="#deleteSelectedModal"
+                        color="primary" class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <i class="material-icons text-white">delete</i>
+                      </button>
                     </div>
-                      <div class="table-resposive"  #TABLE>
-                        <table mat-table [dataSource]="dataSource" matSort class="w-100">
-                      
-                            <ng-container matColumnDef="select">
-                                <th mat-header-cell *matHeaderCellDef>
-                                  <mat-checkbox (change)="$event ? masterToggle() : null"
-                                                [checked]="selection.hasValue() && isAllSelected()"
-                                                [indeterminate]="selection.hasValue() && !isAllSelected()">
-                                  </mat-checkbox>
-                                </th>
-                                <td mat-cell *matCellDef="let row">
-                                  <mat-checkbox (click)="$event.stopPropagation()"
-                                                (change)="$event ? selection.toggle(row) : null"
-                                                [checked]="selection.isSelected(row)">
-                                  </mat-checkbox>
-                                </td>
-                              </ng-container>
-
-                          <!-- ID Column -->
-                          <ng-container matColumnDef="Id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Id}} </td>
-                          </ng-container>
-
-                          <ng-container matColumnDef="First_name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-                            <td mat-cell *matCellDef="let row"> {{row.First_name}} </td>
-                          </ng-container>
-
-                          <ng-container matColumnDef="Last_name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-                            <td  mat-cell *matCellDef="let row"> {{row.Last_name}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Image" >
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
-                            <td  mat-cell *matCellDef="let row"> <img class="personImg" [src]="createImgPath(row.Image)" alt="student Image"></td>
-                          </ng-container>
-
-
-                          <ng-container matColumnDef="Email">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Email}} </td>
-                          </ng-container>
-
-                          <ng-container matColumnDef="Phone">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Phone}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Gender">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Gender}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Birth_date">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Birth Date </th>
-                            <td mat-cell *matCellDef="let row"> {{this.datepipe.transform(row.Birth_date,'mediumDate')}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Address">
-                            <th  mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
-                            <td  mat-cell *matCellDef="let row" > 
-                              <span>
-                                {{row.Address?.City}}, {{row.Address?.Street}}, {{row.Address?.ZipCode}}
-                            </span>
-                               </td>
-                          </ng-container>      
-                          <ng-container matColumnDef="Group_Id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Group </th>
-                            <td mat-cell *matCellDef="let row"> {{row.Group_Id}} </td>
-                          </ng-container>
-
-
-                        <!-- Action Column -->
-                        <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> Action </th>
-                            <td mat-cell *matCellDef="let row" class="action-link" (click)="$event.stopPropagation()"> 
-                            <a type="button" (click)="openModal(row)" ><i class="material-icons text-warning">edit</i></a> 
-                            <a type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDelete(row)"><i class="material-icons text-danger">delete</i> </a>  
-                            </td>
-                        </ng-container>
-
-                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                      
-                          <!-- Row shown when there is no matching data. -->
-                          <tr class="mat-row" *matNoDataRow>
-                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-                          </tr>
-                        </table>
-                        <div *ngIf="isLoading" class="h6 mt-5 text-center">
-                          <img  class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
-                     </div>
-                        <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
-                      </div>
-                </div>
+                  </li>
+                  <li class="m-l-10">
+                    <div class="icon-button-demo">
+                      <button mat-mini-fab="" (click)="openModal()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <i class="material-icons text-white">add</i>
+                      </button>
+                    </div>
+                  </li>
+                  <li class="m-l-10">
+                    <div class="icon-button-demo">
+                      <button mat-mini-fab="" (click)="refreshData()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <i class="material-icons text-white">refresh</i>
+                      </button>
+                    </div>
+                  </li>
+                  <li class="m-l-10">
+                    <div class="icon-button">
+                      <button mat-mini-fab="" (click)="exportExcell()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <span class="material-icons text-white">
+                          save_alt
+                        </span>
+                      </button>
+                    </div>
+                  </li>
+                  <li class="m-l-10">
+                    <div class="icon-button">
+                      <button mat-mini-fab="" (click)="uploadToExcell()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <span class="material-icons text-white">
+                          file_upload
+                        </span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
+
+          </div>
+          <div class="table-resposive" #TABLE>
+            <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!-- ID Column -->
+              <ng-container matColumnDef="Id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let row"> {{row.Id}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="First_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.First_name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Last_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.Last_name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+                <td mat-cell *matCellDef="let row"> <img class="personImg" [src]="createImgPath(row.Image)"
+                    alt="student Image"></td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let row"> {{row.Email}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Phone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+                <td mat-cell *matCellDef="let row"> {{row.Phone}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+                <td mat-cell *matCellDef="let row"> {{row.Gender}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Birth_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Birth Date </th>
+                <td mat-cell *matCellDef="let row"> {{this.datepipe.transform(row.Birth_date,'mediumDate')}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Address">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+                <td mat-cell *matCellDef="let row">
+                  <span>
+                    {{row.Address?.City}}, {{row.Address?.Street}}, {{row.Address?.ZipCode}}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Group_Id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Group </th>
+                <td mat-cell *matCellDef="let row"> {{row.Group_Id}} </td>
+              </ng-container>
+
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row" class="action-link" (click)="$event.stopPropagation()">
+                  <a type="button" (click)="openModal(row)"><i class="material-icons text-warning">edit</i></a>
+                  <a type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDelete(row)"><i
+                      class="material-icons text-danger">delete</i> </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+              </tr>
+            </table>
+            <div *ngIf="isLoading" class="h6 mt-5 text-center">
+              <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
+          </div>
         </div>
-    </div> 
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -178,18 +180,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       <div>
-         Do you want to delete:
-       </div>
+        <div>
+          Do you want to delete:
+        </div>
         Id: {{removeStudent?.Id}}
-      <div>
-        First Name: {{removeStudent?.First_name}}
-      </div>
+        <div>
+          First Name: {{removeStudent?.First_name}}
+        </div>
         Last Name: {{removeStudent?.Last_name}}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" (click)="deleteStudent(removeStudent.Id)" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+        <button type="button" (click)="deleteStudent(removeStudent.Id)" data-bs-dismiss="modal"
+          class="btn btn-danger">Delete</button>
       </div>
     </div>
   </div>
@@ -205,15 +208,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       <div>
-         Do you want delete selected Student profiles?
-       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" (click)="deleteSelectedStudents()" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+        <div>
+          Do you want delete selected Student profiles?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" (click)="deleteSelectedStudents()" data-bs-dismiss="modal"
+            class="btn btn-danger">Delete</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
-

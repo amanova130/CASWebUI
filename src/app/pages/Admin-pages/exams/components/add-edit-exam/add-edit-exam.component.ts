@@ -12,8 +12,8 @@ import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { GroupService } from 'src/services/WebApiService/group.service';
 import { TeacherService } from '../../../../../../services/WebApiService/teacher.service';
 import { ExamDetails } from '../../../../../../services/models/examDetails';
-import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Exam } from 'src/services/models/exam';
 import { ExamService } from '../../../../../../services/WebApiService/exam.service';
 
@@ -23,37 +23,37 @@ import { ExamService } from '../../../../../../services/WebApiService/exam.servi
   styleUrls: ['./add-edit-exam.component.scss']
 })
 export class AddEditExamComponent implements OnInit {
-   
-  @Input()
-    public exam: Exam;
 
   @Input()
-    public examList!: Exam[];
- groupList: Group[];
+  public exam: Exam;
 
+  @Input()
+  public examList!: Exam[];
+  groupList: Group[];
+  filtredGroupList: Group[];
   courseList: string[] = [];
   teacherList: Teacher[] = [];
   group: Group;
   facultyList: Faculty[] = [];
-  isAddMode=false;
+  isAddMode = false;
   isLoading = false;
   submitted = false;
   examDate: NgbDateStruct;
   newExam: Exam;
   startTime: string;
-  endTime : string;
+  endTime: string;
 
   @ViewChild('form') form!: any;
-  
+
   constructor(
-      private facultyService: FacultyService,
-      private alertService: AlertService,
-      private examService: ExamService,
-      public activeModal: NgbActiveModal,
-      private courseService: CourseService,
-      private teacherService: TeacherService,
-      private groupService: GroupService,
-      public examDetails: ExamDetails
+    private facultyService: FacultyService,
+    private alertService: AlertService,
+    private examService: ExamService,
+    public activeModal: NgbActiveModal,
+    private courseService: CourseService,
+    private teacherService: TeacherService,
+    private groupService: GroupService,
+    public examDetails: ExamDetails
   ) {
     this.newExam = {
       Id: '',
@@ -66,7 +66,7 @@ export class AddEditExamComponent implements OnInit {
       StartTime: '',
       EndTime: '',
       Semester: '',
-      Year: '',
+      Year: new Date().getFullYear().toString(),
       ExamDate: '',
       Status: true
     }
@@ -75,100 +75,84 @@ export class AddEditExamComponent implements OnInit {
   ngOnInit() {
     this.getFacultyList();
     this.getGroupList();
-    if(this.exam === undefined)
+    if (this.exam === undefined)
       this.isAddMode = true;
-    else
-    {
-      this.newExam=this.exam;
+    else {
+      this.newExam = this.exam;
       //this.choosenGroup(this.newExam.Group_num);
       this.choosenCourse(this.newExam.Course);
-    } 
+    }
   }
 
 
-  onSubmit() { 
-      this.isLoading = true;
-      if(this.form.valid)
-      {
-        this.submitted = true;
-        if (this.isAddMode) this.createExam();
-        else this.updateExam();
-      }
-      else {
-        this.alertService.errorFormField();
-        this.isLoading = false;
-      }
+  onSubmit() {
+    this.isLoading = true;
+    if (this.form.valid) {
+      this.submitted = true;
+      if (this.isAddMode) this.createExam();
+      else this.updateExam();
+    }
+    else {
+      this.alertService.errorFormField();
+      this.isLoading = false;
+    }
   }
 
   private createExam() {
-    this.examService.create(this.newExam).subscribe(res =>
-      {
-        if(res)
-        {
-          this.examList.push(res);
-          this.isLoading = false;
-          this.alertService.successResponseFromDataBase();
-          this.activeModal.close(this.examList);
-         
-
-        }
-        else
-        this.alertService.errorResponseFromDataBase();    
-      })
-}
+    this.examService.create(this.newExam).subscribe(res => {
+      if (res) {
+        this.examList.push(res);
+        this.isLoading = false;
+        this.alertService.successResponseFromDataBase();
+        // this.activeModal.close(this.examList);
+      }
+      else
+        this.alertService.errorResponseFromDataBase();
+    })
+  }
 
   private updateExam() {
-       this.examService.update(this.newExam).subscribe(res =>
-        {
-          if(res)
-          {
-            this.examList = this.examList.filter(exam => exam.Id !== this.newExam.Id);
-            this.examList.push(this.newExam);
-            this.isLoading = false;
-            this.alertService.successResponseFromDataBase();
-            this.activeModal.close(this.examList);
-            
-          }
-          else
-          this.alertService.errorResponseFromDataBase();    
-        })
-    }
+    this.examService.update(this.newExam).subscribe(res => {
+      if (res) {
+        this.examList = this.examList.filter(exam => exam.Id !== this.newExam.Id);
+        this.examList.push(this.newExam);
+        this.isLoading = false;
+        this.alertService.successResponseFromDataBase();
+        // this.activeModal.close(this.examList);
+      }
+      else
+        this.alertService.errorResponseFromDataBase();
+    })
+  }
 
-    public choosenCourse(course: string)
-    {
-      this.teacherService.getTeachersByCourseName(course).subscribe(res =>
-        {
-          if(res)
-            this.teacherList = res;
-        })
-    }
-    public choosenGroup(group: string){
-      this.courseList = this.groupList.find(g=> g.GroupNumber == group).courses;
-    }
+  public choosenCourse(course: string) {
+    this.teacherService.getTeachersByCourseName(course).subscribe(res => {
+      if (res)
+        this.teacherList = res;
+    })
+  }
+  public choosenGroup(group: string) {
+    this.courseList = this.groupList.find(g => g.GroupNumber == group).courses;
+  }
 
-    public choosenFaculty(facultyName: string)
-    {
-      this.groupList = this.groupList.filter(group => group.Fac_Name === facultyName);
-    }
-    private getGroupList()
-    {
-      this.groupService.getAllGroups().subscribe(groups => {
-        if(groups)
-        {
-          this.groupList = groups;
-          if(this.newExam.Group_num)
-            this.courseList = this.groupList.find(g=> g.GroupNumber == this.newExam.Group_num).courses;
-        }
-         
-      })
-    }
-    private getFacultyList(){
-      this.facultyService.getAllFaculties().subscribe(faculties =>
-        { 
-          if(faculties)
-            this.facultyList = faculties;
-          });
-       
-    }
+  public choosenFaculty(facultyName: string) {
+    this.filtredGroupList = this.groupList.filter(group => group.Fac_Name === facultyName);
+  }
+  private getGroupList() {
+    this.groupService.getAllGroups().subscribe(groups => {
+      if (groups) {
+        this.groupList = groups;
+        if (this.newExam.Group_num)
+          this.courseList = this.groupList.find(g => g.GroupNumber == this.newExam.Group_num).courses;
+      }
+    })
+  }
+  private getFacultyList() {
+    this.facultyService.getAllFaculties().subscribe(faculties => {
+      if (faculties)
+        this.facultyList = faculties;
+    });
+
+  }
 
 }
