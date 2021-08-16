@@ -6,16 +6,21 @@
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link">
-                <button mat-raised-button class="compose" color="primary" (mwlClick)="composeView()">COMPOSE <strong>+</strong></button>
+                <button mat-raised-button class="compose" color="primary" (mwlClick)="composeView()">COMPOSE
+                  <strong>+</strong></button>
               </a>
             </li>
             <hr>
-            <li class="nav-item" >
-               
-              <a mat-button (mwlClick)="sentView()"><mat-icon>send</mat-icon>  Sent</a>
+            <li class="nav-item">
+
+              <a mat-button (mwlClick)="sentView()">
+                <mat-icon>send</mat-icon> Sent
+              </a>
             </li>
             <li class="nav-item">
-              <a mat-button (mwlClick)="trashView()"> <mat-icon>delete_outline</mat-icon>  Trash</a>
+              <a mat-button (mwlClick)="trashView()">
+                <mat-icon>delete_outline</mat-icon> Trash
+              </a>
             </li>
           </ul>
         </div>
@@ -27,7 +32,9 @@
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <span><h2 class="page-title">Email</h2></span>
+          <span>
+            <h2 class="page-title">Email</h2>
+          </span>
         </div>
       </div>
 

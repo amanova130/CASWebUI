@@ -1,66 +1,65 @@
 <!-- Add and Edit Modal -->
 <div class="modal-header">
-    <h1 *ngIf="isAddMode" class="modal-title">Add Link</h1>
-    <h1 *ngIf="!isAddMode" class="modal-title">Edit Link</h1>
-  <button type="button" class="btn-close"  (click)="activeModal.dismiss('Cross click')" aria-label="Close"></button>
+  <h1 *ngIf="isAddMode" class="modal-title">Add Link</h1>
+  <h1 *ngIf="!isAddMode" class="modal-title">Edit Link</h1>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss('Cross click')" aria-label="Close"></button>
 </div>
 <div class="modal-body">
-    <form #form="ngForm">
-        <!-- <div>
+  <form #form="ngForm">
+    <!-- <div>
             <div class="form-group d-none" >
                 <label>ID</label>
                 <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="link.Id" #Id='ngModel' />
             </div>
         </div> -->
-        <div class="row my-3">
-            <div class="form-group col-6">
-                <label>Link Title</label>
-                <input type="text" id="Title" class="form-control" name="Title" [(ngModel)]="link.Title"  required #Title="ngModel"/>
-                <div class="alert alert-danger" *ngIf="Title.errors && (Title.dirty || form.submitted)">
-                    <div *ngIf="Title.errors.required">link Name is required.</div>
-                </div>
-            </div>
-            <div class="form-group col-6">
-                <label>Description</label>
-                <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="link.Description"
-                #description="ngModel">
-            </div>
-         </div>
-        <div class="row mb-3">
-            <div class="form-group col-6">
-                <label>URL</label>
-                <input type="text" id="URL" class="form-control"  name="URL" [(ngModel)]="link.URL" required #URL="ngModel"/>
-                <div class="form-control-feedback alert alert-danger"
-                        *ngIf="URL.errors && (URL.dirty || form.submitted)">
-                    <p *ngIf="URL.errors.required">URL is required</p>
-                </div>
-            </div>
-            <div class="form-group col-6">
-                <mat-form-field appearance="fill">
-                    <mat-label>Choose Faculty</mat-label>
-                    <mat-select [(ngModel)]="link.Fac_name" name="Faculty" required #Faculty="ngModel"> 
-                        <mat-option>--</mat-option>
-                        <mat-option *ngFor="let c of facultyList" [value]="c.FacultyName" >{{c.FacultyName}}</mat-option>
-                    </mat-select>
-                    <div class="form-control-feedback alert alert-danger"
-                            *ngIf="Faculty.errors && (Faculty.dirty || form.submitted)">
-                        <p *ngIf="Faculty.errors.required">Faculty is required</p>
-                    </div>
-                </mat-form-field>
-            </div>
-            <div class="form-group col-6" [ngClass]="{'d-none': !isAddMode}">
-                <label>Image</label>
-                <input type="file" id="Image"  #file class="form-control" name="Image" required
-                (change)="uploadFile(file.files)"/>   
-            </div>
+    <div class="row my-3">
+      <div class="form-group col-6">
+        <label>Link Title</label>
+        <input type="text" id="Title" class="form-control" name="Title" [(ngModel)]="link.Title" required
+          #Title="ngModel" />
+        <div class="alert alert-danger" *ngIf="Title.errors && (Title.dirty || form.submitted)">
+          <div *ngIf="Title.errors.required">link Name is required.</div>
         </div>
-    </form>
+      </div>
+      <div class="form-group col-6">
+        <label>Description</label>
+        <input type="text" id="Description" class="form-control" name="Description" [(ngModel)]="link.Description"
+          #description="ngModel">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="form-group col-6">
+        <label>URL</label>
+        <input type="text" id="URL" class="form-control" name="URL" [(ngModel)]="link.URL" required #URL="ngModel" />
+        <div class="form-control-feedback alert alert-danger" *ngIf="URL.errors && (URL.dirty || form.submitted)">
+          <p *ngIf="URL.errors.required">URL is required</p>
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose Faculty</mat-label>
+          <mat-select [(ngModel)]="link.Fac_name" name="Faculty" required #Faculty="ngModel">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let c of facultyList" [value]="c.FacultyName">{{c.FacultyName}}</mat-option>
+          </mat-select>
+          <div class="form-control-feedback alert alert-danger"
+            *ngIf="Faculty.errors && (Faculty.dirty || form.submitted)">
+            <p *ngIf="Faculty.errors.required">Faculty is required</p>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-6" [ngClass]="{'d-none': !isAddMode}">
+        <label>Image</label>
+        <input type="file" id="Image" #file class="form-control" name="Image" required
+          (change)="uploadFile(file.files)" />
+      </div>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary"  (click)="activeModal.dismiss('Cross click')">Close</button>
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">Close</button>
   <button [disabled]="isLoading" class="btn btn-primary" (click)="onSubmit()">
     <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
     Save
-    </button>
+  </button>
 </div>
-

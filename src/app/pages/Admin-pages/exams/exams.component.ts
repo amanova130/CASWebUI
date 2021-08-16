@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { ExamService} from 'src/services/WebApiService/exam.service';
 import { GroupService } from 'src/services/WebApiService/group.service';
 import { TeacherService } from '../../../../services/WebApiService/teacher.service';
 import { AddEditExamComponent } from './components/add-edit-exam/add-edit-exam.component';
+import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class ExamsComponent implements OnInit {
   sort: MatSort = new MatSort;
   @ViewChild('myTable')
   myTable!: MatTable<any>;
+  @ViewChild('TABLE') table: ElementRef;
 
   constructor( private examService: ExamService, 
     private teacherService: TeacherService, 
@@ -58,6 +60,7 @@ export class ExamsComponent implements OnInit {
     public datepipe: DatePipe, 
     private alertService: AlertService,
     private groupService: GroupService,
+    private  fileHandlerService: UploadFileService
     ) {}
   ngOnInit(): void {
     this.getAllExamData();
@@ -98,6 +101,9 @@ export class ExamsComponent implements OnInit {
     }
     else
       return '';
+  }
+  exportExcell(){
+    this.fileHandlerService.exportexcel(this.table.nativeElement, "Exams.xlsx")
   }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

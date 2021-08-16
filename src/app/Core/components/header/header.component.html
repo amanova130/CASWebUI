@@ -1,24 +1,27 @@
 <nav class="navbar navbar-expand-lg w-100">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="assets/images/casLogo.png" alt="CASLogo" width="50" height="50" class="d-inline-block align-text-center">  
-        College administration system</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end align-item-center">
-        <div class="form-check form-switch p-3">
-          <input class="form-check-input" type="checkbox" [checked]="isDarkMode" id="flexSwitchCheckDefault" (click)="toggleTheme()">
-          <label class="form-check-label" for="flexSwitchCheckDefault"><span class="material-icons icon-color">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/casLogo.png" alt="CASLogo" width="50" height="50"
+        class="d-inline-block align-text-center">
+      College administration system</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end align-item-center">
+      <div class="form-check form-switch p-3">
+        <input class="form-check-input" type="checkbox" [checked]="isDarkMode" id="flexSwitchCheckDefault"
+          (click)="toggleTheme()">
+        <label class="form-check-label" for="flexSwitchCheckDefault"><span class="material-icons icon-color">
             dark_mode
-            </span></label>
-        </div>
-        <button class="btn " type="button" (click)="openProfileModal()"><span class="material-icons">
-          manage_accounts
-          </span></button>
-        <button class="btn " type="button" (click)="logOut()"><span class="material-icons">
-          logout
-          </span></button>
+          </span></label>
       </div>
+      <button class="btn " type="button" (click)="openProfileModal()"><span class="material-icons">
+          manage_accounts
+        </span></button>
+      <button class="btn " type="button" (click)="logOut()"><span class="material-icons">
+          logout
+        </span></button>
     </div>
-  </nav>
+  </div>
+</nav>

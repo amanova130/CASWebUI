@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -16,6 +16,7 @@ import { LoggedUser } from '../../../../services/models/loggedUser';
 import { User } from 'src/services/models/user';
 import { TokenStorageService } from '../../helperServices/token-storage.service';
 import { Role } from '../../pipes-and-enum/roleEnum';
+import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { Role } from '../../pipes-and-enum/roleEnum';
   templateUrl: './holiday.component.html',
   styleUrls: ['./holiday.component.scss']
 })
-export class HolidayComponent implements  OnInit, OnDestroy {
+export class HolidayComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'select',
     'Title',
@@ -31,46 +32,52 @@ export class HolidayComponent implements  OnInit, OnDestroy {
     'EndDate',
     'Type',
     'Details',
-  'action'];
+    'action'];
   dataSource!: MatTableDataSource<Holiday>;
 
   loggedUser: User;
   holidayList: Holiday[] = [];
   holidayListSubscription!: Subscription;
   removeHoliday!: Holiday;
-  isLoading=true;
-  isSelected=false;
+  isLoading = true;
+  isSelected = false;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
   @ViewChild('myTable')
   myTable!: MatTable<any>;
+  @ViewChild('TABLE') table: ElementRef;
   isStudent = true;
-
-  constructor(private holidayService: HolidayService, 
+  selection = new SelectionModel<Holiday>(true, []);
+  constructor(private holidayService: HolidayService,
     private modalService: NgbModal,
-    public datepipe: DatePipe, 
+    public datepipe: DatePipe,
     private alertService: AlertService,
-    private tokenStorage: TokenStorageService) {}
+    private tokenStorage: TokenStorageService,
+    private fileHandlerService: UploadFileService) { }
 
   ngOnInit(): void {
     this.getAllholidayData();
     this.loggedUser = this.tokenStorage.getUser();
-    if(this.loggedUser.Role === Role.Student)
+    if (this.loggedUser.Role === Role.Student)
       this.isStudent = !this.isStudent;
   }
-  selection = new SelectionModel<Holiday>(true, []);
 
-  getAllholidayData(){
+
+  exportExcell() {
+    this.fileHandlerService.exportexcel(this.table.nativeElement, "Holidays.xlsx")
+  }
+
+  getAllholidayData() {
     this.holidayListSubscription = timer(0, 60000).pipe(
-      switchMap(()=> this.holidayService.getAllHolidays())
-    ).subscribe((list: Holiday[])=>{
+      switchMap(() => this.holidayService.getAllHolidays())
+    ).subscribe((list: Holiday[]) => {
       this.holidayList = list;
       this.dataSource = new MatTableDataSource(this.holidayList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.isLoading=false;
+      this.isLoading = false;
       console.log("Get holiday refreshed");
     });
   }
@@ -79,27 +86,25 @@ export class HolidayComponent implements  OnInit, OnDestroy {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    if(numSelected !== undefined)
-      this.isSelected=true;
+    if (numSelected !== undefined)
+      this.isSelected = true;
     else
-      this.isSelected=false;
+      this.isSelected = false;
     return numSelected === numRows;
-    
+
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    if(this.isAllSelected())
-    {
+    if (this.isAllSelected()) {
       this.selection.clear();
-      this.isSelected=false;
+      this.isSelected = false;
     }
-      else
-      {
-        this.dataSource.data.forEach(row => this.selection.select(row));
-        this.isSelected=true;
-      }
-        
+    else {
+      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.isSelected = true;
+    }
+
   }
 
   applyFilter(event: Event) {
@@ -111,44 +116,40 @@ export class HolidayComponent implements  OnInit, OnDestroy {
     }
   }
 
-  openModal(holiday?: Holiday){
+  openModal(holiday?: Holiday) {
     const ref = this.modalService.open(AddEditHolidayComponent, { centered: true });
     ref.componentInstance.holiday = holiday;
     ref.componentInstance.holidayList = this.holidayList;
     ref.result.then((result) => {
-      if(result !== 'Close click')
-      {
+      if (result !== 'Close click') {
         this.dataSource.data = result;
       }
     });
   }
 
-  openDelete(holiday:Holiday){
-    this.removeHoliday={
+  openDelete(holiday: Holiday) {
+    this.removeHoliday = {
       Id: holiday.Id,
       Title: holiday.Title,
     }
   }
 
-  deleteSelectedHolidays()
-  {
-    if(this.selection.hasValue())
-    {
-      this.selection.selected.forEach(selected=>(this.deleteHoliday(selected.Id)));
+  deleteSelectedHolidays() {
+    if (this.selection.hasValue()) {
+      this.selection.selected.forEach(selected => (this.deleteHoliday(selected.Id)));
       this.alertService.successResponseFromDataBase();
     }
     else
       this.alertService.errorFormField();
   }
 
-  deleteHoliday(id: string){
-    if(id!==null || id!==undefined){
+  deleteHoliday(id: string) {
+    if (id !== null || id !== undefined) {
       this.holidayService.deleteById(id).subscribe(res => {
-        if(res)
-        {
+        if (res) {
           this.holidayList = this.holidayList.filter(item => item.Id !== id);
           this.dataSource.data = this.holidayList;
-         this.alertService.successResponseFromDataBase();
+          this.alertService.successResponseFromDataBase();
         }
         else
           this.alertService.errorResponseFromDataBase();
@@ -156,15 +157,14 @@ export class HolidayComponent implements  OnInit, OnDestroy {
     }
   }
 
-  refresh(){
-    if(this.holidayListSubscription)
-    this.holidayListSubscription.unsubscribe();
+  refresh() {
+    if (this.holidayListSubscription)
+      this.holidayListSubscription.unsubscribe();
     this.getAllholidayData();
   }
-  
-  ngOnDestroy()
-  {
-    if(this.holidayListSubscription)
+
+  ngOnDestroy() {
+    if (this.holidayListSubscription)
       this.holidayListSubscription.unsubscribe();
   }
 }

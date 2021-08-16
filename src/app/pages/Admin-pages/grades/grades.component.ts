@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ExamDetails } from 'src/services/models/examDetails';
 import { Group } from 'src/services/models/group';
 import { GroupService } from '../../../../services/WebApiService/group.service';
@@ -13,6 +13,7 @@ import { AlertService } from '../../../shared/helperServices/alert.service';
 import { Message } from 'src/services/models/message';
 import { MessageService } from '../../../../services/WebApiService/message.service';
 import { StudExamService } from 'src/services/WebApiService/stud-exam.service';
+import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
 @Component({
   selector: 'app-grades',
@@ -36,6 +37,7 @@ export class GradesComponent implements OnInit {
   groupList: Group[] = [];
   examList: Exam[] = [];
   email: Message;
+  @ViewChild('TABLE') table: ElementRef;
 
   constructor(
     public examDetails: ExamDetails,
@@ -45,6 +47,7 @@ export class GradesComponent implements OnInit {
     private alertService: AlertService,
     private messageService: MessageService,
     private studExamService: StudExamService,
+    private fileHandlerService: UploadFileService,
   ) { }
 
   ngOnInit(): void {
@@ -72,7 +75,9 @@ export class GradesComponent implements OnInit {
         });
     }
   }
-
+  exportExcell() {
+    this.fileHandlerService.exportexcel(this.table.nativeElement, "Grades.xlsx")
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

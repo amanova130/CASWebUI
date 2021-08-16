@@ -55,6 +55,16 @@
                     </div>
                   </li>
                   <li class="m-l-10">
+                    <div class="icon-button">
+                      <button mat-mini-fab="" (click)="exportExcell()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <span class="material-icons text-white">
+                          save_alt
+                        </span>
+                      </button>
+                    </div>
+                  </li>
+                  <li class="m-l-10">
                     <div class="icon-button-demo">
                       <button mat-mini-fab="" (click)="refresh()" color="primary"
                         class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
@@ -66,7 +76,7 @@
               </div>
             </div>
           </div>
-          <div class="table-resposive">
+          <div class="table-resposive" #TABLE>
             <table mat-table [dataSource]="dataSource" #myTable matSort class="w-100">
               <ng-container matColumnDef="CreatedDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>

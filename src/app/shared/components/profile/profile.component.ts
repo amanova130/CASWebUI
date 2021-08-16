@@ -24,23 +24,23 @@ export class ProfileComponent implements OnInit {
   userProfile: any;
   isLoading = false;
   showPasswordField = false;
-  newPWD: string="";
-  confirmPWD: string="";
-  currentPWD: string="";
+  newPWD: string = "";
+  confirmPWD: string = "";
+  currentPWD: string = "";
   icon: string;
   isStudent = false;
   isAdmin = false;
-  isCurrent=true;
-  isConfirmed=true;
-  isCorrectFormat=true;
-  isSame=true;
+  isCurrent = true;
+  isConfirmed = true;
+  isCorrectFormat = true;
+  isSame = true;
 
 
   constructor(public activeModal: NgbActiveModal,
     private alertService: AlertService,
     private adminService: AdminService,
-    private tokenStorageService:TokenStorageService,
-    private userService:UserService,
+    private tokenStorageService: TokenStorageService,
+    private userService: UserService,
     private studentService: StudentService,
     private uploadFileService: UploadFileService) { }
 
@@ -72,27 +72,24 @@ export class ProfileComponent implements OnInit {
     this.showPasswordField = !this.showPasswordField;
   }
   confirmNewPWD() {
-    if (this.newPWD === this.confirmPWD && this.newPWD.length >= 5)
-    {
-      this.isConfirmed=true;
+    if (this.newPWD === this.confirmPWD && this.newPWD.length >= 5) {
+      this.isConfirmed = true;
     }
-    else if(this.newPWD !== this.confirmPWD && this.newPWD.length >= 5 && this.newPWD.length !== 0)
-      this.isConfirmed=false;   
+    else if (this.newPWD !== this.confirmPWD && this.newPWD.length >= 5 && this.newPWD.length !== 0)
+      this.isConfirmed = false;
   }
 
-  checkCurrentPWD()
-  {
-    if(this.currentPWD.length > 0)
-    {
-    this.userService.checkEnteredPWD(this.currentPWD,this.userProfile.Id).subscribe(res=>{
-      if(res)
-        this.isCurrent=true;
-    },
-    err=>{
-      this.isCurrent=false;
+  checkCurrentPWD() {
+    if (this.currentPWD.length > 0) {
+      this.userService.checkEnteredPWD(this.currentPWD, this.userProfile.Id).subscribe(res => {
+        if (res)
+          this.isCurrent = true;
+      },
+        err => {
+          this.isCurrent = false;
+        }
+      )
     }
-    )
-  }
   }
 
 
@@ -114,79 +111,70 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
-  
+
     if (this.isAdmin) {
       this.adminService.update(this.userProfile).subscribe(result => {
-        if(result)
-        {
-         const user = this.tokenStorageService.getUser();
-         user.Email=this.userProfile.Email;
-         this.tokenStorageService.saveUser(user);
-          if(this.showPasswordField)
-          
-            this.updateUser(); 
-            else
-            {
-                 this.alertService.successResponseFromDataBase();
-                 this.activeModal.close();
-            }
-        } 
-      });
-    }
-    else if(this.isStudent)
-  {
-      this.studentService.update(this.userProfile).subscribe(result => {
-        if(result)
-        {
+        if (result) {
           const user = this.tokenStorageService.getUser();
-         user.Email=this.userProfile.Email;
-         this.tokenStorageService.saveUser(user);
-          if(this.showPasswordField)
-               this.updateUser(); 
-          else
-          {
-               this.alertService.successResponseFromDataBase();
-               this.activeModal.close();
+          user.Email = this.userProfile.Email;
+          this.tokenStorageService.saveUser(user);
+          if (this.showPasswordField)
+
+            this.updateUser();
+          else {
+            this.alertService.successResponseFromDataBase();
+            this.activeModal.close();
           }
-        } 
+        }
       });
     }
-   
-  
-  }
-  checkNewPWD()
-  {
-   if(this.newPWD.match("^[A-Za-z0-9]+$"))
-    this.isCorrectFormat=true;
-   else
-    this.isCorrectFormat=false;
-    if(this.newPWD !== this.currentPWD)
-    this.isSame=true;
-   else
-    this.isSame=false;
+    else if (this.isStudent) {
+      this.studentService.update(this.userProfile).subscribe(result => {
+        if (result) {
+          const user = this.tokenStorageService.getUser();
+          user.Email = this.userProfile.Email;
+          this.tokenStorageService.saveUser(user);
+          if (this.showPasswordField)
+            this.updateUser();
+          else {
+            this.alertService.successResponseFromDataBase();
+            this.activeModal.close();
+          }
+        }
+      });
+    }
+
 
   }
-  updateUser()
-  {
-    if(this.isConfirmed && this.newPWD.length >= 5 && this.confirmPWD === this.newPWD && this.isCorrectFormat)
-    {
-    this.user.Password=this.newPWD; 
-    var today=new Date();
-    today.setFullYear(today.getFullYear()+1);
-    this.user.Email=this.userProfile.Email;
-    this.user.ChangePwdDate=today.toLocaleDateString();
-    this.userService.updateUser(this.user).subscribe(res=>{
-      if(res)
-      {
-      this.tokenStorageService.saveUser(this.user);  
-      this.alertService.successResponseFromDataBase();
-      this.activeModal.close();
-      }
-    })
-    
-    
+  checkNewPWD() {
+    if (this.newPWD.match("^[A-Za-z0-9]+$"))
+      this.isCorrectFormat = true;
+    else
+      this.isCorrectFormat = false;
+    if (this.newPWD !== this.currentPWD)
+      this.isSame = true;
+    else
+      this.isSame = false;
+
   }
-  else
-    this.alertService.errorFormField();
-}
+  updateUser() {
+    if (this.isConfirmed && this.newPWD.length >= 5 && this.confirmPWD === this.newPWD && this.isCorrectFormat) {
+      this.user.Password = this.newPWD;
+      var today = new Date();
+      today.setFullYear(today.getFullYear() + 1);
+      this.user.Email = this.userProfile.Email;
+      this.user.ChangePwdDate = today.toLocaleDateString();
+      this.userService.updateUser(this.user).subscribe(res => {
+        if (res) {
+          this.tokenStorageService.saveUser(this.user);
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close();
+        }
+      })
+
+
+    }
+    else
+      this.alertService.errorFormField();
+  }
 }

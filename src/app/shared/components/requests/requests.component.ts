@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -18,6 +18,7 @@ import { AddRequestComponent } from './add-request/add-request.component';
 import { User } from 'src/services/models/user';
 import { TokenStorageService } from '../../helperServices/token-storage.service';
 import { Role } from '../../pipes-and-enum/roleEnum';
+import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
 @Component({
   selector: 'app-requests',
@@ -53,6 +54,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
   loggedUser: User;
   selection = new SelectionModel<Request>(true, []);
   statusOFRequest: string = 'All';
+  @ViewChild('TABLE') table: ElementRef;
 
   constructor(private requestService: RequestService,
     private modalService: NgbModal,
@@ -60,7 +62,8 @@ export class RequestsComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private messageService: MessageService,
     private studentService: StudentService,
-    private tokenStorage: TokenStorageService) { }
+    private tokenStorage: TokenStorageService,
+    private fileHandlerService: UploadFileService) { }
 
 
   ngOnInit(): void {
@@ -69,15 +72,14 @@ export class RequestsComponent implements OnInit, OnDestroy {
       this.isStudent = !this.isStudent;
       this.getRequestByStudentId();
     }
-    else
-    {
+    else {
       this.getAllRequestData();
     }
-      
-
   }
 
-
+  exportExcell() {
+    this.fileHandlerService.exportexcel(this.table.nativeElement, "Requests.xlsx")
+  }
 
   getAllRequestData() {
     this.requestListSubscription = timer(0, 60000).pipe(

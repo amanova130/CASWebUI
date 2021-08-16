@@ -30,22 +30,22 @@ export class AddEditGroupComponent implements OnInit, OnDestroy {
   checkedList: any;
   currentSelected!: {};
   address: AddressBook = {
-    City:"",
+    City: "",
     Street: "",
     ZipCode: 0
   };
-  editGroup:Group = {
+  editGroup: Group = {
     Id: "",
   };
   @Input()
-    public group: Group = {
-      Id: "",    
-    };
+  public group: Group = {
+    Id: "",
+  };
 
   @Input()
-    public groupList!: Group[];
+  public groupList!: Group[];
 
-    @ViewChild('form') form!: any;
+  @ViewChild('form') form!: any;
 
   constructor(
     private groupService: GroupService,
@@ -57,101 +57,94 @@ export class AddEditGroupComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.editGroup={
-      Id:this.group.Id,
-      GroupNumber:this.group.GroupNumber,
-      AcademicYear:this.group.AcademicYear,
-      Fac_Name:this.group.Fac_Name,
-      NumberOfStudent:this.group.NumberOfStudent,
-      Semester:this.group.Semester,
-      courses:this.group.courses,
-      Status:true,
+    this.editGroup = {
+      Id: this.group.Id,
+      GroupNumber: this.group.GroupNumber,
+      AcademicYear: this.group.AcademicYear,
+      Fac_Name: this.group.Fac_Name,
+      NumberOfStudent: this.group.NumberOfStudent,
+      Semester: this.group.Semester,
+      courses: this.group.courses,
+      Status: true,
     }
     this.getFaculties();
     //this.getCourses();
     this.isAddMode = !this.group.Id;
-    if(!this.isAddMode)
+    if (!this.isAddMode)
       this.choosenFaculty(this.editGroup.Fac_Name);
-}
-
-onSubmit() {
-  this.loading = true;
-  if(this.form.valid)
-  {
-    this.submitted = true;
-    if (this.isAddMode) this.createGroup();
-    else this.updateGroup();
   }
-  else {
-    this.alertService.errorFormField();
-    this.loading = false;
+
+  onSubmit() {
+    this.loading = true;
+    if (this.form.valid) {
+      this.submitted = true;
+      if (this.isAddMode) this.createGroup();
+      else this.updateGroup();
+    }
+    else {
+      this.alertService.errorFormField();
+      this.loading = false;
+    }
   }
-}
 
-private getCoursesByFaculty(facultyName:string){
-  this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getCoursesByFaculty(facultyName))).subscribe((list: string[])=>
-  {
-    this.courseList = list;
-  });
-}
-private getFaculties(){
-  this.facultyListSubscription = timer(0).pipe(switchMap(()=> this.facultyService.getAllFaculties())).subscribe((list: Faculty[])=>
-  {
-    this.facultyList = list;
-  });
-}
+  private getCoursesByFaculty(facultyName: string) {
+    this.courseListSubscription = timer(0).pipe(switchMap(() => this.courseService.getCoursesByFaculty(facultyName))).subscribe((list: string[]) => {
+      this.courseList = list;
+    });
+  }
+  private getFaculties() {
+    this.facultyListSubscription = timer(0).pipe(switchMap(() => this.facultyService.getAllFaculties())).subscribe((list: Faculty[]) => {
+      this.facultyList = list;
+    });
+  }
 
 
-private createGroup() {
-  this.group=this.editGroup;
+  private createGroup() {
+    this.group = this.editGroup;
     this.groupService.create(this.group)
-    .pipe(first())
-    .subscribe(result => {
-        if(result)
-        {
+      .pipe(first())
+      .subscribe(result => {
+        if (result) {
           this.groupList.push(result);
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.groupList);
-        }  
+        }
         else
-            this.alertService.errorResponseFromDataBase();
-    })
-    .add(() => this.loading = false);
-}
-
-private updateGroup() {
-      this.groupService.update(this.editGroup)
-      .pipe(first()).subscribe(result => {
-          if(result)
-          {
-            this.group=this.editGroup;
-            let x = this.groupList.find(x => x.Id === this.group.Id)
-            let index = this.groupList.indexOf(x!)
-            this.groupList[index] = this.group;
-            this.alertService.successResponseFromDataBase();
-            this.activeModal.close(this.groupList);
-          }
-          else
-              this.alertService.errorResponseFromDataBase();
+          this.alertService.errorResponseFromDataBase();
       })
       .add(() => this.loading = false);
   }
 
-  choosenFaculty(event: string)
-  {
+  private updateGroup() {
+    this.groupService.update(this.editGroup)
+      .pipe(first()).subscribe(result => {
+        if (result) {
+          this.group = this.editGroup;
+          let x = this.groupList.find(x => x.Id === this.group.Id)
+          let index = this.groupList.indexOf(x!)
+          this.groupList[index] = this.group;
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.groupList);
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
+      })
+      .add(() => this.loading = false);
+  }
+
+  choosenFaculty(event: string) {
     this.editGroup.Fac_Name = event;
     this.getCoursesByFaculty(this.editGroup.Fac_Name);
 
   }
-  choosenCourse(event: string[])
-  {
+  choosenCourse(event: string[]) {
     this.editGroup.courses = event;
     console.log(this.group.courses);
   }
-  ngOnDestroy(){
-    if(this.courseListSubscription)
+  ngOnDestroy() {
+    if (this.courseListSubscription)
       this.courseListSubscription.unsubscribe();
-    if(this.facultyListSubscription)
+    if (this.facultyListSubscription)
       this.facultyListSubscription.unsubscribe();
   }
 

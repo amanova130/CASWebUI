@@ -19,58 +19,54 @@ import { UploadFileService } from 'src/services/WebApiService/uploadFile.service
 })
 export class AddEditLinksComponent implements OnInit, OnDestroy {
 
- 
-@Input()
-public link: ExtendedLink;
-@Input()
-public linkList!: ExtendedLink[];
 
-@ViewChild('form') form!: any;
-isAddMode = true;
-isLoading=false;
-submitted=false;
-facultyList: Faculty[] = [];
-facultyListSubscription!: Subscription;
+  @Input()
+  public link: ExtendedLink;
+  @Input()
+  public linkList!: ExtendedLink[];
+
+  @ViewChild('form') form!: any;
+  isAddMode = true;
+  isLoading = false;
+  submitted = false;
+  facultyList: Faculty[] = [];
+  facultyListSubscription!: Subscription;
 
 
-constructor(
-  private alertService: AlertService,
-  public activeModal: NgbActiveModal,
-  private linkService: ExtendedLinkService,
-  private uploadFileService: UploadFileService,
-  private facultyService: FacultyService,
-) { }
+  constructor(
+    private alertService: AlertService,
+    public activeModal: NgbActiveModal,
+    private linkService: ExtendedLinkService,
+    private uploadFileService: UploadFileService,
+    private facultyService: FacultyService,
+  ) { }
 
-ngOnInit(): void {
-  this.getFaculties();
-  this.isAddMode = !this.link.Id;
-  if(this.isAddMode)
-  {
-    this.link= {
-      Id: '',
-      Title: '',
-      Description: '',
-      URL: '',
-      Image: '',
-      Status: true
+  ngOnInit(): void {
+    this.getFaculties();
+    this.isAddMode = !this.link.Id;
+    if (this.isAddMode) {
+      this.link = {
+        Id: '',
+        Title: '',
+        Description: '',
+        URL: '',
+        Image: '',
+        Status: true
+      }
     }
   }
-}
 
-private getFaculties(){
-  this.facultyListSubscription = timer(0).pipe(switchMap(()=> this.facultyService.getAllFaculties())).subscribe((list: Faculty[])=>
-  {
-    this.facultyList = list;
-  });
-}
+  private getFaculties() {
+    this.facultyListSubscription = timer(0).pipe(switchMap(() => this.facultyService.getAllFaculties())).subscribe((list: Faculty[]) => {
+      this.facultyList = list;
+    });
+  }
 
-onSubmit()
-{
+  onSubmit() {
     this.isLoading = true;
-    if(this.form.valid)
-    {
+    if (this.form.valid) {
       this.submitted = true;
-      if (this.isAddMode) 
+      if (this.isAddMode)
         this.createLink();
       else this.updateLink();
     }
@@ -78,65 +74,62 @@ onSubmit()
       this.alertService.errorFormField();
       this.isLoading = false;
     }
-}
-
-private createLink(){
-  this.linkService.create(this.link)
-  .pipe(first())
-  .subscribe(result => {
-      if(result)
-      {
-        this.linkList.push(result);
-        this.alertService.successResponseFromDataBase();
-        this.activeModal.close(this.linkList);
-      
-      }  
-      else
-      this.alertService.errorResponseFromDataBase();
-  })
-  .add(() => this.isLoading = false);
-}
-
-public uploadFile = (files: any) => {
-  if (files.length === 0) {
-    return;
   }
-  let fileToUpload = <File>files[0];
-  const formData = new FormData();
-  formData.append('file', fileToUpload, fileToUpload.name);
-  this.uploadFileService.uploadImage(formData).pipe(first())
-  .subscribe(result => {
-    if(result)
-    this.link.Image=Object.values(result).toString();// getting location of Img in backend  locallhost:/5001/Resources/Images
-  });
-}
+
+  private createLink() {
+    this.linkService.create(this.link)
+      .pipe(first())
+      .subscribe(result => {
+        if (result) {
+          this.linkList.push(result);
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.linkList);
+
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
+      })
+      .add(() => this.isLoading = false);
+  }
+
+  public uploadFile = (files: any) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this.uploadFileService.uploadImage(formData).pipe(first())
+      .subscribe(result => {
+        if (result)
+          this.link.Image = Object.values(result).toString();// getting location of Img in backend  locallhost:/5001/Resources/Images
+      });
+  }
 
 
-private updateLink()
-{
-  this.linkService.update(this.link)
-  .pipe(first()).subscribe((result) => {
-      if(result)
-      {
-        let x = this.linkList.find(x => x.Id === this.link.Id)
-        let index = this.linkList.indexOf(x!)
-        this.linkList[index] = this.link;
-        this.alertService.successResponseFromDataBase();
-        this.activeModal.close(this.linkList);
-     
-      }
-      else
-      this.alertService.errorResponseFromDataBase();
-  })
-  .add(() => this.isLoading = false);
-}
+  private updateLink() {
+    this.linkService.update(this.link)
+      .pipe(first()).subscribe((result) => {
+        if (result) {
+          let x = this.linkList.find(x => x.Id === this.link.Id)
+          let index = this.linkList.indexOf(x!)
+          this.linkList[index] = this.link;
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.linkList);
 
-refresh(): void {
-  window.location.reload();
-}
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
+      })
+      .add(() => this.isLoading = false);
+  }
 
-ngOnDestroy(){
-  if(this.facultyListSubscription)
-    this.facultyListSubscription.unsubscribe();
-}
+  refresh(): void {
+    window.location.reload();
+  }
+
+  ngOnDestroy() {
+    if (this.facultyListSubscription)
+      this.facultyListSubscription.unsubscribe();
+  }
 }

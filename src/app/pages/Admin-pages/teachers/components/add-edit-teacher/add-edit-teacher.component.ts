@@ -24,151 +24,146 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
   loading = false;
   submitted = false;
   newTeacher!: Teacher;
-  
+
   checkedList: any;
   currentSelected!: {};
   newCourseList: Course[] = [];
   address: AddressBook = {
-    City:"",
+    City: "",
     Street: "",
     ZipCode: 0
   };
-  editTeacher:Teacher = {
+  editTeacher: Teacher = {
     Id: "",
     Address: this.address,
   };
   @Input()
-    public teacher: Teacher = {
-      Id: "",
-      Address: this.address,
-      
-    };
+  public teacher: Teacher = {
+    Id: "",
+    Address: this.address,
+
+  };
 
   @Input()
-    public teacherList!: Teacher[];
+  public teacherList!: Teacher[];
 
   @ViewChild('form') form!: any;
-  
+
   constructor(
-      private teacherService: TeacherService,
-      private alertService: AlertService,
-      public activeModal: NgbActiveModal,
-      private courseService: CourseService,
-      private uploadFileService: UploadFileService,
-  ) {}
+    private teacherService: TeacherService,
+    private alertService: AlertService,
+    public activeModal: NgbActiveModal,
+    private courseService: CourseService,
+    private uploadFileService: UploadFileService,
+  ) { }
 
   ngOnInit() {
-    this.editTeacher={
-      Id:this.teacher.Id,
-      First_name:this.teacher.First_name,
-      Last_name:this.teacher.Last_name,
+    this.editTeacher = {
+      Id: this.teacher.Id,
+      First_name: this.teacher.First_name,
+      Last_name: this.teacher.Last_name,
       Image: this.teacher.Image,
-      Phone:this.teacher.Phone,
-      Email:this.teacher.Email,
-      Gender:this.teacher.Gender,
-      Birth_date:this.teacher.Birth_date,
-      TeachesCourses:this.teacher.TeachesCourses,
-      Address:this.teacher.Address,
-      Status:true,
+      Phone: this.teacher.Phone,
+      Email: this.teacher.Email,
+      Gender: this.teacher.Gender,
+      Birth_date: this.teacher.Birth_date,
+      TeachesCourses: this.teacher.TeachesCourses,
+      Address: this.teacher.Address,
+      Status: true,
     }
-      this.getCourses();
-      this.isAddMode = !this.teacher.Id;
-     if(!this.isAddMode){
-       this.address={
-         City: this.teacher.Address.City,
-         Street:this.teacher.Address.Street,
-         ZipCode: this.teacher.Address.ZipCode
-       }
-     }
+    this.getCourses();
+    this.isAddMode = !this.teacher.Id;
+    if (!this.isAddMode) {
+      this.address = {
+        City: this.teacher.Address.City,
+        Street: this.teacher.Address.Street,
+        ZipCode: this.teacher.Address.ZipCode
+      }
+    }
   }
 
 
   onSubmit() {
-      this.loading = true;
-      if(this.form.valid)
-      {
-        this.submitted = true;
-        if (this.isAddMode) this.createTeacher();
-        else this.updateTeacher();
-      }
-      else {
-        this.alertService.errorFormField();
-        this.loading = false;
-      }
-    
+    this.loading = true;
+    if (this.form.valid) {
+      this.submitted = true;
+      if (this.isAddMode) this.createTeacher();
+      else this.updateTeacher();
+    }
+    else {
+      this.alertService.errorFormField();
+      this.loading = false;
+    }
+
   }
 
-  private getCourses(){
-    this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getAllCourses())).subscribe((list: Course[])=>
-    {
+  private getCourses() {
+    this.courseListSubscription = timer(0).pipe(switchMap(() => this.courseService.getAllCourses())).subscribe((list: Course[]) => {
       this.courseList = list;
-     // console.log(this.courseList);
+      // console.log(this.courseList);
 
     });
   }
 
   private createTeacher() {
-    this.teacher=this.editTeacher;
+    this.teacher = this.editTeacher;
     this.teacher.Address = this.address;
-      this.teacherService.create(this.teacher)
+    this.teacherService.create(this.teacher)
       .pipe(first())
       .subscribe(result => {
-          if(result)
-          { 
-              this.teacherList.push(result)
-              this.alertService.successResponseFromDataBase();
-              this.activeModal.close(this.teacherList);
-           
-          }  
-          else
-              this.alertService.errorResponseFromDataBase();
+        if (result) {
+          this.teacherList.push(result)
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.teacherList);
+
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
       })
       .add(() => this.loading = false);
-}
+  }
 
   private updateTeacher() {
 
     this.editTeacher.Address = this.address;
-        this.teacherService.update(this.editTeacher)
-        .pipe(first()).subscribe((result) => {
-            if(result)
-            {
-              this.teacher=this.editTeacher;
-              let x = this.teacherList.find(x => x.Id === this.teacher.Id)
-              let index = this.teacherList.indexOf(x!)
-              this.teacherList[index] = this.teacher;
-              this.alertService.successResponseFromDataBase();
-              this.activeModal.close(this.teacherList);
-            
-            }
-            else
-                this.alertService.errorResponseFromDataBase();
-        })
-        .add(() => this.loading = false);
-    }
+    this.teacherService.update(this.editTeacher)
+      .pipe(first()).subscribe((result) => {
+        if (result) {
+          this.teacher = this.editTeacher;
+          let x = this.teacherList.find(x => x.Id === this.teacher.Id)
+          let index = this.teacherList.indexOf(x!)
+          this.teacherList[index] = this.teacher;
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.teacherList);
 
-    public uploadFile = (files: any) => {
-      if (files.length === 0) {
-        return;
-      }
-      let fileToUpload = <File>files[0];
-      const formData = new FormData();
-      formData.append('file', fileToUpload, fileToUpload.name);
-      this.uploadFileService.uploadImage(formData).pipe(first())
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
+      })
+      .add(() => this.loading = false);
+  }
+
+  public uploadFile = (files: any) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this.uploadFileService.uploadImage(formData).pipe(first())
       .subscribe(result => {
-        if(result)
-        this.editTeacher.Image=Object.values(result).toString();
+        if (result)
+          this.editTeacher.Image = Object.values(result).toString();
       });
-    }
+  }
 
-  choosenCourse(event: string[])
-  {
+  choosenCourse(event: string[]) {
     this.editTeacher.TeachesCourses = event;
     console.log(this.teacher.TeachesCourses);
   }
 
-  ngOnDestroy(){
-    if(this.courseListSubscription)
+  ngOnDestroy() {
+    if (this.courseListSubscription)
       this.courseListSubscription.unsubscribe();
   }
 

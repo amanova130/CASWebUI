@@ -16,11 +16,10 @@ export class ForgotPassComponent implements OnInit {
   public forgetForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private userService:UserService,
-              private messageService:MessageService,
-              private alertService:AlertService,
-              private router: Router) 
-              { }
+    private userService: UserService,
+    private messageService: MessageService,
+    private alertService: AlertService,
+    private router: Router) { }
 
   public ngOnInit(): void {
     this.forgetForm = this.fb.group({
@@ -30,18 +29,17 @@ export class ForgotPassComponent implements OnInit {
 
   public onForget(): void {
     this.markAsDirty(this.forgetForm);
-    this.userService.resetPass(this.forgetForm.controls['email'].value).subscribe(res=>{
-      if(res)
-      {
-        this.alertService.genericAlertMsg("success","A message containing information about the password was sent to the specified email address."
-                                         +"If you do not receive this message, please check the correctness of the entered email address, or contact the secretariat")
+    this.userService.resetPass(this.forgetForm.controls['email'].value).subscribe(res => {
+      if (res) {
+        this.alertService.genericAlertMsg("success", "A message containing information about the password was sent to the specified email address."
+          + "If you do not receive this message, please check the correctness of the entered email address, or contact the secretariat")
         this.router.navigate(['../login']);
       }
- },
- err=>{
-   this.alertService.genericAlertMsg("error","The email address is not found on this database.")
- });
-    
+    },
+      err => {
+        this.alertService.genericAlertMsg("error", "The email address is not found on this database.")
+      });
+
   }
 
   private markAsDirty(group: FormGroup): void {

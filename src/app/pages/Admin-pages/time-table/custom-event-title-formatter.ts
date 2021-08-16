@@ -11,20 +11,17 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   // you can override any of the methods defined in the parent class
 
   month(event: CalendarEvent): string {
-    return `<b>${formatDate(event.start, 'HH:mm ', this.locale)} - ${formatDate(event.end, 'HH:mm ', this.locale)}</b> ${
-      event.title
-    }`;
+    return `<b>${formatDate(event.start, 'HH:mm ', this.locale)} - ${formatDate(event.end, 'HH:mm ', this.locale)}</b> ${event.title
+      }`;
   }
 
   week(event: CalendarEvent): string {
-    return `<b>${formatDate(event.start, 'HH:mm ', this.locale)} - ${formatDate(event.end, 'HH:mm ', this.locale)} </b>${
-      event.title
-    }`;
+    return `<b>${formatDate(event.start, 'HH:mm ', this.locale)} - ${formatDate(event.end, 'HH:mm ', this.locale)} </b>${event.title
+      }`;
   }
 
   day(event: CalendarEvent): string {
-    return `<b>${formatDate(event.start, 'HH:mm ', this.locale)} - ${formatDate(event.end, 'HH:mm ', this.locale)}</b> ${
-      event.title
-    }`;
+    return `<b>${formatDate(event.start, 'HH:mm ', this.locale)} - ${formatDate(event.end, 'HH:mm ', this.locale)}</b> ${event.title
+      }`;
   }
 }

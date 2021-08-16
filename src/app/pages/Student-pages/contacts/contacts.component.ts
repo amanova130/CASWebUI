@@ -26,7 +26,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   obs: Observable<any>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  contactList: any=[];
+  contactList: any = [];
   dataSource!: MatTableDataSource<any>;
   asyncTabs: Observable<ContactTab[]>;
   loggedUser: User;
@@ -34,17 +34,16 @@ export class ContactsComponent implements OnInit, OnDestroy {
   colorValue: string;
 
   constructor(private tokenStorage: TokenStorageService, private studentService: StudentService,
-     private teacherService: TeacherService, 
-     private adminService: AdminService)
-      {
+    private teacherService: TeacherService,
+    private adminService: AdminService) {
     this.loggedUser = this.tokenStorage.getUser();
     this.groupNumber = this.tokenStorage.getToken('group');
     this.asyncTabs = new Observable((observer: Observer<ContactTab[]>) => {
       setTimeout(() => {
         observer.next([
-          {label: 'Student'},
-          {label: 'Teacher'},
-          {label: 'Admin'},
+          { label: 'Student' },
+          { label: 'Teacher' },
+          { label: 'Admin' },
         ]);
       }, 1000);
     });
@@ -53,16 +52,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.getStudentsByGroup(this.groupNumber);
   }
   changeContactList(tab: MatTabChangeEvent) {
-    if(tab.tab.textLabel.includes('Student'))
-    {
+    if (tab.tab.textLabel.includes('Student')) {
       this.getStudentsByGroup(this.groupNumber);
     }
-    else if(tab.tab.textLabel.includes('Teacher'))
-    {
+    else if (tab.tab.textLabel.includes('Teacher')) {
       this.getTeacherList();
     }
-    else if(tab.tab.textLabel.includes('Admin'))
-    {
+    else if (tab.tab.textLabel.includes('Admin')) {
       this.getAdminList();
     }
   }
@@ -70,44 +66,41 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return `https://localhost:5001/${serverPath}`;
   }
 
-  getTeacherList(){
+  getTeacherList() {
     this.isLoading = true;
-    this.contactList=[];
-    this.teacherService.getAllTeachers().subscribe( result =>{
-      if(result)
-        {
-          this.contactList = result;
-          this.dataSource=new MatTableDataSource(this.contactList);
-          this.dataSource.paginator=this.paginator;
-          this.obs = this.dataSource.connect();
-          this.isLoading = false;
-        }
+    this.contactList = [];
+    this.teacherService.getAllTeachers().subscribe(result => {
+      if (result) {
+        this.contactList = result;
+        this.dataSource = new MatTableDataSource(this.contactList);
+        this.dataSource.paginator = this.paginator;
+        this.obs = this.dataSource.connect();
+        this.isLoading = false;
+      }
     });
   }
-  getStudentsByGroup(groupNumber: string){
+  getStudentsByGroup(groupNumber: string) {
     this.isLoading = true;
-    this.contactList=[];
-    this.studentService.getStudentsByGroup(groupNumber).subscribe( result =>{
-      if(result)
-        {
-          this.contactList = result;
-          this.dataSource=new MatTableDataSource(this.contactList);
-          this.dataSource.paginator=this.paginator;
-          this.obs = this.dataSource.connect();
-          this.isLoading = false;
-        }
+    this.contactList = [];
+    this.studentService.getStudentsByGroup(groupNumber).subscribe(result => {
+      if (result) {
+        this.contactList = result;
+        this.dataSource = new MatTableDataSource(this.contactList);
+        this.dataSource.paginator = this.paginator;
+        this.obs = this.dataSource.connect();
+        this.isLoading = false;
+      }
     });
   }
 
-  getAdminList(){
+  getAdminList() {
     this.isLoading = true;
-    this.contactList=[];
-    this.adminService.getAllAdmins().subscribe(result =>{
-      if(result)
-      {
+    this.contactList = [];
+    this.adminService.getAllAdmins().subscribe(result => {
+      if (result) {
         this.contactList = result;
-        this.dataSource=new MatTableDataSource(this.contactList);
-        this.dataSource.paginator=this.paginator;
+        this.dataSource = new MatTableDataSource(this.contactList);
+        this.dataSource.paginator = this.paginator;
         this.obs = this.dataSource.connect();
         this.isLoading = false;
       }
@@ -123,9 +116,9 @@ export class ContactsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(){
-    if (this.dataSource) { 
-      this.dataSource.disconnect(); 
+  ngOnDestroy() {
+    if (this.dataSource) {
+      this.dataSource.disconnect();
     }
   }
 }

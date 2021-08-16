@@ -31,14 +31,6 @@ export class ExamGradesComponent implements OnInit {
       {
     this.loggedUser = this.tokenStorage.getUser();
     this.groupNumber = this.tokenStorage.getToken('group');
-    this.asyncTabs = new Observable((observer: Observer<any>) => {
-      setTimeout(() => {
-        observer.next([
-          {label: 'Exams'},
-          {label: 'Average'},
-        ]);
-      }, 1000);
-    });
   }
 
   ngOnInit(): void {

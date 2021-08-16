@@ -26,6 +26,20 @@
                   </li>
                 </ul>
               </div>
+              <div class="col-4">
+                <ul class="header-buttons">
+                  <li class="m-l-10">
+                    <div class="icon-button">
+                      <button mat-mini-fab="" (click)="exportExcell()" color="primary"
+                        class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+                        <span class="material-icons text-white">
+                          save_alt
+                        </span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <!-- Table for grades -->
@@ -82,7 +96,7 @@
             </div>
           </div>
 
-          <div class="table-resposive">
+          <div class="table-resposive" #TABLE>
             <table mat-table [dataSource]="dataSource" matSort class="w-100">
 
               <ng-container matColumnDef="Id">
