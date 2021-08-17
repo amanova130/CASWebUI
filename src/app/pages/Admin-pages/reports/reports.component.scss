@@ -1,8 +1,12 @@
-mat-card.mat-elevation-z4{
+mat-card.selection{
     width:15%;
     height: 300px;
     margin: 20px 36px;
   }
+  mat-card.col{
+   margin: 20px 5px;
+   width: 97%;
+ }
 
   .card
   {
@@ -12,4 +16,8 @@ mat-card.mat-elevation-z4{
   .btn
   {
      justify-content: center;
+  }
+  .excelBtn
+  {
+     margin-top:2%;
   }

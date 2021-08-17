@@ -35,6 +35,7 @@
     "calendar-utils": "^0.8.4",
     "canvasjs": "^1.8.3",
     "date-fns": "^2.22.1",
+    "exceljs": "^4.2.1",
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.9",
     "jquery": "^3.6.0",
