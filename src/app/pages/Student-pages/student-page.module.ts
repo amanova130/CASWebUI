@@ -19,8 +19,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StudentPageComponent } from './student-page.component';
 import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe';
-import { GradesExamsComponent } from './exam-grades/components/grades-exams/grades-exams.component';
 import { AverageComponent } from './exam-grades/components/average/average.component';
+import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exam-view-tab.component';
 
 
 @NgModule({
@@ -31,8 +31,8 @@ import { AverageComponent } from './exam-grades/components/average/average.compo
     TimeTableViewComponent,
     StudentPageComponent,
     RandomColorPipe,
-    GradesExamsComponent,
-    AverageComponent
+    AverageComponent,
+    ExamViewTabComponent
   ],
   imports: [
     CommonModule,
@@ -56,8 +56,8 @@ import { AverageComponent } from './exam-grades/components/average/average.compo
     ContactsComponent,
     ExamGradesComponent,
     TimeTableViewComponent,
-    GradesExamsComponent,
-    AverageComponent
+    AverageComponent,
+    ExamViewTabComponent
   ],
 })
 export class StudentPageModule { }

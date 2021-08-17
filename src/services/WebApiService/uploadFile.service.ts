@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import * as XLSX from 'xlsx';
 
 
 
@@ -31,7 +32,16 @@ export class UploadFileService {
     {
         return this.http.get<any>(`${this.basePath}/api/FileHandler/exportToExcell?className=${encodeURIComponent(className)}` , { responseType: 'blob' as 'json' });
     }
-
+    exportexcel(table: any, fileName: string): void
+    {
+      const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(table);//converts a DOM TABLE element to a worksheet
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  
+      /* save to file */
+      XLSX.writeFile(wb, fileName);
+  
+    }
 
     //Error Handler for HTTP response
     errorHandler(error: { error: { message: string; }; status: any; message: any; }) {

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GradesExamsComponent } from './grades-exams.component';
+import { ExamViewTabComponent } from './exam-view-tab.component';
 
-describe('GradesExamsComponent', () => {
-  let component: GradesExamsComponent;
-  let fixture: ComponentFixture<GradesExamsComponent>;
+describe('ExamViewTabComponent', () => {
+  let component: ExamViewTabComponent;
+  let fixture: ComponentFixture<ExamViewTabComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GradesExamsComponent ]
+      declarations: [ ExamViewTabComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GradesExamsComponent);
+    fixture = TestBed.createComponent(ExamViewTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

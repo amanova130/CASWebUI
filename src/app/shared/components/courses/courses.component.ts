@@ -50,7 +50,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private alertService: AlertService,
     private modalService: NgbModal,
-    private tokenStorage: TokenStorageService  ) {
+    private tokenStorage: TokenStorageService) {
 
 
     this.loggedUser = this.tokenStorage.getUser();
@@ -81,14 +81,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   private getCourseByGroupName() {
     this.courseService.getCoursesByGroupName(this.groupNumber).subscribe(result => {
-          if(result){
-            this.courseList = result;
-            this.dataSource = new MatTableDataSource(this.courseList);
-            this.dataSource.paginator = this.paginator;
-            this.obs = this.dataSource.connect();
-            this.isLoading = false;
-          }
-        })
+      if (result) {
+        this.courseList = result;
+        this.dataSource = new MatTableDataSource(this.courseList);
+        this.dataSource.paginator = this.paginator;
+        this.obs = this.dataSource.connect();
+        this.isLoading = false;
+      }
+    })
   }
 
   public createImgPath = (serverPath: string) => {

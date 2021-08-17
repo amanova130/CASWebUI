@@ -10,15 +10,15 @@ import { InboxComponent } from './components/inbox/inbox.component';
 import { ComposeComponent } from './components/compose/compose.component';
 
 
-export interface Email {	
-  Name:string,
-  Topic:string	
-  Content:string,	
-  Date:Date,
+export interface Email {
+  Name: string,
+  Topic: string
+  Content: string,
+  Date: Date,
 }
 
 
-  
+
 
 
 
@@ -29,67 +29,64 @@ export interface Email {
 })
 
 export class EmailComponent implements OnInit {
-  @ViewChild(InboxComponent, {static: true})
-  
-  displayedColumns: string[] = ['select', 'Sender','Subject', 'DateTime'];
-  @ViewChild(ComposeComponent)  child: ComposeComponent;
-  public messageList:Message[];
+  @ViewChild(InboxComponent, { static: true })
+
+  displayedColumns: string[] = ['select', 'Sender', 'Subject', 'DateTime'];
+  @ViewChild(ComposeComponent) child: ComposeComponent;
+  public messageList: Message[];
   dataSource!: MatTableDataSource<Message>;
-  public isSent:boolean;
-  public isCompose:boolean;
-  public isTrash:boolean;
+  public isSent: boolean;
+  public isCompose: boolean;
+  public isTrash: boolean;
 
 
- 
+
   constructor(
     public datepipe: DatePipe,
     private modalService: NgbModal,
-    private messageService:MessageService) { }
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.isSent=true;
+    this.isSent = true;
   }
   selection = new SelectionModel<Message>(true, []);
 
-    masterToggle() {
-      this.isAllSelected() ?
-          this.selection.clear() :
-          this.dataSource.data.forEach(row => this.selection.select(row));
-    }
-  
-    applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-  
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
-    }
-    isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
-      return numSelected === numRows;
-    }
-   
-    sentView()
-    {
-      this.isSent=true;
-      this.isCompose=false;
-      this.isTrash=false;
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+  }
 
-    }
-    composeView()
-    {
-      this.isSent=false;
-      this.isCompose=true;
-      this.isTrash=false;
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
-    trashView()
-    {
-      this.isSent=false;
-      this.isCompose=false;
-      this.isTrash=true;
-    }
+  }
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  sentView() {
+    this.isSent = true;
+    this.isCompose = false;
+    this.isTrash = false;
+
+  }
+  composeView() {
+    this.isSent = false;
+    this.isCompose = true;
+    this.isTrash = false;
+
+  }
+  trashView() {
+    this.isSent = false;
+    this.isCompose = false;
+    this.isTrash = true;
+  }
 }
 

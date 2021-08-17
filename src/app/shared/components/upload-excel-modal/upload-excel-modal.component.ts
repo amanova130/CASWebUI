@@ -62,31 +62,28 @@ export class UploadExcelModalComponent implements OnInit {
     }
   }
 
-  uploadList(){
-    if(this.data !== null && this.data !== undefined)
+  uploadList() {
+    if (this.data !== null && this.data !== undefined)
       this.convertToStudentList();
-      if(this.studentList.length > 0)
-      {
-        this.studentService.insertListOfStudents(this.studentList).subscribe(result =>{
-          if(result)
-            this.alertService.genericAlertMsg("success", "File uploaded successfully");
-        },
-        err=>{
+    if (this.studentList.length > 0) {
+      this.studentService.insertListOfStudents(this.studentList).subscribe(result => {
+        if (result)
+          this.alertService.genericAlertMsg("success", "File uploaded successfully");
+      },
+        err => {
           console.log("error:");
           console.log(err.value);
           this.alertService.errorResponseFromDataBase();
 
         });
-      }
-     
+    }
+
   }
 
-  convertToStudentList(){
-    for(let item of this.data)
-    {
-      if(item.Id != null && item.Id != undefined)
-      {
-        let student : Student ={
+  convertToStudentList() {
+    for (let item of this.data) {
+      if (item.Id != null && item.Id != undefined) {
+        let student: Student = {
           Id: item.Id,
           First_name: item.First_name,
           Last_name: item.Last_name,
@@ -103,12 +100,11 @@ export class UploadExcelModalComponent implements OnInit {
         }
         this.studentList.push(student);
       }
-      else
-      {
+      else {
         this.studentList = [];
         this.alertService.genericAlertMsg("error", "Failed to upload, One of the Ids is empty, please check it before upload");
       }
-      
+
     }
   }
 

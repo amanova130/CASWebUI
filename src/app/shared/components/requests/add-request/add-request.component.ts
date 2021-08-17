@@ -12,35 +12,33 @@ import { RequestService } from '../../../../../services/WebApiService/request.se
 export class AddRequestComponent implements OnInit {
 
   request: Request;
-  isLoading=false;
+  isLoading = false;
   constructor(private requestService: RequestService,
     private alertService: AlertService,
-    public activeModal: NgbActiveModal,) { 
-    }
+    public activeModal: NgbActiveModal,) {
+  }
 
 
   ngOnInit(): void {
-    this.request=
+    this.request =
     {
       Reason: '',
       Subject: ''
     }
   }
 
-  onSubmit(){
+  onSubmit() {
     this.request.SenderId = '336441696' ///then need to change it to senderId from sessionStorage
     this.request.CreatedDate = new Date().toLocaleDateString();
     this.request.StatusOfRequest = 'New';
     this.request.Status = true;
     this.request.GroupNum = '44.5'; ///then need to change it to groupNum from sessionStorage
-    this.requestService.createRequest(this.request).subscribe(result => 
-      {
-        if(result)
-        {
-          this.alertService.successResponseFromDataBase();
-          this.activeModal.close(result);
-        }
-      })
+    this.requestService.createRequest(this.request).subscribe(result => {
+      if (result) {
+        this.alertService.successResponseFromDataBase();
+        this.activeModal.close(result);
+      }
+    })
   }
 
 }

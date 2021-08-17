@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -9,9 +9,10 @@ import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Faculty } from 'src/services/models/faculty';
-import { FacultyUtils} from 'src/services/utils/facultyUtils';
-import { FacultyService} from 'src/services/WebApiService/faculty.service';
+import { FacultyUtils } from 'src/services/utils/facultyUtils';
+import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { AddEditFacultyComponent } from './components/add-edit-faculty/add-edit-faculty.component';
+import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
 
 @Component({
@@ -32,30 +33,31 @@ export class FacultiesComponent implements OnInit, OnDestroy {
   facultyList: Faculty[] = [];
   facultyListSubscription!: Subscription;
   removeFaculty!: Faculty;
-  isLoading=true;
-  isSelected=false;
+  isLoading = true;
+  isSelected = false;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
-  @ViewChild('myTable')
-  myTable!: MatTable<any>;
+  @ViewChild('TABLE') table: ElementRef;
 
-  constructor(private facultyUtils: FacultyUtils, private facultyService: FacultyService, private modalService: NgbModal,public datepipe: DatePipe, private alertService: AlertService) {}
+  constructor(private facultyUtils: FacultyUtils, private facultyService: FacultyService,
+    private modalService: NgbModal, public datepipe: DatePipe,
+    private alertService: AlertService, private fileHandlerService: UploadFileService) { }
   ngOnInit(): void {
     this.getAllfacultyData();
   }
   selection = new SelectionModel<Faculty>(true, []);
 
-  getAllfacultyData(){
+  getAllfacultyData() {
     this.facultyListSubscription = timer(0, 60000).pipe(
-      switchMap(()=> this.facultyService.getAllFaculties())
-    ).subscribe((list: Faculty[])=>{
+      switchMap(() => this.facultyService.getAllFaculties())
+    ).subscribe((list: Faculty[]) => {
       this.facultyList = list;
       this.dataSource = new MatTableDataSource(this.facultyList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.isLoading=false;
+      this.isLoading = false;
       console.log(this.facultyList);
     });
   }
@@ -64,27 +66,25 @@ export class FacultiesComponent implements OnInit, OnDestroy {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    if(numSelected !== undefined)
-      this.isSelected=true;
+    if (numSelected !== undefined)
+      this.isSelected = true;
     else
-      this.isSelected=false;
+      this.isSelected = false;
     return numSelected === numRows;
-    
+
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    if(this.isAllSelected())
-    {
+    if (this.isAllSelected()) {
       this.selection.clear();
-      this.isSelected=false;
+      this.isSelected = false;
     }
-      else
-      {
-        this.dataSource.data.forEach(row => this.selection.select(row));
-        this.isSelected=true;
-      }
-        
+    else {
+      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.isSelected = true;
+    }
+
   }
 
   applyFilter(event: Event) {
@@ -95,40 +95,39 @@ export class FacultiesComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-  openModal(faculty: Faculty = {Id: ""} ){
+  exportExcell() {
+    this.fileHandlerService.exportexcel(this.table.nativeElement, "Faculties.xlsx")
+  }
+  openModal(faculty: Faculty = { Id: "" }) {
     const ref = this.modalService.open(AddEditFacultyComponent, { centered: true });
     ref.componentInstance.faculty = faculty;
     ref.componentInstance.facultyList = this.facultyList;
     ref.result.then((result) => {
-      if(result !== 'Close click')
-      {
+      if (result !== 'Close click') {
         this.dataSource.data = result;
       }
     });
   }
 
-  openDelete(faculty:Faculty = {Id: ""} ){
-    this.removeFaculty={
+  openDelete(faculty: Faculty = { Id: "" }) {
+    this.removeFaculty = {
       Id: faculty.Id,
-      FacultyName:faculty.FacultyName
+      FacultyName: faculty.FacultyName
     }
   }
-  deleteSelectedFaculties()
-  {
-    if(this.selection.hasValue())
-    {
-      this.selection.selected.forEach(selected=>(this.deleteFaculty(selected.Id)));
+  deleteSelectedFaculties() {
+    if (this.selection.hasValue()) {
+      this.selection.selected.forEach(selected => (this.deleteFaculty(selected.Id)));
     }
     this.alertService.errorFormField();
   }
 
-  deleteFaculty(id: string){
-    if(id!==null || id!==undefined){
+  deleteFaculty(id: string) {
+    if (id !== null || id !== undefined) {
       this.facultyService.deleteById(id).subscribe(res => {
-        if(res)
-        {
+        if (res) {
           this.facultyList = this.facultyList.filter(item => item.Id !== id);
-          this.dataSource.data= this.facultyList;
+          this.dataSource.data = this.facultyList;
           this.alertService.successResponseFromDataBase();
         }
         else
@@ -137,15 +136,14 @@ export class FacultiesComponent implements OnInit, OnDestroy {
     }
   }
 
-  refresh(){
-    if(this.facultyListSubscription)
+  refresh() {
+    if (this.facultyListSubscription)
       this.facultyListSubscription.unsubscribe();
     this.getAllfacultyData();
   }
-  
-  ngOnDestroy()
-  {
-    if(this.facultyListSubscription)
+
+  ngOnDestroy() {
+    if (this.facultyListSubscription)
       this.facultyListSubscription.unsubscribe();
   }
 }

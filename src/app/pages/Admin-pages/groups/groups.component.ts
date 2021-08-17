@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,7 @@ import { AddEditGroupComponent } from './components/add-edit-group/add-edit-grou
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
+import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
 
 @Component({
@@ -28,81 +29,85 @@ export class GroupsComponent implements OnInit, OnDestroy {
     'Semester',
     'courses',
     'Fac_Name',
-  'action'];
+    'action'];
   dataSource!: MatTableDataSource<Group>;
-  isSelected=false;
+  isSelected = false;
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
   removeGroup: Group;
-  isLoading=false;;
+  isLoading = false;;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
+  @ViewChild('TABLE') table: ElementRef;
 
-  constructor(private groupUtils: GroupUtils,private modalService: NgbModal,private alertService: AlertService, private groupService: GroupService) {}
+  constructor(private groupUtils: GroupUtils, private modalService: NgbModal,
+    private alertService: AlertService, private groupService: GroupService,
+    private fileHandlerService: UploadFileService) { }
   ngOnInit(): void {
-    this.isLoading=true;
+    this.isLoading = true;
     this.getAllGroupData();
-    
+
   }
   selection = new SelectionModel<Group>(true, []);
 
-getAllGroupData(){
-  this.groupListSubscription = timer(0, 60000).pipe(
-    switchMap(()=> this.groupService.getAllGroups())
-  ).subscribe((list: Group[])=>{
-    this.groupList = list;
-    this.dataSource = new MatTableDataSource(this.groupList);
-    this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.isLoading=false;
-  });
-}
-
-openModal(group: Group = {Id: ""} ){
-  const ref = this.modalService.open(AddEditGroupComponent, { centered: true });
-  ref.componentInstance.group = group;
-  //ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
-  ref.componentInstance.groupList = this.groupList; 
-  ref.result.then((result) => {
-    if (result !== 'Close click') {
-      this.dataSource.data = result;
-    }
-  });
-}
-
-openDelete(group:Group = {Id: ""} ){
-  this.removeGroup={
-    Id: group.Id,
-    GroupNumber:group.GroupNumber
+  getAllGroupData() {
+    this.groupListSubscription = timer(0, 60000).pipe(
+      switchMap(() => this.groupService.getAllGroups())
+    ).subscribe((list: Group[]) => {
+      this.groupList = list;
+      this.dataSource = new MatTableDataSource(this.groupList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoading = false;
+    });
   }
-}
+
+  exportExcell() {
+    this.fileHandlerService.exportexcel(this.table.nativeElement, "Groups.xlsx")
+  }
+  openModal(group: Group = { Id: "" }) {
+    const ref = this.modalService.open(AddEditGroupComponent, { centered: true });
+    ref.componentInstance.group = group;
+    //ref.componentInstance.student.Birth_date=this.datepipe.transform(student.Birth_date,'yyyy-MM-dd');
+    ref.componentInstance.groupList = this.groupList;
+    ref.result.then((result) => {
+      if (result !== 'Close click') {
+        this.dataSource.data = result;
+      }
+    });
+  }
+
+  openDelete(group: Group = { Id: "" }) {
+    this.removeGroup = {
+      Id: group.Id,
+      GroupNumber: group.GroupNumber
+    }
+  }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    if(numSelected !== undefined )
-      this.isSelected=true;
+    if (numSelected !== undefined)
+      this.isSelected = true;
     else
-      this.isSelected=false;
+      this.isSelected = false;
     return numSelected === numRows;
-    
+
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    if(this.isAllSelected())
-    {
+    if (this.isAllSelected()) {
       this.selection.clear();
-      this.isSelected=false;
+      this.isSelected = false;
     }
-      else
-      {
-        this.dataSource.data.forEach(row => this.selection.select(row));
-        this.isSelected=true;
-      }
-        
+    else {
+      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.isSelected = true;
+    }
+
   }
 
   applyFilter(event: Event) {
@@ -112,40 +117,37 @@ openDelete(group:Group = {Id: ""} ){
       this.dataSource.paginator.firstPage();
     }
   }
-  deleteSelectedGroups()
-  {
-    if(this.selection.hasValue())
-    {
-      this.selection.selected.forEach(selected=>(this.deleteGroup(selected.Id)));
+  deleteSelectedGroups() {
+    if (this.selection.hasValue()) {
+      this.selection.selected.forEach(selected => (this.deleteGroup(selected.Id)));
       this.refreshData();
     }
   }
-  deleteGroup(id: string){
-    if(id!==null || id!==undefined){
+  deleteGroup(id: string) {
+    if (id !== null || id !== undefined) {
       this.groupService.deleteById(id).subscribe(res => {
-        if(res)
-        {
+        if (res) {
           this.groupList = this.groupList.filter(item => item.Id !== id);
           this.dataSource.data = this.groupList;
           this.alertService.successResponseFromDataBase();
         }
         else
           this.alertService.errorResponseFromDataBase();
-      
+
       });
     }
   }
 
-  refreshData(){
-    if(this.groupListSubscription)
+  refreshData() {
+    if (this.groupListSubscription)
       this.groupListSubscription.unsubscribe();
     this.getAllGroupData();
   }
 
-  ngOnDestroy(){
-    if(this.groupListSubscription)
+  ngOnDestroy() {
+    if (this.groupListSubscription)
       this.groupListSubscription.unsubscribe();
   }
-  
+
 }
 

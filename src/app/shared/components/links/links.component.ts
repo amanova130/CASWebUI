@@ -23,14 +23,14 @@ import { Role } from '../../pipes-and-enum/roleEnum';
 })
 export class LinksComponent implements OnInit, OnDestroy {
   isAddMode: boolean;
-  isLoading=true;
+  isLoading = true;
   obs: Observable<any>;
   linkListSubscription: Subscription;
   linkList: ExtendedLink[];
   dataSource!: MatTableDataSource<ExtendedLink>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  link: ExtendedLink={
+  link: ExtendedLink = {
     Id: "",
   };
   @ViewChild('form') form!: any;
@@ -39,40 +39,39 @@ export class LinksComponent implements OnInit, OnDestroy {
   facultyList: Faculty[] = [];
   facultyListSubscription!: Subscription;
   responsiveOptions: any;
-  backgroundImg: any; 
+  backgroundImg: any;
   sliderItems: any;
   loggedUser: User;
-  isStudent=true;
-  constructor( 
-    private linkService: ExtendedLinkService, 
-    private alertService: AlertService, 
+  isStudent = true;
+  constructor(
+    private linkService: ExtendedLinkService,
+    private alertService: AlertService,
     private modalService: NgbModal,
     private facultyService: FacultyService,
     private sliderService: SliderService,
     private tokenStorage: TokenStorageService
-     ) {}
-  
+  ) { }
+
   ngOnInit(): void {
     this.loggedUser = this.tokenStorage.getUser();
-    if(this.loggedUser.Role === Role.Student)
+    if (this.loggedUser.Role === Role.Student)
       this.isStudent = !this.isStudent;
-      
+
     this.getFaculties();
     this.getLinks();
     this.responsiveOptions = this.sliderService.responsiveOptions;
     this.backgroundImg = this.sliderService.backgroundImages;
   }
 
-  setBackgroundImg(num: any){
+  setBackgroundImg(num: any) {
     return `url(${this.backgroundImg[num]})`;
   }
 
-  private getLinks(){
-    this.linkListSubscription = timer(0, 60000).pipe(switchMap(()=> this.linkService.getAllLinks())).subscribe((list: ExtendedLink[])=>
-    {
+  private getLinks() {
+    this.linkListSubscription = timer(0, 60000).pipe(switchMap(() => this.linkService.getAllLinks())).subscribe((list: ExtendedLink[]) => {
       this.linkList = list;
       this.filtredLinkList = this.linkList;
-      this.isLoading=false;
+      this.isLoading = false;
     });
   }
 
@@ -80,59 +79,54 @@ export class LinksComponent implements OnInit, OnDestroy {
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
-  getLinksByFaculty(faculty : string)
-  {
-    this.filtredLinkList=this.linkList.filter(link=> link.Fac_name == faculty);
-    if(this.filtredLinkList.length == 0)
+  getLinksByFaculty(faculty: string) {
+    this.filtredLinkList = this.linkList.filter(link => link.Fac_name == faculty);
+    if (this.filtredLinkList.length == 0)
       this.filtredLinkList = this.linkList;
   }
-  openAddEditModal(link: ExtendedLink = {Id: ""} ){
+  openAddEditModal(link: ExtendedLink = { Id: "" }) {
     const ref = this.modalService.open(AddEditLinksComponent, { centered: true });
     ref.componentInstance.link = link;
     ref.componentInstance.linkList = this.linkList;
     ref.result.then((result) => {
-      if(result !== 'Close click')
-      {
+      if (result !== 'Close click') {
         this.linkList = result;
       }
     });
 
   }
 
-  openDeleteModal(link: ExtendedLink = {Id: ""}){
+  openDeleteModal(link: ExtendedLink = { Id: "" }) {
     this.link.Id = link.Id;
     this.link.Title = link.Title;
   }
 
-  deleteLink(id: string){
-    if(id!==null || id!==undefined){
+  deleteLink(id: string) {
+    if (id !== null || id !== undefined) {
       this.linkService.deleteById(id).subscribe(res => {
-        if(res)
-        {
+        if (res) {
           this.linkList = this.linkList.filter(item => item.Id !== id);
           this.alertService.successResponseFromDataBase();
         }
         else
           this.alertService.errorResponseFromDataBase();
-      
+
       });
     }
   }
-  refresh(){
-    if(this.linkListSubscription)
+  refresh() {
+    if (this.linkListSubscription)
       this.linkListSubscription.unsubscribe();
     this.getLinks();
   }
-  private getFaculties(){
-    this.facultyListSubscription = timer(0).pipe(switchMap(()=> this.facultyService.getAllFaculties())).subscribe((list: Faculty[])=>
-    {
+  private getFaculties() {
+    this.facultyListSubscription = timer(0).pipe(switchMap(() => this.facultyService.getAllFaculties())).subscribe((list: Faculty[]) => {
       this.facultyList = list;
     });
   }
 
-  ngOnDestroy()
-  {
-    if(this.linkListSubscription)
+  ngOnDestroy() {
+    if (this.linkListSubscription)
       this.linkListSubscription.unsubscribe();
   }
 }

@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, Subject, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
@@ -21,10 +21,10 @@ import { AddEditStaffComponent } from './components/add-edit-staff/add-edit-staf
 export class StaffComponent implements OnInit {
   displayedColumns: string[] = [
     'select',
-    'Id' ,
+    'Id',
     'First_name',
     'Last_name',
-    'Image' ,
+    'Image',
     'Email',
     'Phone',
     'Gender',
@@ -32,59 +32,59 @@ export class StaffComponent implements OnInit {
     'Address',
     'action'];
 
-    dataSource!: MatTableDataSource<Admin>;
-    adminList: Admin[] = [];
-    adminListSubscription!: Subscription;
-    removeAdmin: Admin;
-    refresh: Subject<any> = new Subject();
-    isLoading=false;
-    isSelected=false;
+  dataSource!: MatTableDataSource<Admin>;
+  adminList: Admin[] = [];
+  adminListSubscription!: Subscription;
+  removeAdmin: Admin;
+  refresh: Subject<any> = new Subject();
+  isLoading = false;
+  isSelected = false;
 
-    @ViewChild(MatPaginator)
-    paginator!: MatPaginator;
-    @ViewChild(MatSort)
-    sort: MatSort = new MatSort;
-    @ViewChild('TABLE') table: ElementRef;
-    constructor(private adminService: AdminService,
-      private modalService: NgbModal,
-      public datepipe:DatePipe, 
-      private uploadFileService: UploadFileService, 
-      private alertService: AlertService) {}
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort = new MatSort;
+  @ViewChild('TABLE') table: ElementRef;
+  constructor(private adminService: AdminService,
+    private modalService: NgbModal,
+    public datepipe: DatePipe,
+    private uploadFileService: UploadFileService,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
-    this.isLoading=true;
+    this.isLoading = true;
     this.getAllAdminData();
   }
   selection = new SelectionModel<Admin>(true, []);
 
 
-  getAllAdminData(){
+  getAllAdminData() {
     this.adminListSubscription = timer(0, 60000).pipe(
-      switchMap(()=> this.adminService.getAllAdmins())
-    ).subscribe((list: Admin[])=>{
+      switchMap(() => this.adminService.getAllAdmins())
+    ).subscribe((list: Admin[]) => {
       this.adminList = list;
       this.dataSource = new MatTableDataSource(this.adminList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.isLoading=false;
+      this.isLoading = false;
     });
-    
+
   }
 
-   openModal(admin: Admin = {Id: ""} ){
+  openModal(admin: Admin = { Id: "" }) {
     const ref = this.modalService.open(AddEditStaffComponent, { centered: true });
     ref.componentInstance.admin = admin;
-    ref.componentInstance.admin.Birth_date=this.datepipe.transform(admin.Birth_date,'yyyy-MM-dd');
-    ref.componentInstance.adminList = this.adminList; 
+    ref.componentInstance.admin.Birth_date = this.datepipe.transform(admin.Birth_date, 'yyyy-MM-dd');
+    ref.componentInstance.adminList = this.adminList;
     ref.result.then((result) => {
       if (result !== 'Close click') {
-       this.dataSource.data = result;
+        this.dataSource.data = result;
       }
-      });
+    });
 
-    }
-  openDelete(admin:Admin = {Id: ""} ){
-    this.removeAdmin={
+  }
+  openDelete(admin: Admin = { Id: "" }) {
+    this.removeAdmin = {
       Id: admin.Id,
       First_name: admin.First_name,
       Last_name: admin.Last_name
@@ -97,26 +97,24 @@ export class StaffComponent implements OnInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    if(numSelected !== 0)
-      this.isSelected=true;
+    if (numSelected !== 0)
+      this.isSelected = true;
     else
-      this.isSelected=false;
+      this.isSelected = false;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    if(this.isAllSelected())
-    {
+    if (this.isAllSelected()) {
       this.selection.clear();
-      this.isSelected=false;
+      this.isSelected = false;
     }
-      else
-      {
-        this.dataSource.data.forEach(row => this.selection.select(row));
-        this.isSelected=true;
-      }
-        
+    else {
+      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.isSelected = true;
+    }
+
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -127,35 +125,35 @@ export class StaffComponent implements OnInit {
     }
   }
 
-  deleteAdmin(id: string){
-    if(id!==null || id!==undefined){
+  exportExcell() {
+    this.uploadFileService.exportexcel(this.table.nativeElement, "Staff.xlsx")
+  }
+  deleteAdmin(id: string) {
+    if (id !== null || id !== undefined) {
       this.adminService.deleteById(id).subscribe(res => {
-        if(res)
-        {
+        if (res) {
           this.adminList = this.adminList.filter(item => item.Id !== id);
           this.dataSource.data = this.adminList;
           this.alertService.successResponseFromDataBase();
         }
         else
-        this.alertService.errorResponseFromDataBase();
+          this.alertService.errorResponseFromDataBase();
       });
     }
   }
-  deleteSelectedAdmins()
-  {
-    if(this.selection.hasValue())
-    {
-      this.selection.selected.forEach(selected=>(this.deleteAdmin(selected.Id)));
+  deleteSelectedAdmins() {
+    if (this.selection.hasValue()) {
+      this.selection.selected.forEach(selected => (this.deleteAdmin(selected.Id)));
       this.refreshData();
     }
   }
-  refreshData(){
-    if(this.adminListSubscription)
+  refreshData() {
+    if (this.adminListSubscription)
       this.adminListSubscription.unsubscribe();
     this.getAllAdminData();
   }
-  ngOnDestroy(){
-    if(this.adminListSubscription)
+  ngOnDestroy() {
+    if (this.adminListSubscription)
       this.adminListSubscription.unsubscribe();
   }
 

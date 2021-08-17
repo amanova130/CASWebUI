@@ -16,7 +16,7 @@ import { FacultyService } from 'src/services/WebApiService/faculty.service';
   templateUrl: './add-edit-faculty.component.html',
   styleUrls: ['./add-edit-faculty.component.scss']
 })
-export class AddEditFacultyComponent implements OnInit, OnDestroy{
+export class AddEditFacultyComponent implements OnInit, OnDestroy {
   courseList: Course[] = [];
   courseListSubscription!: Subscription;
   isAddMode!: boolean;
@@ -26,108 +26,103 @@ export class AddEditFacultyComponent implements OnInit, OnDestroy{
   checkedList: any;
   currentSelected!: {};
   newCourseList: Course[] = [];
-  editFaculty:Faculty = {
+  editFaculty: Faculty = {
     Id: "",
   };
-  
-  @Input()
-    public faculty: Faculty;
 
   @Input()
-    public facultyList!: Faculty[];
+  public faculty: Faculty;
+
+  @Input()
+  public facultyList!: Faculty[];
 
   @ViewChild('form') form!: any;
-  
+
   constructor(
-      private facultyService: FacultyService,
-      private alertService: AlertService,
-      public activeModal: NgbActiveModal,
-      private courseService: CourseService,
-  ) {}
+    private facultyService: FacultyService,
+    private alertService: AlertService,
+    public activeModal: NgbActiveModal,
+    private courseService: CourseService,
+  ) { }
 
   ngOnInit() {
-    this.editFaculty={
-      Id:this.faculty.Id,
-      FacultyName:this.faculty.FacultyName,
-      Description:this.faculty.Description,
-      Courses:this.faculty.Courses,
-      Status:true
-    
+    this.editFaculty = {
+      Id: this.faculty.Id,
+      FacultyName: this.faculty.FacultyName,
+      Description: this.faculty.Description,
+      Courses: this.faculty.Courses,
+      Status: true
+
     }
-      this.getCourses();
-      this.isAddMode = !this.faculty.Id;
+    this.getCourses();
+    this.isAddMode = !this.faculty.Id;
   }
 
 
   onSubmit() {
-      this.isLoading = true;
-      if(this.form.valid)
-      {
-        this.submitted = true;
-        if (this.isAddMode) this.createFaculty();
-        else this.updateFaculty();
-      }
-      else {
-        this.alertService.errorFormField();
-        this.isLoading = false;
-      }
+    this.isLoading = true;
+    if (this.form.valid) {
+      this.submitted = true;
+      if (this.isAddMode) this.createFaculty();
+      else this.updateFaculty();
+    }
+    else {
+      this.alertService.errorFormField();
+      this.isLoading = false;
+    }
 
-     
+
   }
 
-  private getCourses(){
-    this.courseListSubscription = timer(0).pipe(switchMap(()=> this.courseService.getAllCourses())).subscribe((list: Course[])=>
-    {
+  private getCourses() {
+    this.courseListSubscription = timer(0).pipe(switchMap(() => this.courseService.getAllCourses())).subscribe((list: Course[]) => {
       this.courseList = list;
     });
   }
 
   private createFaculty() {
-    this.faculty=this.editFaculty;
-      this.facultyService.create(this.faculty)
+    this.faculty = this.editFaculty;
+    this.facultyService.create(this.faculty)
       .pipe(first())
       .subscribe(result => {
-          if(result)
-          {
-            this.facultyList.push(result);
-            this.alertService.successResponseFromDataBase();
-            this.activeModal.close(this.facultyList);
-          
-          }  
-          else
-              this.alertService.errorResponseFromDataBase();
+        if (result) {
+          this.facultyList.push(result);
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.facultyList);
+
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
       })
       .add(() => this.isLoading = false);
-}
+  }
 
   private updateFaculty() {
-        this.facultyService.update(this.editFaculty)
-        .pipe(first()).subscribe((result) => {
-            if(result)
-            {
-              this.faculty=this.editFaculty;
-              let x = this.facultyList.find(x => x.Id === this.faculty.Id)
-              let index = this.facultyList.indexOf(x!)
-              this.facultyList[index] = this.faculty;
-              this.alertService.successResponseFromDataBase();
-              this.activeModal.close(this.facultyList);
-              
-            }
-            else
-                this.alertService.errorResponseFromDataBase();
-        })
-        .add(() => this.isLoading = false);
-    }
+    this.facultyService.update(this.editFaculty)
+      .pipe(first()).subscribe((result) => {
+        if (result) {
+          this.faculty = this.editFaculty;
+          let x = this.facultyList.find(x => x.Id === this.faculty.Id)
+          let index = this.facultyList.indexOf(x!)
+          this.facultyList[index] = this.faculty;
+          this.alertService.successResponseFromDataBase();
+          this.activeModal.close(this.facultyList);
+
+        }
+        else
+          this.alertService.errorResponseFromDataBase();
+      })
+      .add(() => this.isLoading = false);
+  }
 
 
 
-  choosenCourse(event: string[])
-  {
+  choosenCourse(event: string[]) {
     this.editFaculty.Courses = event;
   }
 
-  ngOnDestroy(){
-    if(this.courseListSubscription)
+  ngOnDestroy() {
+    if (this.courseListSubscription)
       this.courseListSubscription.unsubscribe();
   }
 

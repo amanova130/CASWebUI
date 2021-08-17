@@ -17,10 +17,10 @@ import { UserService } from 'src/services/WebApiService/user.service';
 export class HeaderComponent implements OnInit {
 
   loggedUser: User;
-  isDarkMode=false;
+  isDarkMode = false;
   constructor(private themeService: ThemeService, private tokenStorage: TokenStorageService, private router: Router,
     private modalRef: NgbModal,
-    private userService:UserService,
+    private userService: UserService,
     private alertService: AlertService) { }
 
   ngOnInit(): void {
@@ -41,19 +41,18 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  openProfileModal(){
+  openProfileModal() {
     const ref = this.modalRef.open(ProfileComponent);
     ref.componentInstance.user = this.loggedUser;
   }
 
-  logOut(){
-    const user:User=this.tokenStorage.getUser();
-    user.LogOff=new Date();
-    this.userService.updateUser(user).subscribe(res=>{
-      if(res)
-      {
+  logOut() {
+    const user: User = this.tokenStorage.getUser();
+    user.LogOff = new Date();
+    this.userService.updateUser(user).subscribe(res => {
+      if (res) {
         this.tokenStorage.signOut();
-        this.router.navigate(['/login']); 
+        this.router.navigate(['/login']);
       }
     })
   }

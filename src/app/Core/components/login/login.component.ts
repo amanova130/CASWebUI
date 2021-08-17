@@ -20,73 +20,65 @@ export class LoginComponent implements OnInit {
 
   public loginForm!: FormGroup;
   public hide: boolean = true; // Password hiding
-  public isMissing:boolean;
-  public isWrong:boolean;
-  public isLoginPage:boolean=false;
-  public attempts:number=3;
+  public isMissing: boolean;
+  public isWrong: boolean;
+  public isLoginPage: boolean = false;
+  public attempts: number = 3;
   public loggedUser: any;
 
   constructor(private fb: FormBuilder,
-               private router: Router,
-               private userService:UserService,
-               private modalService: NgbModal,
-               private tokenStorage: TokenStorageService,
-              private alertService: AlertService
-               ) { }
+    private router: Router,
+    private userService: UserService,
+    private modalService: NgbModal,
+    private tokenStorage: TokenStorageService,
+    private alertService: AlertService
+  ) { }
 
   public ngOnInit(): void {
-    this.isLoginPage=true;
+    this.isLoginPage = true;
     this.loginForm = this.fb.group({
       userName: [null, Validators.required],
-      password: [null, [Validators.required,Validators.minLength(5),
-        Validators.maxLength(10)]],
+      password: [null, [Validators.required, Validators.minLength(5),
+      Validators.maxLength(10)]],
     });
   }
   public onLogin(): void {
-    if(this.loginForm.valid)
-    {
-    this.markAsDirty(this.loginForm);
-    let user:User={
-      UserName:this.loginForm.controls['userName'].value,
-      Password:this.loginForm.controls['password'].value
-    }
-    this.userService.checkAuth(user).subscribe(res=>{
-          if(res)
-              {
-                res.Password=user.Password;
-                this.tokenStorage.saveUser(res);
-                if(res.Role === Role.Admin)
-                {
-                  this.router.navigate(['secure/admin']); 
-                  this.tokenStorage.saveToken('role', Role.Admin);
-                }
-                else
-                {
-                  this.router.navigate(['secure/student']);
-                  this.tokenStorage.saveToken('role', Role.Student);
-                }  
-              }
-          else
-            {
-             this.isWrong=true;
-           }
-          },
-    err => 
-    {
-      this.attempts--;
-      if(this.attempts == 0)
-      {
-        this.router.navigate(['../forgot-pass']);
+    if (this.loginForm.valid) {
+      this.markAsDirty(this.loginForm);
+      let user: User = {
+        UserName: this.loginForm.controls['userName'].value,
+        Password: this.loginForm.controls['password'].value
       }
-      else
-      {
-        this.alertService.genericAlertMsg("error","Try again!You have "+this.attempts+ " attempts left");
-      this.isWrong=true;
-      }
+      this.userService.checkAuth(user).subscribe(res => {
+        if (res) {
+          res.Password = user.Password;
+          this.tokenStorage.saveUser(res);
+          if (res.Role === Role.Admin) {
+            this.router.navigate(['secure/admin']);
+            this.tokenStorage.saveToken('role', Role.Admin);
+          }
+          else {
+            this.router.navigate(['secure/student']);
+            this.tokenStorage.saveToken('role', Role.Student);
+          }
+        }
+        else {
+          this.isWrong = true;
+        }
+      },
+        err => {
+          this.attempts--;
+          if (this.attempts == 0) {
+            this.router.navigate(['../forgot-pass']);
+          }
+          else {
+            this.alertService.genericAlertMsg("error", "Try again!You have " + this.attempts + " attempts left");
+            this.isWrong = true;
+          }
 
-  });
-}
-    
+        });
+    }
+
 
 
     // if(this.loginForm.controls['userName'].value == 'admin')

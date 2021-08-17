@@ -20,6 +20,12 @@ export class StudExamService {
     )
   }
 
+  getGradesByStudentIdAndYear(studentId: string, year: string){
+    return this.http.get<StudExam[]>(`${this.basePath}/api/StudExam/getGradesByStudentId?studentId=${encodeURIComponent(String(studentId))}&year=${encodeURIComponent(String(year))}`).pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
   // Update an existed student profile
 update(studExamIn:StudExam){
   const headers = new HttpHeaders({'Content-Type': 'application/json'});
