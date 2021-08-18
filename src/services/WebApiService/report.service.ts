@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 
 
 import { environment } from 'src/environments/environment';
+import { Average } from '../models/courseAvg';
 
 
 @Injectable({
@@ -19,6 +20,14 @@ export class ReportService {
 getAverageByCourse(facId:string,courseName:string)
 {
   return this.http.get<any>(`${this.basePath}/api/Faculty/getAvgOfFacultiesByCourse?courseName=${encodeURIComponent(String(courseName))}&facId=${encodeURIComponent(String(facId))}`)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+}
+
+getAvgByGroup(groupName:string,year:string)
+{
+  return this.http.get<Average[]>(`${this.basePath}/api/Report/getAvgByGroup?groupName=${encodeURIComponent(String(groupName))}&year=${encodeURIComponent(String(year))}`)
     .pipe(
       catchError(this.errorHandler)
     )
