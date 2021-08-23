@@ -21,6 +21,9 @@ import { StudentPageComponent } from './student-page.component';
 import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe';
 import { AverageComponent } from './exam-grades/components/average/average.component';
 import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exam-view-tab.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarouselModule } from 'primeng/carousel';
 
 
 @NgModule({
@@ -32,7 +35,7 @@ import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exa
     StudentPageComponent,
     RandomColorPipe,
     AverageComponent,
-    ExamViewTabComponent
+    ExamViewTabComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +52,8 @@ import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exa
     MatCheckboxModule,
     NgSelectModule,
     StudentPageRoutingModule,
+    NgxChartsModule,
+    CarouselModule,
   ],
 
   exports: [

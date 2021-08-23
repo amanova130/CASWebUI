@@ -16,9 +16,9 @@ import { TokenStorageService } from 'src/app/shared/helperServices/token-storage
   styleUrls: ['./time-table-view.component.scss']
 })
 export class TimeTableViewComponent implements OnInit {
-  public timeTable:TimeTable;
-  public calendarUrl:string;
-  public schedule:Schedule[];
+  public timeTable: TimeTable;
+  public calendarUrl: string;
+  public schedule: Schedule[];
   // dataSource!: MatTableDataSource<Faculty>;
   // displayedColumns: string[] = [
   //   'Sunday',
@@ -29,29 +29,27 @@ export class TimeTableViewComponent implements OnInit {
   //   'Friday',
   //   ];
   constructor(
-    private timeTableService:TimeTableService,
-    public datepipe:DatePipe,
-    private tokenStorage:TokenStorageService
-    )
-   { }
+    private timeTableService: TimeTableService,
+    public datepipe: DatePipe,
+    private tokenStorage: TokenStorageService
+  ) { }
 
   ngOnInit(): void {
     //console.log(localStorage.group);
-    const groupNum=this.tokenStorage.getToken("group");
-    this.timeTableService.getTTByGroupNumber(groupNum).subscribe(res=>{
-      if(res)
-      {
-        this.calendarUrl="https://calendar.google.com/calendar/embed?src="+ res.CalendarId;
+    const groupNum = this.tokenStorage.getToken("group");
+    this.timeTableService.getTTByGroupNumber(groupNum).subscribe(res => {
+      if (res) {
+        this.calendarUrl = "https://calendar.google.com/calendar/embed?src=" + res.CalendarId;
         console.log(res);
-        this.timeTable=res;
-        this.schedule=this.timeTable.GroupSchedule;
-        this.schedule.forEach(lesson=>{
-          lesson.rrule={
-            byweekday:new Date(lesson.Start).getDay()
+        this.timeTable = res;
+        this.schedule = this.timeTable.GroupSchedule;
+        this.schedule.forEach(lesson => {
+          lesson.rrule = {
+            byweekday: new Date(lesson.Start).getDay()
           }
         })
       }
     })
+  }
 }
-}
-  
+

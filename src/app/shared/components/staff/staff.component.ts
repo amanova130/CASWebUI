@@ -11,7 +11,8 @@ import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Admin } from 'src/services/models/admin';
 import { AdminService } from 'src/services/WebApiService/admin.service';
 import { UploadFileService } from 'src/services/WebApiService/uploadFile.service';
-import { AddEditStaffComponent } from './components/add-edit-staff/add-edit-staff.component';
+import { AddEditStaffComponent } from './add-edit-staff/add-edit-staff.component';
+import { TokenStorageService } from '../../helperServices/token-storage.service';
 
 @Component({
   selector: 'app-staff',
@@ -45,11 +46,16 @@ export class StaffComponent implements OnInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
   @ViewChild('TABLE') table: ElementRef;
+    role: string;
+
   constructor(private adminService: AdminService,
     private modalService: NgbModal,
     public datepipe: DatePipe,
     private uploadFileService: UploadFileService,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private tokenStorage: TokenStorageService) { 
+      this.role = this.tokenStorage.getToken("role");
+    }
 
   ngOnInit(): void {
     this.isLoading = true;

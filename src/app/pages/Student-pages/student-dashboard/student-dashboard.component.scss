@@ -1,0 +1,30 @@
+.staticHeight{
+    height: 40.5vh;
+}
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items {
+    overflow: initial !important;
+  }
+
+  .link-image{
+      width: 275px;
+      height: 225px;
+  }
+
+  .teacher-image{
+      width: 75px;
+      height: 75px;
+      border-radius: 10px;
+    background: #fff;
+    position: inherit;
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    padding: 2px;
+  }
+
+  .firstRowSection{
+      height: 40vh;
+      overflow: auto;
+  }
+  .upcommingClass{
+      background-color: var(--background-mini-card);
+  }

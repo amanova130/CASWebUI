@@ -19,6 +19,9 @@ import { AddRequestComponent } from './components/requests/add-request/add-reque
 import { ProfileComponent } from './components/profile/profile.component';
 import { AutoResetPassComponent } from "./components/auto-reset-pass/auto-reset-pass.component";
 import { SplashScreenComponent } from "../Core/components/splash-screen/splash-screen.component";
+import { StaffComponent } from './components/staff/staff.component';
+import { AddEditStaffComponent } from "./components/staff/add-edit-staff/add-edit-staff.component";
+
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { SplashScreenComponent } from "../Core/components/splash-screen/splash-s
     AddRequestComponent,
     ProfileComponent,
     AutoResetPassComponent,
-    SplashScreenComponent
+    SplashScreenComponent,
+    StaffComponent,
+    AddEditStaffComponent,
 ],
   imports: 
   [CommonModule,
@@ -57,7 +62,9 @@ import { SplashScreenComponent } from "../Core/components/splash-screen/splash-s
     AddEditHolidayComponent,
     RequestsComponent,
     AutoResetPassComponent,
-    SplashScreenComponent
+    SplashScreenComponent,
+    StaffComponent,
+    AddEditStaffComponent,
 ]
 })
 export class SharedModule {}

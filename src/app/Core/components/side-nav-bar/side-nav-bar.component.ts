@@ -73,7 +73,7 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
           Id: result.Id,
           Role: Role.Student
         }
-        this.tokenStorage.saveToken('group', result.Group_Id);
+       // this.tokenStorage.saveToken('group', result.Group_Id);
         this.isStudent = true;
       }
     });

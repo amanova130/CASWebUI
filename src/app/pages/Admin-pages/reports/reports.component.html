@@ -74,7 +74,10 @@
             </table>
           </div>
           <div class="excelBtn d-flex flex-row-reverse">
-          <button mat-stroked-button color="primary" (mwlClick)="exportExcel()">Export to Excel</button>
+          <button mat-stroked-button class="btn btn-primary" (mwlClick)="exportExcel()">
+            <span class="material-icons pr-2">
+              save_alt
+            </span>Export to Excel</button>
           </div>
         </mat-card>
         <div *ngIf="isLoading" class="h6 mt-5 text-center">

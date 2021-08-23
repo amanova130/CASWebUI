@@ -175,10 +175,9 @@
         <div>
           Do you want to delete:
         </div>
-        <div>
-          <pre>
-         {{removeExam | json}}
-       </pre>
+        <div *ngIf="removeExam">
+          <p>Exam id: {{removeExam.Id}}</p>
+          <p>Course name: {{removeExam.Course}}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

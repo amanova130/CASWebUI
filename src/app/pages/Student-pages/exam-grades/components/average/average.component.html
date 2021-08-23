@@ -1,1 +1,35 @@
-<p>average works!</p>
+
+<div class="container-fluid py-3 my-3">
+  <div class="row w-25">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose Year</mat-label>
+      <mat-select [(ngModel)]="year" (valueChange)="choosenYear($event)" name="year" required>
+        <mat-option>--</mat-option>
+        <mat-option value="2021">2021</mat-option>
+        <mat-option value="2020">2020</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+ <div class="row">
+  <ngx-charts-bar-vertical
+  [view]="[700,400]"
+    [results]="pieChartsData"
+    [gradient]="gradient"
+    [animations]="true"
+    [xAxisLabel]="'Courses'"
+      [legendTitle]="'Average by Courses'"
+      [yAxisLabel]="'Grades'"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+    >
+  </ngx-charts-bar-vertical>
+ </div>
+</div>
+
+
+
+<!-- (activate)="onActivate($event)"
+(deactivate)="onDeactivate($event)" -->
