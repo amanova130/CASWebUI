@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="d-flex flex-row-reverse">
-        <a id="calendarBtn" *ngIf="schedule.length > 0" mat-raised-button href={{calendarUrl}} target="_blank">+ Google
+        <a id="calendarBtn" *ngIf="schedule && schedule.length > 0" mat-raised-button href={{calendarUrl}} target="_blank">+ Google
           Calendar</a>
       </div>
     </div>

@@ -14,7 +14,6 @@
 }
 mat-card.mat-elevation-z4{
   width:15%;
-
 }
 iframe
 {
@@ -49,11 +48,17 @@ p
      font-size: 15px !important;
      font-weight:600 !important;
      opacity: .7 !important;
-     background-color: var(--background-default);
-    color: var(--color-dark);
+     background-color: var(--background-default) !important;
+      color: var(--color-dark) !important;
     // fill: rgb(12, 36, 173) !important; 
   } 
 }
+// ::ng-deep .ng-star-inserted
+// {
+//   color: var(--color-dark);
+//   background-color: var(--background-default);
+
+// }
 
 .mat-card-title
 {

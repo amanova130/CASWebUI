@@ -21,6 +21,7 @@ import { StudentPageComponent } from './student-page.component';
 import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe';
 import { AverageComponent } from './exam-grades/components/average/average.component';
 import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exam-view-tab.component';
+import { ProgressComponent } from './student-dashboard/progress/progress.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exa
     StudentPageComponent,
     RandomColorPipe,
     AverageComponent,
-    ExamViewTabComponent
+    ExamViewTabComponent,
+    ProgressComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exa
     ExamGradesComponent,
     TimeTableViewComponent,
     AverageComponent,
-    ExamViewTabComponent
+    ExamViewTabComponent,
+    ProgressComponent
   ],
 })
 export class StudentPageModule { }

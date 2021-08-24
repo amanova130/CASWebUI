@@ -45,6 +45,7 @@ export class TimeTableViewComponent implements OnInit {
         console.log(res);
         this.timeTable=res;
         this.schedule=this.timeTable.GroupSchedule;
+        this.schedule = this.schedule.filter(lesson=>new Date(lesson.LastDate) > new Date())
         this.schedule.forEach(lesson=>{
           lesson.rrule={
             byweekday:new Date(lesson.Start).getDay()
