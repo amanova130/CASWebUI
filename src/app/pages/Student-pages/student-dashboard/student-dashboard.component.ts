@@ -24,6 +24,7 @@ export class StudentDashboardComponent implements OnInit {
   groupNumber: string;
   year = new Date().getFullYear().toString();
   isLoading = false;
+  isProgressLoading = false;
   lineChartData: any[];
   linkList: ExtendedLink[];
   gradeExamList: StudExam[];

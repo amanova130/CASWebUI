@@ -117,9 +117,8 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
           this.activeModal.close(this.teacherList);
 
         }
-        else
-          this.alertService.errorResponseFromDataBase();
-      })
+      },err=>{
+        this.alertService.errorResponseFromDataBase();})
       .add(() => this.loading = false);
   }
 

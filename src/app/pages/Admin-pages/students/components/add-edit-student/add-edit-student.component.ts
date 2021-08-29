@@ -21,7 +21,7 @@ import { UploadFileService } from '../../../../../../services/WebApiService/uplo
   styleUrls: ['./add-edit-student.component.scss']
 })
 export class AddEditStudentComponent implements OnInit, OnDestroy {
-  groupControl = new FormControl('', Validators.required);
+  groupControl = new FormControl('', [Validators.required,Validators.maxLength(9),Validators.minLength(9),Validators.pattern("^[0-9]*$")]);
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
   isAddMode!: boolean;
@@ -141,8 +141,13 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
           this.activeModal.close(this.studentList);
 
         }
-        else
-          this.alertService.errorResponseFromDataBase();
+       
+         
+      },
+      err=>{
+        //this.alertService.errorResponseFromDataBase();
+        if(err)
+        this.alertService.genericAlertMsg("error",err);
       })
       .add(() => this.loading = false);
   }

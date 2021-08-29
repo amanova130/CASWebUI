@@ -104,7 +104,8 @@ openViewModal(message: Message = {Id: ""} ){
     {
       this.selection.selected.forEach(selected=>(this.deleteMessage(selected.Id)));
     }
-    this.alertService.errorFormField();
+    else
+      this.alertService.errorFormField();
   }
   deleteMessage(id:string)
   {

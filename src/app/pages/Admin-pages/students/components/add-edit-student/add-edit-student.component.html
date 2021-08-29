@@ -8,36 +8,41 @@
     <div>
       <div class="form-group" [ngClass]="{'d-none' : !isAddMode}">
         <label>ID</label>
-        <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editStudent.Id" #Id='ngModel' required
-          length="9" />
+        <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editStudent.Id" #Id='ngModel' required 
+        minlength=9 maxlength=9 pattern="[1-9]*"
+           />
         <div class="alert alert-danger" *ngIf="Id.errors && (Id.dirty || form.submitted)">
           <div *ngIf="Id.errors.required">Id is required.</div>
-        </div>
+          <div *ngIf="Id.errors.maxlength || Id.errors.minlength">Id must contain 9 digits.</div>
+          <div *ngIf="Id.errors.pattern">Id must contain only numeric values</div>
+        </div>        
       </div>
     </div>
     <div class="row my-3">
       <div class="form-group col-6">
         <label>First Name</label>
         <input type="text" id="First_name" class="form-control" name="First_name" [(ngModel)]="editStudent.First_name"
-          required #First_Name="ngModel" />
+          required #First_Name="ngModel" pattern="[a-zA-Z ]*" />
         <div class="alert alert-danger" *ngIf="First_Name.errors && (First_Name.dirty || form.submitted)">
           <div *ngIf="First_Name.errors.required">First Name is required.</div>
+          <div *ngIf="First_Name.errors.pattern">First Name must contain only letters</div>
         </div>
       </div>
       <div class="form-group col-6">
         <label>Last Name</label>
         <input type="text" id="Last_name" class="form-control" name="Last_name" [(ngModel)]="editStudent.Last_name"
-          required #Last_Name="ngModel">
+          required #Last_Name="ngModel" pattern="[a-zA-Z ]*">
         <div class="form-control-feedback  alert alert-danger"
           *ngIf="Last_Name.errors && (Last_Name.dirty || form.submitted)">
           <p *ngIf="Last_Name.errors.required">Last name is required</p>
+          <div *ngIf="Last_Name.errors.pattern">Last Name must contain only letters</div>
         </div>
       </div>
     </div>
     <div class="row mb-3">
       <div class="form-group col-6">
         <label>Email</label>
-        <input type="text" id="Email" class="form-control" name="Email" [(ngModel)]="editStudent.Email" required
+        <input type="email" id="Email" class="form-control" name="Email" [(ngModel)]="editStudent.Email" required
           #Email="ngModel" pattern="[^ @]*@[^ @]*" />
         <div class="form-control-feedback alert alert-danger" *ngIf="Email.errors && (Email.dirty || form.submitted)">
           <p *ngIf="Email.errors.required">Email is required</p>
@@ -80,10 +85,12 @@
     <div class="row mb-3" ngModelGroup="Address">
       <div class="col-4 form-group">
         <label for="city">City</label>
-        <input type="text" id="City" name="City" class="form-control" required [(ngModel)]="address.City"
+        <input type="text" id="City" name="City" class="form-control" required pattern="[a-zA-Z ]*" [(ngModel)]="address.City"
           #city="ngModel">
         <div class="form-control-feedback  alert alert-danger" *ngIf="city.errors && (city.dirty || form.submitted)">
           <p *ngIf="city.errors.required">City is required</p>
+          <div *ngIf="city.errors.pattern">City must contain only letters</div>
+
         </div>
       </div>
 

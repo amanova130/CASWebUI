@@ -3,7 +3,11 @@
     <!-- Student progress bar -->
     <div class="col-4">
       <div class="card firstRowSection">
-        <h2 class="text-center">Your Progress</h2>
+        <h2 class="text-center progressHeader">Your Progress</h2>
+        
+        <div class="app-progress">
+        <app-progress></app-progress>
+    </div>
       </div>
 
     </div>
@@ -44,10 +48,10 @@
         <div class="container py-3 " *ngFor="let item of schedule">
           <div class="upcommingClass row">
             <div class="col-2">
-              <img class="teacher-image" [src]="createImgPath(item.Teacher.Image)" alt="teacher Image">
+              <img class="teacher-image" [src]="item.Teacher ? createImgPath(item.Teacher.Image):createImgPath('Resources/Images/noPhoto.png')" alt="teacher Image">
             </div>
             <div class="col pt-3">
-              <p>{{item.Teacher.First_name}} {{item.Teacher.Last_name}}</p>
+              <p *ngIf="item.Teacher">{{item.Teacher.First_name}} {{item.Teacher.Last_name}}</p>
               <p>{{item.Title}}</p>
             </div>
             <div class="col pt-3">

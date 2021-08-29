@@ -103,7 +103,8 @@ else
   this.event.Title=this.eventToEdit.Title;
   this.event.Start=this.eventToEdit.Start;
   this.event.End=this.eventToEdit.End;
-  this.chosenTeacher=this.eventToEdit.Teacher
+  if(this.eventToEdit.Teacher)
+    this.chosenTeacher=this.eventToEdit.Teacher;
   this.event.Color.primary=this.eventToEdit.Color.primary;
   this.event.Color.secondary=this.eventToEdit.Color.secondary;
   this.date=this.datepipe.transform(this.viewDate,'yyyy-MM-dd');
@@ -150,9 +151,8 @@ else
             freq: RRule.WEEKLY,
             byweekday: this.event.Start.getDay(),
         },
-        Teacher:this.event.Teacher
-
-
+        
+        Teacher:this.event.Teacher.Id ? this.event.Teacher : null
         }
       this.scheduleService.addEventToSchedule(this.recurringEvent,this.timeTable.CalendarName)
       .subscribe(result => {
@@ -192,16 +192,16 @@ console.log(this.teachersList);
 }
 choosenTeacher(event:string)
 {
-  if(event != undefined)
-  {
+ 
+ 
   for(let teacher of this.teachersList)
   {
     if(teacher.Id === event){
-      this.chosenTeacher=teacher;
+      Object.assign(this.chosenTeacher, teacher);
       break;
-    }
   }
 }
+
 }
 
 

@@ -51,6 +51,12 @@ p {
       fill: var(--color-light)!important; 
   }
 }
+// ::ng-deep .ng-star-inserted
+// {
+//   color: var(--color-dark);
+//   background-color: var(--background-default);
+
+// }
 
 .mat-card-title {
   font-size: 20px;

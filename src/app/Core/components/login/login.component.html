@@ -28,24 +28,13 @@
                   <mat-form-field>
                     <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
                       formControlName="password">
-                    <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-                      Please enter password
-                    </mat-error>
-
-                    <mat-error *ngIf="loginForm.controls['password'].hasError('minLength')">
-                      Password must contain at least 5 symbols
-                    </mat-error>
-
-                    <mat-error *ngIf="loginForm.controls['password'].hasError('maxLength')">
-                      Password is too long
-                    </mat-error>
+                      <mat-error *ngIf="loginForm.get('password').invalid">{{getValidationErrorMsg()}}</mat-error>
                   </mat-form-field>
-
                   <br>
 
                   <div>
                     <button mat-raised-button type="submit" color="primary" class="Login-btn btn-lg"
-                      (click)="onLogin()">Login</button>
+                      (click)="onLogin()" [disabled]="loginForm.invalid">Login</button>
                   </div>
 
                   <div class="footer-sec">

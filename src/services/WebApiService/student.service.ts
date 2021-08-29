@@ -129,12 +129,13 @@ update(studentIn:Student){
 }
 
 // Error handler for HTTP response
-errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
+errorHandler(error:any) {
   let errorMessage = '';
-  if(error.error instanceof ErrorEvent) {
-    errorMessage = error.error.message;
+  if(error.status === 0 && error.error instanceof ProgressEvent) {
+    errorMessage = "Connection issue";
   } else {
-    errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    errorMessage = error.error.Message;
+    
   }
   return throwError(errorMessage);
 }
