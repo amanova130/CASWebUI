@@ -16,13 +16,14 @@ export class ProgressComponent implements OnInit {
   public courses:Course[];
   public timeTable:TimeTable;
   public progressInfo:any[]=[];
+  public isLoading=false;
 
   constructor(private courseService:CourseService,
               private tokenStorageService:TokenStorageService,
               private timeTableService:TimeTableService) { }
 
   ngOnInit(): void {
-
+this.isLoading=true;
     const group=this.tokenStorageService.getToken("group");
     var progress:number=0;
     var weeksProgress=0;
@@ -63,6 +64,7 @@ export class ProgressComponent implements OnInit {
         this.progressInfo.push(info);
         })
         console.log(this.progressInfo);
+        this.isLoading=false;
       }
       })
       

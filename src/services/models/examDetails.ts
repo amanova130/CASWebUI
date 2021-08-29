@@ -6,7 +6,7 @@ export class ExamDetails {
     'A', 'B', 'C'];
 
     public TestNumber: string[] = [
-    'A', 'B', 'C'];
+    'A', 'B'];
 
     public FieldsForFilter = {
         semester: '',

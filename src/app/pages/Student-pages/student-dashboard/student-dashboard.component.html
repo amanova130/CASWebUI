@@ -1,3 +1,84 @@
+<div class="container-fluid h-100">
+  <div class="row pt-4">
+    <!-- Student progress bar -->
+    <div class="col-4">
+      <div class="card firstRowSection">
+        <h2 class="text-center progressHeader">Your Progress</h2>
+        
+        <div class="app-progress">
+        <app-progress></app-progress>
+    </div>
+      </div>
 
-<p>student-dashboard works!</p>
+    </div>
+    <!-- Learning links -->
+    <div class="col-4">
+      <div class="card container mb-0 py-3 firstRowSection">
+        <p-carousel [value]="linkList" orientation="vertical" verticalViewPortHeight="250px" [autoplayInterval]="5000"
+          [numVisible]="1" [numScroll]="1" [circular]="true">
+          <ng-template pTemplate="header">
+            <h2 class="text-center">Additional Links</h2>
+          </ng-template>
+          <div *ngIf="isLoading" class="h6 mt-5 text-center">
+            <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+          </div>
+          <ng-template let-product pTemplate="item">
+            <div class="product-item h-100">
+              <div class="product-item-content row h-100 align-items-center justify-content-center">
+                <div class="p-mb-3 col-8">
+                  <img [src]="createImgPath(product.Image)" alt="link img" class="link-image" />
+                </div>
+                <div class="col">
+                  <h4 class="p-mb-1">{{product.Title}}</h4>
+                  <a [href]="product.URL" target="_blank" class="btn btn-primary my-3">View more</a>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-carousel>
+      </div>
+    </div>
+    <!-- Upcoming Class -->
+    <div class="col-4">
+      <div class="card py-3 firstRowSection">
+        <h2 class="text-center">Upcomming Class</h2>
+        <div *ngIf="isLoading" class="h6 mt-5 text-center">
+          <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+        </div>
+        <div class="container py-3 " *ngFor="let item of schedule">
+          <div class="upcommingClass row">
+            <div class="col-2">
+              <img class="teacher-image" [src]="item.Teacher ? createImgPath(item.Teacher.Image):createImgPath('Resources/Images/noPhoto.png')" alt="teacher Image">
+            </div>
+            <div class="col pt-3">
+              <p *ngIf="item.Teacher">{{item.Teacher.First_name}} {{item.Teacher.Last_name}}</p>
+              <p>{{item.Title}}</p>
+            </div>
+            <div class="col pt-3">
+              <p>
+                {{setWeekDay(item.rrule.byweekday)}}
+              </p>
+              <p>
+                {{this.datepipe.transform(item.Start, ' HH:mm')}} -
+                {{this.datepipe.transform(item.End, ' HH:mm')}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="row staticHeight flex-nowrap w-100">
+    <!-- Request -->
+    <div class="col-8 pt-4">
+      <div class="card h-100 overflow-auto">
+        <app-requests></app-requests>
+      </div>
+    </div>
+    <!-- Admin Contacts -->
+    <div class="col-4 overflow-hidden">
+      <app-staff class="overflow-hidden"></app-staff>
+    </div>
+  </div>
+</div>

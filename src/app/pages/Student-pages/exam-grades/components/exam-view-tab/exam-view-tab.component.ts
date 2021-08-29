@@ -11,6 +11,7 @@ import { StudentService } from 'src/services/WebApiService/student.service';
 import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { StudExamService } from '../../../../../../services/WebApiService/stud-exam.service';
 import { UploadFileService } from '../../../../../../services/WebApiService/uploadFile.service';
+import { AlertService } from '../../../../../shared/helperServices/alert.service';
 
 @Component({
   selector: 'app-exam-view-tab',
@@ -44,7 +45,7 @@ export class ExamViewTabComponent implements OnInit {
   ];
 
   constructor(private tokenStorage: TokenStorageService, private studentService: StudentService,
-    private studExamService: StudExamService, private teacherService: TeacherService, private fileHandlerService: UploadFileService) {
+    private studExamService: StudExamService, private teacherService: TeacherService, private fileHandlerService: UploadFileService, private alertService: AlertService) {
     this.loggedUser = this.tokenStorage.getUser();
     this.groupNumber = this.tokenStorage.getToken('group');
   }
@@ -58,8 +59,14 @@ export class ExamViewTabComponent implements OnInit {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Exams and Grades.xlsx")
   }
   choosenYear(event: string) {
-    this.year = event;
-    this.getGradesbyStudentIdAndYear(this.loggedUser.UserName, this.year);
+    if(event != null || event != undefined)
+    {
+      this.year = event;
+      this.getGradesbyStudentIdAndYear(this.loggedUser.UserName, this.year);
+    }
+    else
+    this.alertService.errorFormField();
+    
   }
 
   getAllTeacher() {

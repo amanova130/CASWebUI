@@ -1,20 +1,28 @@
 <div class="form-group mt-2 ml-3">
-  <mat-form-field appearance="fill">
-    <mat-label>Choose Year</mat-label>
-    <mat-select [(ngModel)]="year" (valueChange)="choosenYear($event)" name="year" required>
-      <mat-option>--</mat-option>
-      <mat-option value="2021">2021</mat-option>
-      <mat-option value="2020">2020</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <div class="icon-button">
-    <button mat-mini-fab="" (click)="exportExcell()" color="primary"
-      class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
-      <span class="material-icons text-white">
-        save_alt
-      </span>
-    </button>
+  <div class="row w-100">
+    <div class="col-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose Year</mat-label>
+        <mat-select [(ngModel)]="year" (valueChange)="choosenYear($event)" name="year" required>
+          <mat-option>--</mat-option>
+          <mat-option value="2021">2021</mat-option>
+          <mat-option value="2020">2020</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col justify-content-end">
+      <div class="icon-button">
+        <button mat-mini-fab="" (click)="exportExcell()" color="primary"
+          class="mat-focus-indicator mat-mini-fab mat-button-base mat-primary">
+          <span class="material-icons text-white">
+            save_alt
+          </span>
+        </button>
+      </div>
+    </div>
   </div>
+ 
+
 </div>
 <div class="container-fluid">
   <div class="card">

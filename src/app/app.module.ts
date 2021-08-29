@@ -24,7 +24,6 @@ import { SideNavBarComponent } from './Core/components/side-nav-bar/side-nav-bar
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //import { ViewMailComponent } from './pages/Admin-pages/email/components/view-mail/view-mail.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-edit-staff/add-edit-staff.component';
 
 
 
@@ -36,9 +35,6 @@ import { AddEditStaffComponent } from './pages/Admin-pages/staff/components/add-
     SideNavBarComponent,
     LoginComponent,
     ForgotPassComponent,
-    AddEditStaffComponent,
-    
-    
   ],
   imports: [
     BrowserModule,

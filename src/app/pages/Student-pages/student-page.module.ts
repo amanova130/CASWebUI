@@ -22,6 +22,9 @@ import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe'
 import { AverageComponent } from './exam-grades/components/average/average.component';
 import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exam-view-tab.component';
 import { ProgressComponent } from './student-dashboard/progress/progress.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarouselModule } from 'primeng/carousel';
 
 
 @NgModule({
@@ -51,6 +54,8 @@ import { ProgressComponent } from './student-dashboard/progress/progress.compone
     MatCheckboxModule,
     NgSelectModule,
     StudentPageRoutingModule,
+    NgxChartsModule,
+    CarouselModule,
   ],
 
   exports: [

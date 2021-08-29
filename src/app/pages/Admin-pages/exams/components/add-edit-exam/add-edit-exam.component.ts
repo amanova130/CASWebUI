@@ -79,9 +79,9 @@ export class AddEditExamComponent implements OnInit {
     if (this.exam === undefined)
       this.isAddMode = true;
     else {
-      this.newExam = this.exam;
-      //this.choosenGroup(this.newExam.Group_num);
-      this.choosenCourse(this.newExam.Course);
+     // this.newExam = this.exam;
+     this.newExam=Object.assign({}, this.exam);
+
     }
   }
 
@@ -168,6 +168,7 @@ export class AddEditExamComponent implements OnInit {
         { 
           if(faculties)
             this.facultyList = faculties;
+            this.choosenFaculty(this.newExam.Fac_name)
           });
        
     }

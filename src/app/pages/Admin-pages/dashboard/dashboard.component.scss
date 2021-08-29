@@ -1,57 +1,55 @@
-
 :host {
-  
-    background-color: EFF2FB;
-    padding: 30px;
-    
-  }
-  .content {
-    padding: 20px;   
+
+  background-color: EFF2FB;
+  padding: 30px;
+
 }
-.requests
-{
-  width:100%;
+
+.content {
+  padding: 20px;
 }
-mat-card.mat-elevation-z4{
-  width:15%;
+
+.requests {
+  width: 100%;
 }
-iframe
-{
+
+mat-card.mat-elevation-z4 {
+  width: 15%;
+
+}
+
+iframe {
   background-color: var(--background-default);
 
 }
-iframe,.chart-class-vertical
-{
+
+iframe,
+.chart-class-vertical {
   width: 100%;
-  height:100%;
+  height: 100%;
 }
-p
-{
+
+p {
   font-weight: 600;
-  margin:20px;
+  margin: 20px;
 }
-.calendar
-{
-  width: 45.4%;
-  height: auto;
-  margin: 10px 26px;
-}
-.chart
-{
+
+.calendar {
   width: 45.4%;
   height: auto;
   margin: 10px 26px;
 }
 
-::ng-deep .ngx-charts {  
-   text{  
-     font-size: 15px !important;
-     font-weight:600 !important;
-     opacity: .7 !important;
-     background-color: var(--background-default) !important;
-      color: var(--color-dark) !important;
-    // fill: rgb(12, 36, 173) !important; 
-  } 
+.chart {
+  width: 45.4%;
+  height: auto;
+  margin: 10px 26px;
+}
+
+::ng-deep .ngx-charts { 
+  text{
+      fill: var(--color-light)!important; 
+  }
 }
 // ::ng-deep .ng-star-inserted
 // {
@@ -60,27 +58,23 @@ p
 
 // }
 
-.mat-card-title
-{
-  font-size:20px;
-  margin-bottom:9.5%;
+.mat-card-title {
+  font-size: 20px;
+  margin-bottom: 9.5%;
 }
-.mat-card-actions
-{
-  margin-top:1px;
+
+.mat-card-actions {
+  margin-top: 1px;
 }
-img
-{
+
+img {
   height: 15rem;
 }
-span{
-  color:green;
-}
-.mat-card-actions
-{
-  text-align:center;
+
+span {
+  color: green;
 }
 
-
-
-
+.mat-card-actions {
+  text-align: center;
+}

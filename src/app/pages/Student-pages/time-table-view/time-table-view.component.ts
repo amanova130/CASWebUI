@@ -16,36 +16,27 @@ import { TokenStorageService } from 'src/app/shared/helperServices/token-storage
   styleUrls: ['./time-table-view.component.scss']
 })
 export class TimeTableViewComponent implements OnInit {
-  public timeTable:TimeTable;
-  public calendarUrl:string;
-  public schedule:Schedule[];
-  // dataSource!: MatTableDataSource<Faculty>;
-  // displayedColumns: string[] = [
-  //   'Sunday',
-  //   'Monday',
-  //   'Tuesday',
-  //   'Wednesday',
-  //   'Thursday',
-  //   'Friday',
-  //   ];
+  public timeTable: TimeTable;
+  public calendarUrl: string;
+  public schedule: Schedule[];
+  public groupNum:string;
   constructor(
-    private timeTableService:TimeTableService,
-    public datepipe:DatePipe,
-    private tokenStorage:TokenStorageService
-    )
-   { }
+    private timeTableService: TimeTableService,
+    public datepipe: DatePipe,
+    private tokenStorage: TokenStorageService
+  ) { }
 
   ngOnInit(): void {
     //console.log(localStorage.group);
-    const groupNum=this.tokenStorage.getToken("group");
-    this.timeTableService.getTTByGroupNumber(groupNum).subscribe(res=>{
-      if(res)
-      {
-        this.calendarUrl="https://calendar.google.com/calendar/embed?src="+ res.CalendarId;
+    this.groupNum = this.tokenStorage.getToken("group");
+    this.timeTableService.getTTByGroupNumber(this.groupNum).subscribe(res => {
+      if (res) {
+        this.calendarUrl = "https://calendar.google.com/calendar/embed?src=" + res.CalendarId;
         console.log(res);
         this.timeTable=res;
         this.schedule=this.timeTable.GroupSchedule;
-        this.schedule = this.schedule.filter(lesson=>new Date(lesson.LastDate) > new Date())
+        this.schedule = this.schedule.filter(lesson=>new Date(lesson.LastDate) > new Date());
+        this.schedule = this.schedule.sort((a, b) => (new Date(a.Start).getHours() > new Date(b.Start).getHours() ? 1 : -1));        
         this.schedule.forEach(lesson=>{
           lesson.rrule={
             byweekday:new Date(lesson.Start).getDay()
@@ -53,6 +44,6 @@ export class TimeTableViewComponent implements OnInit {
         })
       }
     })
+  }
 }
-}
-  
+

@@ -23,7 +23,7 @@ export class ForgotPassComponent implements OnInit {
 
   public ngOnInit(): void {
     this.forgetForm = this.fb.group({
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required,Validators.email]],
     });
   }
 
@@ -41,7 +41,12 @@ export class ForgotPassComponent implements OnInit {
       });
 
   }
-
+  getValidationErrorMsg() {
+    if (this.forgetForm.get('email').hasError('required')) 
+      return ' Please enter your email address';
+    else
+      return 'Email must contain at least the @ character';
+  }
   private markAsDirty(group: FormGroup): void {
     group.markAsDirty();
     // tslint:disable-next-line:forin

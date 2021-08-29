@@ -10,6 +10,7 @@ export interface Theme {
       "--background-table-title":"#ebebee",
       "--background-searchBox": "#ffffff",
       "--background-body": "#f0f3fb",
+      "--background-mini-card": "#F5F5F5",
   
       "--color-default": "#f4faff",
       "--color-dark": "#212121",
@@ -32,6 +33,7 @@ export interface Theme {
     "--background-table-title": "#020910",
     "--background-searchBox": "#12161F",
     "--background-body": "#232b3e",
+    "--background-mini-card": "#212529",
 
     "--color-default": "#f4faff",
     "--color-dark": "#96A2AC",

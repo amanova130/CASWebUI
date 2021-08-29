@@ -4,6 +4,7 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { StudExam } from '../models/studExam';
+import { CourseAvg } from '../models/courseAvg';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,14 @@ export class StudExamService {
    // Get All student list
    getAllStudentsGradeByExamId(examId: string){
     return this.http.get<StudExam[]>(`${this.basePath}/api/StudExam/getGradesByExamId?examId=${encodeURIComponent(String(examId))}`).pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  getAvgOfGradesByStudentId(studentId: string, year: string, groupNum: string)
+  {
+    return this.http.get<CourseAvg[]>(`${this.basePath}/api/StudExam/getAvgOfGradesByStudentId?studentId=${encodeURIComponent(String(studentId))}
+    &year=${encodeURIComponent(String(year))}&groupNumber=${encodeURIComponent(String(groupNum))}`).pipe(
       catchError(this.errorHandler)
     )
   }

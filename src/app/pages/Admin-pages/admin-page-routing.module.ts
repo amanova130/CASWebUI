@@ -14,7 +14,7 @@ import { StudentsComponent } from './students/students.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { HolidayComponent } from 'src/app/shared/components/holiday/holiday.component';
-import { StaffComponent } from './staff/staff.component';
+import { StaffComponent } from '../../shared/components/staff/staff.component';
 import { GradesComponent } from './grades/grades.component';
 
 
