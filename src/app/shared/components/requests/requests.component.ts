@@ -206,11 +206,6 @@ export class RequestsComponent implements OnInit, OnDestroy {
     }
   }
 
-  refresh() {
-    if (this.requestListSubscription)
-      this.requestListSubscription.unsubscribe();
-    this.getAllRequestData();
-  }
 
   ngOnDestroy() {
     if (this.requestListSubscription)
