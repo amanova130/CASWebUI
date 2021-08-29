@@ -1,0 +1,33 @@
+<!-- <pre>{{progressInfo | json}}</pre> -->
+<div class="row">
+<div class="materialTableHeader">
+    <div class="row header">
+      <div class="col-3">
+        <strong>Subject</strong>
+      </div>
+      <div class="col-3">
+        <strong>Progress</strong>
+      </div>
+      <div class="col-3">
+        <strong>Duration</strong>
+      </div>
+     
+  </div>
+</div>
+</div>
+<div *ngIf="isLoading" class="h6 mt-5 text-center">
+  <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
+</div>
+<div class="row items" *ngFor="let item of progressInfo">
+    <div class="col">
+      {{item.course}}
+</div>
+<div class="col">
+    {{item.progressPercentage.toFixed(0)}}% 
+    <mat-progress-bar mode="determinate" [value]="item.progressPercentage" [color]="item.progressPercentage < 15   ? 'warn':'primary'" ></mat-progress-bar>
+</div>
+<div class="col">
+    {{item.duration}} hours
+</div>
+<hr>
+</div>

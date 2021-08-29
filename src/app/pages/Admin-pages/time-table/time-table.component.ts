@@ -42,6 +42,8 @@ import { StudentService } from 'src/services/WebApiService/student.service';
 import { Student } from 'src/services/models/student';
 import { Message } from 'src/services/models/message';
 import { MessageService } from 'src/services/WebApiService/message.service';
+import { HolidayService } from 'src/services/WebApiService/holiday.service';
+import { Holiday } from 'src/services/models/holiday';
 
 moment.tz.setDefault('Utc');
 
@@ -66,7 +68,8 @@ export class TimeTableComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
   groupList: Group[] = [];
   groupListSubscription!: Subscription;
-
+  public holidayList:Holiday[]=[];
+  public isHoliday=false;
   public dateString: string;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
@@ -134,20 +137,28 @@ export class TimeTableComponent implements OnInit {
     private studentService: StudentService,
     private groupService: GroupService,
     private messageService: MessageService,
+    private holidayService:HolidayService
   ) { }
 
 
   ngOnInit(): void {
     this.getGroups();
     this.getTimeTable();
+    this.getAllholidayData();
   }
 
   private getTimeTable() {
     this.recurringEvents.length = 0;
     this.calendarEvents.length = 0;
     if (this.chosenGroup) {
-      this.timeTableSubscription = timer(0).pipe(switchMap(() => this.timeTableService.getTTByGroupNumber(this.chosenGroup))).subscribe((timeTable: TimeTable) => {
-        this.timeTable = timeTable;
+      this.timeTableSubscription = timer(0).pipe(switchMap(() => this.timeTableService.getTTByGroupNumber(this.chosenGroup))).subscribe((res: TimeTable) => {
+       if(res)
+       {
+         this.isLoading=false;
+        this.timeTable = res;
+        this.timeTable.GroupSchedule = this.timeTable.GroupSchedule.sort((a, b) => (new Date(a.Start).getHours() > new Date(b.Start).getHours() ? 1 : -1));  
+       
+        {      
         this.timeTable.GroupSchedule.forEach(lesson => {
           this.recurringEvent.Start = new Date(lesson.Start),
             this.recurringEvent.Title = lesson.Title,
@@ -160,11 +171,12 @@ export class TimeTableComponent implements OnInit {
           this.recurringEvent.Teacher = lesson.Teacher;
           this.addEvent();
         });
+      }
+      }
 
       });
     }
     this.refresh.next();
-    this.isLoading = false;
 
   }
 
@@ -304,7 +316,6 @@ export class TimeTableComponent implements OnInit {
 
       },
     ];
-
     this.pushEvent(newEvent);
     this.cdr.detectChanges();
     this.refresh.next();
@@ -323,8 +334,17 @@ export class TimeTableComponent implements OnInit {
     const { Title: title } = event;
 
     rule.all().forEach((date) => {
+      this.isHoliday=false;
       let startOfEvent = new Date(date);
       let endOfEvent = new Date(date);
+      for(let holiday of this.holidayList)
+        if(new Date(holiday.StartDate) <= startOfEvent && startOfEvent <= new Date(holiday.EndDate))
+        {
+          this.isHoliday=true;
+          break;    
+        }
+      if(!this.isHoliday)
+      {
       startOfEvent.setHours(event.Start.getHours());
       endOfEvent.setHours(event.End.getHours());
 
@@ -345,7 +365,10 @@ export class TimeTableComponent implements OnInit {
           end: moment(endOfEvent).toDate(),
         }
       ]
+    }
     });
+    this.isLoading = false;
+
     this.cdr.detectChanges();
     this.refresh.next();
 
@@ -413,7 +436,7 @@ export class TimeTableComponent implements OnInit {
     });
   }
   choosenGroup(event: string) {
-    this.isLoading = true;
+  //  this.isLoading=true;
     this.chosenGroup = event;
     this.getTimeTable();
     this.addBtn = true;
@@ -453,7 +476,12 @@ export class TimeTableComponent implements OnInit {
       });
   }
 
-
+  getAllholidayData() {
+     this.holidayService.getAllHolidays().subscribe((list: Holiday[]) => {
+       if(list)
+      this.holidayList = list;
+    });
+  }
 
 }
 

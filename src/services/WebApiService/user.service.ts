@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   protected basePath = environment.basePath; // Path to connect with Backend
-   
+   public attempts:number;
   constructor(protected http: HttpClient,public datepipe: DatePipe) {}
   getAllUsers(){
     return this.http.get<User[]>(`${this.basePath}/api/User/getAllUser`).pipe(
@@ -49,10 +49,10 @@ return this.http.get<boolean>(`${this.basePath}/api/User/checkEnteredPWD?pass=${
 }
 
 
-checkAuth(param:User){
+checkAuth(param:User,attempts:number){
   if(param === null || param === undefined)
   throw new Error('Required parameter id was null or undefined when calling getUser.');
-
+this.attempts=attempts;
 return this.http.post<User>(`${this.basePath}/api/User/CheckAuth`,param).pipe(
     catchError(this.errorHandler)
 );
@@ -91,11 +91,11 @@ resetPass(email:string)
   }
 
   // Error Handler for HTTP response
-  errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
+  errorHandler(error: { error: { message: string;Message:string }; status: any; message: any; }) {
     let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
+    if(error.status === 0 && error.error instanceof ProgressEvent) {
+      errorMessage = "Connection issues";
+    } else  {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);

@@ -43,40 +43,29 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
   }
 
   isAdminLogged() {
-    this.adminService.getAdminById(this.loggedUser.Id).subscribe(result => {
-      if (result) {
-        this.loggedUser = {
-          First_name: result.First_name,
-          Last_name: result.Last_name,
-          Email: result.Email,
-          Phone: result.Phone,
-          Image: result.Image,
-          Birth_date: result.Birth_date,
-          Id: result.Id,
-          Role: Role.Admin
-        }
-        this.isAdmin = true;
-      }
-    });
+   
+        var admin=JSON.parse(this.tokenStorage.getToken('personal_info'));
+        this.setPersonalInfo(admin);
+        this.isAdmin = true;  
   }
 
   isStudentLogged() {
-    this.studentService.getStudentById(this.loggedUser.Id).subscribe(result => {
-      if (result) {
-        this.loggedUser = {
-          First_name: result.First_name,
-          Last_name: result.Last_name,
-          Email: result.Email,
-          Phone: result.Phone,
-          Image: result.Image,
-          Birth_date: result.Birth_date,
-          Id: result.Id,
-          Role: Role.Student
-        }
+        var student=JSON.parse(this.tokenStorage.getToken('personal_info'));
+        this.setPersonalInfo(student);
        // this.tokenStorage.saveToken('group', result.Group_Id);
         this.isStudent = true;
-      }
-    });
+      
+  }
+
+  setPersonalInfo(user:any)
+  {
+    const role=this.tokenStorage.getToken('role');
+    this.loggedUser = {
+      First_name: user.First_name,
+      Last_name: user.Last_name,
+      Image: user.Image,
+      Role: role
+    }
   }
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;

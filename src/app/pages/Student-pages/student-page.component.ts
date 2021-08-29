@@ -23,7 +23,7 @@ constructor(private modalService: NgbModal,
   ngOnInit(): void {
     this.loggedUser=this.tokenStorage.getUser();
     this.role = this.tokenStorage.getToken("role");
-    this.setStudentDetails();
+   // this.setStudentDetails();
     const today=new Date();
     const dateChange=new Date(new Date(this.loggedUser.ChangePwdDate));
     if(today >= dateChange)
@@ -32,15 +32,15 @@ constructor(private modalService: NgbModal,
     }   
   }
 
-  setStudentDetails(){
-    if(this.role != '' && this.role != Role.Admin)
-    {
-      this.studentService.getStudentById(this.loggedUser.UserName).subscribe(res => {
-        if(res)
-        {
-          this.tokenStorage.saveToken("group", res.Group_Id);
-        }
-      })
-    }
-  }
+  // setStudentDetails(){
+  //   if(this.role != '' && this.role != Role.Admin)
+  //   {
+  //     this.studentService.getStudentById(this.loggedUser.UserName).subscribe(res => {
+  //       if(res)
+  //       {
+  //         this.tokenStorage.saveToken("group", res.Group_Id);
+  //       }
+  //     })
+  //   }
+  // }
 }

@@ -21,6 +21,7 @@ import { StudentPageComponent } from './student-page.component';
 import { RandomColorPipe } from 'src/app/shared/pipes-and-enum/randomColor.pipe';
 import { AverageComponent } from './exam-grades/components/average/average.component';
 import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exam-view-tab.component';
+import { ProgressComponent } from './student-dashboard/progress/progress.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'primeng/carousel';
@@ -36,6 +37,7 @@ import { CarouselModule } from 'primeng/carousel';
     RandomColorPipe,
     AverageComponent,
     ExamViewTabComponent,
+    ProgressComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { CarouselModule } from 'primeng/carousel';
     ExamGradesComponent,
     TimeTableViewComponent,
     AverageComponent,
-    ExamViewTabComponent
+    ExamViewTabComponent,
+    ProgressComponent
   ],
 })
 export class StudentPageModule { }

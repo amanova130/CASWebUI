@@ -34,6 +34,8 @@ export class ProfileComponent implements OnInit {
   isConfirmed = true;
   isCorrectFormat = true;
   isSame = true;
+  public userImage:string;
+  public email:string;
 
 
   constructor(public activeModal: NgbActiveModal,
@@ -46,27 +48,14 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUserProfile();
-
   }
 
   setUserProfile() {
-    if (this.user.Role === Role.Admin) {
-      this.adminService.getAdminById(this.user.UserName).subscribe(result => {
-        if (result) {
-          this.userProfile = result;
-          this.isAdmin = true;
-        }
-      });
-    }
-    else {
-      this.studentService.getStudentById(this.user.UserName).subscribe(result => {
-        if (result) {
-          this.userProfile = result;
-          this.isStudent = true;
-        }
-
-      });
-    }
+    this.userProfile = JSON.parse(this.tokenStorageService.getToken('personal_info'));
+    if(this.userProfile.Role == this.adminService)
+      this.isAdmin=true;
+    else
+      this.isStudent=true;
   }
   changePassword() {
     this.showPasswordField = !this.showPasswordField;
@@ -134,6 +123,7 @@ export class ProfileComponent implements OnInit {
           const user = this.tokenStorageService.getUser();
           user.Email = this.userProfile.Email;
           this.tokenStorageService.saveUser(user);
+          this.tokenStorageService.saveToken('personal_info',JSON.stringify(this.userProfile));
           if (this.showPasswordField)
             this.updateUser();
           else {

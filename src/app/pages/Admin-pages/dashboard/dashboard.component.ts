@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit {
   private getGroups() {
     this.groupListSubscription = timer(0).pipe(switchMap(() => this.groupService.getAllGroups())).subscribe((list: Group[]) => {
       this.groupList = list;
-      console.log(this.groupList);
       this.setChartLabels(this.groupList);
 
     });
