@@ -6,7 +6,6 @@ import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TeacherUtils } from 'src/services/utils/teacherUtils';
 import { Subscription, timer } from 'rxjs';
 import { AddressBook } from 'src/services/models/addressBook';
 import { Student } from 'src/services/models/student';
@@ -28,7 +27,6 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
   loading = false;
   submitted = false;
   newStudent!: Student;
-
   checkedList: any;
   currentSelected!: {};
   address: AddressBook = {
@@ -50,13 +48,9 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
   public student: Student = {
     Id: "",
     Address: this.address,
-
   };
-
   @Input()
   public studentList!: Student[];
-
-
   @ViewChild('form') form!: any;
 
   constructor(
@@ -65,7 +59,6 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
     public activeModal: NgbActiveModal,
     private groupService: GroupService,
     private uploadFileService: UploadFileService,
-
   ) { }
 
   ngOnInit() {
@@ -90,11 +83,9 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
         Street: this.student.Address.Street,
         ZipCode: this.student.Address.ZipCode
       }
-
-
     }
   }
-
+// Submit Form
   onSubmit() {
     this.loading = true;
     if (this.form.valid) {
@@ -108,14 +99,13 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
     }
   }
 
-
+// Get Group list for selection box
   private getGroups() {
     this.groupListSubscription = timer(0).pipe(switchMap(() => this.groupService.getAllGroups())).subscribe((list: Group[]) => {
       this.groupList = list;
-      console.log(this.groupList);
     });
   }
-
+// Upload image to backend
   public uploadFile = (files: any) => {
     if (files.length === 0) {
       return;
@@ -129,6 +119,8 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
           this.editStudent.Image = Object.values(result).toString();
       });
   }
+
+  // Create Student 
   private createStudent() {
     this.student = this.editStudent;
     this.student.Address = this.address;
@@ -139,19 +131,15 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
           this.studentList.push(result);
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.studentList);
-
-        }
-       
-         
+        }  
       },
       err=>{
-        //this.alertService.errorResponseFromDataBase();
         if(err)
         this.alertService.genericAlertMsg("error",err);
       })
       .add(() => this.loading = false);
   }
-
+// Update Student
   private updateStudent() {
     this.editStudent.Address = this.address;
     this.studentService.update(this.editStudent)
@@ -163,14 +151,17 @@ export class AddEditStudentComponent implements OnInit, OnDestroy {
           this.studentList[index] = this.student;
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.studentList);
-
         }
         else
           this.alertService.errorResponseFromDataBase();
+      },
+      err=>{
+        if(err)
+        this.alertService.genericAlertMsg("error",err);
       })
       .add(() => this.loading = false);
   }
-
+// Set choosen group
   choosenGroup(event: string) {
     this.editStudent.Group_Id = event;
   }

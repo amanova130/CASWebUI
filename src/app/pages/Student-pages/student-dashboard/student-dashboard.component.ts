@@ -41,7 +41,7 @@ export class StudentDashboardComponent implements OnInit {
     private timeTableService: TimeTableService,
     public datepipe: DatePipe) {
     this.loggedUser = this.tokenStorage.getUser();
-    
+
   }
 
   ngOnInit(): void {
@@ -51,23 +51,23 @@ export class StudentDashboardComponent implements OnInit {
     this.getLinks();
     this.getUpcomingClass();
   }
-
+  // Get all grades by Student Id
   getAllGradesByStudentId(studentId: string, year: string) {
     this.studExamService.getGradesByStudentIdAndYear(studentId, year).subscribe(result => {
       if (result)
         this.gradeExamList = result;
       this.lineChartData = this.gradeExamList.map(data => ({ name: data.JoinedField[0].test_num, value: data.Grade, course: data.JoinedField[0].course }));
-      // 
-      //  semester: data.JoinedField[0].semester, }))
     });
   }
 
+  // Get Links
   private getLinks() {
     this.linkService.getAllLinks().subscribe((list: ExtendedLink[]) => {
       this.linkList = list;
     });
   }
 
+  // Get Upcoming classes in time table
   private getUpcomingClass() {
     this.timeTableService.getTTByGroupNumber(this.groupNumber).subscribe(res => {
       if (res) {
@@ -82,6 +82,7 @@ export class StudentDashboardComponent implements OnInit {
       }
     })
   }
+  // Set week day
   setWeekDay(day: number): string {
     let week = '';
     switch (day) {
@@ -89,7 +90,7 @@ export class StudentDashboardComponent implements OnInit {
         week = "Sunday";
         break;
       case 1:
-       week = "Monday";
+        week = "Monday";
         break;
       case 2:
         week = "Tuesday";
@@ -109,10 +110,11 @@ export class StudentDashboardComponent implements OnInit {
       default:
         week = "exists!";
         break;
-
     }
     return week;
   }
+
+  // Create image path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }

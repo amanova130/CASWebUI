@@ -1,21 +1,19 @@
 <div class="modal-header">
   <h1 *ngIf="isAddMode" class="modal-title">Add Student</h1>
   <h1 *ngIf="!isAddMode" class="modal-title">Edit Student</h1>
-
 </div>
 <div class="modal-body">
   <form #form="ngForm" (ngSubmit)="onSubmit()">
     <div>
       <div class="form-group" [ngClass]="{'d-none' : !isAddMode}">
         <label>ID</label>
-        <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editStudent.Id" #Id='ngModel' required 
-        minlength=9 maxlength=9 pattern="[1-9]*"
-           />
+        <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editStudent.Id" #Id='ngModel' required
+          minlength=9 maxlength=9 pattern="[1-9]*" />
         <div class="alert alert-danger" *ngIf="Id.errors && (Id.dirty || form.submitted)">
           <div *ngIf="Id.errors.required">Id is required.</div>
           <div *ngIf="Id.errors.maxlength || Id.errors.minlength">Id must contain 9 digits.</div>
           <div *ngIf="Id.errors.pattern">Id must contain only numeric values</div>
-        </div>        
+        </div>
       </div>
     </div>
     <div class="row my-3">
@@ -76,7 +74,6 @@
         <label>Birth Date</label>
         <input type="date" id="Birth_date" class="form-control" name="Birth_date" required
           [(ngModel)]="editStudent.Birth_date" #birth="ngModel" />
-
         <div class="form-control-feedback  alert alert-danger" *ngIf="birth.errors && (birth.dirty || form.submitted)">
           <p *ngIf="birth.errors.required">Birth date is required</p>
         </div>
@@ -85,15 +82,13 @@
     <div class="row mb-3" ngModelGroup="Address">
       <div class="col-4 form-group">
         <label for="city">City</label>
-        <input type="text" id="City" name="City" class="form-control" required pattern="[a-zA-Z ]*" [(ngModel)]="address.City"
-          #city="ngModel">
+        <input type="text" id="City" name="City" class="form-control" required pattern="[a-zA-Z ]*"
+          [(ngModel)]="address.City" #city="ngModel">
         <div class="form-control-feedback  alert alert-danger" *ngIf="city.errors && (city.dirty || form.submitted)">
           <p *ngIf="city.errors.required">City is required</p>
           <div *ngIf="city.errors.pattern">City must contain only letters</div>
-
         </div>
       </div>
-
       <div class="col-4 form-group">
         <label for="street">Street</label>
         <input type="text" id="Street" name="Street" class="form-control" required [(ngModel)]="address.Street"
@@ -103,14 +98,11 @@
           <p *ngIf="street.errors.required">Street and number of home is required</p>
         </div>
       </div>
-
       <div class="col-4 form-group">
         <label for="pincode">Zip Code</label>
         <input type="text" id="ZipCode" name="ZipCode" class="form-control" required [(ngModel)]="address.ZipCode">
       </div>
     </div>
-
-
     <div class="row my-3">
       <div class="form-group col-6">
         <mat-form-field appearance="fill">
@@ -129,7 +121,6 @@
           (change)="uploadFile(file.files)" />
       </div>
     </div>
-
     <div class="form-group mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
       <button [disabled]="loading" class="btn btn-primary">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

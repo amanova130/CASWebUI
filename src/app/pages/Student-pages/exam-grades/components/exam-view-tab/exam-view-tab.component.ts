@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenStorageService } from 'src/app/shared/helperServices/token-storage.service';
-import { Exam } from 'src/services/models/exam';
 import { StudExam } from 'src/services/models/studExam';
 import { Teacher } from 'src/services/models/teacher';
 import { User } from 'src/services/models/user';
@@ -55,27 +54,28 @@ export class ExamViewTabComponent implements OnInit {
     this.getAllTeacher();
     this.getGradesbyStudentIdAndYear(this.loggedUser.UserName, this.year);
   }
-  exportExcell(){
+  //Export to Excel
+  exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Exams and Grades.xlsx")
   }
+
+  // get exams and grades by choosen year
   choosenYear(event: string) {
-    if(event != null || event != undefined)
-    {
+    if (event != null || event != undefined) {
       this.year = event;
       this.getGradesbyStudentIdAndYear(this.loggedUser.UserName, this.year);
     }
     else
-    this.alertService.errorFormField();
-    
+      this.alertService.errorFormField();
   }
-
+// Get Teachers 
   getAllTeacher() {
     this.teacherService.getAllTeachers().subscribe(res => {
       if (res)
         this.teacherList = res;
     });
   }
-
+// Filter teacher by Id
   getTeacherById(id: string) {
     if (id !== null && id !== undefined) {
       this.teacherList.forEach(teach => {
@@ -87,14 +87,20 @@ export class ExamViewTabComponent implements OnInit {
     else
       return '';
   }
+
+  // Get Grades by choosen year
   getGradesbyStudentIdAndYear(studentId: string, year: string) {
     this.studExamService.getGradesByStudentIdAndYear(studentId, year).subscribe(result => {
       if (result)
         this.gradeExamList = result;
-        this.dataSource = new MatTableDataSource(this.gradeExamList);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isLoading = false;
+      this.dataSource = new MatTableDataSource(this.gradeExamList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoading = false;
+    },
+    error => {
+      this.alertService.genericAlertMsg("error", error);
+      this.isLoading = false;
     });
   }
 

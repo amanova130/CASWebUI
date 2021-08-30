@@ -1,13 +1,11 @@
-/* Model that contains data about holiday*/
+/* Holiday Model */
 
-export interface Holiday
-{
-Id?: string;
-Title?: string;
-StartDate?: string;
-EndDate?: string;
-Type?: string;
-Details?: string;
-Status?: boolean;
-
+export interface Holiday {
+    Id?: string;
+    Title?: string;
+    StartDate?: string;
+    EndDate?: string;
+    Type?: string;
+    Details?: string;
+    Status?: boolean;
 }

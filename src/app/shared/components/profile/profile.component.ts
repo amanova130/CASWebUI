@@ -19,7 +19,6 @@ import { TokenStorageService } from '../../helperServices/token-storage.service'
 })
 export class ProfileComponent implements OnInit {
   @ViewChild('form') form!: any;
-
   @Input() public user: User;
   userProfile: any;
   isLoading = false;
@@ -34,9 +33,8 @@ export class ProfileComponent implements OnInit {
   isConfirmed = true;
   isCorrectFormat = true;
   isSame = true;
-  public userImage:string;
-  public email:string;
-
+  public userImage: string;
+  public email: string;
 
   constructor(public activeModal: NgbActiveModal,
     private alertService: AlertService,
@@ -49,17 +47,20 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.setUserProfile();
   }
-
+  // Set User Profile
   setUserProfile() {
     this.userProfile = JSON.parse(this.tokenStorageService.getToken('personal_info'));
-    if(this.userProfile.Role == this.adminService)
-      this.isAdmin=true;
+    if (this.userProfile.Role == this.adminService)
+      this.isAdmin = true;
     else
-      this.isStudent=true;
+      this.isStudent = true;
   }
+
+  //Toggle for Change password
   changePassword() {
     this.showPasswordField = !this.showPasswordField;
   }
+  //Confirm a new Password
   confirmNewPWD() {
     if (this.newPWD === this.confirmPWD && this.newPWD.length >= 5) {
       this.isConfirmed = true;
@@ -68,6 +69,7 @@ export class ProfileComponent implements OnInit {
       this.isConfirmed = false;
   }
 
+  // Check Current Password
   checkCurrentPWD() {
     if (this.currentPWD.length > 0) {
       this.userService.checkEnteredPWD(this.currentPWD, this.userProfile.Id).subscribe(res => {
@@ -81,7 +83,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-
+  // Upload image to backend
   public uploadFile = (files: any) => {
     if (files.length === 0) {
       return;
@@ -95,12 +97,14 @@ export class ProfileComponent implements OnInit {
           this.userProfile.Image = Object.values(result).toString();
       });
   }
+
+  // Creatre Image Path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
 
+  // Submit form
   onSubmit() {
-
     if (this.isAdmin) {
       this.adminService.update(this.userProfile).subscribe(result => {
         if (result) {
@@ -108,7 +112,6 @@ export class ProfileComponent implements OnInit {
           user.Email = this.userProfile.Email;
           this.tokenStorageService.saveUser(user);
           if (this.showPasswordField)
-
             this.updateUser();
           else {
             this.alertService.successResponseFromDataBase();
@@ -123,7 +126,7 @@ export class ProfileComponent implements OnInit {
           const user = this.tokenStorageService.getUser();
           user.Email = this.userProfile.Email;
           this.tokenStorageService.saveUser(user);
-          this.tokenStorageService.saveToken('personal_info',JSON.stringify(this.userProfile));
+          this.tokenStorageService.saveToken('personal_info', JSON.stringify(this.userProfile));
           if (this.showPasswordField)
             this.updateUser();
           else {
@@ -133,9 +136,9 @@ export class ProfileComponent implements OnInit {
         }
       });
     }
-
-
   }
+
+  // Verify a new Password
   checkNewPWD() {
     if (this.newPWD.match("^[A-Za-z0-9]+$"))
       this.isCorrectFormat = true;
@@ -145,8 +148,8 @@ export class ProfileComponent implements OnInit {
       this.isSame = true;
     else
       this.isSame = false;
-
   }
+  //Update User Profile
   updateUser() {
     if (this.isConfirmed && this.newPWD.length >= 5 && this.confirmPWD === this.newPWD && this.isCorrectFormat) {
       this.user.Password = this.newPWD;
@@ -160,9 +163,10 @@ export class ProfileComponent implements OnInit {
           this.alertService.successResponseFromDataBase();
           this.activeModal.close();
         }
-      })
-
-
+      },
+        error => {
+          this.alertService.genericAlertMsg("error", error);
+        });
     }
     else
       this.alertService.errorFormField();

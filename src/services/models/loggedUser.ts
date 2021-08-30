@@ -1,4 +1,5 @@
-export interface LoggedUser { 
+// Logged User Model
+export interface LoggedUser {
     Id?: string;
     First_name?: string;
     Last_name?: string;

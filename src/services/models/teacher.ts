@@ -1,8 +1,7 @@
-
+/* Model that contains data about teacher*/
 import { AddressBook } from './addressBook';
 
-/* Model that contains data about teacher*/
-export interface Teacher { 
+export interface Teacher {
     Id: string;
     First_name?: string;
     Last_name?: string;

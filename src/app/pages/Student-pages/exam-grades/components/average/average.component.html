@@ -1,4 +1,3 @@
-
 <div class="container-fluid py-3 my-3">
   <div class="row w-25">
     <mat-form-field appearance="fill">
@@ -10,26 +9,30 @@
       </mat-select>
     </mat-form-field>
   </div>
- <div class="row">
-  <ngx-charts-bar-vertical
-  [view]="[700,400]"
-    [results]="pieChartsData"
-    [gradient]="gradient"
-    [animations]="true"
-    [xAxisLabel]="'Courses'"
-      [legendTitle]="'Average by Courses'"
-      [yAxisLabel]="'Grades'"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [xAxis]="true"
-      [yAxis]="true"
-    >
-  </ngx-charts-bar-vertical>
- </div>
+  <p *ngIf="noData">
+    No data for choosen year: {{year}}
+  </p>
+  <div class="row" *ngIf="!noData">
+    <div class="col">
+      <ngx-charts-bar-vertical [view]="[850,500]" [results]="pieChartsData" [gradient]="gradient" [animations]="true"
+      [xAxisLabel]="'Courses'" [legendTitle]="'Average by Courses'" [yAxisLabel]="'Grades'" [legend]="true"
+      [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true">
+    </ngx-charts-bar-vertical>
+    </div>
+    <div class="col-5">
+      <div class="container table">
+        <table class="table-responsive">
+          <caption>Total average: {{setTotalAverage()}}</caption>
+          <th>Course Name</th>
+          <th>Average</th>
+          <tbody>
+            <tr *ngFor="let course of avgByStudentId">
+              <td >{{course.courseName}}</td>
+              <td>{{course.avg}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-<!-- (activate)="onActivate($event)"
-(deactivate)="onDeactivate($event)" -->

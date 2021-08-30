@@ -18,12 +18,10 @@ export class AddEditHolidayComponent implements OnInit {
   newHoliday!: Holiday;
   checkedList: any;
   currentSelected!: {};
-
   @Input()
   public holiday: Holiday;
   @Input()
   public holidayList!: Holiday[];
-
   @ViewChild('form') form!: any;
 
   constructor(
@@ -44,7 +42,7 @@ export class AddEditHolidayComponent implements OnInit {
     }
 
   }
-
+  //Submit Form
   onSubmit() {
     this.loading = true;
     if (this.form.valid) {
@@ -60,7 +58,7 @@ export class AddEditHolidayComponent implements OnInit {
     }
 
   }
-
+  // Create a new Holiday object
   private createHoliday() {
     this.holidayService.create(this.holiday)
       .pipe(first())
@@ -69,14 +67,15 @@ export class AddEditHolidayComponent implements OnInit {
           this.holidayList.push(result);
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.holidayList);
-
         }
-        else
-          this.alertService.errorResponseFromDataBase();
-      })
+      },
+        error => {
+          this.alertService.genericAlertMsg("error", error);
+        })
       .add(() => this.loading = false);
   }
 
+  // Update Holiday
   private updateHoliday() {
     this.holidayService.update(this.holiday)
       .pipe(first()).subscribe((result) => {
@@ -86,10 +85,10 @@ export class AddEditHolidayComponent implements OnInit {
           this.holidayList[index] = this.holiday;
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.holidayList);
-
         }
-        else
-          this.alertService.errorResponseFromDataBase();
+      },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
       })
       .add(() => this.loading = false);
   }

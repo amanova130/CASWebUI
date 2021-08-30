@@ -41,8 +41,8 @@ export class AddEditExamComponent implements OnInit {
   examDate: NgbDateStruct;
   newExam: Exam;
   startTime: string;
-  endTime : string;
-  filteredGroupList:Group[];
+  endTime: string;
+  filteredGroupList: Group[];
 
   @ViewChild('form') form!: any;
 
@@ -79,13 +79,12 @@ export class AddEditExamComponent implements OnInit {
     if (this.exam === undefined)
       this.isAddMode = true;
     else {
-     // this.newExam = this.exam;
-     this.newExam=Object.assign({}, this.exam);
+      // this.newExam = this.exam;
+      this.newExam = Object.assign({}, this.exam);
 
     }
   }
-
-
+// Submit Form
   onSubmit() {
     this.isLoading = true;
     if (this.form.valid) {
@@ -98,18 +97,19 @@ export class AddEditExamComponent implements OnInit {
       this.isLoading = false;
     }
   }
-
+  // create a new exam
   private createExam() {
     this.examService.create(this.newExam).subscribe(res => {
       if (res) {
         this.examList.push(res);
         this.isLoading = false;
         this.alertService.successResponseFromDataBase();
-        // this.activeModal.close(this.examList);
       }
-      else
-        this.alertService.errorResponseFromDataBase();
-    })
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
 
   private updateExam() {
@@ -119,58 +119,55 @@ export class AddEditExamComponent implements OnInit {
         this.examList.push(this.newExam);
         this.isLoading = false;
         this.alertService.successResponseFromDataBase();
-        // this.activeModal.close(this.examList);
       }
-      else
-        this.alertService.errorResponseFromDataBase();
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
+  }
+  // Set Choosen Course to get teacher by course name
+  public choosenCourse(course: string) {
+    this.teacherList.length = 0;
+    this.newExam.Teacher_id = "";
+    this.teacherService.getTeachersByCourseName(course).subscribe(res => {
+      if (res)
+        this.teacherList = res;
+    })
+  }
+  public choosenGroup(group: string) {
+    this.newExam.Teacher_id = "";
+    this.newExam.Course = "";
+    if (group == undefined)
+      this.courseList.length = 0;
+    else
+      this.courseList = this.groupList.find(g => g.GroupNumber == group).courses.slice();
+  }
+  // Filter by faculty name
+  public choosenFaculty(facultyName: string) {
+    this.filteredGroupList = this.groupList.filter(group => group.Fac_Name === facultyName).slice();
+    this.newExam.Course = "";
+    this.newExam.Teacher_id = "";
+  }
+  // get all groups, then filter courselist by group name
+  private getGroupList() {
+    this.groupService.getAllGroups().subscribe(groups => {
+      if (groups) {
+        this.groupList = groups;
+        if (this.newExam.Group_num)
+          this.courseList = this.groupList.find(g => g.GroupNumber == this.newExam.Group_num).courses;
+      }
     })
   }
 
-    public choosenCourse(course: string)
-    {
-      this.teacherList.length = 0;
-      this.newExam.Teacher_id="";
-      this.teacherService.getTeachersByCourseName(course).subscribe(res =>
-        {
-          if(res)
-            this.teacherList = res;
-        })
-    }
-    public choosenGroup(group: string){
-      this.newExam.Teacher_id="";
-      this.newExam.Course="";
-      if(group == undefined)
-        this.courseList.length = 0;
-      else
-        this.courseList=this.groupList.find(g=> g.GroupNumber == group).courses.slice();
-    }
+  //Get Faculty list
+  private getFacultyList() {
+    this.facultyService.getAllFaculties().subscribe(faculties => {
+      if (faculties)
+        this.facultyList = faculties;
+      this.choosenFaculty(this.newExam.Fac_name)
+    });
 
-    public choosenFaculty(facultyName: string)
-    {
-      this.filteredGroupList = this.groupList.filter(group => group.Fac_Name === facultyName).slice();
-      this.newExam.Course="";
-      this.newExam.Teacher_id="";
-    }
-    private getGroupList()
-    {
-      this.groupService.getAllGroups().subscribe(groups => {
-        if(groups)
-        {
-          this.groupList = groups;
-          if(this.newExam.Group_num)
-            this.courseList = this.groupList.find(g=> g.GroupNumber == this.newExam.Group_num).courses;
-        }
-         
-      })
-    }
-    private getFacultyList(){
-      this.facultyService.getAllFaculties().subscribe(faculties =>
-        { 
-          if(faculties)
-            this.facultyList = faculties;
-            this.choosenFaculty(this.newExam.Fac_name)
-          });
-       
-    }
+  }
 
 }

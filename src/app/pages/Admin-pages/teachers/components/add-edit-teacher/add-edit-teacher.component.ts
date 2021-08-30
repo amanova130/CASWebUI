@@ -17,14 +17,12 @@ import { UploadFileService } from '../../../../../../services/WebApiService/uplo
   templateUrl: './add-edit-teacher.component.html',
   styleUrls: ['./add-edit-teacher.component.scss']
 })
-export class AddEditTeacherComponent implements OnInit, OnDestroy {
+export class AddEditTeacherComponent implements OnInit{
   courseList: Course[] = [];
-  courseListSubscription!: Subscription;
   isAddMode!: boolean;
   loading = false;
   submitted = false;
   newTeacher!: Teacher;
-
   checkedList: any;
   currentSelected!: {};
   newCourseList: Course[] = [];
@@ -41,12 +39,9 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
   public teacher: Teacher = {
     Id: "",
     Address: this.address,
-
   };
-
   @Input()
   public teacherList!: Teacher[];
-
   @ViewChild('form') form!: any;
 
   constructor(
@@ -82,7 +77,7 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
     }
   }
 
-
+// Submit Form
   onSubmit() {
     this.loading = true;
     if (this.form.valid) {
@@ -94,17 +89,14 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
       this.alertService.errorFormField();
       this.loading = false;
     }
-
   }
-
+// Get course list
   private getCourses() {
-    this.courseListSubscription = timer(0).pipe(switchMap(() => this.courseService.getAllCourses())).subscribe((list: Course[]) => {
+    this.courseService.getAllCourses().subscribe((list: Course[]) => {
       this.courseList = list;
-      // console.log(this.courseList);
-
     });
   }
-
+// Create a new Teacher profile
   private createTeacher() {
     this.teacher = this.editTeacher;
     this.teacher.Address = this.address;
@@ -115,15 +107,16 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
           this.teacherList.push(result)
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.teacherList);
-
         }
-      },err=>{
-        this.alertService.errorResponseFromDataBase();})
+      },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        
+      })
       .add(() => this.loading = false);
   }
-
+// Update n exists Teacher profile
   private updateTeacher() {
-
     this.editTeacher.Address = this.address;
     this.teacherService.update(this.editTeacher)
       .pipe(first()).subscribe((result) => {
@@ -134,14 +127,14 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
           this.teacherList[index] = this.teacher;
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.teacherList);
-
         }
-        else
-          this.alertService.errorResponseFromDataBase();
+      },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
       })
       .add(() => this.loading = false);
   }
-
+// Upload image to backend
   public uploadFile = (files: any) => {
     if (files.length === 0) {
       return;
@@ -156,14 +149,9 @@ export class AddEditTeacherComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Set choosen course
   choosenCourse(event: string[]) {
     this.editTeacher.TeachesCourses = event;
-    console.log(this.teacher.TeachesCourses);
-  }
-
-  ngOnDestroy() {
-    if (this.courseListSubscription)
-      this.courseListSubscription.unsubscribe();
   }
 
 }

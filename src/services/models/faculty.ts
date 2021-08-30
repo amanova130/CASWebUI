@@ -1,7 +1,7 @@
 
-/* Model that contains data about Faculty*/
+/* Faculty Model*/
 
-export interface Faculty { 
+export interface Faculty {
     Id?: string;
     FacultyName?: string;
     Description?: string;

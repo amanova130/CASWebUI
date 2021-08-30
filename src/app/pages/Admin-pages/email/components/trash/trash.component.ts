@@ -11,7 +11,6 @@ import { ViewMailComponent } from '../view-mail/view-mail.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-
 @Component({
   selector: 'app-trash',
   templateUrl: './trash.component.html',
@@ -19,9 +18,9 @@ import { MatSort } from '@angular/material/sort';
 })
 export class TrashComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'Receiver','Subject', 'DateTime',"action"];
-  public messageList:Message[];
-  public removeMessage:Message;
+  displayedColumns: string[] = ['Receiver', 'Subject', 'DateTime', "action"];
+  public messageList: Message[];
+  public removeMessage: Message;
   dataSource!: MatTableDataSource<Message>;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator)
@@ -30,43 +29,34 @@ export class TrashComponent implements OnInit {
   constructor(
     public datepipe: DatePipe,
     private modalService: NgbModal,
-    private messageService:MessageService,
-    private alertService:AlertService
+    private messageService: MessageService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
-    this.messageService.GetAllDeletedBySender("Admin").subscribe((list: Message[])=>{
-     if(list)
-     {
-      this.messageList=list;
-      this.dataSource=new MatTableDataSource(this.messageList);
-      this.dataSource.paginator = this.paginator;
-     this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
-      this.dataSource.sort = this.sort;
-     }
+    this.messageService.GetAllDeletedBySender("Admin").subscribe((list: Message[]) => {
+      if (list) {
+        this.messageList = list;
+        this.dataSource = new MatTableDataSource(this.messageList);
+        this.dataSource.paginator = this.paginator;
+        this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
+        this.dataSource.sort = this.sort;
+      }
+    },
+    error => {
+      this.alertService.genericAlertMsg("error", error);
     });
-
-}
-
-
-
-openViewModal(message: Message = {Id: ""} ){
-  const ref = this.modalService.open(ViewMailComponent, { centered: true,size:'lg' });
-  ref.componentInstance.message = message;
-
-  ref.result.then((result) => {
-    if (result) {
-   // this.refreshData();
-    }
+  }
+// Open view modal to Resend the email
+  openViewModal(message: Message = { Id: "" }) {
+    const ref = this.modalService.open(ViewMailComponent, { centered: true, size: 'lg' });
+    ref.componentInstance.message = message;
+    ref.result.then((result) => {
+      if (result) {
+      }
     });
-
   }
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
+// filter by any char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -75,33 +65,25 @@ openViewModal(message: Message = {Id: ""} ){
       this.dataSource.paginator.firstPage();
     }
   }
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  openDelete(message:Message = {Id: ""} ){
-    this.removeMessage=message;
-  }
-  deleteSelectedMessages()
-  {
 
+  // Open delete modal
+  openDelete(message: Message = { Id: "" }) {
+    this.removeMessage = message;
   }
-  deleteMessage(id:string)
-  {
-    if(id!==null || id!==undefined){
+// Delete Message
+  deleteMessage(id: string) {
+    if (id !== null || id !== undefined) {
       this.messageService.deleteById(id).subscribe(res => {
-        if(res)
-        {
+        if (res) {
           this.messageList = this.messageList.filter(item => item.Id !== id);
           this.dataSource.data = this.messageList;
           this.alertService.successResponseFromDataBase();
         }
         else
-        this.alertService.errorResponseFromDataBase();
+          this.alertService.errorResponseFromDataBase();
       });
     }
- }
+  }
 }
 
 

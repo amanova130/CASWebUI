@@ -1,7 +1,6 @@
 <div class="modal-header">
   <h1 *ngIf="isAddMode" class="modal-title">Add Faculty</h1>
   <h1 *ngIf="!isAddMode" class="modal-title">Edit Faculty</h1>
-
 </div>
 <div class="modal-body">
   <form #form="ngForm" (ngSubmit)="onSubmit()">
@@ -28,7 +27,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group mb-3">
       <mat-form-field appearance="fill">
         <mat-label>Courses</mat-label>

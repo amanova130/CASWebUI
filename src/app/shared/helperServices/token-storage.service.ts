@@ -1,3 +1,4 @@
+// Token Storage Service - respnsible to save the neede data in LocalStorage or Session Storage
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -32,8 +33,8 @@ export class TokenStorageService {
     return {};
   }
 
-  public isUserLogged(): boolean{
-    if(window.sessionStorage.getItem('user'))
+  public isUserLogged(): boolean {
+    if (window.sessionStorage.getItem('user'))
       return true;
     return false;
   }

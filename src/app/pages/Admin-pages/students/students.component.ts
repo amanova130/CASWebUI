@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Student } from 'src/services/models/student';
 import { Subject, Subscription, timer } from 'rxjs';
-import { StudentUtils } from 'src/services/utils/studentUtils';
 import { StudentService } from 'src/services/WebApiService/student.service';
 import { switchMap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -41,11 +40,8 @@ export class StudentsComponent implements OnInit {
   studentListSubscription!: Subscription;
   removeStudent: Student;
   refresh: Subject<any> = new Subject();
-
   isLoading = false;
   isSelected = false;
-
-
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -57,14 +53,13 @@ export class StudentsComponent implements OnInit {
     public datepipe: DatePipe,
     private uploadFileService: UploadFileService,
     private alertService: AlertService) { }
+
   ngOnInit(): void {
     this.isLoading = true;
     this.getAllStudentData();
-
-
   }
   selection = new SelectionModel<Student>(true, []);
-
+// Get all Students
   getAllStudentData() {
     this.studentListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.studentService.getAllstudents())
@@ -74,10 +69,13 @@ export class StudentsComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-    });
-
+    },
+      error => {
+        this.alertService.genericAlertMsg('error', error + " Please try again later or call to administration");
+        this.isLoading = false;
+      });
   }
-
+// Open Modal window for add or edit student profile
   openModal(student: Student = { Id: "" }) {
     const ref = this.modalService.open(AddEditStudentComponent, { centered: true });
     ref.componentInstance.student = student;
@@ -88,9 +86,8 @@ export class StudentsComponent implements OnInit {
         this.dataSource.data = result;
       }
     });
-
   }
-
+// Open delete modal
   openDelete(student: Student = { Id: "" }) {
     this.removeStudent = {
       Id: student.Id,
@@ -98,7 +95,7 @@ export class StudentsComponent implements OnInit {
       Last_name: student.Last_name
     }
   }
-
+// Create an Image Path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
@@ -126,10 +123,7 @@ export class StudentsComponent implements OnInit {
     }
 
   }
-
-  /** The label for the checkbox on the passed row */
-
-
+// Filter by char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -138,7 +132,7 @@ export class StudentsComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
+// Delete student
   deleteStudent(id: string) {
     if (id !== null || id !== undefined) {
       this.studentService.deleteById(id).subscribe(res => {
@@ -152,12 +146,16 @@ export class StudentsComponent implements OnInit {
       });
     }
   }
+
+  // Delete selected Students
   deleteSelectedStudents() {
     if (this.selection.hasValue()) {
       this.selection.selected.forEach(selected => (this.deleteStudent(selected.Id)));
       this.refreshData();
     }
   }
+
+  // Export tot excel via backend
   exportExcell() {
     this.uploadFileService.exportToExcell('student').subscribe(response => {
       if (response.size > 0) {
@@ -169,16 +167,11 @@ export class StudentsComponent implements OnInit {
       }
     })
   }
-
+// Open Upload to Excel component
   uploadToExcell() {
     const ref = this.modalService.open(UploadExcelModalComponent, { centered: true, size: 'xl', scrollable: true });
-    // ref.result.then((result) => {
-    //   if (result) {
-    //    this.dataSource.data = result;
-    //   }
-    //   });
   }
-
+// Refresh Data
   refreshData() {
     if (this.studentListSubscription)
       this.studentListSubscription.unsubscribe();

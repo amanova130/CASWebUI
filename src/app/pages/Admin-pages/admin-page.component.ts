@@ -12,20 +12,18 @@ import { User } from 'src/services/models/user';
 })
 export class AdminPageComponent implements OnInit {
 
-  loggedUser:User;
+  loggedUser: User;
   constructor(private modalService: NgbModal,
     private tokenStorage: TokenStorageService,
-    private alertService:AlertService) { }
-  
-    ngOnInit(): void {
-      
-      this.loggedUser=this.tokenStorage.getUser();
-      const today=new Date();
-      const dateChange=new Date(new Date(this.loggedUser.ChangePwdDate));
-      if(today >= dateChange)
-      {
-        this.modalService.open(AutoResetPassComponent, { centered: true,backdrop:"static" });
-      }   
+    private alertService: AlertService) { }
+
+  ngOnInit(): void {
+    this.loggedUser = this.tokenStorage.getUser();
+    const today = new Date();
+    const dateChange = new Date(new Date(this.loggedUser.ChangePwdDate));
+    if (today >= dateChange) {
+      this.modalService.open(AutoResetPassComponent, { centered: true, backdrop: "static" });
     }
+  }
 
 }

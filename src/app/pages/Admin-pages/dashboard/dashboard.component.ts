@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { Subject, Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Student } from 'src/services/models/student';
 import { CourseService } from 'src/services/WebApiService/course.service';
 import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { GroupService } from 'src/services/WebApiService/group.service';
 import { StudentService } from 'src/services/WebApiService/student.service';
 import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { Group } from 'src/services/models/group';
-import { TokenStorageService } from '../../../shared/helperServices/token-storage.service';
 export interface SaleData {
   name: string,
   value: number;
@@ -27,8 +24,7 @@ export class DashboardComponent implements OnInit {
     private teacherService: TeacherService,
     private groupService: GroupService,
     private facultyService: FacultyService,
-    private courseService: CourseService,
-    private tokenStorage: TokenStorageService) { }
+    private courseService: CourseService) { }
   totalStudents: number;
   totalTeachers: number;
   totalGroups: number;
@@ -39,7 +35,6 @@ export class DashboardComponent implements OnInit {
   groupListSubscription!: Subscription;
   saleData: SaleData[] = [];
   update$: Subject<any> = new Subject();
-  //saleData:SaleData[];
 
   ngOnInit(): void {
     this.getNumberOfStudents();
@@ -49,14 +44,15 @@ export class DashboardComponent implements OnInit {
     this.getNumberOfCourses();
     this.getGroups();
   }
-
+  // Get Groups to set charts data
   private getGroups() {
     this.groupListSubscription = timer(0).pipe(switchMap(() => this.groupService.getAllGroups())).subscribe((list: Group[]) => {
       this.groupList = list;
       this.setChartLabels(this.groupList);
-
     });
   }
+
+  // Set chart labels
   private setChartLabels(groups: Group[]) {
     for (let group of groups) {
       this.studentService.getNumberOfStudentsInClass(group.GroupNumber).subscribe(res => {
@@ -72,48 +68,47 @@ export class DashboardComponent implements OnInit {
         }
       });
     }
-
   }
+
+  // Get count of students
   getNumberOfStudents() {
     this.studentService.getNumberOfStudents().subscribe(res => {
       if (res !== null) {
         this.totalStudents = res;
       }
     });
-
   }
-
+  // Get Number of Teachers
   getNumberOfTeachers() {
     this.teacherService.getNumberOfTeachers().subscribe(res => {
       if (res !== null) {
         this.totalTeachers = res;
       }
     });
-
   }
+  // Get Number of Courses
   getNumberOfCourses() {
     this.courseService.getNumberOfCourses().subscribe(res => {
       if (res !== null) {
         this.totalCourses = res;
       }
     });
-
   }
+  // Get Number of Groups
   getNumberOfGroups() {
     this.groupService.getNumberOfGroups().subscribe(res => {
       if (res !== null) {
         this.totalGroups = res;
       }
     });
-
   }
+  // Get Number of Faculties
   getNumberOfFaculties() {
     this.facultyService.getNumberOfFaculties().subscribe(res => {
       if (res !== null) {
         this.totalFaculties = res;
       }
     });
-
   }
 
 

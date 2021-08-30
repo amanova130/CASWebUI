@@ -1,5 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { ChangeDetectorRef, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,6 +42,7 @@ export class LinksComponent implements OnInit, OnDestroy {
   sliderItems: any;
   loggedUser: User;
   isStudent = true;
+
   constructor(
     private linkService: ExtendedLinkService,
     private alertService: AlertService,
@@ -56,34 +56,41 @@ export class LinksComponent implements OnInit, OnDestroy {
     this.loggedUser = this.tokenStorage.getUser();
     if (this.loggedUser.Role === Role.Student)
       this.isStudent = !this.isStudent;
-
     this.getFaculties();
     this.getLinks();
     this.responsiveOptions = this.sliderService.responsiveOptions;
     this.backgroundImg = this.sliderService.backgroundImages;
   }
-
+  // Set Background Image to faculty cards
   setBackgroundImg(num: any) {
     return `url(${this.backgroundImg[num]})`;
   }
-
+  // Get All Links
   private getLinks() {
     this.linkListSubscription = timer(0, 60000).pipe(switchMap(() => this.linkService.getAllLinks())).subscribe((list: ExtendedLink[]) => {
       this.linkList = list;
       this.filtredLinkList = this.linkList;
       this.isLoading = false;
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
 
-
+  //Create image Path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
+
+  //Filter Links by Faculty name
   getLinksByFaculty(faculty: string) {
     this.filtredLinkList = this.linkList.filter(link => link.Fac_name == faculty);
     if (this.filtredLinkList.length == 0)
       this.filtredLinkList = this.linkList;
   }
+
+  // Open add and edit modal window for Links
   openAddEditModal(link: ExtendedLink = { Id: "" }) {
     const ref = this.modalService.open(AddEditLinksComponent, { centered: true });
     ref.componentInstance.link = link;
@@ -93,14 +100,13 @@ export class LinksComponent implements OnInit, OnDestroy {
         this.linkList = result;
       }
     });
-
   }
-
+  // Open Delete Modal
   openDeleteModal(link: ExtendedLink = { Id: "" }) {
     this.link.Id = link.Id;
     this.link.Title = link.Title;
   }
-
+  // Delete link
   deleteLink(id: string) {
     if (id !== null || id !== undefined) {
       this.linkService.deleteById(id).subscribe(res => {
@@ -108,17 +114,20 @@ export class LinksComponent implements OnInit, OnDestroy {
           this.linkList = this.linkList.filter(item => item.Id !== id);
           this.alertService.successResponseFromDataBase();
         }
-        else
-          this.alertService.errorResponseFromDataBase();
-
-      });
+      },
+        error => {
+          this.alertService.genericAlertMsg("error", error);
+          this.isLoading = false;
+        });
     }
   }
+  //Refresh the data
   refresh() {
     if (this.linkListSubscription)
       this.linkListSubscription.unsubscribe();
     this.getLinks();
   }
+// Get Faculties
   private getFaculties() {
     this.facultyListSubscription = timer(0).pipe(switchMap(() => this.facultyService.getAllFaculties())).subscribe((list: Faculty[]) => {
       this.facultyList = list;

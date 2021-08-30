@@ -1,3 +1,4 @@
+// Slider Service for carousel
 import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })

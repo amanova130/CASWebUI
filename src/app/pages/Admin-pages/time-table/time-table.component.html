@@ -1,18 +1,14 @@
 <ng-template #customCellTemplate let-day="day" let-openDay="openDay" let-locale="locale"
   let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay" let-unhighlightDay="unhighlightDay"
   let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate" let-tooltipAppendToBody="tooltipAppendToBody">
-
-
   <div class="cal-cell-top">
     <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
     <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
   </div>
-
   <div class="addEventSection">
     <mat-icon *ngIf="addBtn" class="addButton" (click)="openAddModal(day)">add</mat-icon>
   </div>
   <div class="cal-events" *ngIf="day.events.length > 0">
-
     <div class="cal-event" *ngFor="let event of day.events;" [style.backgroundColor]="event.color?.primary"
       [ngClass]="event?.cssClass" (mouseenter)="highlightDay.emit({event: event})"
       (mouseleave)="unhighlightDay.emit({event: event})"
@@ -23,23 +19,16 @@
       (mwlClick)="eventClicked.emit({ event: event })">
     </div>
   </div>
-
-
 </ng-template>
-
 <div class="container-fluid py-4 mb-5">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h2 class="mb-0 pr-2">Time Table</h2>
     </div>
   </div>
-
-
-
   <mat-card class="mat-elevation-z4 calendar mb-3">
     <div class="row text-center">
       <div class="col-md-4">
-
         <div class="btn-group">
           <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
             (viewDateChange)="closeOpenMonthViewDay()">
@@ -58,7 +47,6 @@
         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </div>
       <div class="col-md-4">
-
         <div class="btn-group">
           <div class="btn btn-primary" (click)="setView(CalendarView.Month)"
             [class.active]="view === CalendarView.Month">
@@ -72,29 +60,26 @@
           </div>
         </div>
       </div>
-
     </div>
     <br />
     <div [ngSwitch]="view">
-      <div class="row text-center">
-        <div>
-          <mat-form-field appearance="fill" class="selectGroup">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="w-25 selectGroup">
             <mat-label>Group</mat-label>
             <mat-select [(ngModel)]="chosenGroup" (valueChange)="choosenGroup($event)" name="group">
               <mat-option *ngFor="let c of groupList" [value]="c.GroupNumber">{{c.GroupNumber}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="send">
+        <div class="send col">
           <div class="d-flex flex-row-reverse">
             <button class="sendBtn" [hidden]="!chosenGroup" (click)="createMessage()" mat-raised-button> <span
                 id="sendLbl"> Send Time Table Link</span></button>
           </div>
         </div>
       </div>
-
       <div>
-
         <div *ngIf="isLoading" class="h6 mt-5 text-center">
           <img class="loadingImg" src="assets/images/loading.gif" alt="Loading...">
         </div>
@@ -116,7 +101,6 @@
         </mwl-calendar-day-view>
       </div>
     </div>
-
   </mat-card>
 
   <!-- Delete Modal -->
@@ -146,7 +130,6 @@
       <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cancel</button>
       <button type="button" [disabled]="loading" class="btn btn-danger" (click)="deleteEvent(removeEvent)">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-
         Delete</button>
     </div>
   </ng-template>

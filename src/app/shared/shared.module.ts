@@ -1,3 +1,4 @@
+// Imports and declarations of shared Module
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { LinksComponent } from "./components/links/links.component";

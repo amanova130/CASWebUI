@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TokenStorageService } from 'src/app/shared/helperServices/token-storage.service';
 import { User } from 'src/services/models/user';
-import { AdminService } from 'src/services/WebApiService/admin.service';
-import { StudentService } from 'src/services/WebApiService/student.service';
-import { TeacherService } from 'src/services/WebApiService/teacher.service';
 
 @Component({
   selector: 'app-exam-grades',
@@ -18,24 +15,21 @@ export class ExamGradesComponent implements OnInit {
   obs: Observable<any>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  contactList: any=[];
+  contactList: any = [];
   dataSource!: MatTableDataSource<any>;
   asyncTabs: Observable<any>;
   loggedUser: User;
   groupNumber: string;
   colorValue: string;
 
-  constructor(private tokenStorage: TokenStorageService, private studentService: StudentService,
-     private teacherService: TeacherService, 
-     private adminService: AdminService)
-      {
+  constructor(private tokenStorage: TokenStorageService) {
     this.loggedUser = this.tokenStorage.getUser();
     this.groupNumber = this.tokenStorage.getToken('group');
   }
 
   ngOnInit(): void {
   }
-
+//Filter by Char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

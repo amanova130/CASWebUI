@@ -17,7 +17,6 @@ import { TeacherService } from '../../../../services/WebApiService/teacher.servi
 import { AddEditExamComponent } from './components/add-edit-exam/add-edit-exam.component';
 import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
 
-
 @Component({
   selector: 'app-exams',
   templateUrl: './exams.component.html',
@@ -53,6 +52,7 @@ export class ExamsComponent implements OnInit {
   @ViewChild('myTable')
   myTable!: MatTable<any>;
   @ViewChild('TABLE') table: ElementRef;
+  selection = new SelectionModel<Exam>(true, []);
 
   constructor(private examService: ExamService,
     private teacherService: TeacherService,
@@ -66,8 +66,8 @@ export class ExamsComponent implements OnInit {
     this.getAllExamData();
     this.getAllTeachers();
   }
-  selection = new SelectionModel<Exam>(true, []);
 
+  // Get All exam data
   getAllExamData() {
     this.examListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.examService.getAllExams())
@@ -77,17 +77,20 @@ export class ExamsComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-      console.log(this.examList);
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
-
+  // Get all teachers
   getAllTeachers() {
     this.teacherService.getAllTeachers().subscribe(res => {
       if (res)
         this.teacherList = res;
     });
   }
-
+  // filter teacher by id
   getTeacherById(id: string) {
     if (id !== null && id !== undefined) {
       this.teacherList.forEach(teach => {
@@ -99,9 +102,12 @@ export class ExamsComponent implements OnInit {
     else
       return '';
   }
+
+  // Export to excel
   exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Exams.xlsx")
   }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -111,7 +117,6 @@ export class ExamsComponent implements OnInit {
     else
       this.isSelected = false;
     return numSelected === numRows;
-
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -124,17 +129,16 @@ export class ExamsComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
       this.isSelected = true;
     }
-
   }
-
+  // filter by any char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+  // Open add or edit modal window
   openModal(exam?: Exam) {
     const ref = this.modalService.open(AddEditExamComponent, { centered: true });
     ref.componentInstance.exam = exam;
@@ -145,22 +149,22 @@ export class ExamsComponent implements OnInit {
       }
     });
   }
-
+  // Open Delete modal
   openDelete(exam: Exam) {
-    this.removeExam=
+    this.removeExam =
     {
       Id: exam.Id,
       Course: exam.Course
     }
   }
-
+  // Delete selected Exams
   deleteSelectedExams() {
     if (this.selection.hasValue()) {
       this.selection.selected.forEach(selected => (this.deleteExam(selected.Id)));
     }
     this.alertService.errorFormField();
   }
-
+  // Delete Exam
   deleteExam(id: string) {
     if (id !== null || id !== undefined) {
       this.examService.deleteById(id).subscribe(res => {
@@ -174,7 +178,7 @@ export class ExamsComponent implements OnInit {
       });
     }
   }
-
+  // Refresh
   refresh() {
     if (this.examListSubscription)
       this.examListSubscription.unsubscribe();

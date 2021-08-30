@@ -35,7 +35,7 @@ export class AutoResetPassComponent implements OnInit {
     this.alertService.genericAlertMsg("info", "Please change your password now to protect your account");
     this.loggedUser = this.tokenStorageService.getUser();
   }
-
+// Confirm a new Password
   confirmNewPWD() {
     if (this.newPWD === this.confirmPWD && this.newPWD.length >= 5) {
       this.isConfirmed = true;
@@ -43,7 +43,7 @@ export class AutoResetPassComponent implements OnInit {
     else if (this.newPWD !== this.confirmPWD && this.newPWD.length >= 5 && this.newPWD.length !== 0)
       this.isConfirmed = false;
   }
-
+// Check Current Password
   checkCurrentPWD() {
     if (this.currentPWD.length > 0) {
       this.userService.checkEnteredPWD(this.currentPWD, this.loggedUser.UserName).subscribe(res => {
@@ -56,6 +56,8 @@ export class AutoResetPassComponent implements OnInit {
       )
     }
   }
+
+  // Check new Password
   checkNewPWD() {
     if (this.newPWD.match("^[A-Za-z0-9]+$"))
       this.isCorrectFormat = true;
@@ -65,8 +67,9 @@ export class AutoResetPassComponent implements OnInit {
       this.isSame = true;
     else
       this.isSame = false;
-
   }
+
+  // Submit Form
   onSubmit() {
     this.isLoading = true;
     if (this.isConfirmed && this.newPWD.length >= 5 && this.confirmPWD === this.newPWD && this.isCorrectFormat && this.isSame) {
@@ -81,8 +84,6 @@ export class AutoResetPassComponent implements OnInit {
           this.activeModal.close();
         }
       }).add(() => this.isLoading = false);
-
-
     }
     else {
       this.alertService.errorFormField();

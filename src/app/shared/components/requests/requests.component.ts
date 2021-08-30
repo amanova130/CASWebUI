@@ -76,11 +76,12 @@ export class RequestsComponent implements OnInit, OnDestroy {
       this.getAllRequestData();
     }
   }
-
+// export to Excel all requests
   exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Requests.xlsx")
   }
 
+  // Get all requests
   getAllRequestData() {
     this.requestListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.requestService.getAllRequests())
@@ -90,10 +91,15 @@ export class RequestsComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-      console.log("Get Request refreshed");
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
+
   }
 
+  // get Requests by student id
   getRequestByStudentId() {
     this.requestListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.requestService.getRequestsListBySenderId(this.loggedUser.UserName))
@@ -103,19 +109,23 @@ export class RequestsComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-      console.log("Get Request refreshed");
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
 
+  // Filter by char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
+  // change status of request
   updateStatusOfRequest(status: string, request: Request) {
     this.requestorEmail = [];
     if (request) {
@@ -138,14 +148,18 @@ export class RequestsComponent implements OnInit, OnDestroy {
                 this.emailBody.ReceiverNames.push(student.First_name + ' ' + student.Last_name);
                 this.showMessageBeforeSending();
               }
-
             }
           )
         }
-      })
+      },
+        error => {
+          this.alertService.genericAlertMsg("error", error);
+          this.isLoading = false;
+        });
     }
   }
 
+  // Show Email message to Admin
   showMessageBeforeSending() {
     Swal.fire({
       title: 'Do you want reply?',
@@ -162,15 +176,18 @@ export class RequestsComponent implements OnInit, OnDestroy {
     })
   }
 
+  // Send an Email to student when Request status changes
   sendEmail(message: Message) {
     this.messageService.create(message).subscribe(res => {
       if (res)
         this.alertService.genericAlertMsg('success', 'Your email was sent successfully');
-      else
-        this.alertService.errorResponseFromDataBase();
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+      });
   }
 
+  // Filter by Request status
   showFiltredRequests(status: string) {
     this.statusOFRequest = status;
     let list;
@@ -182,12 +199,11 @@ export class RequestsComponent implements OnInit, OnDestroy {
     }
     else
       this.dataSource = new MatTableDataSource(this.requestList);
-
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-
+// Open Add a request modal
   openModal(request?: Request) {
     const ref = this.modalService.open(AddRequestComponent, { centered: true });
     ref.result.then((result) => {
@@ -198,6 +214,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Open Delete modal window
   openDelete(request: Request) {
     this.removeRequest = {
       Id: request.Id,
@@ -205,8 +222,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
       Subject: request.Subject,
     }
   }
-
-
+/// Destroy Subscription subject
   ngOnDestroy() {
     if (this.requestListSubscription)
       this.requestListSubscription.unsubscribe();

@@ -1,7 +1,6 @@
 <div class="modal-header">
   <h1 *ngIf="isAddMode" class="modal-title">Add Group</h1>
   <h1 *ngIf="!isAddMode" class="modal-title">Edit Group</h1>
-
 </div>
 <div class="modal-body">
   <form #form="ngForm" (ngSubmit)="onSubmit()">
@@ -42,13 +41,11 @@
         <div class="form-control-feedback alert alert-danger"
           *ngIf="Semester.errors && (Semester.dirty || form.submitted)">
           <p *ngIf="Semester.errors.required">Semester is required</p>
-
         </div>
       </div>
     </div>
     <div class="row mb-3">
       <div class="form-group col-6">
-
         <mat-form-field appearance="fill">
           <mat-label>Choose Faculty</mat-label>
           <mat-select [(ngModel)]="editGroup.Fac_Name" (valueChange)="choosenFaculty($event)" name="Faculty" required>
@@ -56,16 +53,13 @@
             <mat-option *ngFor="let c of facultyList" [value]="c.FacultyName">{{c.FacultyName}}</mat-option>
           </mat-select>
           <mat-error *ngIf="groupControl.hasError('required')">Please choose a faculty</mat-error>
-
         </mat-form-field>
-
       </div>
       <div class="form-group col-6">
         <mat-form-field appearance="fill">
           <mat-label>Courses</mat-label>
           <mat-select [(ngModel)]="editGroup.courses" (valueChange)="choosenCourse($event)" name="courses" multiple
             required>
-
             <mat-option *ngFor="let c of courseList" [value]="c">{{c}}</mat-option>
           </mat-select>
         </mat-form-field>

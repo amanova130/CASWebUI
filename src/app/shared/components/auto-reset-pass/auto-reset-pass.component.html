@@ -1,10 +1,7 @@
 <div class="modal-header">
   <h1 class="modal-title">Change Password</h1>
-
-
 </div>
 <div class="modal-body">
-
   <form #form="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group col-6">
       <label>Current Password</label>
@@ -29,7 +26,6 @@
         <div *ngIf="!isSame && isCurrent">The new password cannot be the same as the current password </div>
       </div>
     </div>
-
     <div class="form-group col-6">
       <label>Confirm Password</label>
       <input type="password" id="Description" (blur)="confirmNewPWD()" (click)="isConfirmed=true" class="form-control"

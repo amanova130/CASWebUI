@@ -1,100 +1,101 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+// Manage All request from Student
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {catchError, map, tap} from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { RequestUtils } from '../utils/requestUtils';
 import { Request } from '../models/request';
-
-
+import { ErrorHandlerService } from '../../app/shared/helperServices/errorHandler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestService {
   protected basePath = environment.basePath;
-   
-  constructor(protected http: HttpClient, private requestUtil: RequestUtils, public datepipe: DatePipe) {}
+  private requestList: Request[] = [];
+  requestListChanged = new Subject<Request[]>();
+
+  constructor(protected http: HttpClient, public datepipe: DatePipe, private errorHandlerService: ErrorHandlerService) { }
+
+  // Set Request List for deep copy
+  setRequestList(requestList: Request[]) {
+    this.requestList = requestList;
+    this.requestListChanged.next(this.requestList.slice());
+  }
 
   //Function to get all Requests from web api//  
-  getAllRequests(){
-    return this.http.get<Request[]>(`${this.basePath}/api/Request/getAllRequests`).pipe(map( (requestList: Request[])=>{
+  getAllRequests() {
+    return this.http.get<Request[]>(`${this.basePath}/api/Request/getAllRequests`).pipe(map((requestList: Request[]) => {
       return requestList;
     }),
-    tap((requestList: Request[]) =>{
-      this.requestUtil.setRequestList(requestList);
-    })
+      tap((requestList: Request[]) => {
+        this.setRequestList(requestList);
+      }),
+      catchError(this.errorHandlerService.errorHandler)
     );
   }
 
-  getRequestsListBySenderId(senderId: String){
+  // Get request by sender Id
+  getRequestsListBySenderId(senderId: String) {
     return this.http.get<Request[]>(`${this.basePath}/api/Request/getRequestsListBySenderId?senderId=${encodeURIComponent(String(senderId))}`)
-    .pipe(map( (requestList: Request[])=>{
-      return requestList;
-    }),
-    tap((requestList: Request[]) =>{
-      this.requestUtil.setRequestList(requestList);
-    })
-    );
+      .pipe(map((requestList: Request[]) => {
+        return requestList;
+      }),
+        tap((requestList: Request[]) => {
+          this.setRequestList(requestList);
+        }),
+        catchError(this.errorHandlerService.errorHandler)
+      );
   }
 
-//function to get single Request object from web api by given id from web api
-  getRequestById(id: string){
+  //function to get single Request object from web api by given id from web api
+  getRequestById(id: string) {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getRequest.');
+    }
+    return this.http.get<Request>(`${this.basePath}/api/Request/getRequestById?id=${encodeURIComponent(String(id))}`).pipe(
+      catchError(this.errorHandlerService.errorHandler)
+    )
   }
-  return this.http.get<Request>(`${this.basePath}/api/Request/getRequestById?id=${encodeURIComponent(String(id))}`).pipe(
-    catchError(this.errorHandler)
-  )
- }
 
 
- //function to delete single Request with given id in web api
-  deleteById(id: string){
+  //function to delete single Request with given id in web api
+  deleteById(id: string) {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiRequestIdDelete.');
-  }
+    }
     return this.http.delete<Request>(`${this.basePath}/api/Request/deleteRequestById?id=${encodeURIComponent(String(id))}`)
-    .pipe(
-      catchError(this.errorHandler)
-    )
+      .pipe(
+        catchError(this.errorHandlerService.errorHandler)
+      )
   }
 
-//function to add new Request object to web api
-  createRequest(params: any){
+  //function to add new Request object to web api
+  createRequest(params: any) {
     return this.http.post<Request>(`${this.basePath}/api/Request/createNewRequest`, params)
-    .pipe(
-      catchError(this.errorHandler)
-    )
+      .pipe(
+        catchError(this.errorHandlerService.errorHandler)
+      )
   }
 
   //update existing Request object in web api
-  updateRequest(requestIn: Request){
+  updateRequest(requestIn: Request) {
     if (requestIn.Id === null || requestIn.Id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling apiCourseUpdate.');
-  }
+    }
     return this.http.put<Request>(`${this.basePath}/api/Request/updateRequest`, requestIn)
-    .pipe(
-      catchError(this.errorHandler)
-    )
+      .pipe(
+        catchError(this.errorHandlerService.errorHandler)
+      )
   }
 
-  getCountOfNewRequest(value: string){
+  // Get count of requests 
+  getCountOfNewRequest(value: string) {
     return this.http.get<number>(`${this.basePath}/api/Request/getCountOFNewRequest?fieldName=status_request&value=${encodeURIComponent(String(value))}`)
-    .pipe(
-      catchError(this.errorHandler)
-    )
+      .pipe(
+        catchError(this.errorHandlerService.errorHandler)
+      )
   }
-  
-//error handler for http response
-  errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
-    let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
- }
+
 }

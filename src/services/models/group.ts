@@ -1,7 +1,6 @@
 
-
-/* Model that contains data about group*/
-export interface Group { 
+/* Group Model*/
+export interface Group {
     Id?: string;
     GroupNumber?: string;
     NumberOfStudent?: number;

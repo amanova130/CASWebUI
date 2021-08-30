@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { StudentPageRoutingModule } from './student-page-routing.module';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { ContactsComponent } from './contacts/contacts.component';
@@ -23,7 +22,6 @@ import { AverageComponent } from './exam-grades/components/average/average.compo
 import { ExamViewTabComponent } from './exam-grades/components/exam-view-tab/exam-view-tab.component';
 import { ProgressComponent } from './student-dashboard/progress/progress.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'primeng/carousel';
 
 

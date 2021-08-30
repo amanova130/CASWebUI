@@ -1,23 +1,20 @@
-*
-{
-    overflow: hidden;  
-}
-.header,.items
-{
-    text-align: center;
-   
-
-}
-.items
-{
-    margin-top:0.5%;
+* {
+  overflow: hidden;
 }
 
-.header
-{
-    margin-right:5.5%;
+.header,
+.items {
+  text-align: center;
 }
-.materialTableHeader
-{
-margin-bottom: 2%;
+
+.items {
+  margin-top: 0.5%;
+}
+
+.header {
+  margin-right: 5.5%;
+}
+
+.materialTableHeader {
+  margin-bottom: 2%;
 }

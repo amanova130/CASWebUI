@@ -1,8 +1,7 @@
-import { CalendarEventAction } from "angular-calendar";
-import RRule from "rrule";
+/* Model that contains data about schedule*/
 import { Teacher } from "./teacher";
 
-/* Model that contains data about schedule*/
+
 export interface Schedule {
     Start:Date,
     End:Date,
