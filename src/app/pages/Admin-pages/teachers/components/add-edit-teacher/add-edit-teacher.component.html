@@ -1,7 +1,6 @@
 <div class="modal-header">
   <h1 *ngIf="isAddMode" class="modal-title">Add Teacher</h1>
   <h1 *ngIf="!isAddMode" class="modal-title">Edit Teacher</h1>
-
 </div>
 <div class="modal-body">
   <form #form="ngForm" (ngSubmit)="onSubmit()">
@@ -9,7 +8,7 @@
       <div class="form-group" [ngClass]="{'d-none' : !isAddMode}">
         <label>ID</label>
         <input type="text" class="form-control" id="Id" name="Id" [(ngModel)]="editTeacher.Id" #Id='ngModel' required
-        minlength=9 maxlength=9 pattern="[1-9]*" />
+          minlength=9 maxlength=9 pattern="[1-9]*" />
         <div class="alert alert-danger" *ngIf="Id.errors && (Id.dirty || form.submitted)">
           <div *ngIf="Id.errors.required">Id is required.</div>
           <div *ngIf="Id.errors.maxlength || Id.errors.minlength">Id must contain 9 digits.</div>
@@ -25,7 +24,6 @@
         <div class="alert alert-danger" *ngIf="firstName.errors && (firstName.dirty || form.submitted)">
           <div *ngIf="firstName.errors.required">First Name is required.</div>
           <div *ngIf="firstName.errors.pattern">First Name must contain only letters</div>
-
         </div>
       </div>
       <div class="form-group col-6">
@@ -36,7 +34,6 @@
           *ngIf="lastName.errors && (lastName.dirty || form.submitted)">
           <p *ngIf="lastName.errors.required">Last name is required</p>
           <div *ngIf="lastName.errors.pattern">Last Name must contain only letters</div>
-
         </div>
       </div>
     </div>
@@ -86,15 +83,13 @@
     <div class="row mb-3" ngModelGroup="Address">
       <div class="col-4 form-group">
         <label for="city">City</label>
-        <input type="text" id="City" name="City" class="form-control" required pattern="[a-zA-Z ]*" [(ngModel)]="address.City"
-          #city="ngModel">
+        <input type="text" id="City" name="City" class="form-control" required pattern="[a-zA-Z ]*"
+          [(ngModel)]="address.City" #city="ngModel">
         <div class="form-control-feedback  alert alert-danger" *ngIf="city.errors && (city.dirty || form.submitted)">
           <p *ngIf="city.errors.required">City is required</p>
           <div *ngIf="city.errors.pattern">City must contain only letters</div>
-
         </div>
       </div>
-
       <div class="col-4 form-group">
         <label for="street">Street</label>
         <input type="text" id="Street" name="Street" class="form-control" required [(ngModel)]="address.Street"
@@ -104,14 +99,11 @@
           <p *ngIf="street.errors.required">Street and number of home is required</p>
         </div>
       </div>
-
       <div class="col-4 form-group">
         <label for="pincode">Zip Code</label>
         <input type="text" id="ZipCode" name="ZipCode" class="form-control" required [(ngModel)]="address.ZipCode">
       </div>
     </div>
-
-
     <div class="form-group mb-3">
       <mat-form-field appearance="fill">
         <mat-label>Courses</mat-label>

@@ -1,3 +1,4 @@
+// Pipe for sanitize embeded URLs
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 

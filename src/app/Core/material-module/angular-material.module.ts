@@ -36,7 +36,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 const materialModules = [

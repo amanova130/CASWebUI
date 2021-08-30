@@ -9,11 +9,9 @@ import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Faculty } from 'src/services/models/faculty';
-import { FacultyUtils } from 'src/services/utils/facultyUtils';
 import { FacultyService } from 'src/services/WebApiService/faculty.service';
 import { AddEditFacultyComponent } from './components/add-edit-faculty/add-edit-faculty.component';
 import { UploadFileService } from '../../../../services/WebApiService/uploadFile.service';
-
 
 @Component({
   selector: 'app-faculties',
@@ -29,7 +27,6 @@ export class FacultiesComponent implements OnInit, OnDestroy {
     'Courses',
     'action'];
   dataSource!: MatTableDataSource<Faculty>;
-
   facultyList: Faculty[] = [];
   facultyListSubscription!: Subscription;
   removeFaculty!: Faculty;
@@ -40,15 +37,16 @@ export class FacultiesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
   @ViewChild('TABLE') table: ElementRef;
+  selection = new SelectionModel<Faculty>(true, []);
 
-  constructor(private facultyUtils: FacultyUtils, private facultyService: FacultyService,
+  constructor(private facultyService: FacultyService,
     private modalService: NgbModal, public datepipe: DatePipe,
     private alertService: AlertService, private fileHandlerService: UploadFileService) { }
+
   ngOnInit(): void {
     this.getAllfacultyData();
   }
-  selection = new SelectionModel<Faculty>(true, []);
-
+  // Retrive all faculties
   getAllfacultyData() {
     this.facultyListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.facultyService.getAllFaculties())
@@ -58,8 +56,11 @@ export class FacultiesComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-      console.log(this.facultyList);
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -71,7 +72,6 @@ export class FacultiesComponent implements OnInit, OnDestroy {
     else
       this.isSelected = false;
     return numSelected === numRows;
-
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -84,20 +84,21 @@ export class FacultiesComponent implements OnInit, OnDestroy {
       this.dataSource.data.forEach(row => this.selection.select(row));
       this.isSelected = true;
     }
-
   }
-
+  // Filter by any char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+  //Export to excel
   exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Faculties.xlsx")
   }
+
+  // Open modal window to add or edit faculties
   openModal(faculty: Faculty = { Id: "" }) {
     const ref = this.modalService.open(AddEditFacultyComponent, { centered: true });
     ref.componentInstance.faculty = faculty;
@@ -108,20 +109,22 @@ export class FacultiesComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  // Delete Modal
   openDelete(faculty: Faculty = { Id: "" }) {
     this.removeFaculty = {
       Id: faculty.Id,
       FacultyName: faculty.FacultyName
     }
   }
+
+  //Delete selected Faculties
   deleteSelectedFaculties() {
     if (this.selection.hasValue()) {
       this.selection.selected.forEach(selected => (this.deleteFaculty(selected.Id)));
     }
     this.alertService.errorFormField();
   }
-
+  // Delete Faculty
   deleteFaculty(id: string) {
     if (id !== null || id !== undefined) {
       this.facultyService.deleteById(id).subscribe(res => {
@@ -135,7 +138,7 @@ export class FacultiesComponent implements OnInit, OnDestroy {
       });
     }
   }
-
+  // Refresh
   refresh() {
     if (this.facultyListSubscription)
       this.facultyListSubscription.unsubscribe();

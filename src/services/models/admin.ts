@@ -1,8 +1,7 @@
-
-import { AddressBook } from './addressBook';
-import { User } from './user';
 /*  Model that contains admin data */
-export interface Admin { 
+import { AddressBook } from './addressBook';
+
+export interface Admin {
     Id?: string;
     First_name?: string;
     Last_name?: string;

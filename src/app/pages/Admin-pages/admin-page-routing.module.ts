@@ -1,3 +1,4 @@
+// Routing Admin page
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminPageComponent } from './admin-page.component';
@@ -19,36 +20,37 @@ import { GradesComponent } from './grades/grades.component';
 
 
 const routes: Routes = [
-{   path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
-},
-{
-    path:'',
-    component: AdminPageComponent,
-    children: [
-        { path: 'dashboard', component: DashboardComponent},
-        { path: 'students',  component: StudentsComponent },
-        { path: 'teachers',  component: TeachersComponent },
-        { path: 'time-table',  component: TimeTableComponent },
-        { path: 'groups',  component: GroupsComponent },
-        { path: 'courses',  component: CoursesComponent },
-        { path: 'faculties',  component: FacultiesComponent },
-        { path: 'exams',  component: ExamsComponent },
-        { path: 'holiday',  component: HolidayComponent },
-        { path: 'links',  component: LinksComponent },
-        { path: 'reports',  component: ReportsComponent },
-        { path: 'requests',  component: RequestsComponent },
-        { path: 'email',  component: EmailComponent },
-        { path: 'grades',  component: GradesComponent },
-        { path: 'staff',  component: StaffComponent },
+    {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+    },
+    {
+        path: '',
+        component: AdminPageComponent,
+        children: [
+            { path: 'dashboard', component: DashboardComponent },
+            { path: 'students', component: StudentsComponent },
+            { path: 'teachers', component: TeachersComponent },
+            { path: 'time-table', component: TimeTableComponent },
+            { path: 'groups', component: GroupsComponent },
+            { path: 'courses', component: CoursesComponent },
+            { path: 'faculties', component: FacultiesComponent },
+            { path: 'exams', component: ExamsComponent },
+            { path: 'holiday', component: HolidayComponent },
+            { path: 'links', component: LinksComponent },
+            { path: 'reports', component: ReportsComponent },
+            { path: 'requests', component: RequestsComponent },
+            { path: 'email', component: EmailComponent },
+            { path: 'grades', component: GradesComponent },
+            { path: 'staff', component: StaffComponent },
 
-    ]
-},
+        ]
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class AdminPageRoutingModule { }

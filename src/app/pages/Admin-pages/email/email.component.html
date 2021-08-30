@@ -12,7 +12,6 @@
             </li>
             <hr>
             <li class="nav-item">
-
               <a mat-button (mwlClick)="sentView()">
                 <mat-icon>send</mat-icon> Sent
               </a>
@@ -25,7 +24,6 @@
           </ul>
         </div>
       </nav>
-
     </mat-card>
   </div>
   <div class="col-lg-10">
@@ -37,7 +35,6 @@
           </span>
         </div>
       </div>
-
       <app-sent *ngIf="isSent"></app-sent>
       <app-compose *ngIf="isCompose"></app-compose>
       <app-trash *ngIf="isTrash"></app-trash>

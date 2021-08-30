@@ -8,8 +8,6 @@ import moment from 'moment-timezone';
 import { DatePipe } from '@angular/common';
 import { TokenStorageService } from 'src/app/shared/helperServices/token-storage.service';
 
-
-
 @Component({
   selector: 'app-time-table-view',
   templateUrl: './time-table-view.component.html',
@@ -19,27 +17,26 @@ export class TimeTableViewComponent implements OnInit {
   public timeTable: TimeTable;
   public calendarUrl: string;
   public schedule: Schedule[];
-  public groupNum:string;
+  public groupNum: string;
+
   constructor(
     private timeTableService: TimeTableService,
     public datepipe: DatePipe,
     private tokenStorage: TokenStorageService
   ) { }
-
+// Get time-table schedule for student
   ngOnInit(): void {
-    //console.log(localStorage.group);
     this.groupNum = this.tokenStorage.getToken("group");
     this.timeTableService.getTTByGroupNumber(this.groupNum).subscribe(res => {
       if (res) {
         this.calendarUrl = "https://calendar.google.com/calendar/embed?src=" + res.CalendarId;
-        console.log(res);
-        this.timeTable=res;
-        this.schedule=this.timeTable.GroupSchedule;
-        this.schedule = this.schedule.filter(lesson=>new Date(lesson.LastDate) > new Date());
-        this.schedule = this.schedule.sort((a, b) => (new Date(a.Start).getHours() > new Date(b.Start).getHours() ? 1 : -1));        
-        this.schedule.forEach(lesson=>{
-          lesson.rrule={
-            byweekday:new Date(lesson.Start).getDay()
+        this.timeTable = res;
+        this.schedule = this.timeTable.GroupSchedule;
+        this.schedule = this.schedule.filter(lesson => new Date(lesson.LastDate) > new Date());
+        this.schedule = this.schedule.sort((a, b) => (new Date(a.Start).getHours() > new Date(b.Start).getHours() ? 1 : -1));
+        this.schedule.forEach(lesson => {
+          lesson.rrule = {
+            byweekday: new Date(lesson.Start).getDay()
           }
         })
       }

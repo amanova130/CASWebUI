@@ -1,114 +1,79 @@
  @import '~angular-calendar/scss/angular-calendar.scss';
-h3 {
-    margin: 0 0 10px;
-  }
-  
-  pre {
-    background-color: #f5f5f5;
-    padding: 15px;
-  }
 
-  button{
-    margin:5px;
-  }
-  mat-form-field{
-  margin: auto;
-  width: 8%;
-  padding: 10px;
-  background-color: var(--background-default) !important;
-  }
-.send
-{
-  margin-bottom:3%;
-}
-
-mat-select{
-  font-weight: 500;  
-  font-style: italic;
-  }
-  mat-label{
-    opacity:0.6;
-    text-align: center;
-  }
-
- 
-  ::ng-deep.cal-week-view .cal-time-events .cal-event {
-    background-color:#dee2e6!important;
-    border-width: 3px !important;
-    border-style: none none none solid !important;
-  }
-  ::ng-deep.cal-event-title{
-    font-size: 15px !important;
-    font-style: italic;
-  }
-  ::ng-deep.ng-start-inserted {
-    width: 10px;
-    height: 10px;
-    border-radius:0%;
-    display: inline-block;
-    margin: 2px;
-}
-.mat-card.calendar
-{
-  margin:10px;
-}
-
-.addButton
-{
-  color:grey;
-  margin-left:90%;
-}
-
-.addButton:hover
-{
-  color: var(--color-dark);
-}
-.modal-body
-{
-  text-align: center;
-}
-
-
-
-
-
-::ng-deep mwl-calendar-month-cell
-{
-  background-color: var(--background-default) !important;
-
-}
-// ::ng-deep mwl-calendar-month-view-header
-// {
-//   background-color: var(--background-default) !important;
-
-// }
-::ng-deep .cal-month-view
-{
-  background-color: var(--background-default) !important;
-//  color: var(--color-dark);
-
-}
-
-::ng-deep .cal-month-view:hover
-{
-  background-color: var(--background-default) !important;
-  color: var(--color-dark);
-
-}::ng-deep .cal-cell-row:hover,::ng-deep .cal-cell:hover
-{
-  background-color: var(--background-default) !important;
-  color: var(--color-dark);
-
-}
-::ng-deep .cal-week-view ,::ng-deep.cal-hour-odd
-{
-  background-color: var(--background-default) !important;
-  color: var(--color-dark);
-
-}
-
-::ng-deep .cal-hour-segment
-{
-  border-bottom:thin double !important;
-  border-bottom-color: #b3aaaa !important;
-}
+ h3 {
+   margin: 0 0 10px;
+ }
+ pre {
+   background-color: #f5f5f5;
+   padding: 15px;
+ }
+ button {
+   margin: 5px;
+ }
+ mat-form-field {
+   margin: auto;
+   width: 8%;
+   padding: 10px;
+   background-color: var(--background-default) !important;
+ }
+ mat-select {
+   font-weight: 500;
+   font-style: italic;
+ }
+ mat-label {
+   opacity: 0.6;
+   text-align: center;
+ }
+ ::ng-deep.cal-week-view .cal-time-events .cal-event {
+   background-color: #dee2e6 !important;
+   border-width: 3px !important;
+   border-style: none none none solid !important;
+ }
+ ::ng-deep.cal-event-title {
+   font-size: 15px !important;
+   font-style: italic;
+ }
+ ::ng-deep.ng-start-inserted {
+   width: 10px;
+   height: 10px;
+   border-radius: 0%;
+   display: inline-block;
+   margin: 2px;
+ }
+ .mat-card.calendar {
+   margin: 10px;
+ }
+ .addButton {
+   color: grey;
+   margin-left: 90%;
+ }
+ .addButton:hover {
+   color: var(--color-dark);
+ }
+ .modal-body {
+   text-align: center;
+ }
+ ::ng-deep mwl-calendar-month-cell {
+   background-color: var(--background-default) !important;
+ }
+ ::ng-deep .cal-month-view {
+   background-color: var(--background-default) !important;
+ }
+ ::ng-deep .cal-month-view:hover {
+   background-color: var(--background-default) !important;
+   color: var(--color-dark);
+ }
+ ::ng-deep .cal-cell-row:hover,
+ ::ng-deep .cal-cell:hover {
+   background-color: var(--background-default) !important;
+   color: var(--color-dark);
+ }
+ ::ng-deep .cal-week-view,
+ ::ng-deep.cal-hour-odd {
+   background-color: var(--background-default) !important;
+   color: var(--color-dark);
+ }
+ ::ng-deep .cal-hour-segment {
+   border-bottom: thin double !important;
+   border-bottom-color: #b3aaaa !important;
+ }

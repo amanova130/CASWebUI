@@ -18,20 +18,16 @@ import { UploadFileService } from 'src/services/WebApiService/uploadFile.service
   styleUrls: ['./add-edit-links.component.scss']
 })
 export class AddEditLinksComponent implements OnInit, OnDestroy {
-
-
   @Input()
   public link: ExtendedLink;
   @Input()
   public linkList!: ExtendedLink[];
-
   @ViewChild('form') form!: any;
   isAddMode = true;
   isLoading = false;
   submitted = false;
   facultyList: Faculty[] = [];
   facultyListSubscription!: Subscription;
-
 
   constructor(
     private alertService: AlertService,
@@ -55,13 +51,14 @@ export class AddEditLinksComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+// Get list of Faculties
   private getFaculties() {
     this.facultyListSubscription = timer(0).pipe(switchMap(() => this.facultyService.getAllFaculties())).subscribe((list: Faculty[]) => {
       this.facultyList = list;
     });
   }
 
+  // Submit Form
   onSubmit() {
     this.isLoading = true;
     if (this.form.valid) {
@@ -76,6 +73,7 @@ export class AddEditLinksComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Create a new Link
   private createLink() {
     this.linkService.create(this.link)
       .pipe(first())
@@ -84,14 +82,16 @@ export class AddEditLinksComponent implements OnInit, OnDestroy {
           this.linkList.push(result);
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.linkList);
-
         }
-        else
-          this.alertService.errorResponseFromDataBase();
-      })
+      },
+        error => {
+          this.alertService.genericAlertMsg("error", error);
+          this.isLoading = false;
+        })
       .add(() => this.isLoading = false);
   }
 
+  // Upload Image
   public uploadFile = (files: any) => {
     if (files.length === 0) {
       return;
@@ -106,7 +106,7 @@ export class AddEditLinksComponent implements OnInit, OnDestroy {
       });
   }
 
-
+// Update Link data
   private updateLink() {
     this.linkService.update(this.link)
       .pipe(first()).subscribe((result) => {
@@ -116,16 +116,13 @@ export class AddEditLinksComponent implements OnInit, OnDestroy {
           this.linkList[index] = this.link;
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.linkList);
-
         }
-        else
-          this.alertService.errorResponseFromDataBase();
-      })
+      },
+        error => {
+          this.alertService.genericAlertMsg("error", error);
+          this.isLoading = false;
+        })
       .add(() => this.isLoading = false);
-  }
-
-  refresh(): void {
-    window.location.reload();
   }
 
   ngOnDestroy() {

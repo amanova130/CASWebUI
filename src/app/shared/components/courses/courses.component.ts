@@ -1,23 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { locale } from 'moment';
 import { Observable, Subscription, timer } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/helperServices/alert.service';
 import { Course } from 'src/services/models/course';
 import { CourseService } from 'src/services/WebApiService/course.service';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 import { TokenStorageService } from '../../helperServices/token-storage.service';
-import { Admin } from '../../../../services/models/admin';
 import { Role } from '../../pipes-and-enum/roleEnum';
-import { LoggedUser } from '../../../../services/models/loggedUser';
 import { User } from 'src/services/models/user';
-import { GroupService } from '../../../../services/WebApiService/group.service';
 import { Group } from 'src/services/models/group';
-import { StudentService } from '../../../../services/WebApiService/student.service';
 import { Student } from 'src/services/models/student';
 
 @Component({
@@ -51,8 +45,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private modalService: NgbModal,
     private tokenStorage: TokenStorageService) {
-
-
     this.loggedUser = this.tokenStorage.getUser();
     this.groupNumber = this.tokenStorage.getToken('group');
   }
@@ -69,6 +61,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get Courses
   private getCourses() {
     this.courseListSubscription = timer(0, 60000).pipe(switchMap(() => this.courseService.getAllCourses())).subscribe((list: Course[]) => {
       this.courseList = list;
@@ -76,9 +69,13 @@ export class CoursesComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.obs = this.dataSource.connect();
       this.isLoading = false;
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
-
+// Get Courses by Group name
   private getCourseByGroupName() {
     this.courseService.getCoursesByGroupName(this.groupNumber).subscribe(result => {
       if (result) {
@@ -88,13 +85,18 @@ export class CoursesComponent implements OnInit, OnDestroy {
         this.obs = this.dataSource.connect();
         this.isLoading = false;
       }
-    })
+    },
+    error => {
+      this.alertService.genericAlertMsg("error", error);
+      this.isLoading = false;
+    });
   }
 
+  // Create Image Path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
-
+// Filter by char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -103,8 +105,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-
-
+// Open Add or Edit Modal window
   openAddEditModal(course: Course = { Id: "" }) {
     const ref = this.modalService.open(AddEditCourseComponent, { centered: true });
     ref.componentInstance.course = course;
@@ -122,7 +123,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     this.course.Id = course.Id;
     this.course.CourseName = course.CourseName;
   }
-
+// Delete Course
   deleteCourse(id: string) {
     if (id !== null || id !== undefined) {
       this.courseService.deleteById(id).subscribe(res => {
@@ -132,11 +133,13 @@ export class CoursesComponent implements OnInit, OnDestroy {
           this.obs = this.dataSource.connect();
           this.alertService.successResponseFromDataBase();
         }
-        else
-          this.alertService.errorResponseFromDataBase();
+      },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
       });
     }
   }
+  //Refresh
   refresh() {
     if (this.courseListSubscription)
       this.courseListSubscription.unsubscribe();

@@ -34,7 +34,6 @@ export class HolidayComponent implements OnInit, OnDestroy {
     'Details',
     'action'];
   dataSource!: MatTableDataSource<Holiday>;
-
   loggedUser: User;
   holidayList: Holiday[] = [];
   holidayListSubscription!: Subscription;
@@ -50,6 +49,7 @@ export class HolidayComponent implements OnInit, OnDestroy {
   @ViewChild('TABLE') table: ElementRef;
   isStudent = true;
   selection = new SelectionModel<Holiday>(true, []);
+
   constructor(private holidayService: HolidayService,
     private modalService: NgbModal,
     public datepipe: DatePipe,
@@ -64,11 +64,11 @@ export class HolidayComponent implements OnInit, OnDestroy {
       this.isStudent = !this.isStudent;
   }
 
-
+  //Export to excel
   exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Holidays.xlsx")
   }
-
+  // Get All Holidays
   getAllholidayData() {
     this.holidayListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.holidayService.getAllHolidays())
@@ -78,8 +78,11 @@ export class HolidayComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-      console.log("Get holiday refreshed");
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -106,7 +109,7 @@ export class HolidayComponent implements OnInit, OnDestroy {
     }
 
   }
-
+  //Filter by Char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -115,7 +118,7 @@ export class HolidayComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  // Open Modal window to Add or Edit Holiday
   openModal(holiday?: Holiday) {
     const ref = this.modalService.open(AddEditHolidayComponent, { centered: true });
     ref.componentInstance.holiday = holiday;
@@ -126,14 +129,14 @@ export class HolidayComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  // Open Delete modal
   openDelete(holiday: Holiday) {
     this.removeHoliday = {
       Id: holiday.Id,
       Title: holiday.Title,
     }
   }
-
+  // Delete Selected Holidays
   deleteSelectedHolidays() {
     if (this.selection.hasValue()) {
       this.selection.selected.forEach(selected => (this.deleteHoliday(selected.Id)));
@@ -143,6 +146,7 @@ export class HolidayComponent implements OnInit, OnDestroy {
       this.alertService.errorFormField();
   }
 
+  // Delete single Holiday object
   deleteHoliday(id: string) {
     if (id !== null || id !== undefined) {
       this.holidayService.deleteById(id).subscribe(res => {
@@ -156,13 +160,13 @@ export class HolidayComponent implements OnInit, OnDestroy {
       });
     }
   }
-
+  // Refresh
   refresh() {
     if (this.holidayListSubscription)
       this.holidayListSubscription.unsubscribe();
     this.getAllholidayData();
   }
-
+  // Destroy subscription object
   ngOnDestroy() {
     if (this.holidayListSubscription)
       this.holidayListSubscription.unsubscribe();

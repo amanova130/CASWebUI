@@ -1,10 +1,11 @@
+// Opload File service is responsible to upload and download excel files
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
-
+import { ErrorHandlerService } from '../../app/shared/helperServices/errorHandler.service';
 
 
 @Injectable({
@@ -12,7 +13,8 @@ import * as XLSX from 'xlsx';
 })
 export class UploadFileService {
   protected basePath = environment.basePath; //Path to connect with Web API
-    constructor(protected http: HttpClient) {  }
+
+    constructor(protected http: HttpClient, private errorHandlerService: ErrorHandlerService) {  }
 
     //Funtion to upload image to Web API
     uploadImage(formData: FormData)
@@ -21,7 +23,7 @@ export class UploadFileService {
   
       return this.http.post(`${this.basePath}/api/FileHandler/UploadImage`, formData)
       .pipe(
-        catchError(this.errorHandler)
+        catchError(this.errorHandlerService.errorHandler)
       )
     }
 
@@ -43,14 +45,4 @@ export class UploadFileService {
   
     }
 
-    //Error Handler for HTTP response
-    errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
-        let errorMessage = '';
-        if(error.error instanceof ErrorEvent) {
-          errorMessage = error.error.message;
-        } else {
-          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-        }
-        return throwError(errorMessage);
-     }
 }

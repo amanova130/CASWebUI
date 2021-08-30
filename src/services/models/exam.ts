@@ -1,6 +1,5 @@
-
-
-export interface Exam { 
+// Exam Model
+export interface Exam {
     Id?: string;
     Course?: string;
     Fac_name?: string;

@@ -31,7 +31,7 @@
               <div *ngFor="let item of schedule">
                 <mat-card class="mat-elevation-z8" *ngIf="item.rrule.byweekday == 0">
                   <strong [style.color]="item.Color">Subject: {{item.Title}}</strong>
-                  <br >{{this.datepipe.transform(item.Start, ' HH:mm')}} -
+                  <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} -
                   {{this.datepipe.transform(item.End, ' HH:mm')}}
                   <br>Teacher: <span *ngIf="item.Teacher">{{item.Teacher.First_name}} {{item.Teacher.Last_name}}</span>
                 </mat-card>
@@ -41,7 +41,7 @@
               <div id="sunday" *ngFor="let item of schedule">
                 <mat-card class="mat-elevation-z8 " *ngIf="item.rrule.byweekday == 1">
                   <strong [style.color]="item.Color">Subject: {{item.Title}}</strong>
-                  <br >{{this.datepipe.transform(item.Start, ' HH:mm')}} -
+                  <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} -
                   {{this.datepipe.transform(item.End, ' HH:mm')}}
                   <br>Teacher: <span *ngIf="item.Teacher">{{item.Teacher.First_name}} {{item.Teacher.Last_name}}</span>
                 </mat-card>
@@ -61,7 +61,7 @@
               <div *ngFor="let item of schedule">
                 <mat-card class="mat-elevation-z8" *ngIf="item.rrule.byweekday == 3">
                   <strong [style.color]="item.Color">Subject: {{item.Title}}</strong>
-                  <br >{{this.datepipe.transform(item.Start, ' HH:mm')}} -
+                  <br>{{this.datepipe.transform(item.Start, ' HH:mm')}} -
                   {{this.datepipe.transform(item.End, ' HH:mm')}}
                   <br>Teacher: <span *ngIf="item.Teacher">{{item.Teacher.First_name}} {{item.Teacher.Last_name}}</span>
                 </mat-card>
@@ -93,7 +93,8 @@
         </div>
       </div>
       <div class="d-flex flex-row-reverse">
-        <a id="calendarBtn" *ngIf="schedule && schedule.length > 0" mat-raised-button href={{calendarUrl}} target="_blank">+ Google
+        <a id="calendarBtn" *ngIf="schedule && schedule.length > 0" mat-raised-button href={{calendarUrl}}
+          target="_blank">+ Google
           Calendar</a>
       </div>
     </div>

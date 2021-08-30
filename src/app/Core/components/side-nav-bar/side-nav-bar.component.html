@@ -1,210 +1,209 @@
 <nav id="sidebarMenu" class="col-md-12 col-lg-12 d-md-block sidebar collapse w-100 h-100">
-    <div class="position-sticky">
-      <ul class="nav flex-column">
-        <li class="sidebar-user-panel nav-item pb-2">
-          <div class="user-panel" *ngIf="loggedUser">
-            <div class="image">
-              <img alt="User Image" class="img-circle user-img-circle" [src]="createImgPath(loggedUser.Image)">
-            </div>
+  <div class="position-sticky">
+    <ul class="nav flex-column">
+      <li class="sidebar-user-panel nav-item pb-2">
+        <div class="user-panel" *ngIf="loggedUser">
+          <div class="image">
+            <img alt="User Image" class="img-circle user-img-circle" [src]="createImgPath(loggedUser.Image)">
           </div>
-          <div class="profile-usertitle">
-            <div class="sidebar-userpic-name">{{loggedUser.First_name}}  {{loggedUser.Last_name}}</div>
-            <div class="profile-usertitle-job">{{loggedUser.Role}}</div>
-          </div>
-        </li>
-        <li class="nav-item pt-2" *ngIf="isAdmin">
-          <a class="nav-link" aria-current="page" routerLink='admin/dashboard' routerLinkActive="active">
-            <i class="material-icons">
-              dashboard
-            </i>
-            Dashboard
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" routerLink='admin/teachers' routerLinkActive="active">
-            <i class="material-icons">
-              badge
-            </i>
-           
-            Teachers
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" routerLink="admin/students" routerLinkActive="active">
-            <i class="material-icons">
-              recent_actors
-            </i>
-            Students
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" routerLink="admin/courses" routerLinkActive="active">
-            <i class="material-icons">
-              local_library
-            </i>
-            Courses
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" routerLink="admin/groups" routerLinkActive="active">
-            <i class="material-icons">
-              groups
-            </i>
-            Groups
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" routerLink="admin/faculties" routerLinkActive="active">
-            <i class="material-icons">
-              auto_stories
-            </i>
-            Faculties
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" routerLink="admin/time-table" routerLinkActive="active">
-            <i class="material-icons">
-              today
-            </i>
-            Time table
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-            <a class="nav-link" routerLink="admin/exams" routerLinkActive="active">
-              <i class="material-icons">
-                analytics
-              </i>
-              Exams
-            </a>
-          </li>
-          <li class="nav-item" *ngIf="isAdmin">
-            <a class="nav-link" routerLink="admin/grades" routerLinkActive="active">
-              <i class="material-icons">
-                timeline
-              </i>
-              Grades
-            </a>
-          </li>
-          <!-- For Student Page -->
-          <li class="nav-item pt-2" *ngIf="isStudent">
-            <a class="nav-link" aria-current="page" routerLink='student/student-dashboard' routerLinkActive="active">
-              <i class="material-icons">
-                dashboard
-              </i>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item" *ngIf="isStudent">
-            <a class="nav-link" routerLink="student/courses" routerLinkActive="active">
-              <i class="material-icons">
-                local_library
-              </i>
-              Courses
-            </a>
-          </li>
-          <li class="nav-item pt-2" *ngIf="isStudent">
-            <a class="nav-link" aria-current="page" routerLink='student/time-table-view' routerLinkActive="active">
-              <i class="material-icons">
-                today
-              </i>
-              Time-table
-            </a>
-          </li>
-          <li class="nav-item pt-2" *ngIf="isStudent">
-            <a class="nav-link" aria-current="page" routerLink='student/exam-grades' routerLinkActive="active">
-              <i class="material-icons">
-                fact_check
-              </i>
-              Exams and Grades
-            </a>
-          </li>
-          <li class="nav-item pt-2" *ngIf="isStudent">
-            <a class="nav-link" aria-current="page" routerLink='student/contacts' routerLinkActive="active">
-              <i class="material-icons">
-                contact_phone
-              </i>
-              Contacts
-            </a>
-          </li>
-      </ul>
-      <hr>
-      <ul class="nav flex-column mb-2"  *ngIf="isAdmin">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="admin/email" routerLinkActive="active">
-            <i class="material-icons">
-              contact_mail
-            </i>
-           Email
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="admin/holiday" routerLinkActive="active">
-            <i class="material-icons">
-              holiday_village
-            </i>
-            Holiday
-          </a>
-        </li>
-        <li class="nav-item" >
-          <a class="nav-link" routerLink="admin/reports" routerLinkActive="active">
-            <i class="material-icons">
-              library_books            </i>
-           Reports
-          </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="admin/links" routerLinkActive="active">
-              <i class="material-icons">
-                share
-              </i>
-
-              Links
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="admin/requests" routerLinkActive="active">
-              <i class="material-icons">
-                description
-              </i>
-             Requests
-             <span [matBadge]="newRequest" matBadgeOverlap="false" matBadgeColor="accent"></span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="admin/staff" routerLinkActive="active">
-              <i class="material-icons">
-                person_pin
-              </i>
-             Staff
-            </a>
-          </li>
-      </ul>
+        </div>
+        <div class="profile-usertitle">
+          <div class="sidebar-userpic-name">{{loggedUser.First_name}} {{loggedUser.Last_name}}</div>
+          <div class="profile-usertitle-job">{{loggedUser.Role}}</div>
+        </div>
+      </li>
+      <li class="nav-item pt-2" *ngIf="isAdmin">
+        <a class="nav-link" aria-current="page" routerLink='admin/dashboard' routerLinkActive="active">
+          <i class="material-icons">
+            dashboard
+          </i>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink='admin/teachers' routerLinkActive="active">
+          <i class="material-icons">
+            badge
+          </i>
+          Teachers
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/students" routerLinkActive="active">
+          <i class="material-icons">
+            recent_actors
+          </i>
+          Students
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/courses" routerLinkActive="active">
+          <i class="material-icons">
+            local_library
+          </i>
+          Courses
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/groups" routerLinkActive="active">
+          <i class="material-icons">
+            groups
+          </i>
+          Groups
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/faculties" routerLinkActive="active">
+          <i class="material-icons">
+            auto_stories
+          </i>
+          Faculties
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/time-table" routerLinkActive="active">
+          <i class="material-icons">
+            today
+          </i>
+          Time table
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/exams" routerLinkActive="active">
+          <i class="material-icons">
+            analytics
+          </i>
+          Exams
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="admin/grades" routerLinkActive="active">
+          <i class="material-icons">
+            timeline
+          </i>
+          Grades
+        </a>
+      </li>
       <!-- For Student Page -->
-      <ul class="nav flex-column mb-2"  *ngIf="isStudent">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="student/holiday" routerLinkActive="active">
-            <i class="material-icons">
-              holiday_village
-            </i>
-            Holiday
-          </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="student/links" routerLinkActive="active">
-              <i class="material-icons">
-                share
-              </i>
-              Links
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="student/requests" routerLinkActive="active">
-              <i class="material-icons">
-                description
-              </i>
-             Leave Request
-            </a>
-          </li>
-      </ul>
-    </div>
-  </nav>
+      <li class="nav-item pt-2" *ngIf="isStudent">
+        <a class="nav-link" aria-current="page" routerLink='student/student-dashboard' routerLinkActive="active">
+          <i class="material-icons">
+            dashboard
+          </i>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="isStudent">
+        <a class="nav-link" routerLink="student/courses" routerLinkActive="active">
+          <i class="material-icons">
+            local_library
+          </i>
+          Courses
+        </a>
+      </li>
+      <li class="nav-item pt-2" *ngIf="isStudent">
+        <a class="nav-link" aria-current="page" routerLink='student/time-table-view' routerLinkActive="active">
+          <i class="material-icons">
+            today
+          </i>
+          Time-table
+        </a>
+      </li>
+      <li class="nav-item pt-2" *ngIf="isStudent">
+        <a class="nav-link" aria-current="page" routerLink='student/exam-grades' routerLinkActive="active">
+          <i class="material-icons">
+            fact_check
+          </i>
+          Exams and Grades
+        </a>
+      </li>
+      <li class="nav-item pt-2" *ngIf="isStudent">
+        <a class="nav-link" aria-current="page" routerLink='student/contacts' routerLinkActive="active">
+          <i class="material-icons">
+            contact_phone
+          </i>
+          Contacts
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <ul class="nav flex-column mb-2" *ngIf="isAdmin">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="admin/email" routerLinkActive="active">
+          <i class="material-icons">
+            contact_mail
+          </i>
+          Email
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="admin/holiday" routerLinkActive="active">
+          <i class="material-icons">
+            holiday_village
+          </i>
+          Holiday
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="admin/reports" routerLinkActive="active">
+          <i class="material-icons">
+            library_books </i>
+          Reports
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="admin/links" routerLinkActive="active">
+          <i class="material-icons">
+            share
+          </i>
+
+          Links
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="admin/requests" routerLinkActive="active">
+          <i class="material-icons">
+            description
+          </i>
+          Requests
+          <span [matBadge]="newRequest" matBadgeOverlap="false" matBadgeColor="accent"></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="admin/staff" routerLinkActive="active">
+          <i class="material-icons">
+            person_pin
+          </i>
+          Staff
+        </a>
+      </li>
+    </ul>
+    <!-- For Student Page -->
+    <ul class="nav flex-column mb-2" *ngIf="isStudent">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="student/holiday" routerLinkActive="active">
+          <i class="material-icons">
+            holiday_village
+          </i>
+          Holiday
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="student/links" routerLinkActive="active">
+          <i class="material-icons">
+            share
+          </i>
+          Links
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="student/requests" routerLinkActive="active">
+          <i class="material-icons">
+            description
+          </i>
+          Leave Request
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

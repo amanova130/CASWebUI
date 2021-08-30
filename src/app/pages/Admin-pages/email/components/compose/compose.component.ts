@@ -19,7 +19,6 @@ import { StudentService } from 'src/services/WebApiService/student.service';
 })
 
 export class ComposeComponent implements OnInit {
-
   FormData: FormGroup;
   public attachments: boolean = false;
   public carbonCopy: boolean = false;
@@ -39,7 +38,6 @@ export class ComposeComponent implements OnInit {
   selectedOption: any;
   faculty: any;
 
-
   constructor(private builder: FormBuilder,
     private studentService: StudentService,
     private facultyService: FacultyService,
@@ -57,61 +55,67 @@ export class ComposeComponent implements OnInit {
       students: new FormControl(''),
       category: new FormControl(''),
     })
-
   }
-
+  // Submit Form
   onSubmit(value: any) {
     this.studentEmails.length = 0;
     if (this.isStudent) {
-      if (this.FormData.value.faculties.length > 0)
-        this.FormData.value.faculties.length = 0;
-      if (this.FormData.value.groups.length > 0)
-        this.FormData.value.groups.length = 0;
-      console.log(this.FormData.value);
-      this.studentEmails = this.FormData.value.students;
-      this.sendMessage(this.FormData.value);
-
+      this.sendEmailtoChoosenStudents();
     }
     else if (this.isGroup) {
-      if (this.FormData.value.faculties.length > 0)
-        this.FormData.value.faculties.length = 0;
-      if (this.FormData.value.students.length > 0)
-        this.FormData.value.students.length = 0;
-      this.studentService.getStudentsByGroups(this.FormData.value.groups).subscribe(studentList => {
-        let emails: string[] = [];
-
-        if (studentList) {
-          studentList.forEach(student => {
-            emails.push(student.Email);
-
-          })
-          this.studentEmails = emails;
-          this.sendMessage(this.FormData.value);
-        }
-
-      });
+      this.sendEmailByChoosenGroup();
     }
     else {
-      if (this.FormData.value.groups.length > 0)
-        this.FormData.value.groups.length = 0;
-      if (this.FormData.value.students.length > 0)
-        this.FormData.value.students.length = 0;
-      this.studentService.getStudentsByFaculties(this.FormData.value.faculties).subscribe(studentList => {
-        let emails: string[] = [];
-        if (studentList) {
-          studentList.forEach(student => {
-            emails.push(student.Email);
-
-          })
-          this.studentEmails = emails;
-          this.sendMessage(this.FormData.value);
-        }
-
-      });
-
+      this.sendEmailByChoosenFaculty();
     }
   }
+  // Send email for students
+  sendEmailtoChoosenStudents() {
+    if (this.FormData.value.faculties.length > 0)
+      this.FormData.value.faculties.length = 0;
+    if (this.FormData.value.groups.length > 0)
+      this.FormData.value.groups.length = 0;
+    this.studentEmails = this.FormData.value.students;
+    this.sendMessage(this.FormData.value);
+  }
 
+  // Send email for students of choosen group
+  sendEmailByChoosenGroup() {
+    if (this.FormData.value.faculties.length > 0)
+      this.FormData.value.faculties.length = 0;
+    if (this.FormData.value.students.length > 0)
+      this.FormData.value.students.length = 0;
+    this.studentService.getStudentsByGroups(this.FormData.value.groups).subscribe(studentList => {
+      let emails: string[] = [];
+      if (studentList) {
+        studentList.forEach(student => {
+          emails.push(student.Email);
+        })
+        this.studentEmails = emails;
+        this.sendMessage(this.FormData.value);
+      }
+    });
+  }
+
+  // Send email for students of choosen faculty
+  sendEmailByChoosenFaculty() {
+    if (this.FormData.value.groups.length > 0)
+      this.FormData.value.groups.length = 0;
+    if (this.FormData.value.students.length > 0)
+      this.FormData.value.students.length = 0;
+    this.studentService.getStudentsByFaculties(this.FormData.value.faculties).subscribe(studentList => {
+      let emails: string[] = [];
+      if (studentList) {
+        studentList.forEach(student => {
+          emails.push(student.Email);
+        })
+        this.studentEmails = emails;
+        this.sendMessage(this.FormData.value);
+      }
+    });
+  }
+
+  // Set email object then send message
   sendMessage(message: any) {
     const msgToSend: Message = {
       Description: message.Description,
@@ -132,7 +136,6 @@ export class ComposeComponent implements OnInit {
             msgToSend.ReceiverNames.push(student.First_name + " " + student.Last_name);
         })
       })
-      //msgToSend.ReceiverNames=message.students;
     }
     this.messageService.create(msgToSend).subscribe(res => {
       if (res) {
@@ -143,11 +146,9 @@ export class ComposeComponent implements OnInit {
       err => {
         this.alertService.errorResponseFromDataBase;
         this.router.navigate(['./email']);
-
       });
-
   }
-
+  // Set choosen Category
   choosenCategory(e: any) {
     if (e.value == 'faculty') {
       this.getAllFaculties();
@@ -155,15 +156,12 @@ export class ComposeComponent implements OnInit {
       this.isGroup = false;
       this.isStudent = false;
     }
-
-
     else if (e.value == 'group') {
       this.getAllGroups();
       this.isGroup = true;
       this.isFaculty = false;
       this.isStudent = false;
     }
-
     else {
       this.getAllStudents();
       this.isStudent = true;
@@ -171,18 +169,19 @@ export class ComposeComponent implements OnInit {
       this.isGroup = false;
     }
   }
-
+  // Get All Faculties
   getAllFaculties() {
     this.facultyService.getAllFaculties().subscribe((list: Faculty[]) => {
       this.facultyList = list;
     });
   }
+  // Get All Groups
   getAllGroups() {
     this.groupService.getAllGroups().subscribe((list: Group[]) => {
       this.groupList = list;
     });
   }
-
+  // Get list of Students
   getAllStudents() {
     this.studentService.getAllstudents().subscribe((list: Student[]) => {
       this.studentList = list;

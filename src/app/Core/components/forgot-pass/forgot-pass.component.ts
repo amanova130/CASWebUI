@@ -23,10 +23,11 @@ export class ForgotPassComponent implements OnInit {
 
   public ngOnInit(): void {
     this.forgetForm = this.fb.group({
-      email: [null, [Validators.required,Validators.email]],
+      email: [null, [Validators.required, Validators.email]],
     });
   }
 
+// On sub,it form checking the user email
   public onForget(): void {
     this.markAsDirty(this.forgetForm);
     this.userService.resetPass(this.forgetForm.controls['email'].value).subscribe(res => {
@@ -41,8 +42,10 @@ export class ForgotPassComponent implements OnInit {
       });
 
   }
+
+  // Form Validation
   getValidationErrorMsg() {
-    if (this.forgetForm.get('email').hasError('required')) 
+    if (this.forgetForm.get('email').hasError('required'))
       return ' Please enter your email address';
     else
       return 'Email must contain at least the @ character';

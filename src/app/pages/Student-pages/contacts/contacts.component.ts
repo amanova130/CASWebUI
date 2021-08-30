@@ -11,6 +11,7 @@ import { CourseService } from '../../../../services/WebApiService/course.service
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { AdminService } from '../../../../services/WebApiService/admin.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { AlertService } from 'src/app/shared/helperServices/alert.service';
 
 export interface ContactTab {
   label: string;
@@ -35,7 +36,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   constructor(private tokenStorage: TokenStorageService, private studentService: StudentService,
     private teacherService: TeacherService,
-    private adminService: AdminService) {
+    private adminService: AdminService,
+    private alertService: AlertService) {
     this.loggedUser = this.tokenStorage.getUser();
     this.groupNumber = this.tokenStorage.getToken('group');
     this.asyncTabs = new Observable((observer: Observer<ContactTab[]>) => {
@@ -48,9 +50,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
       }, 1000);
     });
   }
+
   ngOnInit(): void {
     this.getStudentsByGroup(this.groupNumber);
   }
+
+  // Change contact list when tab changed
   changeContactList(tab: MatTabChangeEvent) {
     if (tab.tab.textLabel.includes('Student')) {
       this.getStudentsByGroup(this.groupNumber);
@@ -62,10 +67,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
       this.getAdminList();
     }
   }
+
+  // Create an image Path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
 
+  // Get Teacher list
   getTeacherList() {
     this.isLoading = true;
     this.contactList = [];
@@ -77,8 +85,14 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.obs = this.dataSource.connect();
         this.isLoading = false;
       }
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
+
+  /// Get Students by group Id
   getStudentsByGroup(groupNumber: string) {
     this.isLoading = true;
     this.contactList = [];
@@ -90,9 +104,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.obs = this.dataSource.connect();
         this.isLoading = false;
       }
-    });
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
-
+  // Get Admin list
   getAdminList() {
     this.isLoading = true;
     this.contactList = [];
@@ -104,9 +122,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.obs = this.dataSource.connect();
         this.isLoading = false;
       }
-    })
+    },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
+        this.isLoading = false;
+      });
   }
-
+  //Filter by char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

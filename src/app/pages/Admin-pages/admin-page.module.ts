@@ -24,7 +24,6 @@ import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { InboxComponent } from './email/components/inbox/inbox.component';
 import { SentComponent } from './email/components/sent/sent.component';
 import { ViewMailComponent } from './email/components/view-mail/view-mail.component';
 import { ComposeComponent } from './email/components/compose/compose.component';
@@ -50,7 +49,6 @@ import { TrashComponent } from './email/components/trash/trash.component';
     DashboardComponent,
     AdminPageComponent,
     ComposeComponent,
-    InboxComponent,
     SentComponent,
     ViewMailComponent,
     AddEditExamComponent,
@@ -87,7 +85,6 @@ import { TrashComponent } from './email/components/trash/trash.component';
     DashboardComponent,
     EmailComponent,
     ComposeComponent,
-    InboxComponent,
     SentComponent,
     ViewMailComponent,
     GradesComponent,

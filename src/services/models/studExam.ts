@@ -1,5 +1,6 @@
+// Stud Exam Model
 
-export interface StudExam { 
+export interface StudExam {
     Id?: string;
     StudId?: string;
     ExamId?: string;

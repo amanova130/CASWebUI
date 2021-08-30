@@ -6,7 +6,6 @@ import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { TeacherService } from 'src/services/WebApiService/teacher.service';
 import { Teacher } from 'src/services/models/teacher';
-import { TeacherUtils } from 'src/services/utils/teacherUtils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditTeacherComponent } from './components/add-edit-teacher/add-edit-teacher.component';
@@ -35,7 +34,6 @@ export class TeachersComponent implements OnInit, OnDestroy {
     'TeachesCourses',
     'action'];
   dataSource!: MatTableDataSource<Teacher>;
-
   teacherList: Teacher[] = [];
   teacherListSubscription!: Subscription;
   removeTeacher!: Teacher;
@@ -47,16 +45,16 @@ export class TeachersComponent implements OnInit, OnDestroy {
   sort: MatSort = new MatSort;
   @ViewChild('TABLE') table: ElementRef;
 
-
-
-  constructor(private teacherUtils: TeacherUtils, private teacherService: TeacherService,
+  constructor(private teacherService: TeacherService,
     private modalService: NgbModal, public datepipe: DatePipe, private alertService: AlertService
     , private fileHandlerService: UploadFileService) { }
+
   ngOnInit(): void {
     this.getAllTeacherData();
   }
   selection = new SelectionModel<Teacher>(true, []);
 
+  // Retrive all Teachers
   getAllTeacherData() {
     this.teacherListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.teacherService.getAllTeachers())
@@ -66,7 +64,10 @@ export class TeachersComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
-      console.log("Get teacher refreshed");
+    },
+    error => {
+      this.alertService.genericAlertMsg("error", error);
+      this.isLoading = false;
     });
   }
 
@@ -79,7 +80,6 @@ export class TeachersComponent implements OnInit, OnDestroy {
     else
       this.isSelected = false;
     return numSelected === numRows;
-
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -92,11 +92,13 @@ export class TeachersComponent implements OnInit, OnDestroy {
       this.dataSource.data.forEach(row => this.selection.select(row));
       this.isSelected = true;
     }
-
   }
+
+  // Create an Image path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
+  // Filter by char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -105,7 +107,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-
+// Open Modal to add or edit teacher profile
   openModal(teacher: Teacher = { Id: "" }) {
     const ref = this.modalService.open(AddEditTeacherComponent, { centered: true });
     ref.componentInstance.teacher = teacher;
@@ -117,7 +119,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+// Open Delete modal
   openDelete(teacher: Teacher = { Id: "" }) {
     this.removeTeacher = {
       Id: teacher.Id,
@@ -125,17 +127,18 @@ export class TeachersComponent implements OnInit, OnDestroy {
       Last_name: teacher.Last_name
     }
   }
-
+// Export to excel 
   exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Teachers.xlsx")
   }
+  // Delete Selected Teachers
   deleteSelectedTeachers() {
     if (this.selection.hasValue()) {
       this.selection.selected.forEach(selected => (this.deleteTeacher(selected.Id)));
       this.refreshData();
     }
   }
-
+// Delete Teacher
   deleteTeacher(id: string) {
     if (id !== null || id !== undefined) {
       this.teacherService.deleteById(id).subscribe(res => {
@@ -149,13 +152,13 @@ export class TeachersComponent implements OnInit, OnDestroy {
       });
     }
   }
-
+// Refresh
   refreshData() {
     if (this.teacherListSubscription)
       this.teacherListSubscription.unsubscribe();
     this.getAllTeacherData();
   }
-
+// Destroy Subscription
   ngOnDestroy() {
     if (this.teacherListSubscription)
       this.teacherListSubscription.unsubscribe();

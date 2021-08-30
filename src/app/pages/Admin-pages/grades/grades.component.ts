@@ -42,7 +42,6 @@ export class GradesComponent implements OnInit {
   constructor(
     public examDetails: ExamDetails,
     private groupService: GroupService,
-    private studentService: StudentService,
     private examService: ExamService,
     private alertService: AlertService,
     private messageService: MessageService,
@@ -54,7 +53,7 @@ export class GradesComponent implements OnInit {
     this.getAllGroups();
     this.newEmailDetails();
   }
-
+// Get all groups 
   getAllGroups() {
     this.groupService.getAllGroups().subscribe(
       data => {
@@ -63,7 +62,7 @@ export class GradesComponent implements OnInit {
       }
     )
   }
-
+// Get exam by Group, semester, year and test number
   getExamForGroup(event: any) {
     this.examList = [];
     if (this.selectionObject.group != '' && this.selectionObject.semester != '' && this.selectionObject.year != '') {
@@ -75,10 +74,12 @@ export class GradesComponent implements OnInit {
         });
     }
   }
+
+  // Export to excel
   exportExcell() {
     this.fileHandlerService.exportexcel(this.table.nativeElement, "Grades.xlsx")
   }
-
+// filter by char
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -86,6 +87,8 @@ export class GradesComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  // Display list of students by exam id
   setStudExam(event: any) {
     this.studExamService.getAllStudentsGradeByExamId(this.selectionObject.examId).subscribe(result => {
       if (result) {
@@ -93,11 +96,15 @@ export class GradesComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.studExamList);
         this.showTable = !this.showTable;
       }
-    })
+    },
+    error => {
+      this.alertService.genericAlertMsg("error", error);
+      this.isLoading = false;
+    });
   }
 
+  // Send an email for students when grades change
   sentEmailForStudents() {
-    console.log(this.email);
     if (this.email !== null && this.email !== undefined) {
       this.messageService.create(this.email).subscribe(data => {
         if (data)
@@ -108,18 +115,17 @@ export class GradesComponent implements OnInit {
         })
     }
   }
-
+// Change group settings
   changeGroup() {
     this.selectionObject.testNumber = '';
     this.selectionObject.examId = '';
     this.dataSource.data.length = 0;
   }
-
+// Edit grade on blur, table editable and Admin could change the grade automaticaly
   editGrade(event: any, studExam: StudExam) {
     if (event.target.value != '') {
       if (this.selectionObject.examId != '' && this.selectionObject.testNumber != '') {
-        console.log(event.target.value);
-        const newGrade: StudExam = {
+        let newGrade: StudExam = {
           Id: studExam.Id,
           StudId: studExam.StudId,
           ExamId: studExam.ExamId,
@@ -133,17 +139,14 @@ export class GradesComponent implements OnInit {
               this.email.Receiver.push(studExam.JoinedField[0].email);
               this.email.ReceiverNames.push(studExam.JoinedField[0].f_name + ' ' + studExam.JoinedField[0].l_name);
             }
-
           }
-          console.log(res);
         })
-        console.log(newGrade);
       }
       else
         this.alertService.genericAlertMsg("error", "Please choose all fields!");
     }
   }
-
+// Setting a new email details
   newEmailDetails() {
     this.email = {
       Subject: "You have been graded!",

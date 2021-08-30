@@ -13,19 +13,16 @@ import { UploadFileService } from 'src/services/WebApiService/uploadFile.service
   styleUrls: ['./add-edit-course.component.scss']
 })
 export class AddEditCourseComponent implements OnInit {
-
   @Input()
   public course: Course;
   @Input()
   public courseList!: Course[];
   @Input()
   public dataSource: MatTableDataSource<Course>;
-
   @ViewChild('form') form!: any;
   isAddMode = true;
   isLoading = false;
   submitted = false;
-
 
   constructor(
     private alertService: AlertService,
@@ -48,7 +45,7 @@ export class AddEditCourseComponent implements OnInit {
       }
     }
   }
-
+//Submit Form
   onSubmit() {
     this.isLoading = true;
     if (this.form.valid) {
@@ -63,6 +60,7 @@ export class AddEditCourseComponent implements OnInit {
     }
   }
 
+  // Create a new Course
   private createCourse() {
     this.courseService.create(this.course)
       .pipe(first())
@@ -71,15 +69,15 @@ export class AddEditCourseComponent implements OnInit {
           this.courseList.push(result);
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.courseList);
-
-
         }
-        else
-          this.alertService.errorResponseFromDataBase();
+      },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
       })
       .add(() => this.isLoading = false);
   }
 
+  // Upload Course Image
   public uploadFile = (files: any) => {
     if (files.length === 0) {
       return;
@@ -94,7 +92,7 @@ export class AddEditCourseComponent implements OnInit {
       });
   }
 
-
+// Update Course data
   private updateCourse() {
     this.courseService.update(this.course)
       .pipe(first()).subscribe((result) => {
@@ -105,13 +103,11 @@ export class AddEditCourseComponent implements OnInit {
           this.alertService.successResponseFromDataBase();
           this.activeModal.close(this.courseList);
         }
-        else
-          this.alertService.errorResponseFromDataBase();
+      },
+      error => {
+        this.alertService.genericAlertMsg("error", error);
       })
       .add(() => this.isLoading = false);
   }
 
-  refresh(): void {
-    window.location.reload();
-  }
 }

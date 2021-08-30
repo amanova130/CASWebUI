@@ -26,8 +26,8 @@ export class UploadExcelModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //Read the excel file and display all data in table
   onChange(evt: any) {
-    //let data: any;
     const target: DataTransfer = <DataTransfer>(evt.target);
     this.isExcelFile = !!target.files[0].name.match(/(.xls|.xlsx)/);
     if (target.files.length > 1) {
@@ -48,9 +48,7 @@ export class UploadExcelModalComponent implements OnInit {
         /* save data */
         this.data = XLSX.utils.sheet_to_json(ws);
       };
-
       reader.readAsBinaryString(target.files[0]);
-
       reader.onloadend = (e) => {
         this.spinnerEnabled = false;
         this.keys = Object.keys(this.data[0]);
@@ -62,6 +60,7 @@ export class UploadExcelModalComponent implements OnInit {
     }
   }
 
+  // Upload list of Students to Backend
   uploadList() {
     if (this.data !== null && this.data !== undefined)
       this.convertToStudentList();
@@ -70,16 +69,13 @@ export class UploadExcelModalComponent implements OnInit {
         if (result)
           this.alertService.genericAlertMsg("success", "File uploaded successfully");
       },
-        err => {
-          console.log("error:");
-          console.log(err.value);
-          this.alertService.errorResponseFromDataBase();
-
+        error => {
+          this.alertService.genericAlertMsg('error', error);
         });
     }
-
   }
 
+  // Convert to Student Model List
   convertToStudentList() {
     for (let item of this.data) {
       if (item.Id != null && item.Id != undefined) {
@@ -108,6 +104,7 @@ export class UploadExcelModalComponent implements OnInit {
     }
   }
 
+  // Remove data from table
   removeData() {
     this.inputFile.nativeElement.value = '';
     this.dataSheet.next([]);

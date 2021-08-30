@@ -2,7 +2,9 @@
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{message.Subject}}</mat-card-title>
-    <mat-card-subtitle><span class="receivers">   {{ (message.Receiver.length>6)? (message.Receiver | slice:0:6)+'..':(message.Receiver) }} {{this.datepipe.transform(message.DateTime, 'short')}}</span></mat-card-subtitle>
+    <mat-card-subtitle><span class="receivers">
+        {{ (message.Receiver.length>6)? (message.Receiver | slice:0:6)+'..':(message.Receiver) }}
+        {{this.datepipe.transform(message.DateTime, 'short')}}</span></mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="content">
     <p>

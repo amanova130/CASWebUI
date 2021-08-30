@@ -15,7 +15,6 @@ export class SplashScreenComponent implements OnInit {
   opacityChange: number = 1;
   showSplash = true;
   loggedUser: User;
-
   @Input() animationDuration: number = 0.5;
   @Input() duration: number = 3;
   @Input() animationType: SplashAnimationType = SplashAnimationType.SlideLeft;
@@ -23,11 +22,9 @@ export class SplashScreenComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     public datepipe: DatePipe
   ) { }
+  // Set Splash screen
   ngOnInit(): void {
-    console.log("splash");
     this.loggedUser = this.tokenStorage.getUser();
-
-
     setTimeout(() => {
       let transitionStyle = "";
       switch (this.animationType) {
@@ -43,14 +40,14 @@ export class SplashScreenComponent implements OnInit {
           transitionStyle = "opacity " + this.animationDuration + "s";
           this.opacityChange = 0;
       }
-
       this.splashTransition = transitionStyle;
-
       setTimeout(() => {
         this.showSplash = !this.showSplash;
       }, this.animationDuration * 1000);
     }, this.duration * 1000);
   }
+
+
   ngAfterViewInit() {
     const user = this.tokenStorage.getUser();
     user.LogIn = new Date();

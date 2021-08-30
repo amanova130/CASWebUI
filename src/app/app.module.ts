@@ -22,7 +22,6 @@ import { HeaderComponent } from './Core/components/header/header.component';
 import { ForgotPassComponent } from './Core/components/forgot-pass/forgot-pass.component';
 import { SideNavBarComponent } from './Core/components/side-nav-bar/side-nav-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-//import { ViewMailComponent } from './pages/Admin-pages/email/components/view-mail/view-mail.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 

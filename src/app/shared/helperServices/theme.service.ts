@@ -1,5 +1,6 @@
+// Theme Service -  toggle to dark or light theme  
 import { Injectable } from '@angular/core';
-import { Theme, light, dark} from './themeProperties';
+import { Theme, light, dark } from './themeProperties';
 
 
 @Injectable({
@@ -37,7 +38,7 @@ export class ThemeService {
 
   setActiveTheme(theme: Theme): void {
     this.active = theme;
-    
+
     Object.keys(this.active.properties).forEach(property => {
       document.documentElement.style.setProperty(
         property,

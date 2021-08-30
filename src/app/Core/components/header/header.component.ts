@@ -15,7 +15,6 @@ import { UserService } from 'src/services/WebApiService/user.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
   loggedUser: User;
   isDarkMode = false;
   constructor(private themeService: ThemeService, private tokenStorage: TokenStorageService, private router: Router,
@@ -32,7 +31,7 @@ export class HeaderComponent implements OnInit {
       this.isDarkMode = true;
     }
   }
-
+  // Toggle theme icon and properties
   toggleTheme() {
     if (this.themeService.isDarkTheme()) {
       this.themeService.setLightTheme();
@@ -40,12 +39,12 @@ export class HeaderComponent implements OnInit {
       this.themeService.setDarkTheme();
     }
   }
-
+  // Open profile modal
   openProfileModal() {
     const ref = this.modalRef.open(ProfileComponent);
     ref.componentInstance.user = this.loggedUser;
   }
-
+  // Log out
   logOut() {
     const user: User = this.tokenStorage.getUser();
     user.LogOff = new Date();

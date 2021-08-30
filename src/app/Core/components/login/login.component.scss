@@ -2,6 +2,7 @@
 .image {
   min-height: 100vh;
 }
+
 .bg-image {
   background-image: url('/assets/images/login.JPG');
   background-size: cover;
@@ -9,25 +10,27 @@
 }
 
 #login-container {
-    display: flex;
-    flex-direction: column;
-    padding: 1.7em;
-    width: 290px;
-    position: relative;
-  }
-  
-  .Sign-Up-btn {
-    margin-top: 2.5em;
-    height: 2.5em;
-  }
-  .Login-btn {
-    margin-top: 2.5em;
-    height: 2.5em;
-  }
-  .footer-sec {
-    text-align: center;
-  }
-  .footer-sec a {
-    text-decoration: none;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  padding: 1.7em;
+  width: 290px;
+  position: relative;
+}
+
+.Sign-Up-btn {
+  margin-top: 2.5em;
+  height: 2.5em;
+}
+
+.Login-btn {
+  margin-top: 2.5em;
+  height: 2.5em;
+}
+
+.footer-sec {
+  text-align: center;
+}
+
+.footer-sec a {
+  text-decoration: none;
+}

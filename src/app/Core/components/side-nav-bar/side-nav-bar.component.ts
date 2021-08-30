@@ -1,12 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Admin } from 'src/services/models/admin';
 import { LoggedUser } from 'src/services/models/loggedUser';
-import { AdminService } from 'src/services/WebApiService/admin.service';
-import { StudentService } from '../../../../services/WebApiService/student.service';
 import { RequestService } from '../../../../services/WebApiService/request.service';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Request } from 'src/services/models/request';
 import { TokenStorageService } from '../../../shared/helperServices/token-storage.service';
 import { Role } from 'src/app/shared/pipes-and-enum/roleEnum';
 
@@ -22,13 +18,14 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
   public loggedUser: LoggedUser;
   newRequest = 0;
   requestListSubscription!: Subscription;
-  constructor(private adminService: AdminService, private studentService: StudentService, private requestService: RequestService, private tokenStorage: TokenStorageService) { }
+  constructor(private requestService: RequestService, private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
     this.getCountOfNewRequest();
     this.setLoggedUserDetails();
   }
 
+  // Set logged User Details to session storage
   setLoggedUserDetails() {
     const sessionUser = this.tokenStorage.getUser();
     this.loggedUser = {
@@ -43,23 +40,21 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
   }
 
   isAdminLogged() {
-   
-        var admin=JSON.parse(this.tokenStorage.getToken('personal_info'));
-        this.setPersonalInfo(admin);
-        this.isAdmin = true;  
+
+    var admin = JSON.parse(this.tokenStorage.getToken('personal_info'));
+    this.setPersonalInfo(admin);
+    this.isAdmin = true;
   }
 
   isStudentLogged() {
-        var student=JSON.parse(this.tokenStorage.getToken('personal_info'));
-        this.setPersonalInfo(student);
-       // this.tokenStorage.saveToken('group', result.Group_Id);
-        this.isStudent = true;
-      
-  }
+    var student = JSON.parse(this.tokenStorage.getToken('personal_info'));
+    this.setPersonalInfo(student);
+    this.isStudent = true;
 
-  setPersonalInfo(user:any)
-  {
-    const role=this.tokenStorage.getToken('role');
+  }
+  // Get logged user details from session storage
+  setPersonalInfo(user: any) {
+    const role = this.tokenStorage.getToken('role');
     this.loggedUser = {
       First_name: user.First_name,
       Last_name: user.Last_name,
@@ -67,10 +62,12 @@ export class SideNavBarComponent implements OnInit, OnDestroy {
       Role: role
     }
   }
+
+  // Create Image path
   public createImgPath = (serverPath: string) => {
     return `https://localhost:5001/${serverPath}`;
   }
-
+  // Set count of request
   getCountOfNewRequest() {
     this.requestListSubscription = timer(0, 60000).pipe(
       switchMap(() => this.requestService.getCountOfNewRequest("New"))
