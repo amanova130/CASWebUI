@@ -12,9 +12,16 @@ import { ErrorHandlerService } from '../../app/shared/helperServices/errorHandle
   providedIn: 'root'
 })
 export class ReportService {
-  protected basePath = environment.basePath;;
+  protected basePath = environment.basePath;
 
   constructor(protected http: HttpClient, public datepipe: DatePipe, private errorHandlerService: ErrorHandlerService) { }
+
+  getAvgOfAllTeachers(year: string) {
+    return this.http.get<Average[]>(`${this.basePath}/api/Report/getAvgOfAllTeachers?year=${encodeURIComponent(String(year))}`)
+      .pipe(
+        catchError(this.errorHandlerService.errorHandler)
+      )
+  }
 
   // Get Average by Course name
   getAverageByCourse(facId: string, courseName: string) {
