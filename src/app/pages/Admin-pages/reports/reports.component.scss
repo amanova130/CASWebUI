@@ -21,3 +21,33 @@ mat-card.selection{
   {
      margin-top:2%;
   }
+  
+
+ .table-resposive {
+   margin-top: 10px;
+   max-height: 500px; 
+   overflow-x: auto;
+   overflow-y: auto;
+ }
+ 
+ table td, table th {
+    
+   padding: 10px 10px;
+ }
+ .mat-cell{
+   font-size:12px;
+   font-family: Verdana,Sans-Serif;
+   display: table-cell;
+   height: 48px;
+   vertical-align: middle;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+   border-top: 1px solid rgba(0, 0, 0, 0.12);
+   border-left: 2px solid rgba(0, 0, 0, 0.12);
+   border-right: 2px solid rgba(0, 0, 0, 0.12);
+   }
+   .mat-header-row{
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      }

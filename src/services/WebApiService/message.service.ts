@@ -62,14 +62,7 @@ GetAllDeletedBySender(id:string)
     )
 
 }
-// Update an existed message profile
-update(studentIn:Message){
-  const headers = new HttpHeaders({'Content-Type': 'application/json'});
-  return this.http.put<Message>(`${this.basePath}/api/Student/updateStudent`, studentIn)
-  .pipe(
-    catchError(this.errorHandler)
-  )
-}
+
 
 // Error handler for HTTP response
 errorHandler(error: { error: { message: string; }; status: any; message: any; }) {

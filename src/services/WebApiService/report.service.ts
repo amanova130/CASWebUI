@@ -24,6 +24,13 @@ getAverageByCourse(facId:string,courseName:string)
       catchError(this.errorHandler)
     )
 }
+getAvgOfAllTeachers(year:string)
+{
+  return this.http.get<Average[]>(`${this.basePath}/api/Report/getAvgOfAllTeachers?year=${encodeURIComponent(String(year))}`)
+  .pipe(
+    catchError(this.errorHandler)
+  )
+}
 
 getAvgByGroup(groupName:string,year:string)
 {
