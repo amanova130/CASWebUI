@@ -45,6 +45,10 @@ export class SentComponent implements OnInit {
       this.sort.sort({ id: 'DateTime', start: 'desc', disableClear: false });
       this.dataSource.sort = this.sort;
       this.isLoading = false;
+    },
+    error=>{
+      this.alertService.genericAlertMsg("error", error);
+      this.isLoading = false;
     });
 
   }

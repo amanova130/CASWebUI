@@ -30,7 +30,8 @@ export class GroupService {
     }),
       tap((groupList: Group[]) => {
         this.setGroupList(groupList);
-      })
+      }),
+      catchError(this.errorHandlerService.errorHandler)
     );
   }
 

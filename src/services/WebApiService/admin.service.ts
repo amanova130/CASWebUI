@@ -29,7 +29,8 @@ export class AdminService {
     }),
       tap((adminList: Admin[]) => {
         this.setAdminList(adminList);
-      })
+      }),
+      catchError(this.errorHandlerService.errorHandler)
     );
   }
 
