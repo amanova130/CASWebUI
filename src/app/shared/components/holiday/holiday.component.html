@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="table-resposive" #TABLE>
-            <table mat-table [dataSource]="dataSource" #myTable matSort class="table table-hover w-100">
+            <table mat-table [dataSource]="dataSource" #myTable matSort class="w-100">
               <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef [hidden]="!isStudent">
                   <mat-checkbox (change)="$event ? masterToggle() : null"

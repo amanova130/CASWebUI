@@ -1,2 +1,5 @@
 
-<router-outlet></router-outlet> 
+<router-outlet *ngIf="!isOffline"></router-outlet> 
+<div class="container-fluid mx-auto" *ngIf="isOffline">
+    <img class="w-50" src="assets/images/1_bdIZoSioXqIAl8gw27E_xA.gif" alt="No internet">
+</div>

@@ -123,7 +123,8 @@ export class GradesComponent implements OnInit {
   }
 // Edit grade on blur, table editable and Admin could change the grade automaticaly
   editGrade(event: any, studExam: StudExam) {
-    if (event.target.value != '') {
+    var grade = +event.target.value;
+    if (grade > 0 && grade < 100) {
       if (this.selectionObject.examId != '' && this.selectionObject.testNumber != '') {
         let newGrade: StudExam = {
           Id: studExam.Id,
@@ -131,7 +132,7 @@ export class GradesComponent implements OnInit {
           ExamId: studExam.ExamId,
           UpdatedDate: new Date().toLocaleDateString(),
           Year: studExam.Year,
-          Grade: event.target.value
+          Grade: grade
         }
         this.studExamService.update(newGrade).subscribe(res => {
           if (res) {
@@ -145,6 +146,8 @@ export class GradesComponent implements OnInit {
       else
         this.alertService.genericAlertMsg("error", "Please choose all fields!");
     }
+    else
+      this.alertService.genericAlertMsg("warning", "Grade must be between 0 and 100");
   }
 // Setting a new email details
   newEmailDetails() {

@@ -77,3 +77,9 @@
    border-bottom: thin double !important;
    border-bottom-color: #b3aaaa !important;
  }
+
+ .content{
+  background-color: var(--background-default) !important;
+ }
+::ng-deep .cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: var(--color-dark) !important; }

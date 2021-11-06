@@ -155,7 +155,7 @@ export class EventModalComponent implements OnInit {
 // Get Teacher List by choosen course
   choosenCourse(event: string) {
     this.event.Title = event;
-    this.teacherService.getTeachersByCourseName(this.chosenCourse).subscribe((list: Teacher[]) => {
+    this.teacherService.getTeachersByCourseName(event).subscribe((list: Teacher[]) => {
       this.teachersList = list;
     },
     error => {
