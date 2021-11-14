@@ -54,6 +54,7 @@ export class ReportsComponent implements OnInit {
   choosenCategory(category: any) {
     console.log(category);
     if (category.value == 'groups') {
+      this.isValid = false;
       this.groupService.getAllGroups().subscribe(res => {
         this.isGroup = true;
         this.isTeacher = true;

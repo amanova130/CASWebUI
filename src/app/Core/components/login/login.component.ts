@@ -57,8 +57,8 @@ export class LoginComponent implements OnInit {
   }
   // Check the user name and password
   public onLogin(): void {
-    this.isLoading = true;
     if (this.loginForm.valid) {
+      this.isLoading = true;
       this.markAsDirty(this.loginForm);
       let user: User = {
         UserName: this.loginForm.controls['userName'].value,
@@ -98,6 +98,10 @@ export class LoginComponent implements OnInit {
             this.isWrong = true;
           }
         });
+    }
+    else
+    {
+      this.isLoading =false;
     }
   }
 

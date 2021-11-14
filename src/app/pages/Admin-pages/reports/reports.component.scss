@@ -26,6 +26,7 @@ mat-card.selection{
  .table-resposive {
    margin-top: 10px;
    max-height: 500px; 
+   max-width: 1300px;
    overflow-x: auto;
    overflow-y: auto;
  }
@@ -49,5 +50,6 @@ mat-card.selection{
       position: sticky;
       top: 0;
       z-index: 100;
-      background: white;
+      background-color: var(--background-default) !important;
+      color: var(--color-dark);
       }
