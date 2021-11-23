@@ -1,14 +1,15 @@
 # CASWebUI
-
+College Administration system, Admin user and Student user
+Admin user can 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.11.
 
-![timeTable](https://user-images.githubusercontent.com/77852457/143011907-5ecb3895-b767-462f-9003-6cfd06bee807.png)
+![login](https://user-images.githubusercontent.com/77852457/143011935-a0b6e44b-ad72-48b5-9aac-1d8c59b9a4da.png)
 ![admin_dasboard](https://user-images.githubusercontent.com/77852457/143011912-c78fc1f3-5391-4355-a078-e9dfd2ef526d.png)
 ![dark_modeAdmin](https://user-images.githubusercontent.com/77852457/143011918-76fc0f3c-c606-478f-8e73-afeed3145bdf.png)
-![links](https://user-images.githubusercontent.com/77852457/143011928-e4117df4-8b05-4881-ad67-fab281331ba5.png)
-![login](https://user-images.githubusercontent.com/77852457/143011935-a0b6e44b-ad72-48b5-9aac-1d8c59b9a4da.png)
-![studentDash](https://user-images.githubusercontent.com/77852457/143011938-3413697f-0432-4acd-b00a-bd39da3b5876.png)
+![timeTable](https://user-images.githubusercontent.com/77852457/143011907-5ecb3895-b767-462f-9003-6cfd06bee807.png)
 ![students](https://user-images.githubusercontent.com/77852457/143011944-3fccfb57-f35e-4648-8cfe-b6a7b5fc5dc7.png)
+![studentDash](https://user-images.githubusercontent.com/77852457/143011938-3413697f-0432-4acd-b00a-bd39da3b5876.png)
+![links](https://user-images.githubusercontent.com/77852457/143011928-e4117df4-8b05-4881-ad67-fab281331ba5.png)
 ![teachers](https://user-images.githubusercontent.com/77852457/143011945-562a1a61-2856-45b2-9add-af891bd477f9.png)
 ## Development server
 
